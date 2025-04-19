@@ -23,7 +23,7 @@ public class DistributedExecutionMainService extends BaseService {
                 .sortedBy(s -> s.getId())
                 .sortedBy(s -> s.getCreateDate())
                 .findFirst()
-                .map(s -> this.distributedExecutionMainFormatter.format(s))
+                .map(this.distributedExecutionMainFormatter::format)
                 .orElse(null);
         return distributedExecutionMainModel;
     }

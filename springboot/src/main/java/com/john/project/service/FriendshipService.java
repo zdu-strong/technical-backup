@@ -78,7 +78,7 @@ public class FriendshipService extends BaseService {
                 .where(s -> !s.getFriend().getIsDeleted())
                 .where(s -> !s.getIsInBlacklist())
                 .where(s -> s.getIsFriend());
-        return new PaginationModel<>(pageNum, pageSize, stream, (s) -> this.friendshipFormatter.format(s));
+        return new PaginationModel<>(pageNum, pageSize, stream, this.friendshipFormatter::format);
     }
 
     @Transactional(readOnly = true)
@@ -106,7 +106,7 @@ public class FriendshipService extends BaseService {
                 .where(s -> !s.getUser().getIsDeleted())
                 .where(s -> !s.getFriend().getIsDeleted())
                 .where(s -> s.getIsInBlacklist());
-        return new PaginationModel<>(pageNum, pageSize, stream, (s) -> this.friendshipFormatter.format(s));
+        return new PaginationModel<>(pageNum, pageSize, stream, this.friendshipFormatter::format);
     }
 
     private void createFriendship(String userId, String friendId) {

@@ -74,7 +74,7 @@ public class OrganizeService extends BaseService {
                 .where(s -> s.getAncestor().getId().equals(organizeId))
                 .where(s -> s.getDescendant().getName().contains(name))
                 .select(s -> s.getDescendant());
-        return new PaginationModel<>(pageNum, pageSize, stream, (s) -> this.organizeFormatter.format(s));
+        return new PaginationModel<>(pageNum, pageSize, stream, this.organizeFormatter::format);
     }
 
     @Transactional(readOnly = true)
@@ -83,7 +83,7 @@ public class OrganizeService extends BaseService {
                 .where(s -> s.getIsCompany())
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate());
-        return new PaginationModel<>(superAdminOrganizeQueryPaginationModel.getPageNum(), superAdminOrganizeQueryPaginationModel.getPageSize(), stream, (s) -> this.organizeFormatter.format(s));
+        return new PaginationModel<>(superAdminOrganizeQueryPaginationModel.getPageNum(), superAdminOrganizeQueryPaginationModel.getPageSize(), stream, this.organizeFormatter::format);
     }
 
     public void move(String id, String parentId) {
@@ -134,7 +134,7 @@ public class OrganizeService extends BaseService {
         var stream = this.streamAll(OrganizeEntity.class)
                 .sortedBy(s -> s.getId())
                 .sortedBy(s -> s.getCreateDate());
-        return new PaginationModel<>(pageNum, pageSize, stream, (s) -> this.organizeFormatter.format(s));
+        return new PaginationModel<>(pageNum, pageSize, stream, this.organizeFormatter::format);
     }
 
     @Transactional(readOnly = true)

@@ -141,7 +141,7 @@ public class UserService extends BaseService {
         var stream = this.streamAll(UserEntity.class)
                 .where(s -> !s.getIsDeleted())
                 .sortedDescendingBy(s -> s.getCreateDate());
-        return new PaginationModel<>(superAdminUserQueryPaginationModel.getPageNum(), superAdminUserQueryPaginationModel.getPageSize(), stream, (s) -> this.userFormatter.format(s));
+        return new PaginationModel<>(superAdminUserQueryPaginationModel.getPageNum(), superAdminUserQueryPaginationModel.getPageSize(), stream, this.userFormatter::format);
     }
 
     @Transactional(readOnly = true)

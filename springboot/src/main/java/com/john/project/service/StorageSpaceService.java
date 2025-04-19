@@ -60,7 +60,7 @@ public class StorageSpaceService extends BaseService {
         var stream = this.streamAll(StorageSpaceEntity.class)
                 .sortedBy(s -> s.getId())
                 .sortedBy(s -> s.getCreateDate());
-        return new PaginationModel<>(pageNum, pageSize, stream, (s) -> this.storageSpaceFormatter.format(s));
+        return new PaginationModel<>(pageNum, pageSize, stream, this.storageSpaceFormatter::format);
     }
 
     @Transactional(readOnly = true)

@@ -22,7 +22,7 @@ public class UserFormatter extends BaseService {
                 .where(s -> s.getUser().getId().equals(userId))
                 .where(s -> !s.getRole().getIsDeleted())
                 .select(s -> s.getRole())
-                .map(s -> this.roleFormatter.format(s))
+                .map(this.roleFormatter::format)
                 .toList();
         userModel.setRoleList(roleList);
         return userModel;
@@ -34,7 +34,7 @@ public class UserFormatter extends BaseService {
         var userEmailList = this.streamAll(UserEmailEntity.class)
                 .where(s -> s.getUser().getId().equals(id))
                 .where(s -> !s.getIsDeleted())
-                .map(s -> this.userEmailFormatter.format(s))
+                .map(this.userEmailFormatter::format)
                 .toList();
         userModel.setUserEmailList(userEmailList);
         return userModel;
