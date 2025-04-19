@@ -24,7 +24,7 @@ export default observer(() => {
     error: null as any,
     query: new SuperAdminUserQueryPaginationModel(),
     querySubject: new ReplaySubject<String>(1),
-    userPaginationModel: new PaginationModel<UserModel>(),
+    paginationModel: new PaginationModel<UserModel>(),
     columns: [
       {
         headerName: 'ID',
@@ -66,7 +66,7 @@ export default observer(() => {
       exhaustMapWithTrailing(() => from((async () => {
         try {
           state.loading = true;
-          state.userPaginationModel = await api.SuperAdminUserQuery.searchByPagination(state.query);
+          state.paginationModel = await api.SuperAdminUserQuery.searchByPagination(state.query);
           state.loading = false;
           state.ready = true;
         } catch (e) {
@@ -101,8 +101,8 @@ export default observer(() => {
         <AutoSizer>
           {({ width, height }) => <Box width={Math.max(width, 100)} height={Math.max(height, 100)}>
             <DataGrid
-              rows={state.userPaginationModel.items}
-              rowCount={state.userPaginationModel.totalRecords}
+              rows={state.paginationModel.items}
+              rowCount={state.paginationModel.totalRecords}
               onPaginationModelChange={(s) => {
                 state.query.pageNum = Math.max(s.page, 1);
                 state.query.pageSize = Math.max(s.pageSize, 1);

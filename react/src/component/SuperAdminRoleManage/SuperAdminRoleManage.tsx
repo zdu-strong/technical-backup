@@ -21,7 +21,7 @@ export default observer(() => {
     loading: true,
     error: null as any,
     query: new SuperAdminUserRoleQueryPaginationModel(),
-    systemRolePaginationModel: new PaginationModel<SystemRoleModel>(),
+    paginationModel: new PaginationModel<SystemRoleModel>(),
     columns: [
       {
         headerName: 'ID',
@@ -66,7 +66,7 @@ export default observer(() => {
   async function searchByPagination() {
     try {
       state.loading = true;
-      state.systemRolePaginationModel = await api.SuperAdminSystemRoleQuery.searchByPagination(state.query);
+      state.paginationModel = await api.SuperAdminSystemRoleQuery.searchByPagination(state.query);
       state.loading = false;
       state.ready = true;
     } catch (e) {
@@ -94,8 +94,8 @@ export default observer(() => {
         <AutoSizer>
           {({ width, height }) => <Box width={Math.max(width, 100)} height={Math.max(height, 100)}>
             <DataGrid
-              rows={state.systemRolePaginationModel.items}
-              rowCount={state.systemRolePaginationModel.totalRecords}
+              rows={state.paginationModel.items}
+              rowCount={state.paginationModel.totalRecords}
               onPaginationModelChange={(s) => {
                 state.query.pageNum = Math.max(s.page, 1);
                 state.query.pageSize = Math.max(s.pageSize, 1);
