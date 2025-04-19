@@ -78,12 +78,12 @@ public class OrganizeService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public PaginationModel<OrganizeModel> searchOrganizeForSuperAdminByPagination(SuperAdminOrganizeQueryPaginationModel superAdminOrganizeQueryPaginationModel) {
+    public PaginationModel<OrganizeModel> searchOrganizeForSuperAdminByPagination(SuperAdminOrganizeQueryPaginationModel query) {
         var stream = this.streamAll(OrganizeEntity.class)
                 .where(s -> s.getIsCompany())
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate());
-        return new PaginationModel<>(superAdminOrganizeQueryPaginationModel.getPageNum(), superAdminOrganizeQueryPaginationModel.getPageSize(), stream, this.organizeFormatter::format);
+        return new PaginationModel<>(query.getPageNum(), query.getPageSize(), stream, this.organizeFormatter::format);
     }
 
     public void move(String id, String parentId) {

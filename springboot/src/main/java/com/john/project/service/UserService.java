@@ -137,11 +137,11 @@ public class UserService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public PaginationModel<UserModel> searchForSuperAdminByPagination(SuperAdminUserQueryPaginationModel superAdminUserQueryPaginationModel) {
+    public PaginationModel<UserModel> searchForSuperAdminByPagination(SuperAdminUserQueryPaginationModel query) {
         var stream = this.streamAll(UserEntity.class)
                 .where(s -> !s.getIsDeleted())
                 .sortedDescendingBy(s -> s.getCreateDate());
-        return new PaginationModel<>(superAdminUserQueryPaginationModel.getPageNum(), superAdminUserQueryPaginationModel.getPageSize(), stream, this.userFormatter::format);
+        return new PaginationModel<>(query.getPageNum(), query.getPageSize(), stream, this.userFormatter::format);
     }
 
     @Transactional(readOnly = true)

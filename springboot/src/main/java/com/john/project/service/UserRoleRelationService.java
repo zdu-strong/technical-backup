@@ -47,11 +47,11 @@ public class UserRoleRelationService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public PaginationModel<RoleModel> searchUserRoleForSuperAdminByPagination(SuperAdminUserRoleQueryPaginationModel superAdminUserRoleQueryPaginationModel) {
+    public PaginationModel<RoleModel> searchUserRoleForSuperAdminByPagination(SuperAdminUserRoleQueryPaginationModel query) {
         var stream = this.streamAll(RoleEntity.class)
                 .where(s -> Boolean.FALSE.equals(s.getIsOrganizeRole()))
                 .where(s -> !s.getIsDeleted());
-        return new PaginationModel<>(superAdminUserRoleQueryPaginationModel.getPageNum(), superAdminUserRoleQueryPaginationModel.getPageSize(), stream, this.roleFormatter::format);
+        return new PaginationModel<>(query.getPageNum(), query.getPageSize(), stream, this.roleFormatter::format);
     }
 
     private boolean createDefaultUserRoleList() {
