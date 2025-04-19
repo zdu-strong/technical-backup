@@ -72,9 +72,9 @@ public class StorageSpaceService extends BaseService {
     public boolean isUsedByTempFile(String folderName) {
         var expireDate = DateUtils.addMilliseconds(new Date(),
                 Long.valueOf(0 - StorageSpaceConstant.TEMP_FILE_SURVIVAL_DURATION.toMillis()).intValue());
-        var isUsed = !this.streamAll(StorageSpaceEntity.class)
+        var isUsed = this.streamAll(StorageSpaceEntity.class)
                 .where(s -> s.getFolderName().equals(folderName))
-                .where(s -> s.getUpdateDate().before(expireDate))
+                .where(s -> !s.getUpdateDate().before(expireDate))
                 .exists();
         return isUsed;
     }
