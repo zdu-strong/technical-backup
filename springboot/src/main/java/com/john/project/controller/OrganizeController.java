@@ -19,8 +19,7 @@ public class OrganizeController extends BaseController {
         this.permissionUtil.checkIsSignIn(request);
         this.organizeService.checkHasExistOfParentOrganize(organizeModel);
 
-        var organize = this.organizeService.create(organizeModel);
-        this.organizeUtil.refresh(organize.getId());
+        var organize = this.organizeUtil.create(organizeModel);
         return ResponseEntity.ok(organize);
     }
 
@@ -30,7 +29,7 @@ public class OrganizeController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfId(organizeModel.getId());
         this.organizeService.checkHasExistById(organizeModel.getId());
 
-        this.organizeService.update(organizeModel);
+        this.organizeUtil.update(organizeModel);
         return ResponseEntity.ok().build();
     }
 
@@ -40,8 +39,7 @@ public class OrganizeController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfId(id);
         this.organizeService.checkHasExistById(id);
 
-        this.organizeService.delete(id);
-        this.organizeUtil.refresh(id);
+        this.organizeUtil.delete(id);
         return ResponseEntity.ok().build();
     }
 
@@ -51,7 +49,6 @@ public class OrganizeController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfId(id);
         this.organizeService.checkHasExistById(id);
         this.organizeService.checkHasExistById(parentId);
-        this.organizeService.checkCanBeMoveOfOrganize(id, parentId);
 
         this.organizeUtil.move(id, parentId);
 

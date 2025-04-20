@@ -2,6 +2,8 @@ package com.john.project.common.OrganizeUtil;
 
 import java.util.ArrayDeque;
 import java.util.Date;
+
+import com.john.project.model.OrganizeModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,7 @@ public class OrganizeUtil {
     private RoleOrganizeRelationService roleOrganizeRelationService;
 
     public void move(String id, String parentId) {
+        this.organizeService.checkCanBeMoveOfOrganize(id, parentId);
         var expectException = new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 "Too many requests to move the organize, please wait a minute and try again");
         var uniqueKeyList = this.getUniqueKeyList(id, parentId);
@@ -50,7 +53,22 @@ public class OrganizeUtil {
         this.refresh(id);
     }
 
-    public void refresh(String organizeId) {
+    public OrganizeModel create(OrganizeModel organizeModel) {
+        var organize = this.organizeService.create(organizeModel);
+        this.refresh(organize.getId());
+        return organize;
+    }
+
+    public void update(OrganizeModel organizeModel) {
+        this.organizeService.update(organizeModel);
+    }
+
+    public void delete(String id) {
+        this.organizeService.delete(id);
+        this.refresh(id);
+    }
+
+    private void refresh(String organizeId) {
         var deadline = this.getDeadline();
 
         while (!new Date().after(deadline)) {
@@ -105,7 +123,7 @@ public class OrganizeUtil {
                     return longTermTaskUniqueKey;
                 })
                 .toList()
-                .toArray(new LongTermTaskUniqueKeyModel[] {});
+                .toArray(new LongTermTaskUniqueKeyModel[]{});
         return uniqueKeyList;
     }
 

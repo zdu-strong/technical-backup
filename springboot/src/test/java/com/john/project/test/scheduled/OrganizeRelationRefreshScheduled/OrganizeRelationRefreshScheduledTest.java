@@ -23,11 +23,10 @@ public class OrganizeRelationRefreshScheduledTest extends BaseTest {
     public void beforeEach() {
         {
             var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
             var childOrganize = this.organizeService.create(childOrganizeModel);
             this.organizeId = childOrganize.getId();
-            this.organizeUtil.refresh(parentOrganize.getId());
             var result = this.organizeService.searchByName(1L, 20L, "Son Gohan", parentOrganize.getId());
             assertEquals(1, result.getTotalRecords());
         }
