@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.List;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.uuid.Generators;
 import com.google.common.collect.Lists;
@@ -124,8 +125,9 @@ public class BaseStorageSave extends BaseStorageCreateTempFile {
         mockHttpServletRequest.setRequestURI(url);
         var relativePath = this.getRelativePathFromRequest(mockHttpServletRequest);
         var list = Lists.newArrayList(StringUtils.split(relativePath, "/"));
-        var storageFileModel = new StorageFileModel().setFolderName(
-                JinqStream.from(list).findFirst().get());
+        var storageFileModel = new StorageFileModel()
+                .setFolderName(JinqStream.from(list).findFirst().get());
+        this.checkHasValidOfFolderName(storageFileModel.getFolderName());
         storageFileModel.setFolderSize(this.getResourceSizeByRelativePath(relativePath));
         storageFileModel.setFileName(JinqStream.from(list).skip(list.size() > 1 ? list.size() - 1 : 1)
                 .findFirst().orElse(null));

@@ -170,4 +170,16 @@ public class BaseStorage {
         return Paths.get(this.getRootPath()).relativize(Paths.get(path)).normalize().toString()
                 .replaceAll(Pattern.quote("\\"), "/");
     }
+
+    protected void checkHasValidOfFolderName(String folderName) {
+        if (StringUtils.isBlank(folderName)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Folder name cannot be empty");
+        }
+        if (folderName.contains("/") || folderName.contains("\\")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Folder name is invalid");
+        }
+        if (Paths.get(folderName).isAbsolute()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Folder name is invalid");
+        }
+    }
 }
