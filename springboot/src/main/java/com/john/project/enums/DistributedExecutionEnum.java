@@ -3,6 +3,7 @@ package com.john.project.enums;
 import java.io.File;
 import java.time.Duration;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -20,9 +21,12 @@ import cn.hutool.core.util.EnumUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
+
+import static eu.ciechanowiec.sneakyfun.SneakyRunnable.sneaky;
 
 @AllArgsConstructor
 public enum DistributedExecutionEnum {
@@ -49,18 +53,21 @@ public enum DistributedExecutionEnum {
                             .setType(LongTermTaskTypeEnum.REFRESH_STORAGE_SPACE.getValue())
                             .setUniqueKey(folderName);
                     if (!storageSpaceService.isUsed(folderName)) {
-                        longTermTaskUtil.runSkipWhenExists(() -> {
+                        longTermTaskUtil.runSkipWhenExists(sneaky(() -> {
                             if (!storageSpaceService.isUsed(folderName)) {
-                                var request = new MockHttpServletRequest();
-                                request.setRequestURI(storage.getResoureUrlFromResourcePath(folderName));
-                                storage.delete(request);
-                                if (new File(storage.getRootPath(), folderName).exists()) {
-                                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                                            StrFormatter.format("Folder deletion failed. FolderName:{}", folderName));
-                                }
-                                storageSpaceService.delete(folderName);
+                                var gracefulExecutor = SpringUtil.getBean("applicationTaskExecutor", TaskExecutor.class);
+                                CompletableFuture.runAsync(() -> {
+                                    var request = new MockHttpServletRequest();
+                                    request.setRequestURI(storage.getResoureUrlFromResourcePath(folderName));
+                                    storage.delete(request);
+                                    if (new File(storage.getRootPath(), folderName).exists()) {
+                                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                                StrFormatter.format("Folder deletion failed. FolderName:{}", folderName));
+                                    }
+                                    storageSpaceService.delete(folderName);
+                                }, gracefulExecutor).get();
                             }
-                        }, longTermTaskUniqueKeyModel);
+                        }), longTermTaskUniqueKeyModel);
                     }
                 }
             }),

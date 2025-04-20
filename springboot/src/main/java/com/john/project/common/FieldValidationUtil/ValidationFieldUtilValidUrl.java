@@ -24,9 +24,9 @@ public class ValidationFieldUtilValidUrl extends ValidationFieldUtilCorrectForma
                 .setType(LongTermTaskTypeEnum.REFRESH_STORAGE_SPACE.getValue())
                 .setUniqueKey(folderName);
         var hasValid = new AtomicBoolean(false);
-        this.longTermTaskUtil.runRetryWhenExists(() -> {
+        this.longTermTaskUtil.runSkipAfterRetryWhenExists(() -> {
             hasValid.set(this.storageSpaceService.isUsedByTempFile(folderName));
-        }, null, longTermTaskUniqueKeyModel);
+        }, longTermTaskUniqueKeyModel);
 
         if (!hasValid.get()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The file is invalid");

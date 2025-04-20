@@ -3,13 +3,10 @@ package com.john.project.common.longtermtask;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-
-import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ThreadUtils;
@@ -29,8 +26,6 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 
-import static eu.ciechanowiec.sneakyfun.SneakyRunnable.sneaky;
-
 @Component
 @Slf4j
 public class LongTermTaskUtil {
@@ -42,7 +37,6 @@ public class LongTermTaskUtil {
     private EncryptDecryptService encryptDecryptService;
 
     private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
-    private final ExecutorService gracefulExecutor = Executors.newVirtualThreadPerTaskExecutor();
 
     /**
      * The return value of the executed method will be stored in the database as a
@@ -91,6 +85,10 @@ public class LongTermTaskUtil {
                                    ResponseStatusException expectException,
                                    LongTermTaskUniqueKeyModel... uniqueKey) {
         this.run(runnable, true, expectException, uniqueKey);
+    }
+
+    public void runSkipAfterRetryWhenExists(Runnable runnable, LongTermTaskUniqueKeyModel... uniqueKey) {
+        this.run(runnable, true, null, uniqueKey);
     }
 
     /**
@@ -145,7 +143,7 @@ public class LongTermTaskUtil {
                 .retry()
                 .subscribe();
         try {
-            CompletableFuture.runAsync(runnable, gracefulExecutor).get();
+            runnable.run();
         } finally {
             subscription.dispose();
             if (!CollectionUtils.isEmpty(idListOfLongTermTask)) {
@@ -158,11 +156,4 @@ public class LongTermTaskUtil {
         }
     }
 
-    @PostConstruct
-    public void init() {
-        Runtime.getRuntime().addShutdownHook(new Thread(sneaky(() -> {
-            gracefulExecutor.shutdown();
-            gracefulExecutor.awaitTermination(1, TimeUnit.MINUTES);
-        })));
-    }
 }
