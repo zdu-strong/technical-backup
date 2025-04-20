@@ -3,7 +3,9 @@ package com.john.project.common.DistributedExecutionUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -88,20 +90,20 @@ public class DistributedExecutionUtil {
                     .getLastDistributedExecution(distributedExecutionEnum);
             if (distributedExecutionMainModel != null
                     && DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()
-                            .equals(distributedExecutionMainModel.getStatus())
+                    .equals(distributedExecutionMainModel.getStatus())
                     && distributedExecutionEnum
-                            .getMaxNumberOfParallel() == (long) distributedExecutionMainModel.getTotalPartition()) {
+                    .getMaxNumberOfParallel() == (long) distributedExecutionMainModel.getTotalPartition()) {
                 return distributedExecutionMainModel;
             } else if (distributedExecutionMainModel != null
                     && Stream
-                            .of(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE,
-                                    DistributedExecutionMainStatusEnum.ERROR_END)
-                            .map(DistributedExecutionMainStatusEnum::getValue)
-                            .toList()
-                            .contains(distributedExecutionMainModel.getStatus())
+                    .of(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE,
+                            DistributedExecutionMainStatusEnum.ERROR_END)
+                    .map(DistributedExecutionMainStatusEnum::getValue)
+                    .toList()
+                    .contains(distributedExecutionMainModel.getStatus())
                     && !new Date().after(DateUtils
-                            .addMilliseconds(distributedExecutionMainModel.getUpdateDate(),
-                                    (int) distributedExecutionEnum.getTheIntervalBetweenTwoExecutions().toMillis()))) {
+                    .addMilliseconds(distributedExecutionMainModel.getUpdateDate(),
+                            (int) distributedExecutionEnum.getTheIntervalBetweenTwoExecutions().toMillis()))) {
                 return null;
             }
         }
@@ -114,15 +116,15 @@ public class DistributedExecutionUtil {
                             .getLastDistributedExecution(distributedExecutionEnum);
                     if (distributedExecutionMainModel != null
                             && Stream
-                                    .of(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE,
-                                            DistributedExecutionMainStatusEnum.ERROR_END)
-                                    .map(DistributedExecutionMainStatusEnum::getValue)
-                                    .toList()
-                                    .contains(distributedExecutionMainModel.getStatus())
+                            .of(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE,
+                                    DistributedExecutionMainStatusEnum.ERROR_END)
+                            .map(DistributedExecutionMainStatusEnum::getValue)
+                            .toList()
+                            .contains(distributedExecutionMainModel.getStatus())
                             && !new Date().after(DateUtils
-                                    .addMilliseconds(distributedExecutionMainModel.getUpdateDate(),
-                                            (int) distributedExecutionEnum.getTheIntervalBetweenTwoExecutions()
-                                                    .toMillis()))) {
+                            .addMilliseconds(distributedExecutionMainModel.getUpdateDate(),
+                                    (int) distributedExecutionEnum.getTheIntervalBetweenTwoExecutions()
+                                            .toMillis()))) {
                         return;
                     }
                 }
@@ -144,7 +146,7 @@ public class DistributedExecutionUtil {
 
         while (!partitionNumList.isEmpty()) {
             var partitionNum = partitionNumList.get(RandomUtil.randomInt(0, partitionNumList.size()));
-            partitionNumList.removeIf(s -> s == partitionNum);
+            partitionNumList.removeIf(s -> Objects.equals(s, partitionNum));
 
             var pageNum = this.distributedExecutionDetailService.getPageNumByPartitionNum(distributedExecutionMainModel,
                     partitionNum);
@@ -163,7 +165,7 @@ public class DistributedExecutionUtil {
 
     @SneakyThrows
     private LongTermTaskUniqueKeyModel getLongTermTaskUniqueKeyModelByPartitionNum(long partitionNum,
-            DistributedExecutionEnum distributedExecutionEnum) {
+                                                                                   DistributedExecutionEnum distributedExecutionEnum) {
         return new LongTermTaskUniqueKeyModel()
                 .setType(LongTermTaskTypeEnum.DISTRIBUTED_EXECUTION.getValue())
                 .setUniqueKey(this.objectMapper
