@@ -15,7 +15,7 @@ public class OrganizeServiceUpdateTest extends BaseTest {
 
     @Test
     public void test() {
-        this.organizeService.update(organize);
+        this.organizeUtil.update(organize);
         var result = this.organizeService.getById(this.organize.getId());
         assertNotNull(result.getId());
         assertTrue(StringUtils.isNotBlank(result.getId()));
@@ -30,7 +30,7 @@ public class OrganizeServiceUpdateTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-        this.organize = this.organizeService.create(organizeModel);
+        this.organize = this.organizeUtil.create(organizeModel);
         organize.setName("Son Goku");
     }
 

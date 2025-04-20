@@ -39,7 +39,7 @@ public class SystemInitScheduledInitUserRoleAfterCreateOrganinzeTest extends Bas
     public void beforeEach() {
         this.systemInitScheduled.scheduled();
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-        this.organizeId = this.organizeService.create(organizeModel).getId();
+        this.organizeId = this.organizeUtil.create(organizeModel).getId();
         Mockito.doCallRealMethod().when(this.distributedExecutionUtil).refreshData(Mockito.any());
         this.distributedExecutionUtil.refreshData(DistributedExecutionEnum.ORGANIZE_CLOSURE_REFRESH);
     }

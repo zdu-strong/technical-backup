@@ -30,6 +30,6 @@ public class PermissionUtilCheckAnyRoleForOrganizeTest extends BaseTest {
         this.user = this.createAccount(email);
         this.request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + user.getAccessToken());
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-        this.organizeId = this.organizeService.create(organizeModel).getId();
+        this.organizeId = this.organizeUtil.create(organizeModel).getId();
     }
 }

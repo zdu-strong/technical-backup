@@ -14,7 +14,7 @@ public class OrganizeServiceMoveTest extends BaseTest {
 
     @Test
     public void test() {
-        this.organizeService.move(organizeId, parentOrganizeId);
+        this.organizeUtil.move(organizeId, parentOrganizeId);
         var result = this.organizeService.getById(organizeId);
         assertEquals(this.parentOrganizeId, result.getParent().getId());
         assertEquals(36, result.getId().length());
@@ -31,14 +31,14 @@ public class OrganizeServiceMoveTest extends BaseTest {
     public void beforeEach() {
         {
             var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
-            var childOrganize = this.organizeService.create(childOrganizeModel);
+            var childOrganize = this.organizeUtil.create(childOrganizeModel);
             this.organizeId = childOrganize.getId();
         }
         {
             var parentOrganizeModel = new OrganizeModel().setName("Piccolo");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             this.parentOrganizeId = parentOrganize.getId();
         }
     }

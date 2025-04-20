@@ -46,19 +46,19 @@ public class OrganizeRelationServiceRefreshTest extends BaseTest {
     public void beforeEach() {
         {
             var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
-            var childOrganize = this.organizeService.create(childOrganizeModel);
+            var childOrganize = this.organizeUtil.create(childOrganizeModel);
             this.childOrganizeId = childOrganize.getId();
         }
         {
             var parentOrganizeModel = new OrganizeModel().setName("Piccolo");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             this.parentOrganizeId = parentOrganize.getId();
         }
-        this.organizeService.move(this.childOrganizeId, this.parentOrganizeId);
+        this.organizeUtil.move(this.childOrganizeId, this.parentOrganizeId);
         var pagination = this.organizeService.searchByName(1L, 20L, "Son Gohan", this.parentOrganizeId);
-        assertEquals(0, pagination.getTotalRecords());
+        assertEquals(1, pagination.getTotalRecords());
     }
 
 }

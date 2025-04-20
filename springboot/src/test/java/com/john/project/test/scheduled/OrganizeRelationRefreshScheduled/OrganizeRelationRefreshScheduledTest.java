@@ -25,19 +25,19 @@ public class OrganizeRelationRefreshScheduledTest extends BaseTest {
             var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
             var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
-            var childOrganize = this.organizeService.create(childOrganizeModel);
+            var childOrganize = this.organizeUtil.create(childOrganizeModel);
             this.organizeId = childOrganize.getId();
             var result = this.organizeService.searchByName(1L, 20L, "Son Gohan", parentOrganize.getId());
             assertEquals(1, result.getTotalRecords());
         }
         {
             var parentOrganizeModel = new OrganizeModel().setName("Piccolo");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var result = this.organizeService.searchByName(1L, 20L, "Son Gohan", parentOrganize.getId());
             assertEquals(0, result.getTotalRecords());
-            this.organizeService.move(organizeId, parentOrganize.getId());
+            this.organizeUtil.move(organizeId, parentOrganize.getId());
             result = this.organizeService.searchByName(1L, 20L, "Son Gohan", parentOrganize.getId());
-            assertEquals(0, result.getTotalRecords());
+            assertEquals(1, result.getTotalRecords());
             this.organizeId = parentOrganize.getId();
         }
         {

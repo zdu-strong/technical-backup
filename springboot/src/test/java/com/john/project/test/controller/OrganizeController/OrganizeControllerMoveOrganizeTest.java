@@ -43,14 +43,14 @@ public class OrganizeControllerMoveOrganizeTest extends BaseTest {
         this.createAccount(email);
         {
             var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
-            var childOrganize = this.organizeService.create(childOrganizeModel);
+            var childOrganize = this.organizeUtil.create(childOrganizeModel);
             this.organizeId = childOrganize.getId();
         }
         {
             var parentOrganizeModel = new OrganizeModel().setName("Piccolo");
-            var parentOrganize = this.organizeService.create(parentOrganizeModel);
+            var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             this.parentOrganizeId = parentOrganize.getId();
         }
     }

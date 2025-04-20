@@ -35,7 +35,7 @@ public class OrganizeControllerCreateOrganizeTest extends BaseTest {
         var email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
         this.createAccount(email);
         var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-        var parentOrganize = this.organizeService.create(parentOrganizeModel);
+        var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
         var childOrganizeModel = new OrganizeModel().setName("Son Gohan")
                 .setParent(new OrganizeModel().setId(parentOrganize.getId()));
         this.organizeModel = childOrganizeModel;

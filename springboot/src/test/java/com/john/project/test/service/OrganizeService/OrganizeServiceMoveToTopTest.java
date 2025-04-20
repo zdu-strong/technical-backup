@@ -14,7 +14,7 @@ public class OrganizeServiceMoveToTopTest extends BaseTest {
 
     @Test
     public void test() {
-        this.organizeService.move(organizeId, null);
+        this.organizeUtil.move(organizeId, null);
         var result = this.organizeService.getById(organizeId);
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertTrue(StringUtils.isBlank(result.getParent().getId()));
@@ -24,9 +24,9 @@ public class OrganizeServiceMoveToTopTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-        var parentOrganize = this.organizeService.create(parentOrganizeModel);
+        var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
         var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
-        var childOrganize = this.organizeService.create(childOrganizeModel);
+        var childOrganize = this.organizeUtil.create(childOrganizeModel);
         this.organizeId = childOrganize.getId();
     }
 
