@@ -2,6 +2,7 @@ package com.john.project.websocket;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
@@ -264,7 +265,7 @@ public class UserMessageWebSocket {
 
     private void sendMessageForOnlyOneOnlineMessage() {
         var pageNum = getPageNumForOnlineMessage();
-        if (pageNum == null) {
+        if (Objects.isNull(pageNum)) {
             return;
         }
 
