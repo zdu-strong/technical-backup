@@ -29,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 import static eu.ciechanowiec.sneakyfun.SneakyRunnable.sneaky;
 
 @AllArgsConstructor
+@Getter
 public enum DistributedExecutionEnum {
 
     /**
@@ -120,26 +121,15 @@ public enum DistributedExecutionEnum {
                 }
             });
 
-    @Getter
     private final String value;
 
-    @Getter
     private final Duration theIntervalBetweenTwoExecutions;
 
-    @Getter
     private final long maxNumberOfParallel;
 
     private final Supplier<PaginationModel<?>> callbackOfGetPagination;
 
     private final Consumer<Long> callbackOfExecuteTask;
-
-    public PaginationModel<?> getPagination() {
-        return this.callbackOfGetPagination.get();
-    }
-
-    public void executeTask(long pageNum) {
-        this.callbackOfExecuteTask.accept(pageNum);
-    }
 
     public static DistributedExecutionEnum parse(String value) {
         return Optional.ofNullable(EnumUtil.getBy(DistributedExecutionEnum::getValue, value)).get();

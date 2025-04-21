@@ -67,7 +67,7 @@ public class DistributedExecutionUtil {
                 while (pageNum >= 1) {
 
                     try {
-                        distributedExecutionEnum.executeTask(pageNum);
+                        distributedExecutionEnum.getCallbackOfExecuteTask().accept(pageNum);
                         this.distributedExecutionDetailService.createByResult(distributedExecutionMainModel.getId(),
                                 partitionNum, pageNum);
                     } catch (Throwable e) {

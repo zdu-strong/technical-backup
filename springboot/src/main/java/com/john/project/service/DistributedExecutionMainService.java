@@ -51,7 +51,7 @@ public class DistributedExecutionMainService extends BaseService {
         distributedExecutionMainEntity.setCreateDate(new Date());
         distributedExecutionMainEntity.setUpdateDate(new Date());
         distributedExecutionMainEntity.setExecutionType(distributedExecutionEnum.getValue());
-        distributedExecutionMainEntity.setTotalPage(distributedExecutionEnum.getPagination().getTotalPages());
+        distributedExecutionMainEntity.setTotalPage(distributedExecutionEnum.getCallbackOfGetPagination().get().getTotalPages());
         distributedExecutionMainEntity.setTotalPartition(distributedExecutionEnum.getMaxNumberOfParallel());
         distributedExecutionMainEntity.setStatus(DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue());
         if (distributedExecutionMainEntity.getTotalPage() <= 0) {
