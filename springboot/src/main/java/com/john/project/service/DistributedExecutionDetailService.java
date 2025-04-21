@@ -27,6 +27,7 @@ public class DistributedExecutionDetailService extends BaseService {
             long partitionNum) {
         var distributedExecutionMainId = distributedExecutionMainModel.getId();
         if (distributedExecutionMainModel.getTotalPage() < partitionNum) {
+            return null;
         }
         var pageNum = this.streamAll(DistributedExecutionDetailEntity.class)
                 .where(s -> s.getDistributedExecutionMain().getId().equals(distributedExecutionMainId))
