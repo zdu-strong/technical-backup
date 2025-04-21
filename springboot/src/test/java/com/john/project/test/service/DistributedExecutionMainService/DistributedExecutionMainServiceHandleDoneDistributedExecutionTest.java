@@ -40,6 +40,8 @@ public class DistributedExecutionMainServiceHandleDoneDistributedExecutionTest e
                 .create(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
         this.distributedExecutionDetailService
                 .createByResult(this.distributedExecutionMainModel.getId(), 1L, 1L);
+        var result = this.distributedExecutionMainService.hasCanRefreshDistributedExecution(this.distributedExecutionMainModel.getId());
+        assertTrue(result);
     }
 
 }
