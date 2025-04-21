@@ -3,6 +3,7 @@ package com.john.project.test.service.DistributedExecutionMainService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,13 +13,13 @@ import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.model.DistributedExecutionMainModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class DistributedExecutionMainServiceRefreshDistributedExecutionTest extends BaseTest {
+public class DistributedExecutionMainServiceHandleDoneDistributedExecutionTest extends BaseTest {
 
     private DistributedExecutionMainModel distributedExecutionMainModel;
 
     @Test
     public void test() {
-        this.distributedExecutionMainService.refreshDistributedExecution(this.distributedExecutionMainModel.getId());
+        this.distributedExecutionMainService.handleDoneDistributedExecution(this.distributedExecutionMainModel.getId());
         var result = this.distributedExecutionMainService
                 .getLastDistributedExecution(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
         assertTrue(StringUtils.isNotBlank(result.getId()));
