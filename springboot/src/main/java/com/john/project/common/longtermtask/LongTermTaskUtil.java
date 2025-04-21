@@ -3,10 +3,12 @@ package com.john.project.common.longtermtask;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ThreadUtils;
@@ -109,6 +111,20 @@ public class LongTermTaskUtil {
         var deadline = DateUtils.addSeconds(new Date(), 5);
         List<String> idListOfLongTermTask = List.of();
         while (true) {
+            if (Objects.isNull(this.longTermTaskService.findOneNotRunning(List.of(uniqueKey)))) {
+                if (isRetry) {
+                    if (new Date().before(deadline)) {
+                        ThreadUtils.sleepQuietly(Duration.ofMillis(1));
+                        continue;
+                    }
+                }
+                if (expectException != null) {
+                    throw expectException;
+                } else {
+                    return;
+                }
+            }
+
             try {
                 idListOfLongTermTask = this.longTermTaskService.createLongTermTask(uniqueKey);
                 break;
