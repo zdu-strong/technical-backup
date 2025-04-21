@@ -53,7 +53,7 @@ public class DistributedExecutionUtil {
         while (true) {
             var partitionNum = this.getPartitionNum(distributedExecutionMainModel);
             if (partitionNum == null) {
-                break;
+                return;
             }
 
             var longTermTaskUniqueKeyModel = this.getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum,
