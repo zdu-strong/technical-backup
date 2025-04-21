@@ -23,7 +23,7 @@ public class UserControllerGetUserInfoTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        var url = new URIBuilder("/get-user-info").build();
+        var url = new URIBuilder("/user/me").build();
         var response = this.testRestTemplate.getForEntity(url, UserModel.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(this.user.getId(), response.getBody().getId());

@@ -51,7 +51,7 @@ export async function isSignIn() {
     return false;
   }
   try {
-    await axios.get("/get-user-info");
+    await axios.get("/user/me");
   } catch (e) {
     if (e && (e as any).status === 401) {
       removeGlobalUserInfo();

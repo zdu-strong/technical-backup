@@ -13,7 +13,7 @@ import com.john.project.model.UserModel;
 @RestController
 public class UserController extends BaseController {
 
-    @GetMapping("/get-user-info")
+    @GetMapping("/user/me")
     public ResponseEntity<?> getUserInfo() {
         this.permissionUtil.checkIsSignIn(request);
 
