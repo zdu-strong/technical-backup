@@ -53,7 +53,6 @@ public class DistributedExecutionUtil {
         while (true) {
             var partitionNum = this.getPartitionNum(distributedExecutionMainModel);
             if (partitionNum == null) {
-                this.distributedExecutionMainService.refreshDistributedExecution(distributedExecutionMainModel.getId());
                 break;
             }
 
@@ -65,10 +64,7 @@ public class DistributedExecutionUtil {
                 if (pageNum == null) {
                     return;
                 }
-                while (true) {
-                    if (pageNum < 1) {
-                        break;
-                    }
+                while (pageNum >= 1) {
 
                     try {
                         distributedExecutionEnum.executeTask(pageNum);
@@ -159,6 +155,10 @@ public class DistributedExecutionUtil {
                 continue;
             }
             return (long) partitionNum;
+        }
+
+        if(this.distributedExecutionMainService.hasCanRefreshDistributedExecution(distributedExecutionMainModel.getId())){
+            this.distributedExecutionMainService.handleDoneDistributedExecution(distributedExecutionMainModel.getId());
         }
         return null;
     }

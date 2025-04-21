@@ -62,32 +62,44 @@ public class DistributedExecutionMainService extends BaseService {
         return this.distributedExecutionMainFormatter.format(distributedExecutionMainEntity);
     }
 
-    public void refreshDistributedExecution(String id) {
+    @Transactional(readOnly = true)
+    public boolean hasCanRefreshDistributedExecution(String id) {
         var distributedExecutionMainEntity = this.streamAll(DistributedExecutionMainEntity.class)
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
 
         if (!DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()
                 .equals(distributedExecutionMainEntity.getStatus())) {
-            return;
+            return false;
         }
+
+        var totalPartition = Math.min(distributedExecutionMainEntity.getTotalPartition(), distributedExecutionMainEntity.getTotalPage());
 
         var totalPageOfDistributedExecutionTaskWithDone = this.streamAll(DistributedExecutionDetailEntity.class)
                 .where(s -> s.getDistributedExecutionMain().getId().equals(id))
+                .where(s -> s.getPageNum() <= totalPartition)
                 .count();
-        if (totalPageOfDistributedExecutionTaskWithDone < distributedExecutionMainEntity.getTotalPage()) {
-            return;
+        if (totalPageOfDistributedExecutionTaskWithDone < totalPartition) {
+            return false;
         }
+        return true;
+    }
+
+    public void handleDoneDistributedExecution(String id) {
+        var distributedExecutionMainEntity = this.streamAll(DistributedExecutionMainEntity.class)
+                .where(s -> s.getId().equals(id))
+                .getOnlyValue();
+        distributedExecutionMainEntity.setStatus(getStatusWithDistributedExecution(id));
+        distributedExecutionMainEntity.setUpdateDate(new Date());
+        this.merge(distributedExecutionMainEntity);
+    }
+
+    private String getStatusWithDistributedExecution(String id) {
         var hasError = this.streamAll(DistributedExecutionDetailEntity.class)
                 .where(s -> s.getDistributedExecutionMain().getId().equals(id))
                 .where(s -> s.getHasError())
                 .exists();
-        distributedExecutionMainEntity.setStatus(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue());
-        if (hasError) {
-            distributedExecutionMainEntity.setStatus(DistributedExecutionMainStatusEnum.ERROR_END.getValue());
-        }
-        distributedExecutionMainEntity.setUpdateDate(new Date());
-        this.merge(distributedExecutionMainEntity);
+        return hasError ? DistributedExecutionMainStatusEnum.ERROR_END.getValue() : DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue();
     }
 
 }
