@@ -9,7 +9,7 @@ import I18nComponent from '@/common/i18n/I18nComponent';
 import Router from '@/router';
 import { CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { reportWebVitals } from '@/reportWebVitals';
 
