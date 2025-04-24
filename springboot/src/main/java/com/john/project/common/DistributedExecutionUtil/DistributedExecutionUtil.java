@@ -48,7 +48,7 @@ public class DistributedExecutionUtil {
             return;
         }
         while (true) {
-            var partitionNum = this.getPartitionNum(distributedExecutionMainModel);
+            var partitionNum = this.getPartitionNum(distributedExecutionMainModel, distributedExecutionEnum);
             if (partitionNum == null) {
                 return;
             }
@@ -104,7 +104,7 @@ public class DistributedExecutionUtil {
         }
     }
 
-    private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel) {
+    private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
         var partitionNumList = Flowable.range(1, distributedExecutionMainModel.getTotalPartition().intValue())
                 .filter(s -> s <= distributedExecutionMainModel.getTotalPage())
                 .toList()
@@ -119,8 +119,7 @@ public class DistributedExecutionUtil {
             if (pageNum == null) {
                 continue;
             }
-            var longTermTaskUniqueKeyModel = this.getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum,
-                    DistributedExecutionEnum.parse(distributedExecutionMainModel.getExecutionType()));
+            var longTermTaskUniqueKeyModel = this.getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, distributedExecutionEnum);
             if (this.longTermTaskService.findOneNotRunning(List.of(longTermTaskUniqueKeyModel)) == null) {
                 continue;
             }
