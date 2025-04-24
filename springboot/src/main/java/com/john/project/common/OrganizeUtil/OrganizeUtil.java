@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.john.project.common.longtermtask.LongTermTaskUtil;
+import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.enums.LongTermTaskTypeEnum;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.service.OrganizeRelationService;

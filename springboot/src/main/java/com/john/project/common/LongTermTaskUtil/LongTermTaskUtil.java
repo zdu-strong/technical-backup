@@ -1,4 +1,4 @@
-package com.john.project.common.longtermtask;
+package com.john.project.common.LongTermTaskUtil;
 
 import java.time.Duration;
 import java.util.Date;

@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import cn.hutool.core.text.StrFormatter;
-import com.john.project.common.longtermtask.LongTermTaskUtil;
+import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.common.storage.Storage;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.model.PaginationModel;

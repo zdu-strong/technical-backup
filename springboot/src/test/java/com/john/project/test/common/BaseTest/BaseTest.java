@@ -42,7 +42,7 @@ import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
 import com.john.project.common.OrganizeUtil.OrganizeUtil;
 import com.john.project.common.ResourceHttpHeadersUtil.ResourceHttpHeadersUtil;
 import com.john.project.common.TimeZoneUtil.TimeZoneUtil;
-import com.john.project.common.longtermtask.LongTermTaskUtil;
+import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.common.permission.PermissionUtil;
 import com.john.project.properties.AliyunCloudStorageProperties;
 import com.john.project.properties.AuthorizationEmailProperties;

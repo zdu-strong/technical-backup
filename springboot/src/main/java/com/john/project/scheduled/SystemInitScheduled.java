@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.john.project.common.DistributedExecutionUtil.DistributedExecutionUtil;
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
-import com.john.project.common.longtermtask.LongTermTaskUtil;
+import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.enums.LongTermTaskTypeEnum;
 import com.john.project.enums.SystemRoleEnum;
