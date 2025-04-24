@@ -19,7 +19,7 @@ public class DistributedExecutionMainServiceHandleDoneDistributedExecutionTest e
 
     @Test
     public void test() {
-        this.distributedExecutionMainService.handleDoneDistributedExecution(this.distributedExecutionMainModel.getId());
+        this.distributedExecutionMainService.updateWithDone(this.distributedExecutionMainModel.getId());
         var result = this.distributedExecutionMainService
                 .getLastDistributedExecution(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
         assertTrue(StringUtils.isNotBlank(result.getId()));
@@ -40,7 +40,7 @@ public class DistributedExecutionMainServiceHandleDoneDistributedExecutionTest e
                 .create(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
         this.distributedExecutionDetailService
                 .createByResult(this.distributedExecutionMainModel.getId(), 1L, 1L);
-        var result = this.distributedExecutionMainService.hasCanRefreshDistributedExecution(this.distributedExecutionMainModel.getId());
+        var result = this.distributedExecutionMainService.hasCanDone(this.distributedExecutionMainModel.getId());
         assertTrue(result);
     }
 

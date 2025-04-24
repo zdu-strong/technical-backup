@@ -128,7 +128,8 @@ public class LongTermTaskService extends BaseService {
         var expiredDate = DateUtils.addMilliseconds(new Date(),
                 (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toMillis());
         for (var longTermTaskUniqueKeyOneList : Lists.partition(longTermTaskUniqueKeyList, 100)) {
-            var uniqueKeyJsonStringList = longTermTaskUniqueKeyOneList.stream()
+            var uniqueKeyJsonStringList = longTermTaskUniqueKeyOneList
+                    .stream()
                     .map(this.longTermTaskFormatter::formatLongTermTaskUniqueKey)
                     .distinct()
                     .toList();

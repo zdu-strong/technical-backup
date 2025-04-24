@@ -1,9 +1,11 @@
 package com.john.project.service;
 
 import java.util.Date;
+import java.util.Objects;
 
 import com.john.project.entity.DistributedExecutionDetailEntity;
 import com.john.project.entity.DistributedExecutionMainEntity;
+import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +25,16 @@ public class DistributedExecutionDetailService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public Long getPageNumByPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel,
-            long partitionNum) {
-        var distributedExecutionMainId = distributedExecutionMainModel.getId();
-        if (distributedExecutionMainModel.getTotalPage() < partitionNum) {
+    public Long getPageNumByPartitionNum(String distributedExecutionMainId,
+                                         long partitionNum) {
+        var status = DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue();
+        var DistributedExecutionMainEntity = this.streamAll(DistributedExecutionMainEntity.class)
+                .where(s -> s.getId().equals(distributedExecutionMainId))
+                .where(s -> s.getStatus().equals(status))
+                .where(s -> s.getTotalPage() >= partitionNum)
+                .findOne()
+                .orElse(null);
+        if (Objects.isNull(DistributedExecutionMainEntity)) {
             return null;
         }
         var pageNum = this.streamAll(DistributedExecutionDetailEntity.class)
@@ -34,16 +42,16 @@ public class DistributedExecutionDetailService extends BaseService {
                 .where(s -> s.getPartitionNum() == partitionNum)
                 .sortedBy(s -> s.getPageNum())
                 .findFirst()
-                .map(s -> s.getPageNum() - distributedExecutionMainModel.getTotalPartition())
+                .map(s -> s.getPageNum() - DistributedExecutionMainEntity.getTotalPartition())
                 .orElse(null);
         if (pageNum == null) {
-            var residue = distributedExecutionMainModel.getTotalPage()
-                    % distributedExecutionMainModel.getTotalPartition();
+            var residue = DistributedExecutionMainEntity.getTotalPage()
+                    % DistributedExecutionMainEntity.getTotalPartition();
             if (partitionNum <= residue) {
-                pageNum = distributedExecutionMainModel.getTotalPage() - residue + partitionNum;
+                pageNum = DistributedExecutionMainEntity.getTotalPage() - residue + partitionNum;
             } else {
-                pageNum = distributedExecutionMainModel.getTotalPage() - residue
-                        - distributedExecutionMainModel.getTotalPartition() + partitionNum;
+                pageNum = DistributedExecutionMainEntity.getTotalPage() - residue
+                        - DistributedExecutionMainEntity.getTotalPartition() + partitionNum;
             }
         }
 
@@ -54,7 +62,7 @@ public class DistributedExecutionDetailService extends BaseService {
     }
 
     private DistributedExecutionDetailModel create(String distributedExecutionMainId, long partitionNum, long pageNum,
-            boolean hasError) {
+                                                   boolean hasError) {
         var distributedExecutionMainEntity = this.streamAll(DistributedExecutionMainEntity.class)
                 .where(s -> s.getId().equals(distributedExecutionMainId))
                 .getOnlyValue();

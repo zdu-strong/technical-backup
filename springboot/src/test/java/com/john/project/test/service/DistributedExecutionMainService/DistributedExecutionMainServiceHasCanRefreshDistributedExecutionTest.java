@@ -14,7 +14,7 @@ public class DistributedExecutionMainServiceHasCanRefreshDistributedExecutionTes
 
     @Test
     public void test() {
-        var result = this.distributedExecutionMainService.hasCanRefreshDistributedExecution(this.distributedExecutionMainModel.getId());
+        var result = this.distributedExecutionMainService.hasCanDone(this.distributedExecutionMainModel.getId());
         assertTrue(result);
     }
 
