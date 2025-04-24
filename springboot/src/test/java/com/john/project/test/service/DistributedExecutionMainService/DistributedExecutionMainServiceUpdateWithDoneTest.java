@@ -13,7 +13,7 @@ import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.model.DistributedExecutionMainModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class DistributedExecutionMainServiceHandleDoneDistributedExecutionTest extends BaseTest {
+public class DistributedExecutionMainServiceUpdateWithDoneTest extends BaseTest {
 
     private DistributedExecutionMainModel distributedExecutionMainModel;
 

@@ -8,7 +8,7 @@ import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.model.DistributedExecutionMainModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class DistributedExecutionMainServiceHasCanRefreshDistributedExecutionTest extends BaseTest {
+public class DistributedExecutionMainServiceHasCanDoneTest extends BaseTest {
 
     private DistributedExecutionMainModel distributedExecutionMainModel;
 
