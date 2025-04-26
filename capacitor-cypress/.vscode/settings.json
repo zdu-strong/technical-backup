@@ -9,6 +9,7 @@
     "cypress/plugins": true,
     "cypress/support": true,
     "cypress.config.ts": true,
+    ".ncurc.json": true,
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,

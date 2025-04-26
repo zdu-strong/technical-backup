@@ -31,17 +31,10 @@ After installing new dependencies, please make sure that the dependent versions 
 
 You can use this command to check if a new version is available:<br/>
 
-    npx -y -p npm-check npm-check --update
+    npx -y -p npm-check-updates npm-check-updates --interactive
 
 After upgrading the dependencies, please make sure that the project runs normally.<br/>
 After upgrading the dependencies, please make sure that the dependent versions in package.json are all accurate versions.<br/>
-
-The following dependencies are currently unable to continue to be upgraded:<br/>
-typescript<br/>
-eslint<br/>
-eslint-plugin-cypress<br/>
-execa (Current project not support ES module)<br/>
-get-port (Current project not support ES module)<br/>
 
 ## Notes - xpath - Select the node whose text contains "abc"
 
