@@ -17,6 +17,7 @@
     "src/reportWebVitals.ts": true,
     "src/react-app-env.d.ts": true,
     "capacitor.config.ts": true,
+    ".ncurc.json": true,
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
