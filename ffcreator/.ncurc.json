@@ -1,0 +1,8 @@
+{
+  "reject": [
+    "eslint",
+    "linq",
+    "execa",
+    "@nestjs/cli"
+  ]
+}

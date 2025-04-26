@@ -20,6 +20,7 @@
     "tsconfig.build.json": true,
     "dist": true,
     "test/jest.json": true,
+    ".ncurc.json": true,
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,

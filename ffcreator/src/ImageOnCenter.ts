@@ -1,6 +1,7 @@
 import { FFImage } from 'ffcreator';
 import ImageSize from 'image-size';
 import * as mathjs from 'mathjs'
+import fs from 'fs';
 
 // The picture is placed in the middle of the scene, centered up and down, centered left and right
 export async function imageOnCenter(config: {
@@ -8,7 +9,7 @@ export async function imageOnCenter(config: {
   height: number;
   imagePath: string;
 }) {
-  const imageInfo = ImageSize(config.imagePath);
+  const imageInfo = ImageSize(await fs.promises.readFile(config.imagePath));
   const imageWidth =
     mathjs.divide(config.width, config.height) > mathjs.divide(imageInfo.width, imageInfo.height)
       ? Math.floor(mathjs.multiply(config.height, mathjs.divide(imageInfo.width, imageInfo.height)))
