@@ -19,6 +19,7 @@
     "nest-cli.json": true,
     "tsconfig.build.json": true,
     "tsconfig.electron.main.json": true,
+    ".ncurc.json": true,
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
