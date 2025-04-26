@@ -1,0 +1,7 @@
+{
+  "reject": [
+    "eslint",
+    "execa",
+    "get-port"
+  ]
+}
