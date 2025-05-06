@@ -109,7 +109,7 @@ public class LongTermTaskUtil {
             ResponseStatusException expectException,
             LongTermTaskUniqueKeyModel... uniqueKey) {
         var deadline = DateUtils.addSeconds(new Date(), 5);
-        List<String> idListOfLongTermTask = List.of();
+        List<String> idListOfLongTermTask;
         while (true) {
             if (Objects.isNull(this.longTermTaskService.findOneNotRunning(List.of(uniqueKey)))) {
                 if (isRetry) {
@@ -162,11 +162,9 @@ public class LongTermTaskUtil {
             runnable.run();
         } finally {
             subscription.dispose();
-            if (!CollectionUtils.isEmpty(idListOfLongTermTask)) {
-                synchronized (syncKey) {
-                    for (var idOfLongTermTask : idListOfLongTermTask) {
-                        this.longTermTaskService.delete(idOfLongTermTask);
-                    }
+            synchronized (syncKey) {
+                for (var id : idList) {
+                    this.longTermTaskService.delete(id);
                 }
             }
         }
