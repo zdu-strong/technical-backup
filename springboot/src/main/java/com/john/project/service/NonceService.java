@@ -24,9 +24,9 @@ public class NonceService extends BaseService {
         return this.nonceFormatter.format(nonceEntity);
     }
 
-    public PaginationModel<NonceModel> getNonceByPagination(Long pageNum, Long pageSize) {
+    public PaginationModel<NonceModel> searchNonceByPagination(Long pageNum, Long pageSize) {
         var expiredDate = DateUtils.addMilliseconds(new Date(),
-                (int) -NonceConstant.NONCE_SURVIVAL_DURATION.toMillis());
+                (int) -NonceConstant.NONCE_SURVIVAL_DURATION.plusHours(1).toMillis());
         var stream = this.streamAll(NonceEntity.class)
                 .where(s -> s.getCreateDate().before(expiredDate))
                 .sortedBy(s -> s.getId())

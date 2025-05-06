@@ -81,10 +81,10 @@ public enum DistributedExecutionEnum {
             Duration.ofHours(12),
             1L,
             () -> {
-                return SpringUtil.getBean(NonceService.class).getNonceByPagination(1L, 1L);
+                return SpringUtil.getBean(NonceService.class).searchNonceByPagination(1L, 1L);
             },
             (pageNum) -> {
-                var paginationModel = SpringUtil.getBean(NonceService.class).getNonceByPagination(pageNum,
+                var paginationModel = SpringUtil.getBean(NonceService.class).searchNonceByPagination(pageNum,
                         1L);
                 for (var nonceModel : paginationModel.getItems()) {
                     SpringUtil.getBean(NonceService.class).delete(nonceModel.getId());
