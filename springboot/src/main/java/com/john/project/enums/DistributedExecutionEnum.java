@@ -102,21 +102,29 @@ public enum DistributedExecutionEnum {
                 return SpringUtil.getBean(OrganizeService.class).getOrganizeByPagination(1L, 1L);
             },
             (pageNum) -> {
-                var paginationModel = SpringUtil.getBean(OrganizeService.class).getOrganizeByPagination(pageNum,
+                var organizeService = SpringUtil.getBean(OrganizeService.class);
+                var roleOrganizeRelationService = SpringUtil.getBean(RoleOrganizeRelationService.class);
+                var organizeRelationService = SpringUtil.getBean(OrganizeRelationService.class);
+                var paginationModel = organizeService.getOrganizeByPagination(pageNum,
                         1L);
                 for (var organizeModel : paginationModel.getItems()) {
                     while (true) {
-                        var hasNext = SpringUtil.getBean(RoleOrganizeRelationService.class)
-                                .refresh(organizeModel.getId());
-                        if (!hasNext) {
-                            break;
+                        if (roleOrganizeRelationService.hasNeededToRefresh(organizeModel.getId())) {
+                            var hasNext = roleOrganizeRelationService.refresh(organizeModel.getId());
+                            if (hasNext) {
+                                continue;
+                            }
                         }
+                        break;
                     }
                     while (true) {
-                        var hasNext = SpringUtil.getBean(OrganizeRelationService.class).refresh(organizeModel.getId());
-                        if (!hasNext) {
-                            break;
+                        if (organizeRelationService.hasNeededToRefresh(organizeModel.getId())) {
+                            var hasNext = organizeRelationService.refresh(organizeModel.getId());
+                            if (hasNext) {
+                                continue;
+                            }
                         }
+                        break;
                     }
                 }
             });

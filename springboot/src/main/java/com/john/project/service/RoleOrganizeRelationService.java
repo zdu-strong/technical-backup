@@ -42,13 +42,35 @@ public class RoleOrganizeRelationService extends BaseService {
         this.persist(roleOrganizeRelationEntity);
     }
 
+    @Transactional(readOnly = true)
+    public boolean hasNeededToRefresh(String organizeId) {
+        for (var systemRoleEnum : SystemRoleEnum.values()) {
+            var roleName = systemRoleEnum.getValue();
+            if (!systemRoleEnum.getIsOrganizeRole()) {
+                continue;
+            }
+            if (this.streamAll(RoleOrganizeRelationEntity.class)
+                    .where(s -> s.getOrganize().getId().equals(organizeId))
+                    .where(s -> s.getRole().getName().equals(roleName))
+                    .where(s -> s.getRole().getIsOrganizeRole())
+                    .exists()) {
+                if (this.hasNeededToRefreshDefaultOrganizeRoleList(organizeId, systemRoleEnum)) {
+                    return true;
+                }
+                continue;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public boolean refresh(String organizeId) {
         return this.createDefaultOrganizeRoleList(organizeId);
     }
 
     @Transactional(readOnly = true)
     public PaginationModel<RoleModel> searchOrganizeRoleForSuperAdminByPagination(long pageNum, long pageSize,
-            String organizeId, boolean isIncludeDescendant) {
+                                                                                  String organizeId, boolean isIncludeDescendant) {
         var roleOrganizeRelationStream = this.streamAll(RoleOrganizeRelationEntity.class)
                 .joinList(s -> s.getOrganize().getAncestorList())
                 .where(s -> s.getTwo().getAncestor().getId().equals(organizeId));
@@ -84,6 +106,30 @@ public class RoleOrganizeRelationService extends BaseService {
         return false;
     }
 
+    private boolean hasNeededToRefreshDefaultOrganizeRoleList(String organizeId, SystemRoleEnum systemRoleEnum) {
+        var roleName = systemRoleEnum.getValue();
+        var roleList = this.streamAll(RoleOrganizeRelationEntity.class)
+                .where(s -> s.getOrganize().getId().equals(organizeId))
+                .where(s -> s.getRole().getName().equals(roleName))
+                .where(s -> s.getRole().getIsOrganizeRole())
+                .select(s -> s.getRole())
+                .toList();
+        for (var roleEntity : roleList) {
+            var roleId = roleEntity.getId();
+            var permissionList = this.streamAll(RolePermissionRelationEntity.class)
+                    .where(s -> s.getRole().getId().equals(roleId))
+                    .toList();
+            if (systemRoleEnum.getPermissionList().size() == permissionList.size()
+                    && systemRoleEnum.getPermissionList().stream().allMatch(m -> permissionList.stream()
+                    .anyMatch(n -> m.getValue().equals(n.getPermission().getName())))) {
+                continue;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean refreshDefaultOrganizeRoleList(String organizeId, SystemRoleEnum systemRoleEnum) {
         var roleName = systemRoleEnum.getValue();
         var roleList = this.streamAll(RoleOrganizeRelationEntity.class)
@@ -99,7 +145,7 @@ public class RoleOrganizeRelationService extends BaseService {
                     .toList();
             if (systemRoleEnum.getPermissionList().size() == permissionList.size()
                     && systemRoleEnum.getPermissionList().stream().allMatch(m -> permissionList.stream()
-                            .anyMatch(n -> m.getValue().equals(n.getPermission().getName())))) {
+                    .anyMatch(n -> m.getValue().equals(n.getPermission().getName())))) {
                 continue;
             }
             for (var permissionEntity : permissionList) {

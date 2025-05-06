@@ -8,9 +8,57 @@ import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrganizeRelationService extends BaseService {
+
+    @Transactional(readOnly = true)
+    public boolean hasNeededToRefresh(String organizeId) {
+        var organizeEntity = this.streamAll(OrganizeEntity.class)
+                .where(s -> s.getId().equals(organizeId))
+                .getOnlyValue();
+        var isActive = this.organizeFormatter.isActive(organizeEntity);
+
+        if (!isActive) {
+            var organizeRelationEntity = this.streamAll(OrganizeRelationEntity.class)
+                    .where(s -> s.getAncestor().getId().equals(organizeId))
+                    .findFirst()
+                    .orElse(null);
+            var hasNext = organizeRelationEntity != null;
+            return hasNext;
+        }
+
+        var ancestorIdOneList = this.organizeFormatter.getAncestorIdList(organizeEntity);
+        var ancestorIdTwoList = this.streamAll(OrganizeRelationEntity.class)
+                .where(s -> s.getDescendant().getId().equals(organizeId))
+                .select(s -> s.getAncestor().getId())
+                .toList();
+        {
+            var organizeRelationEntity = JinqStream.from(ancestorIdTwoList)
+                    .where(s -> !ancestorIdOneList.contains(s))
+                    .findFirst()
+                    .map(ancestorId -> this.streamAll(OrganizeRelationEntity.class)
+                            .where(s -> s.getAncestor().getId().equals(ancestorId))
+                            .where(s -> s.getDescendant().getId().equals(organizeId))
+                            .getOnlyValue())
+                    .orElse(null);
+            if (organizeRelationEntity != null) {
+                return true;
+            }
+        }
+        {
+            var ancestorId = JinqStream.from(ancestorIdOneList)
+                    .where(s -> !ancestorIdTwoList.contains(s))
+                    .findFirst()
+                    .orElse(null);
+            if (StringUtils.isNotBlank(ancestorId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public boolean refresh(String organizeId) {
         var organizeEntity = this.streamAll(OrganizeEntity.class)
