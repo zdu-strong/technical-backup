@@ -130,7 +130,7 @@ public class OrganizeService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public PaginationModel<OrganizeModel> getOrganizeByPagination(Long pageNum, Long pageSize) {
+    public PaginationModel<OrganizeModel> searchOrganizeByPagination(Long pageNum, Long pageSize) {
         var stream = this.streamAll(OrganizeEntity.class)
                 .sortedBy(s -> s.getId())
                 .sortedBy(s -> s.getCreateDate());

@@ -99,13 +99,13 @@ public enum DistributedExecutionEnum {
             Duration.ofMinutes(1),
             1L,
             () -> {
-                return SpringUtil.getBean(OrganizeService.class).getOrganizeByPagination(1L, 1L);
+                return SpringUtil.getBean(OrganizeService.class).searchOrganizeByPagination(1L, 1L);
             },
             (pageNum) -> {
                 var organizeService = SpringUtil.getBean(OrganizeService.class);
                 var roleOrganizeRelationService = SpringUtil.getBean(RoleOrganizeRelationService.class);
                 var organizeRelationService = SpringUtil.getBean(OrganizeRelationService.class);
-                var paginationModel = organizeService.getOrganizeByPagination(pageNum,
+                var paginationModel = organizeService.searchOrganizeByPagination(pageNum,
                         1L);
                 for (var organizeModel : paginationModel.getItems()) {
                     while (true) {
