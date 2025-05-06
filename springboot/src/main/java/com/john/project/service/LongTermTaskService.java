@@ -1,13 +1,11 @@
 package com.john.project.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.jinq.orm.stream.JinqStream;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,11 +24,10 @@ import com.john.project.model.LongTermTaskUniqueKeyModel;
 public class LongTermTaskService extends BaseService {
 
     public String createLongTermTask() {
-        var uniqueKeyJsonString = this.longTermTaskFormatter
-                .formatLongTermTaskUniqueKey(
-                        new LongTermTaskUniqueKeyModel().setType(LongTermTaskTypeEnum.COMMON.getValue())
-                                .setUniqueKey(Generators.timeBasedReorderedGenerator().generate().toString()));
-        var longTermTaskEntity = this.createLongTermTask(uniqueKeyJsonString);
+        var longTermTaskUniqueKeyModel = new LongTermTaskUniqueKeyModel()
+                .setType(LongTermTaskTypeEnum.COMMON.getValue())
+                .setUniqueKey(Generators.timeBasedReorderedGenerator().generate().toString());
+        var longTermTaskEntity = this.createLongTermTaskByLongTermTaskUniqueKeyModel(longTermTaskUniqueKeyModel);
 
         return longTermTaskEntity.getId();
     }
@@ -38,12 +35,9 @@ public class LongTermTaskService extends BaseService {
     public List<String> createLongTermTask(LongTermTaskUniqueKeyModel... longTermTaskUniqueKey) {
         var expiredDate = DateUtils.addMilliseconds(new Date(),
                 (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toMillis());
-        var longTermTaskUniqueKeyList = JinqStream.from(Arrays.asList(longTermTaskUniqueKey))
-                .select(s -> this.longTermTaskFormatter.formatLongTermTaskUniqueKey(s))
-                .sortedBy(s -> s)
-                .toList();
 
-        for (var uniqueKeyJsonString : longTermTaskUniqueKeyList) {
+        for (var longTermTaskUniqueKeyModel : longTermTaskUniqueKey) {
+            var uniqueKeyJsonString = this.longTermTaskFormatter.formatLongTermTaskUniqueKey(longTermTaskUniqueKeyModel);
             var longTermTaskList = this.streamAll(LongTermTaskEntity.class)
                     .where(s -> s.getUniqueKeyJsonString().equals(uniqueKeyJsonString))
                     .where(s -> s.getUpdateDate().before(expiredDate) || s.getIsDone())
@@ -55,8 +49,8 @@ public class LongTermTaskService extends BaseService {
 
         var idList = new ArrayList<String>();
 
-        for (var uniqueKeyJsonString : longTermTaskUniqueKeyList) {
-            var longTermTaskEntity = this.createLongTermTask(uniqueKeyJsonString);
+        for (var longTermTaskUniqueKeyModel : longTermTaskUniqueKey) {
+            var longTermTaskEntity = this.createLongTermTaskByLongTermTaskUniqueKeyModel(longTermTaskUniqueKeyModel);
 
             idList.add(longTermTaskEntity.getId());
         }
@@ -151,7 +145,10 @@ public class LongTermTaskService extends BaseService {
         }
     }
 
-    private LongTermTaskEntity createLongTermTask(String uniqueKeyJsonString) {
+    private LongTermTaskEntity createLongTermTaskByLongTermTaskUniqueKeyModel(LongTermTaskUniqueKeyModel longTermTaskUniqueKeyModel) {
+        var uniqueKeyJsonString = this.longTermTaskFormatter
+                .formatLongTermTaskUniqueKey(longTermTaskUniqueKeyModel);
+
         LongTermTaskEntity longTermTaskEntity = new LongTermTaskEntity();
         longTermTaskEntity.setId(newId());
         longTermTaskEntity.setCreateDate(new Date());
