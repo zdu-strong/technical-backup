@@ -26,18 +26,12 @@ import com.john.project.model.LongTermTaskUniqueKeyModel;
 public class LongTermTaskService extends BaseService {
 
     public String createLongTermTask() {
-        LongTermTaskEntity longTermTaskEntity = new LongTermTaskEntity();
-        longTermTaskEntity.setId(newId());
-        longTermTaskEntity.setCreateDate(new Date());
-        longTermTaskEntity.setUpdateDate(new Date());
-        longTermTaskEntity.setIsDone(false);
-        longTermTaskEntity.setResult(this.longTermTaskFormatter.formatResult(null));
-        longTermTaskEntity.setUniqueKeyJsonString(this.longTermTaskFormatter
+        var uniqueKeyJsonString = this.longTermTaskFormatter
                 .formatLongTermTaskUniqueKey(
                         new LongTermTaskUniqueKeyModel().setType(LongTermTaskTypeEnum.COMMON.getValue())
-                                .setUniqueKey(Generators.timeBasedReorderedGenerator().generate().toString())));
+                                .setUniqueKey(Generators.timeBasedReorderedGenerator().generate().toString()));
+        var longTermTaskEntity = this.createLongTermTask(uniqueKeyJsonString);
 
-        this.persist(longTermTaskEntity);
         return longTermTaskEntity.getId();
     }
 
@@ -62,14 +56,7 @@ public class LongTermTaskService extends BaseService {
         var idList = new ArrayList<String>();
 
         for (var uniqueKeyJsonString : longTermTaskUniqueKeyList) {
-            LongTermTaskEntity longTermTaskEntity = new LongTermTaskEntity();
-            longTermTaskEntity.setId(newId());
-            longTermTaskEntity.setCreateDate(new Date());
-            longTermTaskEntity.setUpdateDate(new Date());
-            longTermTaskEntity.setIsDone(false);
-            longTermTaskEntity.setResult(this.longTermTaskFormatter.formatResult(null));
-            longTermTaskEntity.setUniqueKeyJsonString(uniqueKeyJsonString);
-            this.persist(longTermTaskEntity);
+            var longTermTaskEntity = this.createLongTermTask(uniqueKeyJsonString);
 
             idList.add(longTermTaskEntity.getId());
         }
@@ -162,6 +149,19 @@ public class LongTermTaskService extends BaseService {
         if (!hasExist) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The specified task does not exist");
         }
+    }
+
+    private LongTermTaskEntity createLongTermTask(String uniqueKeyJsonString) {
+        LongTermTaskEntity longTermTaskEntity = new LongTermTaskEntity();
+        longTermTaskEntity.setId(newId());
+        longTermTaskEntity.setCreateDate(new Date());
+        longTermTaskEntity.setUpdateDate(new Date());
+        longTermTaskEntity.setIsDone(false);
+        longTermTaskEntity.setResult(this.longTermTaskFormatter.formatResult(null));
+        longTermTaskEntity.setUniqueKeyJsonString(uniqueKeyJsonString);
+        this.persist(longTermTaskEntity);
+
+        return longTermTaskEntity;
     }
 
 }
