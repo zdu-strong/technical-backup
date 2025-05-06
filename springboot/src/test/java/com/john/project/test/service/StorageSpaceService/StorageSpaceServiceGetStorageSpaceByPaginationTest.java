@@ -14,7 +14,7 @@ public class StorageSpaceServiceGetStorageSpaceByPaginationTest extends BaseTest
 
     @Test
     public void test() {
-        var paginationModel = this.storageSpaceService.getStorageSpaceByPagination(1L, 1L);
+        var paginationModel = this.storageSpaceService.searchStorageSpaceByPagination(1L, 1L);
         assertEquals(1, paginationModel.getPageNum());
         assertEquals(1, paginationModel.getPageSize());
         assertEquals(1, paginationModel.getTotalPages());
@@ -26,7 +26,7 @@ public class StorageSpaceServiceGetStorageSpaceByPaginationTest extends BaseTest
     public void beforeEach() {
         folderName = this.storage.createTempFolder().getName();
         Flowable.range(1, 1000)
-                .filter(s -> !this.storageSpaceService.getStorageSpaceByPagination(1L, 1L).getItems().isEmpty())
+                .filter(s -> !this.storageSpaceService.searchStorageSpaceByPagination(1L, 1L).getItems().isEmpty())
                 .take(1)
                 .blockingSubscribe();
     }

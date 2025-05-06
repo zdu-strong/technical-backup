@@ -56,7 +56,7 @@ public class StorageSpaceService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public PaginationModel<StorageSpaceModel> getStorageSpaceByPagination(Long pageNum, Long pageSize) {
+    public PaginationModel<StorageSpaceModel> searchStorageSpaceByPagination(Long pageNum, Long pageSize) {
         var stream = this.streamAll(StorageSpaceEntity.class)
                 .sortedBy(s -> s.getId())
                 .sortedBy(s -> s.getCreateDate());

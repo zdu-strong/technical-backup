@@ -40,13 +40,13 @@ public enum DistributedExecutionEnum {
             Duration.ofHours(12),
             1L,
             () -> {
-                return SpringUtil.getBean(StorageSpaceService.class).getStorageSpaceByPagination(1L, 1L);
+                return SpringUtil.getBean(StorageSpaceService.class).searchStorageSpaceByPagination(1L, 1L);
             },
             (pageNum) -> {
                 var storageSpaceService = SpringUtil.getBean(StorageSpaceService.class);
                 var storage = SpringUtil.getBean(Storage.class);
                 var longTermTaskUtil = SpringUtil.getBean(LongTermTaskUtil.class);
-                var paginationModel = storageSpaceService.getStorageSpaceByPagination(pageNum,
+                var paginationModel = storageSpaceService.searchStorageSpaceByPagination(pageNum,
                         1L);
                 for (var storageSpaceModel : paginationModel.getItems()) {
                     var folderName = storageSpaceModel.getFolderName();
