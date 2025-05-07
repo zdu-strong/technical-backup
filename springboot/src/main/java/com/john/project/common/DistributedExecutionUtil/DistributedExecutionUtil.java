@@ -82,16 +82,17 @@ public class DistributedExecutionUtil {
             {
                 var distributedExecutionMainModel = this.distributedExecutionMainService
                         .getLastDistributedExecution(distributedExecutionEnum);
+
+                if (isInCooldownPeriod(distributedExecutionMainModel, distributedExecutionEnum)) {
+                    return null;
+                }
+
                 if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
                     continue;
                 }
 
                 if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
                     return distributedExecutionMainModel;
-                }
-
-                if (isInCooldownPeriod(distributedExecutionMainModel, distributedExecutionEnum)) {
-                    return null;
                 }
             }
 
@@ -106,12 +107,12 @@ public class DistributedExecutionUtil {
                         var distributedExecutionMainModel = this.distributedExecutionMainService
                                 .getLastDistributedExecution(distributedExecutionEnum);
 
-                        if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
-                            list.add(distributedExecutionMainModel);
+                        if (isInCooldownPeriod(distributedExecutionMainModel, distributedExecutionEnum)) {
                             return;
                         }
 
-                        if (isInCooldownPeriod(distributedExecutionMainModel, distributedExecutionEnum)) {
+                        if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
+                            list.add(distributedExecutionMainModel);
                             return;
                         }
                     }
