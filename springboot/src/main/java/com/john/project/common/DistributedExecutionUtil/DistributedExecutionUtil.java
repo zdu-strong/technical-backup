@@ -87,12 +87,12 @@ public class DistributedExecutionUtil {
                     return null;
                 }
 
-                if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
-                    continue;
-                }
-
                 if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
                     return distributedExecutionMainModel;
+                }
+
+                if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
+                    continue;
                 }
             }
 
