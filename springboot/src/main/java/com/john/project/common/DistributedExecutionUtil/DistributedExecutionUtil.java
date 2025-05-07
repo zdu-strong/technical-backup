@@ -82,13 +82,17 @@ public class DistributedExecutionUtil {
             {
                 var distributedExecutionMainModel = this.distributedExecutionMainService
                         .getLastDistributedExecution(distributedExecutionEnum);
+                if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
+                    continue;
+                }
+
                 if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
                     return distributedExecutionMainModel;
                 }
-            }
 
-            if (isInCooldownPeriod(distributedExecutionEnum)) {
-                return null;
+                if (isInCooldownPeriod(distributedExecutionMainModel, distributedExecutionEnum)) {
+                    return null;
+                }
             }
 
             {
@@ -96,19 +100,24 @@ public class DistributedExecutionUtil {
                 var isEnd = new AtomicBoolean(false);
 
                 this.longTermTaskUtil.runSkipWhenExists(() -> {
-                    isEnd.set(true);
 
                     {
                         var distributedExecutionMainModel = this.distributedExecutionMainService
                                 .getLastDistributedExecution(distributedExecutionEnum);
+                        if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
+                            return;
+                        }
+
+                        isEnd.set(true);
+
                         if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
                             list.add(distributedExecutionMainModel);
                             return;
                         }
-                    }
 
-                    if (isInCooldownPeriod(distributedExecutionEnum)) {
-                        return;
+                        if (isInCooldownPeriod(distributedExecutionMainModel, distributedExecutionEnum)) {
+                            return;
+                        }
                     }
 
                     var distributedExecutionMainModel = this.distributedExecutionMainService
@@ -162,24 +171,25 @@ public class DistributedExecutionUtil {
     }
 
     private boolean isInProgress(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
-        if (Optional.ofNullable(distributedExecutionMainModel)
-                        .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
-                        .filter(s -> !Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
-                        .isPresent()
-        ) {
-            this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
-            return false;
-        }
-
         return Optional.ofNullable(distributedExecutionMainModel)
                 .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
                 .filter(s -> Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
                 .isPresent();
     }
 
-    private boolean isInCooldownPeriod(DistributedExecutionEnum distributedExecutionEnum) {
-        var distributedExecutionMainModel = this.distributedExecutionMainService
-                .getLastDistributedExecution(distributedExecutionEnum);
+    private boolean isInProgressToAbort(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
+        if (Optional.ofNullable(distributedExecutionMainModel)
+                .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
+                .filter(s -> !Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
+                .isPresent()
+        ) {
+            this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isInCooldownPeriod(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
         return Optional.ofNullable(distributedExecutionMainModel)
                 .filter(s -> Stream
                         .of(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE,

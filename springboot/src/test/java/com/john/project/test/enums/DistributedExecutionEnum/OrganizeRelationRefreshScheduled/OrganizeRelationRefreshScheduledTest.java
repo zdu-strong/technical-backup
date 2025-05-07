@@ -1,4 +1,4 @@
-package com.john.project.test.scheduled.OrganizeRelationRefreshScheduled;
+package com.john.project.test.enums.DistributedExecutionEnum.OrganizeRelationRefreshScheduled;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;

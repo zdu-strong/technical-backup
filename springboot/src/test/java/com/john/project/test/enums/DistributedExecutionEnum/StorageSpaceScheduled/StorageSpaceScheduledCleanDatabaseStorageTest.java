@@ -1,4 +1,4 @@
-package com.john.project.test.scheduled.StorageSpaceScheduled;
+package com.john.project.test.enums.DistributedExecutionEnum.StorageSpaceScheduled;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
