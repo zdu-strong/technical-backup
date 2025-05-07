@@ -1,6 +1,7 @@
 package com.john.project.common.DistributedExecutionUtil;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -74,34 +75,62 @@ public class DistributedExecutionUtil {
         }
     }
 
+    @SneakyThrows
     private DistributedExecutionMainModel getDistributedExecution(DistributedExecutionEnum distributedExecutionEnum) {
-        {
-            var distributedExecutionMainModel = this.distributedExecutionMainService
-                    .getLastDistributedExecution(distributedExecutionEnum);
-            if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
-                return distributedExecutionMainModel;
-            }
-        }
-
-        if (isInCooldownPeriod(distributedExecutionEnum)) {
-            return null;
-        }
-
-        {
-            var list = new ArrayList<DistributedExecutionMainModel>();
-            this.longTermTaskUtil.runSkipAfterRetryWhenExists(() -> {
-                if (isInCooldownPeriod(distributedExecutionEnum)) {
-                    return;
-                }
-
+        var deadline = DateUtils.addSeconds(new Date(), 5);
+        while (new Date().before(deadline)) {
+            {
                 var distributedExecutionMainModel = this.distributedExecutionMainService
-                        .create(distributedExecutionEnum);
+                        .getLastDistributedExecution(distributedExecutionEnum);
                 if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
-                    list.add(distributedExecutionMainModel);
+                    return distributedExecutionMainModel;
                 }
-            }, getLongTermTaskUniqueKeyModelOfCreateDistributedMain());
-            return JinqStream.from(list).findOne().orElse(null);
+            }
+
+            if (isInCooldownPeriod(distributedExecutionEnum)) {
+                return null;
+            }
+
+            {
+                var list = new ArrayList<DistributedExecutionMainModel>();
+                var isEnd = new AtomicBoolean(false);
+
+                this.longTermTaskUtil.runSkipWhenExists(() -> {
+                    isEnd.set(true);
+
+                    {
+                        var distributedExecutionMainModel = this.distributedExecutionMainService
+                                .getLastDistributedExecution(distributedExecutionEnum);
+                        if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
+                            list.add(distributedExecutionMainModel);
+                            return;
+                        }
+                    }
+
+                    if (isInCooldownPeriod(distributedExecutionEnum)) {
+                        return;
+                    }
+
+                    var distributedExecutionMainModel = this.distributedExecutionMainService
+                            .create(distributedExecutionEnum);
+                    if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
+                        list.add(distributedExecutionMainModel);
+                    }
+                }, getLongTermTaskUniqueKeyModelOfCreateDistributedMain());
+
+                if (!list.isEmpty()) {
+                    return JinqStream.from(list).getOnlyValue();
+                }
+
+                if (isEnd.get()) {
+                    return null;
+                }
+            }
+
+            Thread.sleep(100);
         }
+
+        return null;
     }
 
     private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
@@ -133,6 +162,15 @@ public class DistributedExecutionUtil {
     }
 
     private boolean isInProgress(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
+        if (Optional.ofNullable(distributedExecutionMainModel)
+                        .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
+                        .filter(s -> !Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
+                        .isPresent()
+        ) {
+            this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
+            return false;
+        }
+
         return Optional.ofNullable(distributedExecutionMainModel)
                 .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
                 .filter(s -> Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))

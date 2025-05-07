@@ -17,27 +17,6 @@ import com.john.project.model.DistributedExecutionMainModel;
 public class DistributedExecutionMainService extends BaseService {
 
     public DistributedExecutionMainModel create(DistributedExecutionEnum distributedExecutionEnum) {
-        {
-            var executionType = distributedExecutionEnum.getValue();
-            var status = DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue();
-            var distributedExecutionMainList = this.streamAll(DistributedExecutionMainEntity.class)
-                    .where(s -> s.getExecutionType().equals(executionType))
-                    .where(s -> s.getStatus().equals(status))
-                    .sortedDescendingBy(s -> s.getId())
-                    .sortedDescendingBy(s -> s.getCreateDate())
-                    .toList();
-            for (var distributedExecutionMainEntity : distributedExecutionMainList) {
-                if (distributedExecutionMainEntity.getTotalPartition() == distributedExecutionEnum
-                        .getMaxNumberOfParallel()) {
-                    return this.distributedExecutionMainFormatter.format(distributedExecutionMainEntity);
-                } else {
-                    distributedExecutionMainEntity.setStatus(DistributedExecutionMainStatusEnum.ABORTED.getValue());
-                    distributedExecutionMainEntity.setUpdateDate(new Date());
-                    this.merge(distributedExecutionMainEntity);
-                }
-            }
-        }
-
         var distributedExecutionMainEntity = new DistributedExecutionMainEntity();
         distributedExecutionMainEntity.setId(newId());
         distributedExecutionMainEntity.setCreateDate(new Date());
@@ -65,14 +44,32 @@ public class DistributedExecutionMainService extends BaseService {
     public DistributedExecutionMainModel getLastDistributedExecution(
             DistributedExecutionEnum distributedExecutionEnum) {
         var distributedExecutionType = distributedExecutionEnum.getValue();
-        var distributedExecutionMainModel = this.streamAll(DistributedExecutionMainEntity.class)
-                .where(s -> s.getExecutionType().equals(distributedExecutionType))
-                .sortedBy(s -> s.getId())
-                .sortedBy(s -> s.getCreateDate())
-                .findFirst()
-                .map(this.distributedExecutionMainFormatter::format)
-                .orElse(null);
-        return distributedExecutionMainModel;
+
+        {
+            var status = DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue();
+            var distributedExecutionMainModel = this.streamAll(DistributedExecutionMainEntity.class)
+                    .where(s -> s.getExecutionType().equals(distributedExecutionType))
+                    .where(s -> s.getStatus().equals(status))
+                    .sortedDescendingBy(s -> s.getId())
+                    .sortedDescendingBy(s -> s.getCreateDate())
+                    .findFirst()
+                    .map(this.distributedExecutionMainFormatter::format)
+                    .orElse(null);
+            if (distributedExecutionMainModel != null) {
+                return distributedExecutionMainModel;
+            }
+        }
+
+        {
+            var distributedExecutionMainModel = this.streamAll(DistributedExecutionMainEntity.class)
+                    .where(s -> s.getExecutionType().equals(distributedExecutionType))
+                    .sortedDescendingBy(s -> s.getId())
+                    .sortedDescendingBy(s -> s.getCreateDate())
+                    .findFirst()
+                    .map(this.distributedExecutionMainFormatter::format)
+                    .orElse(null);
+            return distributedExecutionMainModel;
+        }
     }
 
 
