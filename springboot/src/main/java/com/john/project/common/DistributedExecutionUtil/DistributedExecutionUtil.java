@@ -100,15 +100,11 @@ public class DistributedExecutionUtil {
                 var isEnd = new AtomicBoolean(false);
 
                 this.longTermTaskUtil.runSkipWhenExists(() -> {
+                    isEnd.set(true);
 
                     {
                         var distributedExecutionMainModel = this.distributedExecutionMainService
                                 .getLastDistributedExecution(distributedExecutionEnum);
-                        if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
-                            return;
-                        }
-
-                        isEnd.set(true);
 
                         if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
                             list.add(distributedExecutionMainModel);
@@ -120,10 +116,12 @@ public class DistributedExecutionUtil {
                         }
                     }
 
-                    var distributedExecutionMainModel = this.distributedExecutionMainService
-                            .create(distributedExecutionEnum);
-                    if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
-                        list.add(distributedExecutionMainModel);
+                    {
+                        var distributedExecutionMainModel = this.distributedExecutionMainService
+                                .create(distributedExecutionEnum);
+                        if (isInProgress(distributedExecutionMainModel, distributedExecutionEnum)) {
+                            list.add(distributedExecutionMainModel);
+                        }
                     }
                 }, getLongTermTaskUniqueKeyModelOfCreateDistributedMain());
 
