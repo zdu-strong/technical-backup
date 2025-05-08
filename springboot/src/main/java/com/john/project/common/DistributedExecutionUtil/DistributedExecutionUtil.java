@@ -159,15 +159,17 @@ public class DistributedExecutionUtil {
             var pageNum = this.distributedExecutionDetailService.getPageNumByPartitionNum(distributedExecutionMainModel.getId(),
                     partitionNum);
             if (pageNum == null) {
+                if (partitionNumList.isEmpty()) {
+                    if (this.distributedExecutionMainService.hasCanDone(distributedExecutionMainModel.getId())) {
+                        this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
+                    }
+                }
                 continue;
             }
 
             return (long) partitionNum;
         }
 
-        if (this.distributedExecutionMainService.hasCanDone(distributedExecutionMainModel.getId())) {
-            this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
-        }
         return null;
     }
 
