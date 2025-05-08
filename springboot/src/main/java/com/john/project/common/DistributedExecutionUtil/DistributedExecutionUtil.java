@@ -152,15 +152,17 @@ public class DistributedExecutionUtil {
             var partitionNum = partitionNumList.get(RandomUtil.randomInt(0, partitionNumList.size()));
             partitionNumList.removeIf(s -> ObjectUtil.equals(s, partitionNum));
 
+            var longTermTaskUniqueKeyModel = this.getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, distributedExecutionEnum);
+            if (this.longTermTaskService.findOneNotRunning(List.of(longTermTaskUniqueKeyModel)) == null) {
+                continue;
+            }
+
             var pageNum = this.distributedExecutionDetailService.getPageNumByPartitionNum(distributedExecutionMainModel.getId(),
                     partitionNum);
             if (pageNum == null) {
                 continue;
             }
-            var longTermTaskUniqueKeyModel = this.getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, distributedExecutionEnum);
-            if (this.longTermTaskService.findOneNotRunning(List.of(longTermTaskUniqueKeyModel)) == null) {
-                continue;
-            }
+
             return (long) partitionNum;
         }
 
