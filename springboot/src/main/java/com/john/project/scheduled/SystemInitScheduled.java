@@ -75,12 +75,9 @@ public class SystemInitScheduled {
                 return;
             }
             initDistributedExecution();
-            var uniqueKeyModel = new LongTermTaskUniqueKeyModel()
-                    .setType(LongTermTaskTypeEnum.INIT_SYSTEM_DATABASE_DATA.getValue())
-                    .setUniqueKey(gitProperties.getCommitId());
             this.longTermTaskUtil.runSkipWhenExists(() -> {
                 this.init();
-            }, uniqueKeyModel);
+            }, getLongTermTaskUniqueKeyModelForInitSystemData());
             this.hasInit = true;
         }
     }
@@ -154,6 +151,13 @@ public class SystemInitScheduled {
                     .retry()
                     .subscribe();
         }
+    }
+
+    private LongTermTaskUniqueKeyModel getLongTermTaskUniqueKeyModelForInitSystemData() {
+        var uniqueKeyModel = new LongTermTaskUniqueKeyModel()
+                .setType(LongTermTaskTypeEnum.INIT_SYSTEM_DATABASE_DATA.getValue())
+                .setUniqueKey(gitProperties.getCommitId());
+        return uniqueKeyModel;
     }
 
 }
