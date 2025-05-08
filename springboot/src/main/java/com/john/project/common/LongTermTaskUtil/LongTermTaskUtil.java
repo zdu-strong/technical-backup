@@ -113,7 +113,7 @@ public class LongTermTaskUtil {
             if (ObjectUtil.isNull(this.longTermTaskService.findOneNotRunning(List.of(uniqueKey)))) {
                 if (isRetry) {
                     if (new Date().before(deadline)) {
-                        ThreadUtils.sleepQuietly(Duration.ofMillis(1));
+                        ThreadUtils.sleepQuietly(Duration.ofMillis(100));
                         continue;
                     }
                 }
@@ -130,7 +130,7 @@ public class LongTermTaskUtil {
             } catch (DataIntegrityViolationException | JpaSystemException e1) {
                 if (isRetry) {
                     if (new Date().before(deadline)) {
-                        ThreadUtils.sleepQuietly(Duration.ofMillis(1));
+                        ThreadUtils.sleepQuietly(Duration.ofMillis(100));
                         continue;
                     }
                 }
