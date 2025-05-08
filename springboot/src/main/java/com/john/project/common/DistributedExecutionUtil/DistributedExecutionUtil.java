@@ -92,7 +92,7 @@ public class DistributedExecutionUtil {
                     return distributedExecutionMainModel;
                 }
 
-                if (isInProgressToAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
+                if (isAbort(distributedExecutionMainModel, distributedExecutionEnum)) {
                     continue;
                 }
             }
@@ -177,7 +177,7 @@ public class DistributedExecutionUtil {
                 .isPresent();
     }
 
-    private boolean isInProgressToAbort(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
+    private boolean isAbort(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
         if (Optional.ofNullable(distributedExecutionMainModel)
                 .filter(s -> ObjectUtil.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
                 .filter(s -> !ObjectUtil.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
