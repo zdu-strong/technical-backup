@@ -74,10 +74,10 @@ public class SystemInitScheduled {
             if (hasInit) {
                 return;
             }
-            initDistributedExecution();
             this.longTermTaskUtil.runSkipWhenExists(() -> {
                 this.init();
             }, getLongTermTaskUniqueKeyModelForInitSystemData());
+            initDistributedExecution();
             this.hasInit = true;
         }
     }
