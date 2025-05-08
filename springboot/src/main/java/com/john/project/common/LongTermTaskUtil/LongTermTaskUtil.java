@@ -3,14 +3,13 @@ package com.john.project.common.LongTermTaskUtil;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import cn.hutool.core.util.ObjectUtil;
 import lombok.SneakyThrows;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +110,7 @@ public class LongTermTaskUtil {
         var deadline = DateUtils.addSeconds(new Date(), 5);
         List<String> idListOfLongTermTask;
         while (true) {
-            if (Objects.isNull(this.longTermTaskService.findOneNotRunning(List.of(uniqueKey)))) {
+            if (ObjectUtil.isNull(this.longTermTaskService.findOneNotRunning(List.of(uniqueKey)))) {
                 if (isRetry) {
                     if (new Date().before(deadline)) {
                         ThreadUtils.sleepQuietly(Duration.ofMillis(1));

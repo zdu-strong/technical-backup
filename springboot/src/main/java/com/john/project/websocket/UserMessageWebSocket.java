@@ -2,12 +2,13 @@ package com.john.project.websocket;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.hibernate.exception.GenericJDBCException;
@@ -265,7 +266,7 @@ public class UserMessageWebSocket {
 
     private void sendMessageForOnlyOneOnlineMessage() {
         var pageNum = getPageNumForOnlineMessage();
-        if (Objects.isNull(pageNum)) {
+        if (ObjectUtil.isNull(pageNum)) {
             return;
         }
 

@@ -1,17 +1,14 @@
 package com.john.project.service;
 
 import java.util.Date;
-import java.util.Objects;
-
+import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.DistributedExecutionDetailEntity;
 import com.john.project.entity.DistributedExecutionMainEntity;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.john.project.common.baseService.BaseService;
 import com.john.project.model.DistributedExecutionDetailModel;
-import com.john.project.model.DistributedExecutionMainModel;
 
 @Service
 public class DistributedExecutionDetailService extends BaseService {
@@ -34,7 +31,7 @@ public class DistributedExecutionDetailService extends BaseService {
                 .where(s -> s.getTotalPage() >= partitionNum)
                 .findOne()
                 .orElse(null);
-        if (Objects.isNull(DistributedExecutionMainEntity)) {
+        if (ObjectUtil.isNull(DistributedExecutionMainEntity)) {
             return null;
         }
         var pageNum = this.streamAll(DistributedExecutionDetailEntity.class)
