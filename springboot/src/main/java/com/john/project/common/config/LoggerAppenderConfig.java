@@ -5,8 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.apache.commons.lang3.ArrayUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
@@ -131,7 +130,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     }
 
     private void setCaller(LoggerModel loggerModel, ILoggingEvent eventObject) {
-        if (ArrayUtils.isEmpty(eventObject.getCallerData())) {
+        if (ObjectUtil.isEmpty(eventObject.getCallerData())) {
             return;
         }
         var callData = eventObject.getCallerData()[0];
