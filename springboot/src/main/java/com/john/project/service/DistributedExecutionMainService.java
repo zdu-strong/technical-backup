@@ -1,8 +1,7 @@
 package com.john.project.service;
 
 import java.util.Date;
-import java.util.Objects;
-
+import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.DistributedExecutionDetailEntity;
 import com.john.project.entity.DistributedExecutionMainEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -79,23 +78,23 @@ public class DistributedExecutionMainService extends BaseService {
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
 
-        if (!Objects.equals(distributedExecutionMainEntity.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue())) {
+        if (!ObjectUtil.equals(distributedExecutionMainEntity.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue())) {
             return false;
         }
 
         var status = getStatus(distributedExecutionMainEntity);
-        return !Objects.equals(status, DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue());
+        return !ObjectUtil.equals(status, DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue());
     }
 
     private String getStatus(DistributedExecutionMainEntity distributedExecutionMainEntity) {
-        if (StringUtils.isNotBlank(distributedExecutionMainEntity.getStatus()) && !Objects.equals(DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue(), distributedExecutionMainEntity.getStatus())) {
+        if (StringUtils.isNotBlank(distributedExecutionMainEntity.getStatus()) && !ObjectUtil.equals(DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue(), distributedExecutionMainEntity.getStatus())) {
             return distributedExecutionMainEntity.getStatus();
         }
 
         if (distributedExecutionMainEntity.getTotalPage() <= 0) {
             return DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue();
         }
-        if (!Objects.equals(distributedExecutionMainEntity.getTotalPartition(), DistributedExecutionEnum.parse(distributedExecutionMainEntity.getExecutionType()).getMaxNumberOfParallel())) {
+        if (!ObjectUtil.equals(distributedExecutionMainEntity.getTotalPartition(), DistributedExecutionEnum.parse(distributedExecutionMainEntity.getExecutionType()).getMaxNumberOfParallel())) {
             return DistributedExecutionMainStatusEnum.ABORTED.getValue();
         }
 

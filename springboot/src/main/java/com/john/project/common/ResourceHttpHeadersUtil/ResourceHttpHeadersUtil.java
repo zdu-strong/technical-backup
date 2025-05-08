@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.hc.core5.net.URIBuilder;
 import org.apache.tika.Tika;
 import org.jinq.orm.stream.JinqStream;
@@ -38,7 +39,7 @@ public class ResourceHttpHeadersUtil {
 
     public void setContentRangeIfNeed(HttpHeaders httpHeaders, long totalContentLength, HttpServletRequest request) {
         var rangeList = this.getRangeList(request);
-        if (Objects.equals(rangeList.size(), 1)) {
+        if (ObjectUtil.equals(rangeList.size(), 1)) {
             var range = JinqStream.from(rangeList).getOnlyValue();
             var start = range.getRangeStart(totalContentLength);
             var end = range.getRangeEnd(totalContentLength);
@@ -83,7 +84,7 @@ public class ResourceHttpHeadersUtil {
         if (rangeList.size() > 1) {
             long contentLength = this.getResourceFromRequest(totalContentLength, request).contentLength();
             httpHeaders.setContentLength(contentLength);
-        } else if (Objects.equals(rangeList.size(), 1)) {
+        } else if (ObjectUtil.equals(rangeList.size(), 1)) {
             var range = JinqStream.from(rangeList).getOnlyValue();
             var start = range.getRangeStart(totalContentLength);
             var end = range.getRangeEnd(totalContentLength);
@@ -146,7 +147,7 @@ public class ResourceHttpHeadersUtil {
             var textContentOfEnd = "\n--" + this.boundary + "--\n";
             resourceListTwo.add(new ByteArrayResource(textContentOfEnd.getBytes(StandardCharsets.UTF_8)));
             return new SequenceResource(fileName, resourceListTwo);
-        } else if (Objects.equals(rangeList.size(), 1)) {
+        } else if (ObjectUtil.equals(rangeList.size(), 1)) {
             var range = JinqStream.from(rangeList).getOnlyValue();
             var start = range.getRangeStart(totalContentLength);
             var end = range.getRangeEnd(totalContentLength);
@@ -172,8 +173,8 @@ public class ResourceHttpHeadersUtil {
                     throw new ResponseStatusException(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,
                             HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE.getReasonPhrase());
                 }
-                if (Objects.equals(totalContentLength, 0)) {
-                    if (!Objects.equals(end, -1)) {
+                if (ObjectUtil.equals(totalContentLength, 0)) {
+                    if (!ObjectUtil.equals(end, -1)) {
                         throw new ResponseStatusException(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,
                                 HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE.getReasonPhrase());
                     }

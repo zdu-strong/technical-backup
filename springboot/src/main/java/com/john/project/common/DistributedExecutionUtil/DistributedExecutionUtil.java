@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -149,7 +150,7 @@ public class DistributedExecutionUtil {
 
         while (!partitionNumList.isEmpty()) {
             var partitionNum = partitionNumList.get(RandomUtil.randomInt(0, partitionNumList.size()));
-            partitionNumList.removeIf(s -> Objects.equals(s, partitionNum));
+            partitionNumList.removeIf(s -> ObjectUtil.equals(s, partitionNum));
 
             var pageNum = this.distributedExecutionDetailService.getPageNumByPartitionNum(distributedExecutionMainModel.getId(),
                     partitionNum);
@@ -171,15 +172,15 @@ public class DistributedExecutionUtil {
 
     private boolean isInProgress(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
         return Optional.ofNullable(distributedExecutionMainModel)
-                .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
-                .filter(s -> Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
+                .filter(s -> ObjectUtil.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
+                .filter(s -> ObjectUtil.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
                 .isPresent();
     }
 
     private boolean isInProgressToAbort(DistributedExecutionMainModel distributedExecutionMainModel, DistributedExecutionEnum distributedExecutionEnum) {
         if (Optional.ofNullable(distributedExecutionMainModel)
-                .filter(s -> Objects.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
-                .filter(s -> !Objects.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
+                .filter(s -> ObjectUtil.equals(s.getStatus(), DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue()))
+                .filter(s -> !ObjectUtil.equals(s.getTotalPartition(), distributedExecutionEnum.getMaxNumberOfParallel()))
                 .isPresent()
         ) {
             this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
@@ -193,7 +194,7 @@ public class DistributedExecutionUtil {
                 .filter(s -> Stream
                         .of(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE,
                                 DistributedExecutionMainStatusEnum.ERROR_END)
-                        .anyMatch(m -> Objects.equals(s.getStatus(), m.getValue()))
+                        .anyMatch(m -> ObjectUtil.equals(s.getStatus(), m.getValue()))
                 )
                 .filter(s -> !new Date().after(DateUtils
                         .addMilliseconds(s.getUpdateDate(),
