@@ -3,10 +3,10 @@ package com.john.project.service;
 import java.util.Date;
 import java.util.List;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import com.john.project.common.baseService.BaseService;
 import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.UserModel;
-import cn.hutool.core.lang.Validator;
 import cn.hutool.core.text.StrFormatter;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -209,10 +208,10 @@ public class UserService extends BaseService {
 
     @Transactional(readOnly = true)
     public void checkUserRoleRelationListMustBeEmpty(UserModel user) {
-        if (CollectionUtils.isEmpty(user.getRoleList())) {
+        if (ObjectUtil.isEmpty(user.getRoleList())) {
             user.setRoleList(List.of());
         }
-        if (!CollectionUtils.isEmpty(user.getRoleList())) {
+        if (!ObjectUtil.isEmpty(user.getRoleList())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList must be empty");
         }
     }

@@ -1,7 +1,7 @@
 package com.john.project.common.FieldValidationUtil;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.john.project.model.RoleModel;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class ValidationFieldUtilNotEmpty extends ValidationFieldUtilNotBlank {
 
     public void checkNotEmptyOfPermissionList(RoleModel roleModel) {
-        if (CollectionUtils.isEmpty(roleModel.getPermissionList())) {
+        if (ObjectUtil.isEmpty(roleModel.getPermissionList())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "permissionList cannot be empty");
         }
     }

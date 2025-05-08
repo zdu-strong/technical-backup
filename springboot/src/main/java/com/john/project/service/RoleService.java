@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.RoleEntity;
 import com.john.project.entity.RolePermissionRelationEntity;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +131,7 @@ public class RoleService extends BaseService {
 
     @Transactional(readOnly = true)
     public void fillOfOrganizeList(RoleModel roleModel) {
-        if (CollectionUtils.isEmpty(roleModel.getOrganizeList())) {
+        if (ObjectUtil.isEmpty(roleModel.getOrganizeList())) {
             roleModel.setOrganizeList(List.of());
         }
     }
