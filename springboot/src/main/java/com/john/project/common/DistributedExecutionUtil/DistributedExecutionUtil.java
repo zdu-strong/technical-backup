@@ -152,8 +152,7 @@ public class DistributedExecutionUtil {
             var partitionNum = partitionNumList.get(RandomUtil.randomInt(0, partitionNumList.size()));
             partitionNumList.removeIf(s -> ObjectUtil.equals(s, partitionNum));
 
-            var longTermTaskUniqueKeyModel = this.getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, distributedExecutionEnum);
-            if (this.longTermTaskService.findOneNotRunning(List.of(longTermTaskUniqueKeyModel)) == null) {
+            if (this.longTermTaskService.findOneNotRunning(List.of(getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, distributedExecutionEnum))) == null) {
                 continue;
             }
 
