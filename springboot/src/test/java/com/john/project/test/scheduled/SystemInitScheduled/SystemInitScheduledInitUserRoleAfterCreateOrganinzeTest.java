@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
@@ -41,7 +40,7 @@ public class SystemInitScheduledInitUserRoleAfterCreateOrganinzeTest extends Bas
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
         this.organizeId = this.organizeUtil.create(organizeModel).getId();
         Mockito.doCallRealMethod().when(this.distributedExecutionUtil).refreshData(Mockito.any());
-        this.distributedExecutionUtil.refreshData(DistributedExecutionEnum.ORGANIZE_CLOSURE_REFRESH);
+        this.distributedExecutionUtil.refreshData(organizeClosureRefreshDistributedExecution);
     }
 
 }

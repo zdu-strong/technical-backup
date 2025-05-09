@@ -1,6 +1,5 @@
 package com.john.project.test.common.DistributedExecutionUtil;
 
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,7 @@ public class DistributedExecutionUtilStorageSpaceClearTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        this.distributedExecutionUtil.refreshData(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+        this.distributedExecutionUtil.refreshData(storageSpaceCleanDistributedExecution);
     }
 
     @BeforeEach

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -17,10 +16,9 @@ public class DistributedExecutionMainServiceGetLastDistributedExecutionTest exte
     @Test
     public void test() {
         var result = this.distributedExecutionMainService
-                .getLastDistributedExecution(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+                .getLastDistributedExecution(storageSpaceCleanDistributedExecution);
         assertTrue(StringUtils.isNotBlank(result.getId()));
-        assertEquals(DistributedExecutionEnum.STORAGE_SPACE_CLEAN,
-                DistributedExecutionEnum.parse(result.getExecutionType()));
+        assertEquals(storageSpaceCleanDistributedExecution.getClass().getSimpleName(), result.getExecutionType());
         assertEquals(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue(), result.getStatus());
         assertEquals(1, result.getTotalPage());
         assertEquals(1, result.getTotalPartition());
@@ -33,7 +31,7 @@ public class DistributedExecutionMainServiceGetLastDistributedExecutionTest exte
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
         Mockito.doCallRealMethod().when(this.distributedExecutionUtil)
                 .refreshData(Mockito.any());
-        this.distributedExecutionUtil.refreshData(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+        this.distributedExecutionUtil.refreshData(storageSpaceCleanDistributedExecution);
     }
 
 }

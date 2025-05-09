@@ -1,6 +1,5 @@
 package com.john.project.test.service.DistributedExecutionDetailService;
 
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.model.DistributedExecutionMainModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +21,7 @@ public class DistributedExecutionDetailServiceGetPageNumByPartitionNumDistribute
     public void beforeEach() {
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
         this.distributedExecutionMainModel = this.distributedExecutionMainService
-                .create(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+                .create(storageSpaceCleanDistributedExecution);
         this.distributedExecutionDetailService.createByResult(distributedExecutionMainModel.getId(), 1, 1);
         if (this.distributedExecutionMainService.hasCanDone(distributedExecutionMainModel.getId())) {
             this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());

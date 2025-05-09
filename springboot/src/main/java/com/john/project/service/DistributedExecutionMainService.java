@@ -1,28 +1,30 @@
 package com.john.project.service;
 
 import java.util.Date;
+
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.john.project.common.DistributedExecution.DistributedExecutionBase;
 import com.john.project.entity.DistributedExecutionDetailEntity;
 import com.john.project.entity.DistributedExecutionMainEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.john.project.common.baseService.BaseService;
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.model.DistributedExecutionMainModel;
 
 @Service
 public class DistributedExecutionMainService extends BaseService {
 
-    public DistributedExecutionMainModel create(DistributedExecutionEnum distributedExecutionEnum) {
+    public DistributedExecutionMainModel create(DistributedExecutionBase distributedExecutionBase) {
         var distributedExecutionMainEntity = new DistributedExecutionMainEntity();
         distributedExecutionMainEntity.setId(newId());
         distributedExecutionMainEntity.setCreateDate(new Date());
         distributedExecutionMainEntity.setUpdateDate(new Date());
-        distributedExecutionMainEntity.setExecutionType(distributedExecutionEnum.getValue());
-        distributedExecutionMainEntity.setTotalPage(distributedExecutionEnum.getCallbackOfGetPagination().get().getTotalPages());
-        distributedExecutionMainEntity.setTotalPartition(distributedExecutionEnum.getMaxNumberOfParallel());
+        distributedExecutionMainEntity.setExecutionType(distributedExecutionBase.getClass().getSimpleName());
+        distributedExecutionMainEntity.setTotalPage(distributedExecutionBase.searchByPagination().getTotalPages());
+        distributedExecutionMainEntity.setTotalPartition(distributedExecutionBase.getMaxNumberOfParallel());
         distributedExecutionMainEntity.setStatus(getStatus(distributedExecutionMainEntity));
         this.persist(distributedExecutionMainEntity);
 
@@ -40,9 +42,8 @@ public class DistributedExecutionMainService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public DistributedExecutionMainModel getLastDistributedExecution(
-            DistributedExecutionEnum distributedExecutionEnum) {
-        var distributedExecutionType = distributedExecutionEnum.getValue();
+    public DistributedExecutionMainModel getLastDistributedExecution(DistributedExecutionBase distributedExecutionBase) {
+        var distributedExecutionType = distributedExecutionBase.getClass().getSimpleName();
 
         {
             var status = DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue();
@@ -94,7 +95,12 @@ public class DistributedExecutionMainService extends BaseService {
         if (distributedExecutionMainEntity.getTotalPage() <= 0) {
             return DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue();
         }
-        if (!ObjectUtil.equals(distributedExecutionMainEntity.getTotalPartition(), DistributedExecutionEnum.parse(distributedExecutionMainEntity.getExecutionType()).getMaxNumberOfParallel())) {
+
+        if (SpringUtil.getBeansOfType(DistributedExecutionBase.class).values().stream()
+                .filter(s -> ObjectUtil.equals(s.getClass().getSimpleName(), distributedExecutionMainEntity.getExecutionType()))
+                .filter(s -> ObjectUtil.equals(s.getMaxNumberOfParallel(), distributedExecutionMainEntity.getTotalPartition()))
+                .findFirst()
+                .isEmpty()) {
             return DistributedExecutionMainStatusEnum.ABORTED.getValue();
         }
 

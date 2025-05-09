@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.model.DistributedExecutionMainModel;
 import com.john.project.test.common.BaseTest.BaseTest;
@@ -21,11 +20,10 @@ public class DistributedExecutionMainServiceUpdateWithDoneTest extends BaseTest 
     public void test() {
         this.distributedExecutionMainService.updateWithDone(this.distributedExecutionMainModel.getId());
         var result = this.distributedExecutionMainService
-                .getLastDistributedExecution(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+                .getLastDistributedExecution(storageSpaceCleanDistributedExecution);
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertEquals(this.distributedExecutionMainModel.getId(), result.getId());
-        assertEquals(DistributedExecutionEnum.STORAGE_SPACE_CLEAN,
-                DistributedExecutionEnum.parse(result.getExecutionType()));
+        assertEquals(storageSpaceCleanDistributedExecution.getClass().getSimpleName(), result.getExecutionType());
         assertEquals(DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue(), result.getStatus());
         assertEquals(1, result.getTotalPage());
         assertEquals(1, result.getTotalPartition());
@@ -37,7 +35,7 @@ public class DistributedExecutionMainServiceUpdateWithDoneTest extends BaseTest 
     public void beforeEach() {
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
         this.distributedExecutionMainModel = this.distributedExecutionMainService
-                .create(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+                .create(storageSpaceCleanDistributedExecution);
         this.distributedExecutionDetailService
                 .createByResult(this.distributedExecutionMainModel.getId(), 1L, 1L);
         var result = this.distributedExecutionMainService.hasCanDone(this.distributedExecutionMainModel.getId());

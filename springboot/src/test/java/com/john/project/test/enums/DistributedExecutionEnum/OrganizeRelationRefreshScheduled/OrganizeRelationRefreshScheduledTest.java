@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -14,7 +13,7 @@ public class OrganizeRelationRefreshScheduledTest extends BaseTest {
 
     @Test
     public void test() {
-        this.distributedExecutionUtil.refreshData(DistributedExecutionEnum.ORGANIZE_CLOSURE_REFRESH);
+        this.distributedExecutionUtil.refreshData(organizeClosureRefreshDistributedExecution);
         var result = this.organizeService.searchByName(1L, 20L, "Son Gohan", this.organizeId);
         assertEquals(1, result.getTotalRecords());
     }

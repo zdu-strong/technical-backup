@@ -3,12 +3,12 @@ package com.john.project.test.service.DistributedExecutionMainService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
-import com.john.project.enums.DistributedExecutionEnum;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -17,10 +17,9 @@ public class DistributedExecutionMainServiceCreateTest extends BaseTest {
     @Test
     public void test() {
         var result = this.distributedExecutionMainService
-                .create(DistributedExecutionEnum.STORAGE_SPACE_CLEAN);
+                .create(storageSpaceCleanDistributedExecution);
         assertTrue(StringUtils.isNotBlank(result.getId()));
-        assertEquals(DistributedExecutionEnum.STORAGE_SPACE_CLEAN,
-                DistributedExecutionEnum.parse(result.getExecutionType()));
+        assertEquals(storageSpaceCleanDistributedExecution.getClass().getSimpleName(), result.getExecutionType());
         assertEquals(DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue(), result.getStatus());
         assertEquals(1, result.getTotalPage());
         assertEquals(1, result.getTotalPartition());

@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.function.Supplier;
 
+import com.john.project.common.DistributedExecution.NonceCleanDistributedExecution;
+import com.john.project.common.DistributedExecution.OrganizeClosureRefreshDistributedExecution;
+import com.john.project.common.DistributedExecution.StorageSpaceCleanDistributedExecution;
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
 import com.john.project.model.*;
 import org.apache.commons.io.FileUtils;
@@ -37,7 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.uuid.Generators;
 import com.google.common.collect.Lists;
-import com.john.project.common.DistributedExecutionUtil.DistributedExecutionUtil;
+import com.john.project.common.DistributedExecution.DistributedExecutionUtil;
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
 import com.john.project.common.OrganizeUtil.OrganizeUtil;
 import com.john.project.common.ResourceHttpHeadersUtil.ResourceHttpHeadersUtil;
@@ -94,6 +97,15 @@ public class BaseTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected NonceCleanDistributedExecution nonceCleanDistributedExecution;
+
+    @Autowired
+    protected OrganizeClosureRefreshDistributedExecution organizeClosureRefreshDistributedExecution;
+
+    @Autowired
+    protected StorageSpaceCleanDistributedExecution storageSpaceCleanDistributedExecution;
 
     @Autowired
     protected ResourceHttpHeadersUtil resourceHttpHeadersUtil;
