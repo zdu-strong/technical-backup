@@ -1,4 +1,4 @@
-package com.john.project.test.enums.DistributedExecutionEnum.StorageSpaceScheduled;
+package com.john.project.test.common.DistributedExecution.StorageSpaceCleanDistributedExecution;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class StorageSpaceScheduledCleanDatabaseStorageTest extends BaseTest {
+public class StorageSpaceCleanDistributedExecutionTest extends BaseTest {
 
     @Test
     public void test() {

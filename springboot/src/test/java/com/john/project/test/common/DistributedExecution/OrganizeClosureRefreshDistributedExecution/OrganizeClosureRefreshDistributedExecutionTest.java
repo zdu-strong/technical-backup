@@ -1,13 +1,14 @@
-package com.john.project.test.enums.DistributedExecutionEnum.OrganizeRelationRefreshScheduled;
+package com.john.project.test.common.DistributedExecution.OrganizeClosureRefreshDistributedExecution;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class OrganizeRelationRefreshScheduledTest extends BaseTest {
+public class OrganizeClosureRefreshDistributedExecutionTest extends BaseTest {
 
     private String organizeId;
 

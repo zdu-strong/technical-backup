@@ -1,4 +1,4 @@
-package com.john.project.test.common.DistributedExecutionUtil;
+package com.john.project.test.common.DistributedExecution.DistributedExecutionUtil;
 
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class DistributedExecutionUtilStorageSpaceClearTest extends BaseTest {
+public class DistributedExecutionUtilTest extends BaseTest {
 
     @Test
     @SneakyThrows
