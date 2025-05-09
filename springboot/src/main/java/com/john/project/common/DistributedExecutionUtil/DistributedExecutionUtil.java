@@ -59,7 +59,32 @@ public class DistributedExecutionUtil {
             if (partitionNumList.isEmpty()) {
                 return;
             }
+            runByPartitionNumList(distributedExecutionMainModel, baseDistributedExecution, partitionNumList);
+        }
+    }
 
+    private void runByPartitionNumList(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution, List<Long> partitionNumList) {
+        if (partitionNumList.size() == 1) {
+            var partitionNum = JinqStream.from(partitionNumList).getOnlyValue();
+            this.longTermTaskUtil.runSkipWhenExists(() -> {
+                var pageNum = this.distributedExecutionDetailService
+                        .getPageNumByPartitionNum(distributedExecutionMainModel.getId(), partitionNum);
+                if (pageNum == null) {
+                    return;
+                }
+                while (pageNum >= 1) {
+                    try {
+                        baseDistributedExecution.executeTask(pageNum);
+                        this.distributedExecutionDetailService.createByResult(distributedExecutionMainModel.getId(),
+                                partitionNum, pageNum);
+                    } catch (Throwable e) {
+                        this.distributedExecutionDetailService
+                                .createByErrorMessage(distributedExecutionMainModel.getId(), partitionNum, pageNum);
+                    }
+                    pageNum -= baseDistributedExecution.getMaxNumberOfParallel();
+                }
+            }, getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, baseDistributedExecution));
+        } else {
             Flowable.fromIterable(partitionNumList)
                     .parallel(partitionNumList.size())
                     .runOn(Schedulers.from(executorService))
