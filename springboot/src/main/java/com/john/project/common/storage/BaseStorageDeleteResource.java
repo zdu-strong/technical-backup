@@ -5,13 +5,11 @@ import java.nio.file.Paths;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@Component
-public class BaseStorageDeleteResource extends BaseStorage {
+public abstract class BaseStorageDeleteResource extends BaseStorage {
 
     public void delete(HttpServletRequest request) {
         String relativePath = this.getRelativePathFromRequest(request);

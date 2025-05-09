@@ -16,7 +16,6 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,8 +23,7 @@ import com.john.project.common.StorageResource.SequenceResource;
 import com.john.project.model.StorageFileModel;
 import lombok.SneakyThrows;
 
-@Component
-public class BaseStorageSave extends BaseStorageCreateTempFile {
+public abstract class BaseStorageSave extends BaseStorageCreateTempFile {
 
     @SneakyThrows
     public StorageFileModel storageResource(Resource resource) {

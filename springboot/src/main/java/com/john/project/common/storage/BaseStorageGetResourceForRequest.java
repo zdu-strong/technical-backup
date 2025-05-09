@@ -10,13 +10,11 @@ import org.jinq.orm.stream.JinqStream;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.john.project.common.StorageResource.RandomAccessFileSystemResource;
 import com.john.project.common.StorageResource.RangeFileSystemResource;
 
-@Component
-public class BaseStorageGetResourceForRequest extends BaseStorageDeleteResource {
+public abstract class BaseStorageGetResourceForRequest extends BaseStorageDeleteResource {
     /**
      * If it is a directory, return like: JSON.toString(["childFile",
      * "childDirectory"])
