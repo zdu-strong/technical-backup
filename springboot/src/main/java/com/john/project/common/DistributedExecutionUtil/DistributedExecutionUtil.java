@@ -1,11 +1,14 @@
 package com.john.project.common.DistributedExecutionUtil;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -43,6 +46,8 @@ public class DistributedExecutionUtil {
     @Autowired
     private LongTermTaskService longTermTaskService;
 
+    private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+
     @SneakyThrows
     public void refreshData(BaseDistributedExecution baseDistributedExecution) {
         var distributedExecutionMainModel = this.getDistributedExecution(baseDistributedExecution);
@@ -50,29 +55,36 @@ public class DistributedExecutionUtil {
             return;
         }
         while (true) {
-            var partitionNum = this.getPartitionNum(distributedExecutionMainModel, baseDistributedExecution);
-            if (partitionNum == null) {
+            var partitionNumList = this.getPartitionNumListForSingleMachine(distributedExecutionMainModel, baseDistributedExecution);
+            if (partitionNumList.isEmpty()) {
                 return;
             }
 
-            this.longTermTaskUtil.runSkipWhenExists(() -> {
-                var pageNum = this.distributedExecutionDetailService
-                        .getPageNumByPartitionNum(distributedExecutionMainModel.getId(), partitionNum);
-                if (pageNum == null) {
-                    return;
-                }
-                while (pageNum >= 1) {
-                    try {
-                        baseDistributedExecution.executeTask(pageNum);
-                        this.distributedExecutionDetailService.createByResult(distributedExecutionMainModel.getId(),
-                                partitionNum, pageNum);
-                    } catch (Throwable e) {
-                        this.distributedExecutionDetailService
-                                .createByErrorMessage(distributedExecutionMainModel.getId(), partitionNum, pageNum);
-                    }
-                    pageNum -= baseDistributedExecution.getMaxNumberOfParallel();
-                }
-            }, getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, baseDistributedExecution));
+            Flowable.fromIterable(partitionNumList)
+                    .parallel(partitionNumList.size())
+                    .runOn(Schedulers.from(executorService))
+                    .doOnNext((partitionNum) -> {
+                        this.longTermTaskUtil.runSkipWhenExists(() -> {
+                            var pageNum = this.distributedExecutionDetailService
+                                    .getPageNumByPartitionNum(distributedExecutionMainModel.getId(), partitionNum);
+                            if (pageNum == null) {
+                                return;
+                            }
+                            while (pageNum >= 1) {
+                                try {
+                                    baseDistributedExecution.executeTask(pageNum);
+                                    this.distributedExecutionDetailService.createByResult(distributedExecutionMainModel.getId(),
+                                            partitionNum, pageNum);
+                                } catch (Throwable e) {
+                                    this.distributedExecutionDetailService
+                                            .createByErrorMessage(distributedExecutionMainModel.getId(), partitionNum, pageNum);
+                                }
+                                pageNum -= baseDistributedExecution.getMaxNumberOfParallel();
+                            }
+                        }, getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, baseDistributedExecution));
+                    })
+                    .sequential()
+                    .blockingSubscribe();
         }
     }
 
@@ -142,9 +154,23 @@ public class DistributedExecutionUtil {
         return null;
     }
 
-    private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution) {
+    private List<Long> getPartitionNumListForSingleMachine(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution) {
+        var partitionNumListForSingleMachine = new ArrayList<Long>();
+        var maxNumberOfParallelForSingleMachine = Math.min(Math.min(baseDistributedExecution.getMaxNumberOfParallel(), baseDistributedExecution.getMaxNumberOfParallelForSingleMachine()), distributedExecutionMainModel.getTotalPage());
+        for (var i = maxNumberOfParallelForSingleMachine; i > 0; i--) {
+            var partitionNum = getPartitionNum(distributedExecutionMainModel, baseDistributedExecution, partitionNumListForSingleMachine);
+            if (partitionNum == null) {
+                break;
+            }
+            partitionNumListForSingleMachine.add(partitionNum);
+        }
+        return partitionNumListForSingleMachine;
+    }
+
+    private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution, List<Long> excludePartitionNumList) {
         var partitionNumList = Flowable.range(1, distributedExecutionMainModel.getTotalPartition().intValue())
                 .filter(s -> s <= distributedExecutionMainModel.getTotalPage())
+                .filter(s -> !excludePartitionNumList.contains(s))
                 .toList()
                 .blockingGet();
 

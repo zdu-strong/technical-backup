@@ -47,4 +47,9 @@ public abstract class BaseDistributedExecution {
     public Duration getTheIntervalBetweenTwoExecutions() {
         return Duration.ofHours(12);
     }
+
+    public long getMaxNumberOfParallelForSingleMachine() {
+        return 1;
+    }
+
 }
