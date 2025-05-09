@@ -1,10 +1,11 @@
-package com.john.project.common.DistributedExecution;
+package com.john.project.DistributedExecution;
 
+import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.PaginationModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrganizeClosureRefreshDistributedExecution extends DistributedExecutionBase {
+public class OrganizeClosureRefreshDistributedExecution extends BaseDistributedExecution {
 
     @Override
     public PaginationModel<?> searchByPagination() {

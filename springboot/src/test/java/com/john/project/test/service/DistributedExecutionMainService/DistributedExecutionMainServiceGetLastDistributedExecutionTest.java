@@ -3,10 +3,10 @@ package com.john.project.test.service.DistributedExecutionMainService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.test.common.BaseTest.BaseTest;
@@ -29,9 +29,11 @@ public class DistributedExecutionMainServiceGetLastDistributedExecutionTest exte
     @BeforeEach
     public void beforeEach() {
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
-        Mockito.doCallRealMethod().when(this.distributedExecutionUtil)
-                .refreshData(Mockito.any());
-        this.distributedExecutionUtil.refreshData(storageSpaceCleanDistributedExecution);
+        var distributedExecutionMainModel = this.distributedExecutionMainService
+                .create(storageSpaceCleanDistributedExecution);
+        this.distributedExecutionDetailService
+                .createByResult(distributedExecutionMainModel.getId(), 1L, 1L);
+        this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
     }
 
 }

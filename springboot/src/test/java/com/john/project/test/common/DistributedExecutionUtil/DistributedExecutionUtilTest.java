@@ -1,4 +1,4 @@
-package com.john.project.test.common.DistributedExecution.DistributedExecutionUtil;
+package com.john.project.test.common.DistributedExecutionUtil;
 
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;

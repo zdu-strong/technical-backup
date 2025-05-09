@@ -1,4 +1,4 @@
-package com.john.project.test.common.DistributedExecution.OrganizeClosureRefreshDistributedExecution;
+package com.john.project.test.DistributedExecution.OrganizeClosureRefreshDistributedExecution;
 
 import static org.junit.jupiter.api.Assertions.*;
 

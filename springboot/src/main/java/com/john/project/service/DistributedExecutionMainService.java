@@ -4,7 +4,7 @@ import java.util.Date;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.john.project.common.DistributedExecution.DistributedExecutionBase;
+import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.entity.DistributedExecutionDetailEntity;
 import com.john.project.entity.DistributedExecutionMainEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -17,14 +17,14 @@ import com.john.project.model.DistributedExecutionMainModel;
 @Service
 public class DistributedExecutionMainService extends BaseService {
 
-    public DistributedExecutionMainModel create(DistributedExecutionBase distributedExecutionBase) {
+    public DistributedExecutionMainModel create(BaseDistributedExecution baseDistributedExecution) {
         var distributedExecutionMainEntity = new DistributedExecutionMainEntity();
         distributedExecutionMainEntity.setId(newId());
         distributedExecutionMainEntity.setCreateDate(new Date());
         distributedExecutionMainEntity.setUpdateDate(new Date());
-        distributedExecutionMainEntity.setExecutionType(distributedExecutionBase.getClass().getSimpleName());
-        distributedExecutionMainEntity.setTotalPage(distributedExecutionBase.searchByPagination().getTotalPages());
-        distributedExecutionMainEntity.setTotalPartition(distributedExecutionBase.getMaxNumberOfParallel());
+        distributedExecutionMainEntity.setExecutionType(baseDistributedExecution.getClass().getSimpleName());
+        distributedExecutionMainEntity.setTotalPage(baseDistributedExecution.searchByPagination().getTotalPages());
+        distributedExecutionMainEntity.setTotalPartition(baseDistributedExecution.getMaxNumberOfParallel());
         distributedExecutionMainEntity.setStatus(getStatus(distributedExecutionMainEntity));
         this.persist(distributedExecutionMainEntity);
 
@@ -42,8 +42,8 @@ public class DistributedExecutionMainService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public DistributedExecutionMainModel getLastDistributedExecution(DistributedExecutionBase distributedExecutionBase) {
-        var distributedExecutionType = distributedExecutionBase.getClass().getSimpleName();
+    public DistributedExecutionMainModel getLastDistributedExecution(BaseDistributedExecution baseDistributedExecution) {
+        var distributedExecutionType = baseDistributedExecution.getClass().getSimpleName();
 
         {
             var status = DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue();
@@ -96,7 +96,7 @@ public class DistributedExecutionMainService extends BaseService {
             return DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue();
         }
 
-        if (SpringUtil.getBeansOfType(DistributedExecutionBase.class).values().stream()
+        if (SpringUtil.getBeansOfType(BaseDistributedExecution.class).values().stream()
                 .filter(s -> ObjectUtil.equals(s.getClass().getSimpleName(), distributedExecutionMainEntity.getExecutionType()))
                 .filter(s -> ObjectUtil.equals(s.getMaxNumberOfParallel(), distributedExecutionMainEntity.getTotalPartition()))
                 .findFirst()

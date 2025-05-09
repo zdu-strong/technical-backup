@@ -1,10 +1,11 @@
-package com.john.project.common.DistributedExecution;
+package com.john.project.DistributedExecution;
 
+import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.PaginationModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NonceCleanDistributedExecution extends DistributedExecutionBase {
+public class NonceCleanDistributedExecution extends BaseDistributedExecution {
 
     @Override
     public PaginationModel<?> searchByPagination() {

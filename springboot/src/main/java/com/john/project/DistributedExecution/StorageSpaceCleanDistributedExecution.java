@@ -1,6 +1,7 @@
-package com.john.project.common.DistributedExecution;
+package com.john.project.DistributedExecution;
 
 import cn.hutool.core.text.StrFormatter;
+import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.enums.LongTermTaskTypeEnum;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.model.PaginationModel;
@@ -15,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 import static eu.ciechanowiec.sneakyfun.SneakyRunnable.sneaky;
 
 @Component
-public class StorageSpaceCleanDistributedExecution extends DistributedExecutionBase {
+public class StorageSpaceCleanDistributedExecution extends BaseDistributedExecution {
 
     @Override
     public PaginationModel<?> searchByPagination() {

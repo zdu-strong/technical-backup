@@ -6,14 +6,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.john.project.common.DistributedExecution.DistributedExecutionBase;
+import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.SuperAdminUserRoleQueryPaginationModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import com.john.project.common.DistributedExecution.DistributedExecutionUtil;
+import com.john.project.common.DistributedExecutionUtil.DistributedExecutionUtil;
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
 import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.enums.LongTermTaskTypeEnum;
@@ -139,14 +139,14 @@ public class SystemInitScheduled {
     }
 
     private void initDistributedExecution() {
-        for (var distributedExecutionBase : SpringUtil.getBeansOfType(DistributedExecutionBase.class).values()) {
-            Flowable.timer(distributedExecutionBase.getTheIntervalBetweenTwoExecutions().toMillis(),
+        for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
+            Flowable.timer(baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis(),
                             TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.from(executor))
                     .observeOn(Schedulers.from(executor))
                     .doOnNext(s -> {
                         this.distributedExecutionUtil
-                                .refreshData(distributedExecutionBase);
+                                .refreshData(baseDistributedExecution);
                     })
                     .repeat()
                     .retry()

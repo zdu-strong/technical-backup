@@ -1,4 +1,4 @@
-package com.john.project.common.DistributedExecution;
+package com.john.project.common.baseDistributedExecution;
 
 import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.common.storage.Storage;
@@ -10,7 +10,7 @@ import org.springframework.core.task.TaskExecutor;
 import javax.annotation.Resource;
 import java.time.Duration;
 
-public abstract class DistributedExecutionBase {
+public abstract class BaseDistributedExecution {
 
     @Autowired
     protected NonceService nonceService;
