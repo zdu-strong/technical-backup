@@ -35,7 +35,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -129,7 +128,7 @@ public class BaseTest {
     @Autowired
     protected PermissionUtil permissionUtil;
 
-    @MockitoSpyBean
+    @Autowired
     protected DistributedExecutionUtil distributedExecutionUtil;
 
     @Autowired
@@ -226,8 +225,6 @@ public class BaseTest {
     public void beforeEachOfBaseTest() {
         FileUtils.deleteQuietly(new File(this.storage.getRootPath()));
         new File(this.storage.getRootPath()).mkdirs();
-        Mockito.doNothing().when(this.distributedExecutionUtil)
-                .refreshData(Mockito.any());
         this.systemInitScheduled.scheduled();
     }
 

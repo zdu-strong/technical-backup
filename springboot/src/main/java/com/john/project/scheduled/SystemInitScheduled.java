@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import cn.hutool.extra.spring.SpringUtil;
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.SuperAdminUserRoleQueryPaginationModel;
+import com.john.project.properties.StorageRootPathProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
@@ -63,6 +64,9 @@ public class SystemInitScheduled {
 
     @Autowired
     private UserRoleRelationService userRoleRelationService;
+
+    @Autowired
+    private StorageRootPathProperties storageRootPathProperties;
 
     @Getter
     private Boolean hasInit = false;
@@ -140,6 +144,9 @@ public class SystemInitScheduled {
     }
 
     private void initDistributedExecution() {
+        if (this.storageRootPathProperties.getIsUnitTestEnvironment()) {
+            return;
+        }
         for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
             Flowable.interval(
                             60 * 1000,

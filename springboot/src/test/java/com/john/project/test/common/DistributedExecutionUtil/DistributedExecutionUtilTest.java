@@ -4,7 +4,6 @@ import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public class DistributedExecutionUtilTest extends BaseTest {
 
@@ -17,8 +16,6 @@ public class DistributedExecutionUtilTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         this.storage.createTempFolder();
-        Mockito.doCallRealMethod().when(this.distributedExecutionUtil)
-                .refreshData(Mockito.any());
     }
 
 }

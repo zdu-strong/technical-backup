@@ -61,8 +61,7 @@ public abstract class BaseStorage {
                         } else {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "storage").toString();
                         }
-                    } else if (this.storageRootPathProperties.getStorageRootPath()
-                            .equals("defaultTest-a56b075f-102e-edf3-8599-ffc526ec948a")) {
+                    } else if (this.storageRootPathProperties.getIsUnitTestEnvironment()) {
                         if (new File(currentFolderPath, ".mvn").isDirectory()) {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "target/storage").toString();
                         } else {

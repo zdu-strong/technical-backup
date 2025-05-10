@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -40,11 +39,6 @@ public class OrganizeClosureRefreshDistributedExecutionTest extends BaseTest {
             assertEquals(1, result.getTotalRecords());
             this.organizeId = parentOrganize.getId();
         }
-        {
-            Mockito.doCallRealMethod().when(this.distributedExecutionUtil)
-                    .refreshData(Mockito.any());
-        }
     }
-
 
 }
