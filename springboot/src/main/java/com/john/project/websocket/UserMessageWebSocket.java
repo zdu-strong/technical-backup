@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -74,7 +72,6 @@ public class UserMessageWebSocket {
     private ConcurrentHashMap<Long, UserMessageModel> onlineMessageReceiveDateMap = new ConcurrentHashMap<>();
     private PublishProcessor<String> checkIsSignInPublishProcessor;
     private Session webSocketSession;
-    private ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
     @OnOpen
     public void onOpen(Session session) {
@@ -369,9 +366,7 @@ public class UserMessageWebSocket {
             PublishProcessor<String> publishProcessorOne = PublishProcessor.create();
             publishProcessorOne
                     .throttleLatest(1, TimeUnit.SECONDS, true)
-                    .subscribeOn(Schedulers.from(executor))
                     .delay(1, TimeUnit.MILLISECONDS)
-                    .observeOn(Schedulers.from(executor))
                     .doOnNext((s) -> {
                         try {
                             this.permissionUtil.checkIsSignIn(request);

@@ -68,7 +68,7 @@ public class SystemInitScheduled {
     @Getter
     private Boolean hasInit = false;
 
-    private ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+    private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
     @Scheduled(initialDelay = 0, fixedDelay = 24 * 60 * 60 * 1000)
     public void scheduled() {

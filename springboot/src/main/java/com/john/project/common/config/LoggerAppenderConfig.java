@@ -3,14 +3,14 @@ package com.john.project.common.config;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.google.common.collect.Lists;
@@ -40,7 +40,8 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     @Autowired
     private DatabaseJdbcProperties databaseJdbcProperties;
 
-    private ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+    @Resource
+    private TaskExecutor applicationTaskExecutor;
 
     @Override
     protected void append(ILoggingEvent eventObject) {
@@ -80,7 +81,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     private void saveLoggerModel(LoggerModel loggerModel) {
         Optional.of(CompletableFuture.runAsync(() -> {
             this.loggerService.create(loggerModel);
-        }, executor))
+        }, applicationTaskExecutor))
                 .filter(s -> this.databaseJdbcProperties.getIsSupportParallelWrite())
                 .ifPresent(sneaky(s -> {
                     try {
