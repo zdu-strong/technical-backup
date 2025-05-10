@@ -4,11 +4,10 @@ import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.common.storage.Storage;
 import com.john.project.model.PaginationModel;
 import com.john.project.service.*;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
-
-import javax.annotation.Resource;
 import java.time.Duration;
+import java.util.concurrent.Executor;
 
 public abstract class BaseDistributedExecution {
 
@@ -34,7 +33,7 @@ public abstract class BaseDistributedExecution {
     protected Storage storage;
 
     @Resource
-    protected TaskExecutor applicationTaskExecutor;
+    protected Executor applicationTaskExecutor;
 
     public abstract PaginationModel<?> searchByPagination();
 

@@ -1,14 +1,14 @@
 package com.john.project.common.DistributedExecutionUtil;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -46,7 +46,8 @@ public class DistributedExecutionUtil {
     @Autowired
     private LongTermTaskService longTermTaskService;
 
-    private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+    @Resource
+    private Executor applicationTaskExecutor;
 
     @SneakyThrows
     public void refreshData(BaseDistributedExecution baseDistributedExecution) {
@@ -70,7 +71,7 @@ public class DistributedExecutionUtil {
         } else {
             Flowable.fromIterable(partitionNumList)
                     .parallel(partitionNumList.size())
-                    .runOn(Schedulers.from(executorService))
+                    .runOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext((partitionNum) -> {
                         runByPartitionNum(distributedExecutionMainModel, baseDistributedExecution, partitionNum);
                     })

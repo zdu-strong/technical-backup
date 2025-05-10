@@ -5,8 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +48,8 @@ public abstract class BaseStorage {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    protected ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+    @jakarta.annotation.Resource
+    protected Executor applicationTaskExecutor;
 
     private String storageRootPath;
 

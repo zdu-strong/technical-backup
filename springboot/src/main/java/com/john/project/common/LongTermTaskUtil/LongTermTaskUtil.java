@@ -3,12 +3,12 @@ package com.john.project.common.LongTermTaskUtil;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ThreadUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -37,7 +37,8 @@ public class LongTermTaskUtil {
     @Autowired
     private EncryptDecryptService encryptDecryptService;
 
-    private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+    @Resource
+    private Executor applicationTaskExecutor;
 
     /**
      * The return value of the executed method will be stored in the database as a
@@ -51,8 +52,8 @@ public class LongTermTaskUtil {
             var subscription = Flowable
                     .timer(LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION.toMillis(),
                             TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.from(executor))
-                    .observeOn(Schedulers.from(executor))
+                    .subscribeOn(Schedulers.from(applicationTaskExecutor))
+                    .observeOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext((a) -> {
                         synchronized (idOfLongTermTask) {
                             this.longTermTaskService.updateLongTermTaskToRefreshUpdateDate(idOfLongTermTask);
@@ -145,8 +146,8 @@ public class LongTermTaskUtil {
         var syncKey = Generators.timeBasedReorderedGenerator().generate().toString();
         var subscription = Flowable
                 .timer(LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION.toMillis(), TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.from(executor))
-                .observeOn(Schedulers.from(executor))
+                .subscribeOn(Schedulers.from(applicationTaskExecutor))
+                .observeOn(Schedulers.from(applicationTaskExecutor))
                 .doOnNext((a) -> {
                     synchronized (syncKey) {
                         for (var id : idList) {

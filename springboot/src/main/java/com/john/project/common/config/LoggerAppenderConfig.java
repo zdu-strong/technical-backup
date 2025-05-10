@@ -3,6 +3,8 @@ package com.john.project.common.config;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
 import cn.hutool.core.util.ObjectUtil;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +12,6 @@ import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.google.common.collect.Lists;
@@ -41,7 +42,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     private DatabaseJdbcProperties databaseJdbcProperties;
 
     @Resource
-    private TaskExecutor applicationTaskExecutor;
+    private Executor applicationTaskExecutor;
 
     @Override
     protected void append(ILoggingEvent eventObject) {
