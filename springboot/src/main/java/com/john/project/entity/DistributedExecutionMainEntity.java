@@ -2,6 +2,7 @@ package com.john.project.entity;
 
 import java.util.Date;
 import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +33,10 @@ public class DistributedExecutionMainEntity {
     private String executionType;
 
     @Column(nullable = false)
-    private Long totalPage;
+    private Long totalPages;
+
+    @Column(nullable = false)
+    private Long totalRecords;
 
     @Column(nullable = false)
     private Long totalPartition;

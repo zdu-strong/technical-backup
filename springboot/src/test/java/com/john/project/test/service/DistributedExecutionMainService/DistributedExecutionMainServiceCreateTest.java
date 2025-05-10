@@ -21,7 +21,7 @@ public class DistributedExecutionMainServiceCreateTest extends BaseTest {
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertEquals(storageSpaceCleanDistributedExecution.getClass().getSimpleName(), result.getExecutionType());
         assertEquals(DistributedExecutionMainStatusEnum.IN_PROGRESS.getValue(), result.getStatus());
-        assertEquals(1, result.getTotalPage());
+        assertEquals(1, result.getTotalPages());
         assertEquals(1, result.getTotalPartition());
         assertNotNull(result.getCreateDate());
         assertNotNull(result.getUpdateDate());

@@ -168,7 +168,7 @@ public class DistributedExecutionUtil {
 
     private List<Long> getPartitionNumListForSingleMachine(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution) {
         var partitionNumListForSingleMachine = new ArrayList<Long>();
-        var maxNumberOfParallelForSingleMachine = Math.min(Math.min(baseDistributedExecution.getMaxNumberOfParallel(), baseDistributedExecution.getMaxNumberOfParallelForSingleMachine()), distributedExecutionMainModel.getTotalPage());
+        var maxNumberOfParallelForSingleMachine = Math.min(Math.min(baseDistributedExecution.getMaxNumberOfParallel(), baseDistributedExecution.getMaxNumberOfParallelForSingleMachine()), distributedExecutionMainModel.getTotalPages());
         for (var i = maxNumberOfParallelForSingleMachine; i > 0; i--) {
             var partitionNum = getPartitionNum(distributedExecutionMainModel, baseDistributedExecution, partitionNumListForSingleMachine);
             if (partitionNum == null) {
@@ -181,7 +181,7 @@ public class DistributedExecutionUtil {
 
     private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution, List<Long> excludePartitionNumList) {
         var partitionNumList = Flowable.range(1, distributedExecutionMainModel.getTotalPartition().intValue())
-                .filter(s -> s <= distributedExecutionMainModel.getTotalPage())
+                .filter(s -> s <= distributedExecutionMainModel.getTotalPages())
                 .filter(s -> !excludePartitionNumList.contains(s))
                 .toList()
                 .blockingGet();

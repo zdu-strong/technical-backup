@@ -18,12 +18,15 @@ import com.john.project.model.DistributedExecutionMainModel;
 public class DistributedExecutionMainService extends BaseService {
 
     public DistributedExecutionMainModel create(BaseDistributedExecution baseDistributedExecution) {
+        var paginationModel = baseDistributedExecution.searchByPagination();
+
         var distributedExecutionMainEntity = new DistributedExecutionMainEntity();
         distributedExecutionMainEntity.setId(newId());
         distributedExecutionMainEntity.setCreateDate(new Date());
         distributedExecutionMainEntity.setUpdateDate(new Date());
         distributedExecutionMainEntity.setExecutionType(baseDistributedExecution.getClass().getSimpleName());
-        distributedExecutionMainEntity.setTotalPage(baseDistributedExecution.searchByPagination().getTotalPages());
+        distributedExecutionMainEntity.setTotalPages(paginationModel.getTotalPages());
+        distributedExecutionMainEntity.setTotalRecords(paginationModel.getTotalRecords());
         distributedExecutionMainEntity.setTotalPartition(baseDistributedExecution.getMaxNumberOfParallel());
         distributedExecutionMainEntity.setStatus(getStatus(distributedExecutionMainEntity));
         this.persist(distributedExecutionMainEntity);
@@ -92,7 +95,7 @@ public class DistributedExecutionMainService extends BaseService {
             return distributedExecutionMainEntity.getStatus();
         }
 
-        if (distributedExecutionMainEntity.getTotalPage() <= 0) {
+        if (distributedExecutionMainEntity.getTotalPages() <= 0) {
             return DistributedExecutionMainStatusEnum.SUCCESS_COMPLETE.getValue();
         }
 
@@ -105,7 +108,7 @@ public class DistributedExecutionMainService extends BaseService {
         }
 
         var id = distributedExecutionMainEntity.getId();
-        var totalPartition = Math.min(distributedExecutionMainEntity.getTotalPartition(), distributedExecutionMainEntity.getTotalPage());
+        var totalPartition = Math.min(distributedExecutionMainEntity.getTotalPartition(), distributedExecutionMainEntity.getTotalPages());
         var totalPageOfDistributedExecutionTaskWithDone = this.streamAll(DistributedExecutionDetailEntity.class)
                 .where(s -> s.getDistributedExecutionMain().getId().equals(id))
                 .where(s -> s.getPageNum() <= totalPartition)

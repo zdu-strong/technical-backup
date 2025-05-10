@@ -28,7 +28,7 @@ public class DistributedExecutionDetailService extends BaseService {
         var DistributedExecutionMainEntity = this.streamAll(DistributedExecutionMainEntity.class)
                 .where(s -> s.getId().equals(distributedExecutionMainId))
                 .where(s -> s.getStatus().equals(status))
-                .where(s -> s.getTotalPage() >= partitionNum)
+                .where(s -> s.getTotalPages() >= partitionNum)
                 .findOne()
                 .orElse(null);
         if (ObjectUtil.isNull(DistributedExecutionMainEntity)) {
@@ -42,12 +42,12 @@ public class DistributedExecutionDetailService extends BaseService {
                 .map(s -> s.getPageNum() - DistributedExecutionMainEntity.getTotalPartition())
                 .orElse(null);
         if (pageNum == null) {
-            var residue = DistributedExecutionMainEntity.getTotalPage()
+            var residue = DistributedExecutionMainEntity.getTotalPages()
                     % DistributedExecutionMainEntity.getTotalPartition();
             if (partitionNum <= residue) {
-                pageNum = DistributedExecutionMainEntity.getTotalPage() - residue + partitionNum;
+                pageNum = DistributedExecutionMainEntity.getTotalPages() - residue + partitionNum;
             } else {
-                pageNum = DistributedExecutionMainEntity.getTotalPage() - residue
+                pageNum = DistributedExecutionMainEntity.getTotalPages() - residue
                         - DistributedExecutionMainEntity.getTotalPartition() + partitionNum;
             }
         }

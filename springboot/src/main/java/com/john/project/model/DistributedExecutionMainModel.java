@@ -14,7 +14,9 @@ public class DistributedExecutionMainModel {
 
     private String executionType;
 
-    private Long totalPage;
+    private Long totalPages;
+
+    private Long totalRecords;
 
     private Long totalPartition;
 
