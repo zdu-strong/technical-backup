@@ -141,8 +141,11 @@ public class SystemInitScheduled {
 
     private void initDistributedExecution() {
         for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
-            Flowable.timer(Math.min(Duration.ofHours(12).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()),
-                            TimeUnit.MILLISECONDS)
+            Flowable.interval(
+                            0,
+                            Math.min(Duration.ofHours(12).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()),
+                            TimeUnit.MILLISECONDS
+                    )
                     .subscribeOn(Schedulers.from(executor))
                     .observeOn(Schedulers.from(executor))
                     .doOnNext(s -> {
