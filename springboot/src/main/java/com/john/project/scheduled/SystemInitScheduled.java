@@ -142,7 +142,7 @@ public class SystemInitScheduled {
     private void initDistributedExecution() {
         for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
             Flowable.interval(
-                            0,
+                            60 * 1000,
                             Math.min(Duration.ofHours(12).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()),
                             TimeUnit.MILLISECONDS
                     )
