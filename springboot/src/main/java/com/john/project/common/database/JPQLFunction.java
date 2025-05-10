@@ -14,7 +14,7 @@ import cn.hutool.extra.spring.SpringUtil;
 /**
  * In order to call database-specific functions
  * 
- * @author zdu
+ * @author John Williams
  *
  */
 public class JPQLFunction {

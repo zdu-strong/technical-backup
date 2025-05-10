@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
  * Since the timeout period of the connection request of the cloud server is
  * limited, this class is added to return the result of this situation.
  * 
- * @author zdu
+ * @author John Williams
  *
  */
 @Getter

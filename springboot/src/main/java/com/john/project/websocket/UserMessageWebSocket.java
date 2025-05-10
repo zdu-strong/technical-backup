@@ -50,7 +50,7 @@ import static eu.ciechanowiec.sneakyfun.SneakyPredicate.sneaky;
 /**
  * Required parameters: String accessToken;
  * 
- * @author zdu
+ * @author John Williams
  *
  */
 @ServerEndpoint("/web-socket/user-message")

@@ -12,7 +12,7 @@ import org.hibernate.dialect.H2Dialect;
 /**
  * In order to use the ifnull method when selecting
  * 
- * @author zdu
+ * @author John Williams
  *
  */
 public class CustomH2Dialect extends H2Dialect {

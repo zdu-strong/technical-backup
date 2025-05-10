@@ -33,7 +33,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Base class for all controllers, providing all service variables
  * 
- * @author zdu
+ * @author John Williams
  *
  */
 @RestController

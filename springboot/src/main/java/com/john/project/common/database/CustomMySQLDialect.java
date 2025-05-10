@@ -14,7 +14,7 @@ import org.hibernate.type.StandardBasicTypes;
  * In order to use the ifnull method when selecting. In order to use the
  * found_rows method to get the total number of items in group by.
  * 
- * @author zdu
+ * @author John Williams
  *
  */
 public class CustomMySQLDialect extends MySQLDialect {
