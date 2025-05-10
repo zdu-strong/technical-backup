@@ -1,5 +1,6 @@
 package com.john.project.scheduled;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -140,7 +141,7 @@ public class SystemInitScheduled {
 
     private void initDistributedExecution() {
         for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
-            Flowable.timer(baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis(),
+            Flowable.timer(Math.min(Duration.ofHours(12).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()),
                             TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.from(executor))
                     .observeOn(Schedulers.from(executor))
