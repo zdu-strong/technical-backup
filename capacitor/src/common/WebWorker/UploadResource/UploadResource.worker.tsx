@@ -1,7 +1,7 @@
 import '@/common/Server';
 import registerWebworker from 'webworker-promise/lib/register'
 import axios from "axios";
-import { concatMap, from, lastValueFrom, map, range, timer, toArray } from "rxjs";
+import { concatMap, from, lastValueFrom, map, of, range, timer, toArray } from "rxjs";
 import * as mathjs from 'mathjs'
 import { addMilliseconds } from 'date-fns'
 import linq from 'linq'
@@ -78,7 +78,13 @@ registerWebworker(async ({
     }),
     map((response) => response.data),
     toArray(),
-    concatMap((urlList) => from(getLongTermTask(async () => axios.post<string>(`/upload/merge`, urlList)))),
+    concatMap((urlList) => {
+      if (urlList.length === 1) {
+        return of(linq.from(urlList).first());
+      } else {
+        return from(getLongTermTask(async () => axios.post<string>(`/upload/merge`, urlList)));
+      }
+    }),
     map((result) => result as string)
   ));
   return url;
