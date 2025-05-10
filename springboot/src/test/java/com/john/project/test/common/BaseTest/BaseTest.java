@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.InputStream;
 import java.time.Duration;
+import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 import com.john.project.DistributedExecution.NonceCleanDistributedExecution;
@@ -89,6 +90,9 @@ public class BaseTest {
 
     @Autowired
     protected TestRestTemplate testRestTemplate;
+
+    @Autowired
+    protected Executor applicationTaskExecutor;
 
     protected MockHttpServletRequest request = new MockHttpServletRequest();
 

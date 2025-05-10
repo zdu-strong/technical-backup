@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 import cn.hutool.core.util.ObjectUtil;
-import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     @Autowired
     private DatabaseJdbcProperties databaseJdbcProperties;
 
-    @Resource
+    @Autowired
     private Executor applicationTaskExecutor;
 
     @Override

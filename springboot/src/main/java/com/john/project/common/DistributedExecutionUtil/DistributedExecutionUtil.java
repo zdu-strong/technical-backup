@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -46,7 +45,7 @@ public class DistributedExecutionUtil {
     @Autowired
     private LongTermTaskService longTermTaskService;
 
-    @Resource
+    @Autowired
     private Executor applicationTaskExecutor;
 
     @SneakyThrows

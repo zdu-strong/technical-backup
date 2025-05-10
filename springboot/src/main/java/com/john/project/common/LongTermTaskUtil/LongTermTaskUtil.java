@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import cn.hutool.core.util.ObjectUtil;
-import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ThreadUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -37,7 +36,7 @@ public class LongTermTaskUtil {
     @Autowired
     private EncryptDecryptService encryptDecryptService;
 
-    @Resource
+    @Autowired
     private Executor applicationTaskExecutor;
 
     /**

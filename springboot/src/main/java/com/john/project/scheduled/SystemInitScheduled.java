@@ -2,8 +2,7 @@ package com.john.project.scheduled;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import cn.hutool.extra.spring.SpringUtil;
@@ -68,7 +67,8 @@ public class SystemInitScheduled {
     @Getter
     private Boolean hasInit = false;
 
-    private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+    @Autowired
+    private Executor applicationTaskExecutor;
 
     @Scheduled(initialDelay = 0, fixedDelay = 24 * 60 * 60 * 1000)
     public void scheduled() {
@@ -146,8 +146,8 @@ public class SystemInitScheduled {
                             Math.min(Duration.ofHours(12).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()),
                             TimeUnit.MILLISECONDS
                     )
-                    .subscribeOn(Schedulers.from(executor))
-                    .observeOn(Schedulers.from(executor))
+                    .subscribeOn(Schedulers.from(applicationTaskExecutor))
+                    .observeOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext(s -> {
                         this.distributedExecutionUtil
                                 .refreshData(baseDistributedExecution);
