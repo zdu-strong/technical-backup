@@ -4,11 +4,10 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-
 import cn.hutool.extra.spring.SpringUtil;
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.SuperAdminUserRoleQueryPaginationModel;
-import com.john.project.properties.StorageRootPathProperties;
+import com.john.project.properties.DevelopmentMockModeProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
@@ -66,7 +65,7 @@ public class SystemInitScheduled {
     private UserRoleRelationService userRoleRelationService;
 
     @Autowired
-    private StorageRootPathProperties storageRootPathProperties;
+    protected DevelopmentMockModeProperties developmentMockModeProperties;
 
     @Getter
     private Boolean hasInit = false;
@@ -144,7 +143,7 @@ public class SystemInitScheduled {
     }
 
     private void initDistributedExecution() {
-        if (this.storageRootPathProperties.getIsUnitTestEnvironment()) {
+        if (this.developmentMockModeProperties.getIsUnitTestEnvironment()) {
             return;
         }
         for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {

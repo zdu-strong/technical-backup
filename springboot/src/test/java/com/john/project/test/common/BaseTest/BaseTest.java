@@ -19,7 +19,6 @@ import org.apache.commons.lang3.ThreadUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.apache.tika.Tika;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.boot.info.GitProperties;
@@ -50,7 +49,7 @@ import com.john.project.common.permission.PermissionUtil;
 import com.john.project.properties.AliyunCloudStorageProperties;
 import com.john.project.properties.AuthorizationEmailProperties;
 import com.john.project.properties.DateFormatProperties;
-import com.john.project.properties.IsDevelopmentMockModeProperties;
+import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.properties.SchedulingPoolSizeProperties;
 import com.john.project.properties.ServerAddressProperties;
 import com.john.project.properties.StorageRootPathProperties;
@@ -141,7 +140,7 @@ public class BaseTest {
     protected SchedulingPoolSizeProperties schedulingPoolSizeProperties;
 
     @Autowired
-    protected IsDevelopmentMockModeProperties isDevelopmentMockModeProperties;
+    protected DevelopmentMockModeProperties developmentMockModeProperties;
 
     @Autowired
     protected AliyunCloudStorageProperties aliyunCloudStorageProperties;

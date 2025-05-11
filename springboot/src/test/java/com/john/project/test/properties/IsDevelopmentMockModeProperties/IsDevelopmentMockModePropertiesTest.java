@@ -8,7 +8,7 @@ public class IsDevelopmentMockModePropertiesTest extends BaseTest {
 
     @Test
     public void test() {
-        assertTrue(this.isDevelopmentMockModeProperties.getIsDevelopmentMockMode());
+        assertTrue(this.developmentMockModeProperties.getIsDevelopmentMockMode());
     }
 
 }

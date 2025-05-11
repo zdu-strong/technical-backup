@@ -22,7 +22,7 @@ import com.john.project.common.database.JPQLFunction;
 import com.john.project.common.permission.PermissionUtil;
 import com.john.project.properties.DatabaseJdbcProperties;
 import com.john.project.properties.DateFormatProperties;
-import com.john.project.properties.IsDevelopmentMockModeProperties;
+import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.common.storage.Storage;
 import com.john.project.format.DistributedExecutionDetailFormatter;
 import com.john.project.format.DistributedExecutionMainFormatter;
@@ -81,7 +81,7 @@ public abstract class BaseService {
     private DatabaseJdbcProperties databaseJdbcProperties;
 
     @Autowired
-    protected IsDevelopmentMockModeProperties isDevelopmentMockModeProperties;
+    protected DevelopmentMockModeProperties developmentMockModeProperties;
 
     @Autowired
     protected TokenFormatter tokenFormatter;

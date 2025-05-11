@@ -11,7 +11,4 @@ public class StorageRootPathProperties {
     @Value("${properties.storage.root.path}")
     private String storageRootPath;
 
-    @Value("${org.springframework.boot.test.context.SpringBootTestContextBootstrapper:false}")
-    private Boolean isUnitTestEnvironment;
-
 }

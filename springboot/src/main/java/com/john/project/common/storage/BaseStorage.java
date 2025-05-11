@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
+import com.john.project.properties.DevelopmentMockModeProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +37,9 @@ public abstract class BaseStorage {
     protected StorageRootPathProperties storageRootPathProperties;
 
     @Autowired
+    protected DevelopmentMockModeProperties developmentMockModeProperties;
+
+    @Autowired
     protected DatabaseJdbcProperties databaseJdbcProperties;
 
     @Autowired
@@ -61,7 +65,7 @@ public abstract class BaseStorage {
                         } else {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "storage").toString();
                         }
-                    } else if (this.storageRootPathProperties.getIsUnitTestEnvironment()) {
+                    } else if (this.developmentMockModeProperties.getIsUnitTestEnvironment() || this.developmentMockModeProperties.getIsCypressTestEnvironment()) {
                         if (new File(currentFolderPath, ".mvn").isDirectory()) {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "target/storage").toString();
                         } else {

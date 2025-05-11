@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.john.project.properties.AuthorizationEmailProperties;
 import com.john.project.properties.DateFormatProperties;
-import com.john.project.properties.IsDevelopmentMockModeProperties;
+import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.model.VerificationCodeEmailModel;
 import com.john.project.service.VerificationCodeEmailService;
 
@@ -34,7 +34,7 @@ public class AuthorizationEmailUtil {
     private AuthorizationEmailProperties authorizationEmailProperties;
 
     @Autowired
-    private IsDevelopmentMockModeProperties isDevelopmentMockModeProperties;
+    private DevelopmentMockModeProperties developmentMockModeProperties;
 
     @Autowired
     private VerificationCodeEmailService verificationCodeEmailService;
@@ -66,7 +66,7 @@ public class AuthorizationEmailUtil {
                     "Too many verification code requests in a short period of time");
         }
 
-        if (!this.isDevelopmentMockModeProperties.getIsDevelopmentMockMode()) {
+        if (!this.developmentMockModeProperties.getIsDevelopmentMockMode()) {
             this.sendEmail(email, verificationCodeEmailModel.getVerificationCode());
             verificationCodeEmailModel.setVerificationCode(StringUtils.EMPTY);
         }

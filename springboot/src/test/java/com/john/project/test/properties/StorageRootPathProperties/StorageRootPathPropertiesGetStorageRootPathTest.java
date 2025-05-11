@@ -8,7 +8,7 @@ public class StorageRootPathPropertiesGetStorageRootPathTest extends BaseTest {
 
     @Test
     public void test() {
-        assertEquals("defaultTest-a56b075f-102e-edf3-8599-ffc526ec948a",
+        assertEquals("default",
                 this.storageRootPathProperties.getStorageRootPath());
     }
 
