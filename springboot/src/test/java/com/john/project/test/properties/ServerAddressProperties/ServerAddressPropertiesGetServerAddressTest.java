@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class ServerAddressPropertiesTest extends BaseTest {
+public class ServerAddressPropertiesGetServerAddressTest extends BaseTest {
 
     @Test
     public void test() {
