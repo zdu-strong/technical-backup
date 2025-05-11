@@ -91,6 +91,3 @@ properties:
     development:
       mock:
         mode: ${is.development.mock.mode}
-    cypress:
-      mock:
-        mode: false
