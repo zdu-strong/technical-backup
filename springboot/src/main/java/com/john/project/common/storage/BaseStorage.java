@@ -59,15 +59,15 @@ public abstract class BaseStorage {
                 if (StringUtils.isBlank(storageRootPath)) {
                     File currentFolderPath = Paths.get(new File(".").getAbsolutePath()).normalize().toFile();
                     String rootPath = "";
-                    if (this.storageRootPathProperties.getStorageRootPath().equals("default")) {
+                    if (this.developmentMockModeProperties.getIsUnitTestEnvironment() || this.developmentMockModeProperties.getIsCypressTestEnvironment()) {
                         if (new File(currentFolderPath, ".mvn").isDirectory()) {
-                            rootPath = Paths.get(currentFolderPath.getAbsolutePath(), ".mvn/storage").toString();
+                            rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "target/storage").toString();
                         } else {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "storage").toString();
                         }
-                    } else if (this.developmentMockModeProperties.getIsUnitTestEnvironment() || this.developmentMockModeProperties.getIsCypressTestEnvironment()) {
+                    } else if (this.storageRootPathProperties.getStorageRootPath().equals("default")) {
                         if (new File(currentFolderPath, ".mvn").isDirectory()) {
-                            rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "target/storage").toString();
+                            rootPath = Paths.get(currentFolderPath.getAbsolutePath(), ".mvn/storage").toString();
                         } else {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "storage").toString();
                         }
