@@ -14,7 +14,7 @@ public class DevelopmentMockModeProperties {
     @Value("${org.springframework.boot.test.context.SpringBootTestContextBootstrapper:false}")
     private Boolean isUnitTestEnvironment;
 
-    @Value("${properties.is.cypress.mock.mode.:false}")
+    @Value("${properties.is.cypress.mock.mode:false}")
     private Boolean isCypressTestEnvironment;
 
 }
