@@ -1,13 +1,8 @@
 package com.john.project.scheduled;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
-import cn.hutool.extra.spring.SpringUtil;
-import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.SuperAdminUserRoleQueryPaginationModel;
-import com.john.project.properties.DevelopmentMockModeProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
@@ -28,7 +23,6 @@ import com.john.project.service.UserRoleRelationService;
 import com.john.project.service.UserService;
 import com.john.project.service.VerificationCodeEmailService;
 import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import lombok.Getter;
 
 @Component
@@ -64,9 +58,6 @@ public class SystemInitScheduled {
     @Autowired
     private UserRoleRelationService userRoleRelationService;
 
-    @Autowired
-    protected DevelopmentMockModeProperties developmentMockModeProperties;
-
     @Getter
     private Boolean hasInit = false;
 
@@ -82,7 +73,7 @@ public class SystemInitScheduled {
             this.longTermTaskUtil.runSkipWhenExists(() -> {
                 this.init();
             }, getLongTermTaskUniqueKeyModelForInitSystemData());
-            initDistributedExecution();
+            this.distributedExecutionUtil.initializeInSystemInitScheduled();
             this.hasInit = true;
         }
     }
@@ -139,28 +130,6 @@ public class SystemInitScheduled {
             if (!this.userRoleRelationService.refresh()) {
                 break;
             }
-        }
-    }
-
-    private void initDistributedExecution() {
-        if (this.developmentMockModeProperties.getIsUnitTestEnvironment()) {
-            return;
-        }
-        for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
-            Flowable.interval(
-                            0,
-                            Math.min(Duration.ofHours(12).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()),
-                            TimeUnit.MILLISECONDS
-                    )
-                    .subscribeOn(Schedulers.from(applicationTaskExecutor))
-                    .observeOn(Schedulers.from(applicationTaskExecutor))
-                    .doOnNext(s -> {
-                        this.distributedExecutionUtil
-                                .refreshData(baseDistributedExecution);
-                    })
-                    .repeat()
-                    .retry()
-                    .subscribe();
         }
     }
 

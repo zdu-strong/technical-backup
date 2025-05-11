@@ -2,11 +2,14 @@ package com.john.project.common.DistributedExecutionUtil;
 
 import java.util.*;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
+import com.john.project.properties.DevelopmentMockModeProperties;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -48,6 +51,9 @@ public class DistributedExecutionUtil {
     @Autowired
     private Executor applicationTaskExecutor;
 
+    @Autowired
+    protected DevelopmentMockModeProperties developmentMockModeProperties;
+
     @SneakyThrows
     public void refreshData(BaseDistributedExecution baseDistributedExecution) {
         var distributedExecutionMainModel = this.getDistributedExecution(baseDistributedExecution);
@@ -60,6 +66,42 @@ public class DistributedExecutionUtil {
                 return;
             }
             runByPartitionNumList(distributedExecutionMainModel, baseDistributedExecution, partitionNumList);
+        }
+    }
+
+    public void initializeInSystemInitScheduled() {
+        if (this.developmentMockModeProperties.getIsUnitTestEnvironment()) {
+            return;
+        }
+        for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
+            var isFirstAtomicBoolean = new AtomicBoolean(true);
+            Flowable.just(StringUtils.EMPTY)
+                    .concatMap(s -> {
+                        if (isFirstAtomicBoolean.get()) {
+                            isFirstAtomicBoolean.set(false);
+
+                            var distributedExecutionMainModel = this.distributedExecutionMainService
+                                    .getLastDistributedExecution(baseDistributedExecution);
+
+                            if (isInCooldownPeriod(distributedExecutionMainModel, baseDistributedExecution)) {
+                                var delayMilliseconds = Math.abs(Math.subtractExact(DateUtils.addMilliseconds(distributedExecutionMainModel.getUpdateDate(), (int) baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()).getTime(), new Date().getTime()));
+                                return Flowable.timer(delayMilliseconds, TimeUnit.MILLISECONDS);
+                            }
+
+                            return Flowable.timer(0, TimeUnit.MILLISECONDS);
+                        } else {
+                            return Flowable.timer(baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis(), TimeUnit.MILLISECONDS);
+                        }
+                    })
+                    .delay(1, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.from(applicationTaskExecutor))
+                    .observeOn(Schedulers.from(applicationTaskExecutor))
+                    .doOnNext(s -> {
+                        this.refreshData(baseDistributedExecution);
+                    })
+                    .repeat()
+                    .retry()
+                    .subscribe();
         }
     }
 
