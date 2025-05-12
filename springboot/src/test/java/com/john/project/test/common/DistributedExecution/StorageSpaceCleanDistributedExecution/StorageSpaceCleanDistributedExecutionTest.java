@@ -1,4 +1,4 @@
-package com.john.project.test.DistributedExecution.StorageSpaceCleanDistributedExecution;
+package com.john.project.test.common.DistributedExecution.StorageSpaceCleanDistributedExecution;
 
 import org.junit.jupiter.api.Test;
 import com.john.project.test.common.BaseTest.BaseTest;

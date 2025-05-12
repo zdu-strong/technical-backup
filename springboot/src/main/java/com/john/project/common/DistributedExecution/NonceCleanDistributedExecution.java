@@ -1,4 +1,4 @@
-package com.john.project.DistributedExecution;
+package com.john.project.common.DistributedExecution;
 
 import com.john.project.common.baseDistributedExecution.BaseDistributedExecution;
 import com.john.project.model.PaginationModel;

@@ -1,4 +1,4 @@
-package com.john.project.test.DistributedExecution.NonceCleanDistributedExecution;
+package com.john.project.test.common.DistributedExecution.NonceCleanDistributedExecution;
 
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
