@@ -1,5 +1,6 @@
 package com.john.project.common.DistributedExecutionUtil;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -90,7 +91,8 @@ public class DistributedExecutionUtil {
 
                             return Flowable.timer(0, TimeUnit.MILLISECONDS);
                         } else {
-                            return Flowable.timer(baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis(), TimeUnit.MILLISECONDS);
+                            var delayMilliseconds = Math.min(Duration.ofDays(1).toMillis(), baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis());
+                            return Flowable.timer(delayMilliseconds, TimeUnit.MILLISECONDS);
                         }
                     })
                     .delay(1, TimeUnit.MILLISECONDS)
