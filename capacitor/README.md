@@ -49,19 +49,6 @@ You can use this command to check if a new version is available:<br/>
 After upgrading the dependencies, please make sure that the project runs normally.<br/>
 After upgrading the dependencies, please make sure that the dependent versions in package.json are all accurate versions.<br/>
 
-The following dependencies are currently unable to continue to be upgraded:<br/>
-execa (Current project not support ES module)<br/>
-get-port (Current project not support ES module)<br/>
-inquirer (Current project not support ES module)<br/>
-linq (Current project not support ES module)<br/>
-node-polyfill-webpack-plugin<br/>
-typescript (Dependency incompatibility)<br/>
-react<br/>
-react-dom<br/>
-react-intl<br/>
-@types/react<br/>
-@types/react-dom<br/>
-
 ## Learn More
 
 1. React UI framework (https://react.dev)<br/>
