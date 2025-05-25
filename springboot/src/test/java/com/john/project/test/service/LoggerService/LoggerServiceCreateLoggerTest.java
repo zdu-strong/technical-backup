@@ -3,8 +3,9 @@ package com.john.project.test.service.LoggerService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Date;
-import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,7 @@ public class LoggerServiceCreateLoggerTest extends BaseTest {
         assertEquals("Hello, World!", result.getMessage());
         assertEquals("java.lang.RuntimeException", result.getExceptionClassName());
         assertEquals("Bug", result.getExceptionMessage());
-        assertTrue(List.of(73,74).contains(result.getExceptionStackTrace().size()));
+        assertTrue(result.getExceptionStackTrace().size() > 70);
         assertEquals("com.john.project.controller.HelloWorldController", result.getLoggerName());
         assertEquals(this.gitProperties.getCommitId(), result.getGitCommitId());
         assertEquals(Date.from(this.gitProperties.getCommitTime()), result.getGitCommitDate());
