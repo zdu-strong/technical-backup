@@ -60,8 +60,12 @@ public class LoggerServiceCreateLoggerTest extends BaseTest {
         while (nextError != null) {
             loggerModel.getExceptionStackTrace().add(
                     StrFormatter.format("{}{}: {}",
-                            loggerModel.getExceptionStackTrace().isEmpty() ? StringUtils.EMPTY : "Caused by: ",
-                            nextError.getClass().getName(), Optional.ofNullable(nextError.getMessage())
+                            Optional.of(loggerModel.getExceptionStackTrace().isEmpty())
+                                    .filter(s -> !s)
+                                    .map(s -> "Caused by: ")
+                                    .orElse(StringUtils.EMPTY),
+                            nextError.getClass().getName(),
+                            Optional.ofNullable(nextError.getMessage())
                                     .filter(StringUtils::isNotBlank)
                                     .orElse(StringUtils.EMPTY)));
             loggerModel.getExceptionStackTrace().addAll(JinqStream

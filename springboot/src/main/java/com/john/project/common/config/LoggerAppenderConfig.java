@@ -26,6 +26,7 @@ import ch.qos.logback.core.AppenderBase;
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.ReflectUtil;
 import jakarta.annotation.PostConstruct;
+
 import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
 
 @Component
@@ -80,8 +81,8 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
 
     private void saveLoggerModel(LoggerModel loggerModel) {
         Optional.of(CompletableFuture.runAsync(() -> {
-            this.loggerService.create(loggerModel);
-        }, applicationTaskExecutor))
+                    this.loggerService.create(loggerModel);
+                }, applicationTaskExecutor))
                 .filter(s -> this.databaseJdbcProperties.getIsSupportParallelWrite())
                 .ifPresent(sneaky(s -> {
                     try {
@@ -144,8 +145,12 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
         while (nextError != null) {
             loggerModel.getExceptionStackTrace().add(
                     StrFormatter.format("{}{}: {}",
-                            loggerModel.getExceptionStackTrace().isEmpty() ? StringUtils.EMPTY : "Caused by: ",
-                            nextError.getClassName(), Optional.ofNullable(nextError.getMessage())
+                            Optional.of(loggerModel.getExceptionStackTrace().isEmpty())
+                                    .filter(s -> !s)
+                                    .map(s -> "Caused by: ")
+                                    .orElse(StringUtils.EMPTY),
+                            nextError.getClassName(),
+                            Optional.ofNullable(nextError.getMessage())
                                     .filter(StringUtils::isNotBlank)
                                     .orElse(StringUtils.EMPTY)));
             loggerModel.getExceptionStackTrace().addAll(JinqStream
