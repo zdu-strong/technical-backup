@@ -8,9 +8,9 @@ public class EncryptDecryptConstant {
     public static String getId() {
         var isNewSqlDatabase = SpringUtil.getBean(DatabaseJdbcProperties.class).getIsNewSqlDatabase();
         if (!isNewSqlDatabase) {
-            return "1eebc4ea-34b3-64fd-bdc4-47396785f5dd";
+            return "0197210b-460e-7b74-b87f-4d48e32d4862";
         } else {
-            return "bb8bb726f916-eb99-f706-5a0e-2f4cbee1";
+            return "db53766a-5341-492c-9376-6a5341c92c9b";
         }
     }
 
