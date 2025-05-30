@@ -1,6 +1,5 @@
 package com.john.project.test.service.StorageSpaceService;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +22,7 @@ public class StorageSpaceServiceCreateTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        folderName = uuidUtil.v4();
+        folderName = this.uuidUtil.v4();
     }
 
 }

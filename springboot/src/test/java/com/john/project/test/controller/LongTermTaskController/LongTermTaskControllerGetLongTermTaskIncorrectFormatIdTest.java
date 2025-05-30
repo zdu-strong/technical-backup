@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class LongTermTaskControllerGetLongTermTaskIncorrectFormatIdTest extends BaseTest {
@@ -14,7 +13,7 @@ public class LongTermTaskControllerGetLongTermTaskIncorrectFormatIdTest extends 
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/long-term-task")
-                .setParameter("encryptedId", uuidUtil.v4())
+                .setParameter("encryptedId", this.uuidUtil.v4())
                 .build();
         var result = this.testRestTemplate.getForEntity(url, Throwable.class);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());

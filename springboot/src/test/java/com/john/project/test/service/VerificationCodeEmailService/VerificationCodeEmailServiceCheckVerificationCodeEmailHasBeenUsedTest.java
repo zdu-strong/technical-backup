@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.VerificationCodeEmailModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -20,7 +19,7 @@ public class VerificationCodeEmailServiceCheckVerificationCodeEmailHasBeenUsedTe
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         var result = this.verificationCodeEmailService.createVerificationCodeEmail(email);
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertEquals(email, result.getEmail());

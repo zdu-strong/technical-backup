@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -39,7 +38,7 @@ public class OrganizeControllerMoveOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
         {
             var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");

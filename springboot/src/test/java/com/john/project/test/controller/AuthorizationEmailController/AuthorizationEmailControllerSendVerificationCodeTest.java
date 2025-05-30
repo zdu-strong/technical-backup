@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.VerificationCodeEmailModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -26,7 +25,7 @@ public class AuthorizationEmailControllerSendVerificationCodeTest extends BaseTe
 
     @BeforeEach
     public void beforeEach() {
-        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        this.email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
     }
 
 }

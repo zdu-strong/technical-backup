@@ -95,7 +95,7 @@ public abstract class BaseStorageCreateTempFile extends BaseStorageIsDirectory {
 
     @SneakyThrows
     public File createTempFolder() {
-        var folderName = uuidUtil.v4();
+        var folderName = this.uuidUtil.v4();
         Optional.of(CompletableFuture.runAsync(() -> {
             this.storageSpaceService.create(folderName);
         }))

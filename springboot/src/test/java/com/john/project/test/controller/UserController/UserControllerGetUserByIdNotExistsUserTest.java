@@ -6,7 +6,6 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class UserControllerGetUserByIdNotExistsUserTest extends BaseTest {
@@ -24,9 +23,9 @@ public class UserControllerGetUserByIdNotExistsUserTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "@gmail.com";
+        var email = this.uuidUtil.v4() + "@gmail.com";
         this.createAccount(email).getId();
-        this.userId = uuidUtil.v4();
+        this.userId = this.uuidUtil.v4();
     }
 
 }

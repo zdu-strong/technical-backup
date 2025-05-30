@@ -7,7 +7,6 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.UserMessageModel;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
@@ -35,7 +34,7 @@ public class UserMessageControllerSendMessageTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "@gmail.com";
+        var email = this.uuidUtil.v4() + "@gmail.com";
         this.username = email;
         this.userId = this.createAccount(email).getId();
     }

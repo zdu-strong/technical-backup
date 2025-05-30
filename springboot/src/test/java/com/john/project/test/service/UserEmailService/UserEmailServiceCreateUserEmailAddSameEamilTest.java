@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -28,7 +27,7 @@ public class UserEmailServiceCreateUserEmailAddSameEamilTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        this.email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.user = this.createAccount(email);
     }
 

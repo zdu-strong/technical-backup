@@ -38,7 +38,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.uuid.Generators;
 import com.google.common.collect.Lists;
 import com.john.project.common.DistributedExecutionUtil.DistributedExecutionUtil;
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;

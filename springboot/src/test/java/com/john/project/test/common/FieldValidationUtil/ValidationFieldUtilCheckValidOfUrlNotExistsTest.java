@@ -1,6 +1,5 @@
 package com.john.project.test.common.FieldValidationUtil;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

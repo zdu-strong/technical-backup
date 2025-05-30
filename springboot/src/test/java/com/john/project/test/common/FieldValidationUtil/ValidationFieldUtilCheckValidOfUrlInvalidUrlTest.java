@@ -1,6 +1,5 @@
 package com.john.project.test.common.FieldValidationUtil;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,7 @@ public class ValidationFieldUtilCheckValidOfUrlInvalidUrlTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.url = uuidUtil.v4();
+        this.url = this.uuidUtil.v4();
     }
 
 }

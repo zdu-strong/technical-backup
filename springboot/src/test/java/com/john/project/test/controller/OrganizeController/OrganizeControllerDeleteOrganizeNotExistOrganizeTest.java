@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class OrganizeControllerDeleteOrganizeNotExistOrganizeTest extends BaseTest {
@@ -27,8 +26,8 @@ public class OrganizeControllerDeleteOrganizeNotExistOrganizeTest extends BaseTe
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
-        this.organizeId = uuidUtil.v4();
+        this.organizeId = this.uuidUtil.v4();
     }
 }

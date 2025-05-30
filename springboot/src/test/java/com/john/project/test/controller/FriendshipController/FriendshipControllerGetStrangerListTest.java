@@ -16,7 +16,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.FriendshipModel;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.UserModel;
@@ -88,8 +87,8 @@ public class FriendshipControllerGetStrangerListTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var userEmail = uuidUtil.v4() + "zdu.strong@gmail.com";
-        var friendEmail = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var userEmail = this.uuidUtil.v4() + "zdu.strong@gmail.com";
+        var friendEmail = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.friend = this.createAccount(friendEmail);
         this.user = this.createAccount(userEmail);
     }

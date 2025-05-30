@@ -6,7 +6,6 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class AuthorizationControllerSignInOneTimeIncorrectPasswordTest extends BaseTest {
@@ -28,7 +27,7 @@ public class AuthorizationControllerSignInOneTimeIncorrectPasswordTest extends B
 
     @BeforeEach
     public void beforeEach() {
-        this.username = uuidUtil.v4() + "zdu.strong@gmail.com";
+        this.username = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(username);
         this.password = "Incorrect Password";
     }

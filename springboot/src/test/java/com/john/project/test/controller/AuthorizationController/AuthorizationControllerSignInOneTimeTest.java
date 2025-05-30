@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class AuthorizationControllerSignInOneTimeTest extends BaseTest {
@@ -30,7 +29,7 @@ public class AuthorizationControllerSignInOneTimeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        this.email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
     }
 
 }

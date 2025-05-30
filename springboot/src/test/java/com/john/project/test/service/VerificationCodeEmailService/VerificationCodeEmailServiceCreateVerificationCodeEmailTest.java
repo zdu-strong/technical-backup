@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class VerificationCodeEmailServiceCreateVerificationCodeEmailTest extends BaseTest {
@@ -31,7 +30,7 @@ public class VerificationCodeEmailServiceCreateVerificationCodeEmailTest extends
 
     @BeforeEach
     public void beforeEach() {
-        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        this.email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
     }
 
 }

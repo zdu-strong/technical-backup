@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -28,8 +27,8 @@ public class FriendshipServiceGetFriendshipTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var userEmail = uuidUtil.v4() + "zdu.strong@gmail.com";
-        var friendEmail = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var userEmail = this.uuidUtil.v4() + "zdu.strong@gmail.com";
+        var friendEmail = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.user = this.createAccount(userEmail);
         this.friend = this.createAccount(friendEmail);
         this.friendshipService.addToFriendList(this.user.getId(), this.friend.getId());

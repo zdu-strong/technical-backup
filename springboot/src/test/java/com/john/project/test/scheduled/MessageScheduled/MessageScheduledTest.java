@@ -12,7 +12,6 @@ import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.socket.client.StandardWebSocketClient;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.UserMessageModel;
 import com.john.project.model.UserMessageWebSocketSendModel;
 import com.john.project.model.UserModel;
@@ -40,7 +39,7 @@ public class MessageScheduledTest extends BaseTest {
     @SneakyThrows
     public void beforeEach() {
         {
-            var email = uuidUtil.v4() + "@gmail.com";
+            var email = this.uuidUtil.v4() + "@gmail.com";
             this.user = this.createAccount(email);
             var userMessage = new UserMessageModel().setContent("Hello, World!");
             this.userMessageService.sendMessage(userMessage, request);

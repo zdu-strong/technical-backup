@@ -9,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -28,7 +27,7 @@ public class OrganizeControllerDeleteOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
         var organize = this.organizeUtil.create(organizeModel);

@@ -145,7 +145,7 @@ public class LongTermTaskUtil {
             }
         }
         var idList = idListOfLongTermTask;
-        var syncKey = uuidUtil.v4();
+        var syncKey = this.uuidUtil.v4();
         var subscription = Flowable
                 .timer(LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION.toMillis(), TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.from(applicationTaskExecutor))

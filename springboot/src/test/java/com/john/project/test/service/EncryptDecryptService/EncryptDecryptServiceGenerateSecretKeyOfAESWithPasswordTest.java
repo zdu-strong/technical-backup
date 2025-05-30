@@ -1,14 +1,15 @@
 package com.john.project.test.service.EncryptDecryptService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class EncryptDecryptServiceGenerateSecretKeyOfAESWithPasswordTest extends BaseTest {
 
     private String text = "Hello, World!";
-    private String password = uuidUtil.v4();
+    private String password;
 
     @Test
     public void test() {
@@ -19,6 +20,11 @@ public class EncryptDecryptServiceGenerateSecretKeyOfAESWithPasswordTest extends
                         secretKeyOfAES));
         assertEquals(this.encryptDecryptService.generateSecretKeyOfAES(password),
                 this.encryptDecryptService.generateSecretKeyOfAES(password));
+    }
+
+    @BeforeEach
+    public void beforeEach() {
+        this.password = this.uuidUtil.v4();
     }
 
 }

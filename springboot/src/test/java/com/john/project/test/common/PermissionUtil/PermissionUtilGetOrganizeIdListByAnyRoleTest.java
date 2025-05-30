@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
@@ -21,7 +20,7 @@ public class PermissionUtilGetOrganizeIdListByAnyRoleTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "@gmail.com";
+        var email = this.uuidUtil.v4() + "@gmail.com";
         this.user = this.createAccount(email);
         this.request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + user.getAccessToken());
     }

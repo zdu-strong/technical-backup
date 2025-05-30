@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.UserModel;
@@ -26,7 +25,7 @@ public class PermissionUtilCheckAnyRoleForOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "@gmail.com";
+        var email = this.uuidUtil.v4() + "@gmail.com";
         this.user = this.createAccount(email);
         this.request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + user.getAccessToken());
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");

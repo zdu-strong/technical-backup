@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.UserMessageModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -26,7 +25,7 @@ public class UserMessageControllerDeleteMessageTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "@gmail.com";
+        var email = this.uuidUtil.v4() + "@gmail.com";
         this.createAccount(email);
         var userMessage = new UserMessageModel().setContent("Hello, World!");
         this.id = this.userMessageService.sendMessage(userMessage, request).getId();

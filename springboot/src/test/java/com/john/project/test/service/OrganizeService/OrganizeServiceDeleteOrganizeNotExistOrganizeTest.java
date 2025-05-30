@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class OrganizeServiceDeleteOrganizeNotExistOrganizeTest extends BaseTest {
@@ -20,7 +19,7 @@ public class OrganizeServiceDeleteOrganizeNotExistOrganizeTest extends BaseTest 
 
     @BeforeEach
     public void beforeEach() {
-        this.organizeId = uuidUtil.v4();
+        this.organizeId = this.uuidUtil.v4();
     }
 
 }

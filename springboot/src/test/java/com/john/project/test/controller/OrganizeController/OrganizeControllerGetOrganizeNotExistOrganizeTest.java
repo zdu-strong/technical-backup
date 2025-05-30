@@ -6,7 +6,6 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class OrganizeControllerGetOrganizeNotExistOrganizeTest extends BaseTest {
@@ -25,8 +24,8 @@ public class OrganizeControllerGetOrganizeNotExistOrganizeTest extends BaseTest 
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
-        this.organizeId = uuidUtil.v4();
+        this.organizeId = this.uuidUtil.v4();
     }
 }

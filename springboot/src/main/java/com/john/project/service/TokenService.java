@@ -107,7 +107,7 @@ public class TokenService extends BaseService {
     }
 
     private String generateUniqueOneTimePasswordLogo() {
-        var password = uuidUtil.v4();
+        var password = this.uuidUtil.v4();
         var encryptedPassword = this.encryptDecryptService.encryptByPublicKeyOfRSA(password);
         var logo = Base64.getEncoder().encodeToString(DigestUtils.sha3_512(encryptedPassword));
         return logo;

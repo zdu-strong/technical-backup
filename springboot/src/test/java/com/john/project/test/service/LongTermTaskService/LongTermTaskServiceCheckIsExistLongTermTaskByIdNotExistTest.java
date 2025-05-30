@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fasterxml.uuid.Generators;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class LongTermTaskServiceCheckIsExistLongTermTaskByIdNotExistTest extends BaseTest {
@@ -23,7 +22,7 @@ public class LongTermTaskServiceCheckIsExistLongTermTaskByIdNotExistTest extends
 
     @BeforeEach
     public void BeforeEach() {
-        this.longTermtaskId = uuidUtil.v4();
+        this.longTermtaskId = this.uuidUtil.v4();
     }
 
 }

@@ -2,7 +2,6 @@ package com.john.project.test.service.UserEmailService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.uuid.Generators;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -17,9 +16,9 @@ public class UserEmailServiceCreateUserEmailTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.user = this.createAccount(email);
-        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
+        this.email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
     }
 
 }
