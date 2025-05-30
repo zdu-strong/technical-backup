@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.uuid.Generators;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -18,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.john.project.common.StorageResource.SequenceResource;
 import com.john.project.model.StorageFileModel;
 import lombok.SneakyThrows;
@@ -28,7 +26,7 @@ public abstract class BaseStorageSave extends BaseStorageCreateTempFile {
     @SneakyThrows
     public StorageFileModel storageResource(Resource resource) {
         var storageFileModel = new StorageFileModel()
-                .setFolderName(Generators.timeBasedReorderedGenerator().generate().toString());
+                .setFolderName(uuidUtil.v4());
         this.storageSpaceService.create(storageFileModel.getFolderName());
 
         /* Set file name */

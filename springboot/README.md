@@ -229,11 +229,11 @@ java:
     ResponseEntity<Object> response = this.testRestTemplate.getForEntity(url, Object.class);
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
-## Notes - id - Generate unique ordered uuid of version 1
+## Notes - id - Generate unique ordered uuid of version v7
 
     import com.fasterxml.uuid.Generators;
 
-    Generators.timeBasedReorderedGenerator().generate().toString()
+    Generators.timeBasedEpochRandomGenerator().generate().toString()
 
 ## Notes - Accept timezone from javascript, then convert to utc offset. UTC offset can be passed as a parameter to database methods.
 

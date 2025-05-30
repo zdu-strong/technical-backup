@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.common.uuid.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.hibernate.exception.GenericJDBCException;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.uuid.Generators;
 import com.google.common.collect.Lists;
 import com.john.project.common.permission.PermissionUtil;
 import com.john.project.model.UserMessageModel;
@@ -63,6 +63,7 @@ public class UserMessageWebSocket {
     private final static CopyOnWriteArrayList<UserMessageWebSocket> staticWebSocketList = new CopyOnWriteArrayList<UserMessageWebSocket>();
     private ObjectMapper objectMapper;
     private PermissionUtil permissionUtil;
+    private UUIDUtil uuidUtil;
     private UserMessageService userMessageService;
     private HttpServletRequest request;
     private UserMessageWebSocketSendModel lastMessageCache = new UserMessageWebSocketSendModel().setTotalPages(0L)
@@ -77,6 +78,7 @@ public class UserMessageWebSocket {
     public void onOpen(Session session) {
         this.objectMapper = SpringUtil.getBean(ObjectMapper.class);
         this.permissionUtil = SpringUtil.getBean(PermissionUtil.class);
+        this.uuidUtil = SpringUtil.getBean(UUIDUtil.class);
         this.userMessageService = SpringUtil.getBean(UserMessageService.class);
         this.webSocketSession = session;
         this.request = this.getRequest(session);
@@ -106,7 +108,7 @@ public class UserMessageWebSocket {
 
                 var pageNum = userMessageWebSocketReceiveModel.getPageNum();
                 var onlineMessageReceiveDateModel = new UserMessageModel()
-                        .setId(Generators.timeBasedReorderedGenerator().generate().toString())
+                        .setId(uuidUtil.v4())
                         .setPageNum(userMessageWebSocketReceiveModel.getPageNum())
                         .setCreateDate(new Date());
                 if (!userMessageWebSocketReceiveModel.getIsCancel()) {

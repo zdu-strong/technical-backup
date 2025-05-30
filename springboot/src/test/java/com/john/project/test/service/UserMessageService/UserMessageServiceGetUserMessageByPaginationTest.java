@@ -27,7 +27,7 @@ public class UserMessageServiceGetUserMessageByPaginationTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         var userId = this
-                .createAccount(Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com")
+                .createAccount(uuidUtil.v4() + "zdu.strong@gmail.com")
                 .getId();
         var userMessage = new UserMessageModel().setContent("Hello, World!");
         var message = this.userMessageService.sendMessage(userMessage, request);

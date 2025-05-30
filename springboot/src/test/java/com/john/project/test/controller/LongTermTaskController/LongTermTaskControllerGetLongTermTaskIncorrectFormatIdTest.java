@@ -14,7 +14,7 @@ public class LongTermTaskControllerGetLongTermTaskIncorrectFormatIdTest extends 
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/long-term-task")
-                .setParameter("encryptedId", Generators.timeBasedReorderedGenerator().generate().toString())
+                .setParameter("encryptedId", uuidUtil.v4())
                 .build();
         var result = this.testRestTemplate.getForEntity(url, Throwable.class);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());

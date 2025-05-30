@@ -46,7 +46,7 @@ public class UserControllerGetUserInfoTest extends BaseTest {
     @BeforeEach
     @SneakyThrows
     public void beforeEach() {
-        this.email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.user = this.createAccount(email);
     }
 

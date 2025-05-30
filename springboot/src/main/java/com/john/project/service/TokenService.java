@@ -17,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.uuid.Generators;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.model.TokenModel;
 import cn.hutool.crypto.CryptoException;
@@ -108,7 +107,7 @@ public class TokenService extends BaseService {
     }
 
     private String generateUniqueOneTimePasswordLogo() {
-        var password = Generators.timeBasedReorderedGenerator().generate().toString();
+        var password = uuidUtil.v4();
         var encryptedPassword = this.encryptDecryptService.encryptByPublicKeyOfRSA(password);
         var logo = Base64.getEncoder().encodeToString(DigestUtils.sha3_512(encryptedPassword));
         return logo;

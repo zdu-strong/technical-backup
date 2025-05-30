@@ -20,7 +20,7 @@ public class VerificationCodeEmailServiceCheckVerificationCodeEmailHasBeenUsedTe
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
         var result = this.verificationCodeEmailService.createVerificationCodeEmail(email);
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertEquals(email, result.getEmail());

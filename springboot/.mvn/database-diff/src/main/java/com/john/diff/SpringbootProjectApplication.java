@@ -411,7 +411,7 @@ public class SpringbootProjectApplication {
     @SneakyThrows
     public static String getANewDatabaseName() {
         var newDatabaseName = "database_"
-                + Generators.timeBasedReorderedGenerator().generate().toString().replaceAll(Pattern.quote("-"), "_");
+                + Generators.randomBasedGenerator().generate().toString().replaceAll(Pattern.quote("-"), "_");
         if (getDatabaseType() == SupportDatabaseTypeEnum.SPANNER) {
             Thread.sleep(2);
             newDatabaseName = "database_"

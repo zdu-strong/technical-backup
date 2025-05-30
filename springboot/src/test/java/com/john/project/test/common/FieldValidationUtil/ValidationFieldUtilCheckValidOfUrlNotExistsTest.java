@@ -26,7 +26,7 @@ public class ValidationFieldUtilCheckValidOfUrlNotExistsTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.url = this.storage.getResoureUrlFromResourcePath(Generators.timeBasedReorderedGenerator().generate().toString());
+        this.url = this.storage.getResoureUrlFromResourcePath(uuidUtil.v4());
     }
 
 }

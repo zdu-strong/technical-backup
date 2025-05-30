@@ -32,7 +32,7 @@ public class OrganizeControllerCreateOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
         var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
         var parentOrganize = this.organizeUtil.create(parentOrganizeModel);

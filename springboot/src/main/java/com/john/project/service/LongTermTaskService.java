@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.fasterxml.uuid.Generators;
 import com.google.common.collect.Lists;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.constant.LongTermTaskTempWaitDurationConstant;
@@ -26,7 +24,7 @@ public class LongTermTaskService extends BaseService {
     public String createLongTermTask() {
         var longTermTaskUniqueKeyModel = new LongTermTaskUniqueKeyModel()
                 .setType(LongTermTaskTypeEnum.COMMON.getValue())
-                .setUniqueKey(Generators.timeBasedReorderedGenerator().generate().toString());
+                .setUniqueKey(uuidUtil.v4());
         var longTermTaskEntity = this.createLongTermTaskByLongTermTaskUniqueKeyModel(longTermTaskUniqueKeyModel);
 
         return longTermTaskEntity.getId();

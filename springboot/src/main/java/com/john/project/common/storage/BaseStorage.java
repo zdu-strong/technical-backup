@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
+import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
@@ -50,6 +51,9 @@ public abstract class BaseStorage {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected UUIDUtil uuidUtil;
 
     private String storageRootPath;
 

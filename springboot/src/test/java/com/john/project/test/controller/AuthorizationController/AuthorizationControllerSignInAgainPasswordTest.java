@@ -32,7 +32,7 @@ public class AuthorizationControllerSignInAgainPasswordTest extends BaseTest {
     @BeforeEach
     @SneakyThrows
     public void beforeEach() {
-        this.username = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        this.username = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(username);
         this.passwordOneTime = this.encryptDecryptService.encryptByPublicKeyOfRSA(this.username);
         var url = new URIBuilder("/sign-in/one-time-password")

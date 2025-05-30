@@ -18,7 +18,7 @@ public class PermissionUtilIsSignInTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "@gmail.com";
+        var email = uuidUtil.v4() + "@gmail.com";
         var user = this.createAccount(email);
         this.request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + user.getAccessToken());
     }

@@ -12,7 +12,7 @@ public class RoleServiceCreateTest extends BaseTest {
 
     @Test
     public void test() {
-        var result = this.roleService.create(Generators.timeBasedReorderedGenerator().generate().toString(), List.of(SystemPermissionEnum.SUPER_ADMIN), List.of());
+        var result = this.roleService.create(uuidUtil.v4(), List.of(SystemPermissionEnum.SUPER_ADMIN), List.of());
         assertTrue(StringUtils.isNotBlank(result.getId()));
     }
 

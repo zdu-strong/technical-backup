@@ -8,7 +8,7 @@ import com.john.project.test.common.BaseTest.BaseTest;
 public class EncryptDecryptServiceGenerateSecretKeyOfAESWithPasswordTest extends BaseTest {
 
     private String text = "Hello, World!";
-    private String password = Generators.timeBasedReorderedGenerator().generate().toString();
+    private String password = uuidUtil.v4();
 
     @Test
     public void test() {

@@ -26,7 +26,7 @@ public class PermissionUtilCheckAnyRoleForOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "@gmail.com";
+        var email = uuidUtil.v4() + "@gmail.com";
         this.user = this.createAccount(email);
         this.request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + user.getAccessToken());
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");

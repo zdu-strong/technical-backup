@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.uuid.Generators;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.RoleModel;
@@ -90,7 +89,7 @@ public class RoleService extends BaseService {
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
         roleEntity.setIsDeleted(true);
-        roleEntity.setDeletionCode(Generators.timeBasedReorderedGenerator().generate().toString());
+        roleEntity.setDeletionCode(uuidUtil.v4());
         roleEntity.setUpdateDate(new Date());
         this.merge(roleEntity);
     }

@@ -15,7 +15,7 @@ public class LongTermTaskControllerGetLongTermTaskNotExistsTaskTest extends Base
     public void test() {
         var url = new URIBuilder("/long-term-task")
                 .setParameter("encryptedId", this.encryptDecryptService
-                        .encryptByAES(Generators.timeBasedReorderedGenerator().generate().toString()))
+                        .encryptByAES(uuidUtil.v4()))
                 .build();
         var result = this.testRestTemplate.getForEntity(url, Throwable.class);
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());

@@ -23,7 +23,7 @@ public class StorageSpaceServiceCreateTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        folderName = Generators.timeBasedReorderedGenerator().generate().toString();
+        folderName = uuidUtil.v4();
     }
 
 }

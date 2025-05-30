@@ -20,7 +20,7 @@ public class OrganizeServiceDeleteOrganizeNotExistOrganizeTest extends BaseTest 
 
     @BeforeEach
     public void beforeEach() {
-        this.organizeId = Generators.timeBasedReorderedGenerator().generate().toString();
+        this.organizeId = uuidUtil.v4();
     }
 
 }

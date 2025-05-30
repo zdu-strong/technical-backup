@@ -37,7 +37,7 @@ public class UserRoleControllerCreateTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "@gmail.com";
+        var email = uuidUtil.v4() + "@gmail.com";
         this.user = this.createAccountOfCompanyAdmin(email);
     }
 

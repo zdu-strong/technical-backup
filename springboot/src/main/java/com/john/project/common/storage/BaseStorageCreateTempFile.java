@@ -20,7 +20,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.uuid.Generators;
 import cn.hutool.extra.compress.CompressUtil;
 import lombok.SneakyThrows;
 import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
@@ -96,7 +95,7 @@ public abstract class BaseStorageCreateTempFile extends BaseStorageIsDirectory {
 
     @SneakyThrows
     public File createTempFolder() {
-        var folderName = Generators.timeBasedReorderedGenerator().generate().toString();
+        var folderName = uuidUtil.v4();
         Optional.of(CompletableFuture.runAsync(() -> {
             this.storageSpaceService.create(folderName);
         }))

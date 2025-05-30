@@ -24,7 +24,7 @@ public class UserControllerGetUserByIdNotSignInTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.userId = Generators.timeBasedReorderedGenerator().generate().toString();
+        this.userId = uuidUtil.v4();
     }
 
 }

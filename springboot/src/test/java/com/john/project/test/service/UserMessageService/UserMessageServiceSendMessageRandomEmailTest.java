@@ -22,7 +22,7 @@ public class UserMessageServiceSendMessageRandomEmailTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.userId = this.createAccount(Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com").getId();
+        this.userId = this.createAccount(uuidUtil.v4() + "zdu.strong@gmail.com").getId();
         this.userMessage = new UserMessageModel().setContent("Hello, World!");
     }
 }

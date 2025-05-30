@@ -28,7 +28,7 @@ public class AuthorizationControllerSignInOneTimeIncorrectPasswordTest extends B
 
     @BeforeEach
     public void beforeEach() {
-        this.username = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        this.username = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(username);
         this.password = "Incorrect Password";
     }

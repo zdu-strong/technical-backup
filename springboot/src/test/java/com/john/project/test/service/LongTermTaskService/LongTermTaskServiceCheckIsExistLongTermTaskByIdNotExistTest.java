@@ -23,7 +23,7 @@ public class LongTermTaskServiceCheckIsExistLongTermTaskByIdNotExistTest extends
 
     @BeforeEach
     public void BeforeEach() {
-        this.longTermtaskId = Generators.timeBasedReorderedGenerator().generate().toString();
+        this.longTermtaskId = uuidUtil.v4();
     }
 
 }

@@ -25,7 +25,7 @@ public class UserMessageControllerRecallMessageTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "@gmail.com";
+        var email = uuidUtil.v4() + "@gmail.com";
         this.createAccount(email);
         var userMessage = new UserMessageModel().setContent("Hello, World!");
         this.id = this.userMessageService.sendMessage(userMessage, request).getId();

@@ -42,7 +42,7 @@ public class AuthorizationControllerSignInTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        this.email = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.password = email;
         this.createAccount(email);
     }

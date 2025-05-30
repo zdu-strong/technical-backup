@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.uuid.Generators;
 import com.john.project.common.baseService.BaseService;
-import cn.hutool.core.lang.Validator;
 
 @Service
 public class UserEmailService extends BaseService {
@@ -42,7 +40,7 @@ public class UserEmailService extends BaseService {
                 .toList();
         for (var userEmailEntity : userEmailList) {
             userEmailEntity.setIsDeleted(true);
-            userEmailEntity.setDeletionCode(Generators.timeBasedReorderedGenerator().generate().toString());
+            userEmailEntity.setDeletionCode(uuidUtil.v4());
             userEmailEntity.setUpdateDate(new Date());
             this.merge(userEmailEntity);
         }

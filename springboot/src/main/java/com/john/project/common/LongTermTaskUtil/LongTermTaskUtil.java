@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.common.uuid.UUIDUtil;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ThreadUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.uuid.Generators;
 import com.john.project.constant.LongTermTaskTempWaitDurationConstant;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.service.EncryptDecryptService;
@@ -38,6 +38,9 @@ public class LongTermTaskUtil {
 
     @Autowired
     private Executor applicationTaskExecutor;
+
+    @Autowired
+    private UUIDUtil uuidUtil;
 
     /**
      * The return value of the executed method will be stored in the database as a
@@ -142,7 +145,7 @@ public class LongTermTaskUtil {
             }
         }
         var idList = idListOfLongTermTask;
-        var syncKey = Generators.timeBasedReorderedGenerator().generate().toString();
+        var syncKey = uuidUtil.v4();
         var subscription = Flowable
                 .timer(LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION.toMillis(), TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.from(applicationTaskExecutor))

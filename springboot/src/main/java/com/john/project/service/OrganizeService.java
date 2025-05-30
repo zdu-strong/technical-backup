@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.uuid.Generators;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
@@ -55,7 +54,7 @@ public class OrganizeService extends BaseService {
                 .getOnlyValue();
         organizeEntity.setUpdateDate(new Date());
         organizeEntity.setIsDeleted(true);
-        organizeEntity.setDeletionCode(Generators.timeBasedReorderedGenerator().generate().toString());
+        organizeEntity.setDeletionCode(uuidUtil.v4());
         this.merge(organizeEntity);
     }
 

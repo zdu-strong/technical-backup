@@ -35,7 +35,7 @@ public class UserMessageControllerSendMessageTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "@gmail.com";
+        var email = uuidUtil.v4() + "@gmail.com";
         this.username = email;
         this.userId = this.createAccount(email).getId();
     }

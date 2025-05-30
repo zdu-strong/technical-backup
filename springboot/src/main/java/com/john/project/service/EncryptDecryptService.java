@@ -21,7 +21,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.uuid.Generators;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.constant.EncryptDecryptConstant;
 import com.john.project.entity.EncryptDecryptEntity;
@@ -78,7 +77,7 @@ public class EncryptDecryptService extends BaseService {
     @Transactional(readOnly = true)
     @SneakyThrows
     public String encryptByAES(String text, String secretKeyOfAES) {
-        var salt = DigestUtils.md5(Generators.timeBasedReorderedGenerator().generate().toString());
+        var salt = DigestUtils.md5(uuidUtil.v4());
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(
                 Base64.getDecoder().decode(secretKeyOfAES), "AES"), new GCMParameterSpec(16 * 8, salt));

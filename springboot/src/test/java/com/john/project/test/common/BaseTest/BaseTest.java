@@ -12,6 +12,7 @@ import com.john.project.common.DistributedExecution.NonceCleanDistributedExecuti
 import com.john.project.common.DistributedExecution.OrganizeClosureRefreshDistributedExecution;
 import com.john.project.common.DistributedExecution.StorageSpaceCleanDistributedExecution;
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
+import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.model.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -111,6 +112,9 @@ public class BaseTest {
 
     @Autowired
     protected ResourceHttpHeadersUtil resourceHttpHeadersUtil;
+
+    @Autowired
+    protected UUIDUtil uuidUtil;
 
     @Autowired
     protected TimeZoneUtil timeZoneUtil;
@@ -242,7 +246,7 @@ public class BaseTest {
         {
             var url = new URIBuilder("/organize/create").build();
             var response = this.testRestTemplate.postForEntity(url, new OrganizeModel()
-                    .setName(Generators.timeBasedReorderedGenerator().generate().toString()), OrganizeModel.class);
+                    .setName(uuidUtil.v4()), OrganizeModel.class);
             assertEquals(HttpStatus.OK, response.getStatusCode());
             var company = response.getBody();
             var roleList = this.roleOrganizeRelationService

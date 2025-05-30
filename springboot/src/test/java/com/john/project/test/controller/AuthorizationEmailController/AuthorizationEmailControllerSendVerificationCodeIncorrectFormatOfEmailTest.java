@@ -25,7 +25,7 @@ public class AuthorizationEmailControllerSendVerificationCodeIncorrectFormatOfEm
 
     @BeforeEach
     public void beforeEach() {
-        this.email = Generators.timeBasedReorderedGenerator().generate().toString();
+        this.email = uuidUtil.v4();
     }
 
 }

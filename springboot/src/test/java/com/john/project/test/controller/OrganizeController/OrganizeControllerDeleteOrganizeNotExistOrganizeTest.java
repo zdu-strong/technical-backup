@@ -27,8 +27,8 @@ public class OrganizeControllerDeleteOrganizeNotExistOrganizeTest extends BaseTe
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
-        this.organizeId = Generators.timeBasedReorderedGenerator().generate().toString();
+        this.organizeId = uuidUtil.v4();
     }
 }

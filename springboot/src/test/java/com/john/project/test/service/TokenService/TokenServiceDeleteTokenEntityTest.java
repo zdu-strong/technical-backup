@@ -18,7 +18,7 @@ public class TokenServiceDeleteTokenEntityTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.user = this.createAccount(email);
         this.jwtId = JWT.decode(this.user.getAccessToken()).getId();
     }

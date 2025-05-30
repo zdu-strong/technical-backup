@@ -2,6 +2,7 @@ package com.john.project.common.baseService;
 
 import com.google.cloud.spanner.AbortedDueToConcurrentModificationException;
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
+import com.john.project.common.uuid.UUIDUtil;
 import io.grpc.StatusRuntimeException;
 import org.hibernate.exception.GenericJDBCException;
 import org.jinq.jpa.JPAJinqStream;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.uuid.Generators;
 import com.google.cloud.spanner.AbortedException;
 import com.john.project.common.TimeZoneUtil.TimeZoneUtil;
 import com.john.project.common.database.JPQLFunction;
@@ -70,6 +70,9 @@ public abstract class BaseService {
 
     @Autowired
     protected TimeZoneUtil timeZoneUtil;
+
+    @Autowired
+    protected UUIDUtil uuidUtil;
 
     @Autowired
     protected ValidationFieldUtil validationFieldUtil;
@@ -147,10 +150,9 @@ public abstract class BaseService {
 
     protected String newId() {
         if (!this.databaseJdbcProperties.getIsNewSqlDatabase()) {
-            return Generators.timeBasedReorderedGenerator().generate().toString();
+            return uuidUtil.v7();
         } else {
-            return new StringBuilder(Generators.timeBasedReorderedGenerator().generate().toString()).reverse()
-                    .toString();
+            return uuidUtil.v4();
         }
     }
 

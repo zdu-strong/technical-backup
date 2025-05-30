@@ -25,7 +25,7 @@ public class ValidationFieldUtilCheckValidOfUrlInvalidUrlTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.url = Generators.timeBasedReorderedGenerator().generate().toString();
+        this.url = uuidUtil.v4();
     }
 
 }

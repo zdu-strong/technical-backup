@@ -88,8 +88,8 @@ public class FriendshipControllerGetStrangerListTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var userEmail = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
-        var friendEmail = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        var userEmail = uuidUtil.v4() + "zdu.strong@gmail.com";
+        var friendEmail = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.friend = this.createAccount(friendEmail);
         this.user = this.createAccount(userEmail);
     }

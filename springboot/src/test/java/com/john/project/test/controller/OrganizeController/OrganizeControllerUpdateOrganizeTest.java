@@ -41,7 +41,7 @@ public class OrganizeControllerUpdateOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var email = Generators.timeBasedReorderedGenerator().generate().toString() + "zdu.strong@gmail.com";
+        var email = uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
         var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
         this.organizeModel = this.organizeUtil.create(organizeModel);
