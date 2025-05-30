@@ -427,7 +427,7 @@ public class SpringbootProjectApplication {
             var isTestEnvironmentString = new YAMLMapper()
                     .readTree(IOUtils.toString(input, StandardCharsets.UTF_8)).get("properties")
                     .get("storage").get("root").get("path").asText();
-            var isTestEnvironment = "defaultTest-a56b075f-102e-edf3-8599-ffc526ec948a".equals(isTestEnvironmentString);
+            var isTestEnvironment = "test".equals(isTestEnvironmentString);
             return isTestEnvironment;
         }
     }

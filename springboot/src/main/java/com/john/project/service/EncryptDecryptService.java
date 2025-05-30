@@ -22,7 +22,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.john.project.common.baseService.BaseService;
-import com.john.project.constant.EncryptDecryptConstant;
 import com.john.project.entity.EncryptDecryptEntity;
 import com.john.project.model.EncryptDecryptModel;
 import cn.hutool.crypto.asymmetric.KeyType;
@@ -213,13 +212,14 @@ public class EncryptDecryptService extends BaseService {
         if (!this.ready) {
             synchronized (getClass()) {
                 if (!this.ready) {
-                    String id = EncryptDecryptConstant.getId();
+                    var name = getClass().getSimpleName();
                     if (!this.streamAll(EncryptDecryptEntity.class)
-                            .where(s -> s.getId().equals(id))
+                            .where(s -> s.getName().equals(name))
                             .exists()) {
 
                         EncryptDecryptEntity encryptDecryptEntity = new EncryptDecryptEntity();
-                        encryptDecryptEntity.setId(id);
+                        encryptDecryptEntity.setId(newId());
+                        encryptDecryptEntity.setName(name);
                         encryptDecryptEntity.setCreateDate(new Date());
                         encryptDecryptEntity.setUpdateDate(new Date());
 
@@ -238,7 +238,7 @@ public class EncryptDecryptService extends BaseService {
                         this.persist(encryptDecryptEntity);
                     }
                     EncryptDecryptEntity encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
-                            .where(s -> s.getId().equals(id))
+                            .where(s -> s.getName().equals(name))
                             .getOnlyValue();
                     this.keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
                             .generatePublic(new X509EncodedKeySpec(

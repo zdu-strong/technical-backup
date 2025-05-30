@@ -1,6 +1,7 @@
 package com.john.project.entity;
 
 import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,6 +18,9 @@ public class EncryptDecryptEntity {
 
     @Id
     private String id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
 
     @Column(nullable = false, length = 1024 * 1024 * 1024)
     @Lob
