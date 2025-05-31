@@ -149,10 +149,10 @@ public abstract class BaseService {
     }
 
     protected String newId() {
-        if (!this.databaseJdbcProperties.getIsNewSqlDatabase()) {
-            return this.uuidUtil.v7();
-        } else {
+        if (this.databaseJdbcProperties.getIsNewSqlDatabase()) {
             return this.uuidUtil.v4();
+        } else {
+            return this.uuidUtil.v7();
         }
     }
 
