@@ -1,6 +1,6 @@
 import { PaginationModel } from "@/model/PaginationModel";
 import linq from "linq";
-import { v6 } from "uuid";
+import { v7 } from "uuid";
 import { addMilliseconds } from "date-fns";
 import { Database } from "@/common/database";
 import path from 'path'
@@ -143,7 +143,7 @@ async function createStorageSpaceEntityIfNotExist(folderName: string) {
   }
 
   db.StorageSpaceList.add({
-    id: v6(),
+    id: v7(),
     folderName: folderName,
     createDate: new Date(),
     updateDate: new Date(),

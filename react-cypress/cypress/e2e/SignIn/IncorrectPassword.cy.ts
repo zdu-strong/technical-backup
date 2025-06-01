@@ -1,4 +1,4 @@
-import { v6 } from 'uuid'
+import { v7 } from 'uuid'
 import page from '../../page'
 import * as action from '../../action'
 
@@ -17,5 +17,5 @@ before(() => {
   cy.location('pathname').should('equal', '/sign-in')
 })
 
-const email = `${v6()}zdu.strong@gmail.com`
+const email = `${v7()}zdu.strong@gmail.com`
 const password = 'Hello, World!'

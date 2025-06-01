@@ -1,4 +1,4 @@
-const { v6 } = require('uuid')
+const { v7 } = require('uuid')
 const path = require('path')
 const execa = require('execa')
 
@@ -25,8 +25,8 @@ async function startFFcreator(cacheDir, outputFile) {
 }
 
 async function getCacheFolderAndOutputFilePath() {
-  const cacheDir = path.join(__dirname, "..", "output", v6());
-  const outputFile = path.join(__dirname, "..", "output", v6(), "video.mp4");
+  const cacheDir = path.join(__dirname, "..", "output", v7());
+  const outputFile = path.join(__dirname, "..", "output", v7(), "video.mp4");
   return { cacheDir, outputFile };
 }
 

@@ -1,10 +1,10 @@
 import path from 'path'
-import { v6 } from 'uuid'
+import { v7 } from 'uuid'
 import execa from 'execa'
 
 it('', async () => {
-  const cacheDir = path.join(__dirname, "..", "output", v6());
-  const outputFile = path.join(__dirname, "..", "output", v6(), "video.mp4")
+  const cacheDir = path.join(__dirname, "..", "output", v7());
+  const outputFile = path.join(__dirname, "..", "output", v7(), "video.mp4")
   execa.commandSync([
     "npm run production:run",
   ].join(" "), {
