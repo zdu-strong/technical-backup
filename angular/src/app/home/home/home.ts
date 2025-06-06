@@ -4,9 +4,9 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  templateUrl: './home.html',
+  styleUrl: './home.scss'
 })
-export class App {
+export class Home {
   protected title = 'angular';
 }
