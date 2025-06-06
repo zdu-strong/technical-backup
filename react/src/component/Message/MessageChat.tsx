@@ -90,120 +90,130 @@ export default observer((props: {
     }
   }
 
+  const chatTextInput = <TextField
+    onPaste={(e) => {
+      const files = e.clipboardData.files;
+      sendMessageForFileList(files);
+    }}
+    label={<FormattedMessage id="MessageContent" defaultMessage="Message content" />}
+    className="flex flex-auto"
+    variant="outlined"
+    onChange={(e) => {
+      state.messageContent = e.target.value;
+    }}
+    inputProps={{
+      style: {
+        ...(isMobilePhone ? {} : { resize: "vertical" }),
+      }
+    }}
+    style={{ width: "230px" }}
+    value={state.messageContent}
+    onKeyDown={(e) => {
+      if (isMobilePhone) {
+        return;
+      }
+      if (!e.shiftKey && e.key === "Enter") {
+        e.preventDefault();
+        if (!state.messageContent) {
+          return;
+        }
+        sendMessage();
+      }
+    }}
+    autoComplete="off"
+    id={state.messageInputId}
+    multiline={true}
+    rows={isMobilePhone ? 1 : 4}
+    inputRef={state.textareaRef}
+    autoFocus={!isMobilePhone}
+  />;
+
+  const chatSendButton = <>
+    {!isMobilePhone && <Button
+      variant="contained"
+      color="primary"
+      size="large"
+      style={{
+        marginLeft: "1em",
+        whiteSpace: "nowrap",
+        minWidth: "9em"
+      }}
+      startIcon={<FontAwesomeIcon icon={state.loadingOfSend ? faSpinner : (state.messageContent.trim() ? faPaperPlane : faCloudArrowUp)} spin={state.loadingOfSend} />}
+      onClick={() => {
+        if (state.loadingOfSend) {
+          return;
+        }
+        if (state.messageContent.trim()) {
+          sendMessage();
+        } else {
+          state.inputFileRef.current!.click();
+        }
+      }}
+    >
+      {
+        state.messageContent.trim()
+          ?
+          <FormattedMessage id="Send" defaultMessage="Send" />
+          :
+          <FormattedMessage id="Upload" defaultMessage="Upload" />
+      }
+    </Button>}
+    {isMobilePhone && <Button
+      variant="contained"
+      style={{
+        marginLeft: "0.5em",
+        whiteSpace: "nowrap",
+      }}
+      startIcon={<FontAwesomeIcon icon={state.loadingOfSend ? faSpinner : (state.messageContent.trim() ? faPaperPlane : faPlus)} spin={state.loadingOfSend} />}
+      onClick={() => {
+        if (state.loadingOfSend) {
+          return;
+        }
+        if (state.messageContent.trim()) {
+          sendMessage();
+        } else {
+          state.moreActionDialog.open = true;
+        }
+      }}
+      onMouseDown={(e) => {
+        e.preventDefault()
+      }}
+      onMouseUp={(e) => {
+        e.preventDefault()
+      }}
+    >
+      {state.messageContent ? "Send" : "More"}
+    </Button>}
+  </>
+
+  const chooseFileInput = <input
+    type="file"
+    hidden={true}
+    ref={state.inputFileRef}
+    key={state.inputFileId}
+    onChange={async (e) => {
+      sendMessageForFileList(e.target.files!);
+    }}
+  />;
+
+  const messageMoreActionDialog = state.moreActionDialog.open && <MessageMoreActionDialog
+    closeDialog={() => {
+      state.moreActionDialog.open = false;
+      if (!isMobilePhone) {
+        state.textareaRef.current?.focus();
+      }
+    }}
+    uploadFile={() => state.inputFileRef.current!.click()}
+  />;
+
   return <>
     <div className="flex flex-row justify-center items-center w-full" style={{ paddingBottom: "1em", marginTop: "1em" }}>
       <div className="flex flex-auto">
-        <TextField
-          onPaste={(e) => {
-            const files = e.clipboardData.files;
-            sendMessageForFileList(files);
-          }}
-          label={<FormattedMessage id="MessageContent" defaultMessage="Message content" />}
-          className="flex flex-auto"
-          variant="outlined"
-          onChange={(e) => {
-            state.messageContent = e.target.value;
-          }}
-          inputProps={{
-            style: {
-              ...(isMobilePhone ? {} : { resize: "vertical" }),
-            }
-          }}
-          style={{ width: "230px" }}
-          value={state.messageContent}
-          onKeyDown={(e) => {
-            if (isMobilePhone) {
-              return;
-            }
-            if (!e.shiftKey && e.key === "Enter") {
-              e.preventDefault();
-              if (!state.messageContent) {
-                return;
-              }
-              sendMessage();
-            }
-          }}
-          autoComplete="off"
-          id={state.messageInputId}
-          multiline={true}
-          rows={isMobilePhone ? 1 : 4}
-          inputRef={state.textareaRef}
-          autoFocus={!isMobilePhone}
-        />
-        {!isMobilePhone && <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          style={{
-            marginLeft: "1em",
-            whiteSpace: "nowrap",
-            minWidth: "9em"
-          }}
-          startIcon={<FontAwesomeIcon icon={state.loadingOfSend ? faSpinner : (state.messageContent.trim() ? faPaperPlane : faCloudArrowUp)} spin={state.loadingOfSend} />}
-          onClick={() => {
-            if (state.loadingOfSend) {
-              return;
-            }
-            if (state.messageContent.trim()) {
-              sendMessage();
-            } else {
-              state.inputFileRef.current!.click();
-            }
-          }}
-        >
-          {
-            state.messageContent.trim()
-              ?
-              <FormattedMessage id="Send" defaultMessage="Send" />
-              :
-              <FormattedMessage id="Upload" defaultMessage="Upload" />
-          }
-        </Button>}
-        {isMobilePhone && <Button
-          variant="contained"
-          style={{
-            marginLeft: "0.5em",
-            whiteSpace: "nowrap",
-          }}
-          startIcon={<FontAwesomeIcon icon={state.loadingOfSend ? faSpinner : (state.messageContent.trim() ? faPaperPlane : faPlus)} spin={state.loadingOfSend} />}
-          onClick={() => {
-            if (state.loadingOfSend) {
-              return;
-            }
-            if (state.messageContent.trim()) {
-              sendMessage();
-            } else {
-              state.moreActionDialog.open = true;
-            }
-          }}
-          onMouseDown={(e) => {
-            e.preventDefault()
-          }}
-          onMouseUp={(e) => {
-            e.preventDefault()
-          }}
-        >
-          {state.messageContent ? "Send" : "More"}
-        </Button>}
+        {chatTextInput}
+        {chatSendButton}
       </div>
     </div>
-    <input
-      type="file"
-      hidden={true}
-      ref={state.inputFileRef}
-      key={state.inputFileId}
-      onChange={async (e) => {
-        sendMessageForFileList(e.target.files!);
-      }}
-    />
-    {state.moreActionDialog.open && <MessageMoreActionDialog
-      closeDialog={() => {
-        state.moreActionDialog.open = false;
-        if (!isMobilePhone) {
-          state.textareaRef.current?.focus();
-        }
-      }}
-      uploadFile={() => state.inputFileRef.current!.click()}
-    />}
+    {chooseFileInput}
+    {messageMoreActionDialog}
   </>;
 })
