@@ -11,6 +11,7 @@
     "tsconfig.spec.json": true,
     "angular.json": true,
     ".editorconfig": true,
+    "dist": true,
 
   },
   "files.autoSave": "onFocusChange",
