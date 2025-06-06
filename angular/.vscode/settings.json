@@ -1,0 +1,27 @@
+{
+  "files.exclude": {
+    ".gitignore": true,
+    "package-lock.json": true,
+    ".vscode": true,
+    "bin": true,
+    ".ncurc.json": true,
+    ".angular": true,
+    "tsconfig.json": true,
+    "tsconfig.app.json": true,
+    "tsconfig.spec.json": true,
+    "angular.json": true,
+    ".editorconfig": true,
+
+  },
+  "files.autoSave": "onFocusChange",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never"
+  },
+  "extensions.ignoreRecommendations": true,
+  "git.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "git.openRepositoryInParentFolders": "never",
+}
