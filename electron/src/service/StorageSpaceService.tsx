@@ -1,8 +1,8 @@
-import { PaginationModel } from "@/model/PaginationModel";
+import { PaginationModel } from "@model/PaginationModel";
 import linq from "linq";
 import { v7 } from "uuid";
 import { addMilliseconds } from "date-fns";
-import { Database } from "@/common/database";
+import { Database } from "@common/database";
 import remote from "@/remote";
 
 export async function getStorageSpaceListByPagination(pageNum: number, pageSize: number) {

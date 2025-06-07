@@ -7,7 +7,7 @@ import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { useRandomNumber } from './js/useRandomNumber';
 import { useReadyForApplication } from './js/useReadyForApplication';
 import CircularProgress from '@mui/material/CircularProgress';
-import GameDialog from '@/component/Game/GameDialog';
+import GameDialog from '@component/Game/GameDialog';
 import remote from '@/remote';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGamepad } from '@fortawesome/free-solid-svg-icons';

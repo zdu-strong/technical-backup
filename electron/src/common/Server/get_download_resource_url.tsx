@@ -1,4 +1,4 @@
-import { ServerAddress } from '@/common/Server/get_server_address'
+import { ServerAddress } from '@common/Server/get_server_address'
 
 export function getDownloadResourceUrl(url: string) {
   const urlAbsolute = new URL(url, url.startsWith("/") ? ServerAddress : undefined);

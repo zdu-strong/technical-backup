@@ -1,5 +1,5 @@
 import Dexie, { Table } from 'dexie'
-import { StorageSpaceModel } from '@/model/StorageSpaceModel'
+import { StorageSpaceModel } from '@model/StorageSpaceModel'
 
 export class Database extends Dexie {
   public StorageSpaceList!: Table<StorageSpaceModel, string>; // id is number in this case

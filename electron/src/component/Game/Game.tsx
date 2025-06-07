@@ -1,5 +1,5 @@
-import LoadingOrErrorComponent from '@/common/MessageService/LoadingOrErrorComponent';
-import { initGameEngine } from '@/component/Game/js/initGameEngine';
+import LoadingOrErrorComponent from '@common/MessageService/LoadingOrErrorComponent';
+import { initGameEngine } from '@component/Game/js/initGameEngine';
 import * as BABYLON from '@babylonjs/core';
 import { observer, useMobxState, useMount } from 'mobx-react-use-autorun';
 import { EMPTY, Subscription, concat, concatMap, delay, fromEvent, interval, of, retry, take, tap, timer } from 'rxjs';

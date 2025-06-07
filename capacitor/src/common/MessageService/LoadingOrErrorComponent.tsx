@@ -1,6 +1,6 @@
 import { Alert, Skeleton } from "@mui/material"
 import React from "react";
-import { MESSAGE_TYPE_ENUM, getMessageObject } from "@/common/MessageService";
+import { MESSAGE_TYPE_ENUM, getMessageObject } from "@common/MessageService";
 import { observer } from 'mobx-react-use-autorun';
 
 export default observer((props: { ready: boolean, error: Error | Error[] | any, children?: React.ReactNode }) => {

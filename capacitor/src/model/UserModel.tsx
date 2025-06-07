@@ -1,5 +1,5 @@
 import { jsonArrayMember, jsonMember, jsonObject } from 'typedjson'
-import { UserEmailModel } from '@/model/UserEmailModel';
+import { UserEmailModel } from '@model/UserEmailModel';
 import { makeAutoObservable } from 'mobx-react-use-autorun'
 
 @jsonObject

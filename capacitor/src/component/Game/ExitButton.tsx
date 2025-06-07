@@ -1,7 +1,7 @@
 import { Fab } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { stylesheet } from "typestyle";
-import ExitDialog from "@/component/Game/ExitDialog";
+import ExitDialog from "@component/Game/ExitDialog";
 import { useMount } from "mobx-react-use-autorun";
 import { AndroidNotch } from '@awesome-cordova-plugins/android-notch'
 import { Capacitor } from '@capacitor/core'

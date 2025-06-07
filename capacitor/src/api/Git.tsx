@@ -1,4 +1,4 @@
-import { GitPropertiesModel } from "@/model/GitPropertiesModel";
+import { GitPropertiesModel } from "@model/GitPropertiesModel";
 import axios from "axios";
 import { TypedJSON } from "typedjson";
 

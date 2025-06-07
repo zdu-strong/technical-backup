@@ -1,5 +1,5 @@
-import LoadingOrErrorComponent from '@/common/MessageService/LoadingOrErrorComponent';
-import { initGameEngine } from '@/component/Game/js/initGameEngine';
+import LoadingOrErrorComponent from '@common/MessageService/LoadingOrErrorComponent';
+import { initGameEngine } from '@component/Game/js/initGameEngine';
 import { AndroidNotch } from '@awesome-cordova-plugins/android-notch';
 import * as BABYLON from '@babylonjs/core';
 import { Capacitor } from '@capacitor/core';

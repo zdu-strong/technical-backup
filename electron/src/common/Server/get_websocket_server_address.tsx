@@ -1,6 +1,6 @@
 import qs from 'qs';
-import { ServerAddress } from '@/common/Server/get_server_address';
-import { GlobalUserInfo } from '@/common/Server/get_global_user_info'
+import { ServerAddress } from '@common/Server/get_server_address';
+import { GlobalUserInfo } from '@common/Server/get_global_user_info'
 
 export function getWebSocketServerAddress(url: string, params?: Record<string, any>) {
   let tempParams = {

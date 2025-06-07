@@ -2,8 +2,8 @@ import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { Dialog } from '@mui/material';
 import Game from './Game';
 import { useMount } from "mobx-react-use-autorun";
-import { LANDSCAPE, PORTRAIT_PRIMARY } from '@/common/ScreenOrentation';
-import ExitButton from '@/component/Game/ExitButton';
+import { LANDSCAPE, PORTRAIT_PRIMARY } from '@common/ScreenOrentation';
+import ExitButton from '@component/Game/ExitButton';
 import { Subscription, tap, timer } from 'rxjs';
 
 export default observer((props: {

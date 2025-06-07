@@ -1,6 +1,6 @@
 import { Subject } from "rxjs";
-import { ServerAddress, getDownloadResourceUrl, getResourceUrl } from "@/common/Server";
-import { runWoker } from '@/common/WebWorker/WebWorkerUtils';
+import { ServerAddress, getDownloadResourceUrl, getResourceUrl } from "@common/Server";
+import { runWoker } from '@common/WebWorker/WebWorkerUtils';
 
 export async function upload(
   file: File,

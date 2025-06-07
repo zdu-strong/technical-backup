@@ -1,4 +1,4 @@
-import ExitButton from '@/component/Game/ExitButton';
+import ExitButton from '@component/Game/ExitButton';
 import { Dialog } from '@mui/material';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { useRef } from 'react';

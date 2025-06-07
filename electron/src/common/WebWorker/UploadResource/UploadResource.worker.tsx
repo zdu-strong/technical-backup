@@ -1,11 +1,11 @@
-import '@/common/Server';
+import '@common/Server';
 import registerWebworker from 'webworker-promise/lib/register'
 import axios from "axios";
 import { concatMap, from, lastValueFrom, map, of, range, timer, toArray } from "rxjs";
 import * as mathjs from 'mathjs'
 import { addMilliseconds } from 'date-fns'
 import linq from 'linq'
-import { getLongTermTask } from '@/api/LongTermTask';
+import { getLongTermTask } from '@api/LongTermTask';
 
 registerWebworker(async ({
   ServerAddress,

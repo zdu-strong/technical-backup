@@ -24,6 +24,24 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@component/*": [
+        "src/component/*"
+      ],
+      "@common/*": [
+        "src/common/*"
+      ],
+      "@api": [
+        "src/api"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@enums/*": [
+        "src/enums/*"
+      ],
+      "@model/*": [
+        "src/model/*"
       ]
     }
   },

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import BrowserRouterOrHashRouter from "@/common/router/BrowserRouterOrHashRouter";
-import HomePageComponent from '@/component/HomePageComponent/HomePageComponent';
-import NotFoundPageComponent from '@/component/NotFoundPageComponent/NotFoundPageComponent';
+import BrowserRouterOrHashRouter from "@common/router/BrowserRouterOrHashRouter";
+import HomePageComponent from '@component/HomePageComponent/HomePageComponent';
+import NotFoundPageComponent from '@component/NotFoundPageComponent/NotFoundPageComponent';
 
 export default (
   <BrowserRouterOrHashRouter>

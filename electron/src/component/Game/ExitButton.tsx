@@ -1,4 +1,4 @@
-import ExitDialog from "@/component/Game/ExitDialog";
+import ExitDialog from "@component/Game/ExitDialog";
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Fab } from "@mui/material";

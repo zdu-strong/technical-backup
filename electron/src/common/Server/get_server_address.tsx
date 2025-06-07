@@ -1,4 +1,4 @@
-import { ClientAddress } from '@/common/Server/get_client_address';
+import { ClientAddress } from '@common/Server/get_client_address';
 
 const urlOfClientAddress = new URL(ClientAddress);
 let ServerAddress = `${urlOfClientAddress.protocol}//${urlOfClientAddress.hostname}:8080`;
