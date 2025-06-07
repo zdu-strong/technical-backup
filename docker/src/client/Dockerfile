@@ -21,8 +21,6 @@ RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb gtk2-devel gtk3-devel libnotify-devel nss libXScrnSaver alsa-lib
 COPY . /all_code
 WORKDIR /all_code/springboot
-RUN git add ..
-RUN git reset --hard
 RUN chmod +x mvn
 WORKDIR /all_code/react-cypress
 RUN rm -rf ../react/node_modules

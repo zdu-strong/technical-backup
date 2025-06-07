@@ -16,8 +16,6 @@ RUN dnf install -y gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib
 RUN dnf install -y mesa-dri-drivers Xvfb libXi-devel libXinerama-devel libX11-devel
 COPY . /all_code
 WORKDIR /all_code/electron-playwright
-RUN git add ..
-RUN git reset --hard
 RUN rm -rf ../electron/node_modules
 RUN rm -rf ./node_modules
 RUN xvfb-run npm test

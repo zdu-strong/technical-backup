@@ -15,8 +15,6 @@ FROM first_docker AS second_docker
 RUN dnf install -y git
 COPY . /all_code
 WORKDIR /all_code/springboot
-RUN git add ..
-RUN git reset --hard
 RUN chmod +x mvn
 RUN ./mvn clean package --define is.development.mock.mode=false
 RUN mv target/*.jar target/server.jar

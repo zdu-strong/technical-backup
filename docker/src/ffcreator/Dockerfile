@@ -15,8 +15,6 @@ RUN dnf install -y mesa-dri-drivers Xvfb libXi-devel libXinerama-devel libX11-de
 COPY . /all_code
 WORKDIR /all_code/ffcreator
 RUN rm -rf ./node_modules
-RUN git add ..
-RUN git reset --hard
 RUN xvfb-run npm test
 RUN rm -rf ./node_modules
 

@@ -20,8 +20,6 @@ RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb gtk2-devel gtk3-devel libnotify-devel nss libXScrnSaver alsa-lib
 COPY . /all_code
 WORKDIR /all_code/capacitor-cypress
-RUN git add ..
-RUN git reset --hard
 RUN rm -rf ../capacitor/node_modules
 RUN rm -rf ./node_modules
 RUN npm test
