@@ -20,7 +20,9 @@ export default observer((props: {
     error: null as any,
     hasInitAccessToken: false,
   }), {
-    navigate: useNavigate()
+    navigate: useNavigate(),
+    ...props
+
   })
 
   useMount(async (subscription) => {
@@ -40,35 +42,35 @@ export default observer((props: {
 
   useMobxEffect(() => {
     state.subject.next();
-  }, [props.isAutoLogin, props.checkIsSignIn, props.checkIsNotSignIn, GlobalUserInfo.accessToken])
+  }, [state.isAutoLogin, state.checkIsSignIn, state.checkIsNotSignIn, GlobalUserInfo.accessToken])
 
   function handleCheckIsNotSignIn() {
-    if (props.checkIsNotSignIn && props.checkIsSignIn) {
+    if (state.checkIsNotSignIn && state.checkIsSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (props.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
       state.navigate("/");
     }
   }
 
   function handleIsSignIn() {
-    if (props.checkIsSignIn && props.checkIsNotSignIn) {
+    if (state.checkIsSignIn && state.checkIsNotSignIn) {
       throw new Error("Must check if sign in")
     }
 
-    if (props.checkIsSignIn && !GlobalUserInfo.accessToken) {
+    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
       toSignIn();
     }
   }
 
   async function handleIsAutoSignIn() {
-    if (props.isAutoLogin && !props.checkIsSignIn) {
+    if (state.isAutoLogin && !state.checkIsSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (props.isAutoLogin && props.checkIsNotSignIn) {
+    if (state.isAutoLogin && state.checkIsNotSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (props.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
+    if (state.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
       await api.Authorization.signUp(v7(), "visitor", []);
     }
     if (!state.hasInitAccessToken && GlobalUserInfo.accessToken) {
@@ -77,10 +79,10 @@ export default observer((props: {
   }
 
   function isReady() {
-    if (props.checkIsSignIn && !GlobalUserInfo.accessToken) {
+    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
       return false;
     }
-    if (props.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
       return false;
     }
     return true;
