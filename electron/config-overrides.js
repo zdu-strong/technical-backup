@@ -24,6 +24,7 @@ module.exports = function override(config) {
   config.resolve.alias['@api'] = path.join(__dirname, 'src/api');
   config.resolve.alias['@enums'] = path.join(__dirname, 'src/enums');
   config.resolve.alias['@model'] = path.join(__dirname, 'src/model');
+  config.resolve.alias['@service'] = path.join(__dirname, 'src/service');
   config.resolve.plugins = config.resolve.plugins.filter(plugin => !(plugin instanceof ModuleScopePlugin));
   return config;
 };

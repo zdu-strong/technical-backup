@@ -2,7 +2,7 @@ const path = require('path')
 
 const config =
 {
-  appId: "com.zdu.capacitor",
+  appId: "com.john.capacitor",
   appName: "my-app",
   webDir: "build",
   loggingBehavior: "none",

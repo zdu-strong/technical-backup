@@ -1,4 +1,4 @@
-import { StorageSpaceService } from "@/service";
+import { StorageSpaceService } from "@service";
 import { concatMap, lastValueFrom, retry, repeat, timer, of } from "rxjs";
 import { from } from "linq";
 
