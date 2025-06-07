@@ -3,16 +3,16 @@ import { DataGrid, GridColDef, useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button } from "@mui/material";
 import { format } from "date-fns";
 import { AutoSizer } from "react-virtualized";
-import api from "@/api";
-import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
-import { SystemRoleModel } from "@/model/SystemRoleModel";
+import api from "@api";
+import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import { SystemRoleModel } from "@model/SystemRoleModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FormattedMessage } from "react-intl";
-import { PaginationModel } from "@/model/PaginationModel";
-import { MessageService } from "@/common/MessageService";
+import { PaginationModel } from "@model/PaginationModel";
+import { MessageService } from "@common/MessageService";
 import SuperAdminRoleDetailButton from "./SuperAdminRoleDetailButton";
-import { SuperAdminUserRoleQueryPaginationModel } from "@/model/SuperAdminUserRoleQueryPaginationModel";
+import { SuperAdminUserRoleQueryPaginationModel } from "@model/SuperAdminUserRoleQueryPaginationModel";
 
 export default observer(() => {
 

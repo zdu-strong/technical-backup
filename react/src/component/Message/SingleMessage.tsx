@@ -1,7 +1,7 @@
 import { observer, useMobxState } from "mobx-react-use-autorun";
-import { useGlobalSingleMessage } from "@/component/Message/js/Global_Chat";
-import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
-import SingleMessageLoaded from "@/component/Message/SingleMessageLoaded";
+import { useGlobalSingleMessage } from "@component/Message/js/Global_Chat";
+import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import SingleMessageLoaded from "@component/Message/SingleMessageLoaded";
 
 export default observer((props: {
   pageNum: number

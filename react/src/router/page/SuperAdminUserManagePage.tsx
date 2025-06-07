@@ -1,6 +1,6 @@
-import CheckPermissionComponent from "@/common/checkPermission/CheckPagePermissionComponent";
-import MainMenu from "@/component/SystemMenu/MainMenu";
-import SuperAdminUserManage from "@/component/SuperAdminUserManage/SuperAdminUserManage";
+import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
+import MainMenu from "@component/SystemMenu/MainMenu";
+import SuperAdminUserManage from "@component/SuperAdminUserManage/SuperAdminUserManage";
 
 export default <CheckPermissionComponent
   isAutoLogin={true}

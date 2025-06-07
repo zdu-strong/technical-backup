@@ -1,6 +1,6 @@
-import CheckPermissionComponent from "@/common/checkPermission/CheckPagePermissionComponent";
-import MessageEntry from "@/component/Message/MessageEntry";
-import MainMenu from "@/component/SystemMenu/MainMenu";
+import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
+import MessageEntry from "@component/Message/MessageEntry";
+import MainMenu from "@component/SystemMenu/MainMenu";
 
 export default <CheckPermissionComponent
   isAutoLogin={true}

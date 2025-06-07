@@ -1,9 +1,9 @@
-import { FriendshipModel } from "@/model/FriendshipModel";
+import { FriendshipModel } from "@model/FriendshipModel";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { useMount } from "mobx-react-use-autorun";
-import StrangerChild from "@/component/Stranger/StrangerChild";
-import api from '@/api'
-import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
+import StrangerChild from "@component/Stranger/StrangerChild";
+import api from '@api'
+import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { FormattedMessage } from "react-intl";
 
 export default observer(() => {

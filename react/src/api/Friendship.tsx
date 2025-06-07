@@ -1,5 +1,5 @@
-import { FriendshipModel } from "@/model/FriendshipModel";
-import { PaginationModel } from "@/model/PaginationModel";
+import { FriendshipModel } from "@model/FriendshipModel";
+import { PaginationModel } from "@model/PaginationModel";
 import axios from "axios";
 import { TypedJSON } from "typedjson";
 

@@ -1,7 +1,7 @@
-import MessageChat from "@/component/Message/MessageChat";
+import MessageChat from "@component/Message/MessageChat";
 import { observer } from "mobx-react-use-autorun";
 import { stylesheet } from "typestyle";
-import MessageUnlimitedAutoSizer from "@/component/Message/MessageUnlimitedAutoSizer";
+import MessageUnlimitedAutoSizer from "@component/Message/MessageUnlimitedAutoSizer";
 
 const css = stylesheet({
   container: {

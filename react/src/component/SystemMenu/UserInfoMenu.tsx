@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faSpinner, faUser } from '@fortawesome/free-solid-svg-icons';
-import api from '@/api';
-import { MessageService } from '@/common/MessageService';
+import api from '@api';
+import { MessageService } from '@common/MessageService';
 import { FormattedMessage } from 'react-intl';
-import { GlobalUserInfo } from '@/common/Server';
+import { GlobalUserInfo } from '@common/Server';
 import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 
 export default observer(() => {

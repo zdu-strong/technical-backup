@@ -1,5 +1,5 @@
 import { Alert, Dialog, DialogContent, DialogTitle, Divider, Fab, IconButton } from "@mui/material"
-import { GlobalMessageList, MessageService, MESSAGE_TYPE_ENUM } from "@/common/MessageService"
+import { GlobalMessageList, MessageService, MESSAGE_TYPE_ENUM } from "@common/MessageService"
 import linq from "linq";
 import { observer } from 'mobx-react-use-autorun';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

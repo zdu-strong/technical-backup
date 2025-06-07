@@ -1,5 +1,5 @@
-import api from "@/api";
-import { UserMessageModel } from "@/model/UserMessageModel";
+import api from "@api";
+import { UserMessageModel } from "@model/UserMessageModel";
 import { observable, useMount } from "mobx-react-use-autorun";
 import { ReplaySubject, Subscription, catchError, concatMap, repeat, share, tap, timer } from "rxjs"
 import { v7 } from "uuid";

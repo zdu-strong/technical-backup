@@ -1,13 +1,13 @@
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { Button } from "@mui/material";
-import api from "@/api";
-import { MessageService } from "@/common/MessageService";
+import api from "@api";
+import { MessageService } from "@common/MessageService";
 import { FormattedMessage } from "react-intl";
 import { faSpinner, faDownload, faTrashCan, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UserMessageModel } from "@/model/UserMessageModel";
+import { UserMessageModel } from "@model/UserMessageModel";
 import path from "path";
-import { GlobalUserInfo } from "@/common/Server";
+import { GlobalUserInfo } from "@common/Server";
 
 export default observer((props: {
   message: UserMessageModel

@@ -1,5 +1,5 @@
-import CheckPermissionComponent from "@/common/checkPermission/CheckPagePermissionComponent";
-import SignUp from '@/component/SignUp/SignUp';
+import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
+import SignUp from '@component/SignUp/SignUp';
 
 
 export default <CheckPermissionComponent

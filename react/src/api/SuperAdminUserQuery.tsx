@@ -1,6 +1,6 @@
-import { PaginationModel } from "@/model/PaginationModel";
-import { SuperAdminUserQueryPaginationModel } from "@/model/SuperAdminUserQueryPaginationModel";
-import { UserModel } from "@/model/UserModel";
+import { PaginationModel } from "@model/PaginationModel";
+import { SuperAdminUserQueryPaginationModel } from "@model/SuperAdminUserQueryPaginationModel";
+import { UserModel } from "@model/UserModel";
 import axios from "axios";
 
 export async function searchByPagination(query: SuperAdminUserQueryPaginationModel) {

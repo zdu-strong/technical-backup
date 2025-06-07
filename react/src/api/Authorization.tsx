@@ -1,11 +1,11 @@
-import { encryptByPublicKeyOfRSA } from "@/common/RSAUtils";
-import { GlobalUserInfo, removeGlobalUserInfo, setGlobalUserInfo } from "@/common/Server";
-import { UserEmailModel } from "@/model/UserEmailModel";
-import { UserModel } from "@/model/UserModel";
-import { VerificationCodeEmailModel } from "@/model/VerificationCodeEmailModel";
+import { encryptByPublicKeyOfRSA } from "@common/RSAUtils";
+import { GlobalUserInfo, removeGlobalUserInfo, setGlobalUserInfo } from "@common/Server";
+import { UserEmailModel } from "@model/UserEmailModel";
+import { UserModel } from "@model/UserModel";
+import { VerificationCodeEmailModel } from "@model/VerificationCodeEmailModel";
 import axios from "axios";
 import { TypedJSON } from "typedjson";
-import { getKeyOfRSAPublicKey } from "@/api/EncryptDecrypt";
+import { getKeyOfRSAPublicKey } from "@api/EncryptDecrypt";
 
 export async function signUp(password: string, nickname: string, userEmailList: UserEmailModel[]): Promise<void> {
   await signOut();

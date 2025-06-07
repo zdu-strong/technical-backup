@@ -1,8 +1,8 @@
 import axios from 'axios';
 import qs from 'qs';
-import { ServerAddress } from '@/common/Server/get_server_address'
-import { GlobalUserInfo } from '@/common/Server/get_global_user_info';
-import { handleErrorWhenNotSignInToSignIn } from '@/common/Server/handleErrorWhenNotSignInToSignin';
+import { ServerAddress } from '@common/Server/get_server_address'
+import { GlobalUserInfo } from '@common/Server/get_global_user_info';
+import { handleErrorWhenNotSignInToSignIn } from '@common/Server/handleErrorWhenNotSignInToSignin';
 import { v4 } from 'uuid';
 
 axios.defaults.baseURL = ServerAddress;

@@ -1,5 +1,5 @@
-import { existsWindow } from '@/common/exists-window/exists-window';
-import { removeGlobalUserInfo } from '@/common/Server/get_global_user_info';
+import { existsWindow } from '@common/exists-window/exists-window';
+import { removeGlobalUserInfo } from '@common/Server/get_global_user_info';
 
 export function handleErrorWhenNotSignInToSignIn(error: any) {
   if (!existsWindow) {

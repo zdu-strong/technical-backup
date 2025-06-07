@@ -1,8 +1,8 @@
-import { FriendshipModel } from "@/model/FriendshipModel";
+import { FriendshipModel } from "@model/FriendshipModel";
 import { Button } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
-import api from "@/api";
-import { MessageService } from "@/common/MessageService";
+import api from "@api";
+import { MessageService } from "@common/MessageService";
 import { FormattedMessage } from "react-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";

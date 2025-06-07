@@ -2,8 +2,8 @@ import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { ReactNode } from 'react';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
-import UserInfoMenu from '@/component/SystemMenu/UserInfoMenu';
-import { useReactRouterAppProviderNavigation } from '@/component/SystemMenu/js/useReactRouterAppProviderNavigation';
+import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
+import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
 import { stylesheet } from 'typestyle';
 
 

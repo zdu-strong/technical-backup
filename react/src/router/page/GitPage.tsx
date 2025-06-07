@@ -1,6 +1,6 @@
-import CheckPermissionComponent from "@/common/checkPermission/CheckPagePermissionComponent";
-import GitInfo from "@/component/GitInfo";
-import MainMenu from "@/component/SystemMenu/MainMenu";
+import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
+import GitInfo from "@component/GitInfo";
+import MainMenu from "@component/SystemMenu/MainMenu";
 
 export default <CheckPermissionComponent
   isAutoLogin={true}

@@ -2,10 +2,10 @@ import { Button, IconButton, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 import { stylesheet } from "typestyle";
-import AccountTooltipDialog from "@/component/SignIn/AccountTooltipDialog";
-import PasswordTooltipDialog from "@/component/SignIn/PasswordTooltipDialog";
-import api from "@/api";
-import { MessageService } from "@/common/MessageService";
+import AccountTooltipDialog from "@component/SignIn/AccountTooltipDialog";
+import PasswordTooltipDialog from "@component/SignIn/PasswordTooltipDialog";
+import api from "@api";
+import { MessageService } from "@common/MessageService";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion, faArrowRightToBracket, faSpinner } from '@fortawesome/free-solid-svg-icons'

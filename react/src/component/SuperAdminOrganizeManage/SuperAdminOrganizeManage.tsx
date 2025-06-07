@@ -3,16 +3,16 @@ import { DataGrid, GridColDef, useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button } from "@mui/material";
 import { format } from "date-fns";
 import { AutoSizer } from "react-virtualized";
-import api from "@/api";
-import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
+import api from "@api";
+import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import SuperAdminOrganizeDetailButton from "@/component/SuperAdminOrganizeManage/SuperAdminOrganizeDetailButton";
+import SuperAdminOrganizeDetailButton from "@component/SuperAdminOrganizeManage/SuperAdminOrganizeDetailButton";
 import { FormattedMessage } from "react-intl";
-import { PaginationModel } from "@/model/PaginationModel";
-import { MessageService } from "@/common/MessageService";
-import { OrganizeModel } from "@/model/OrganizeModel";
-import { SuperAdminOrganizeQueryPaginationModel } from "@/model/SuperAdminOrganizeQueryPaginationModel";
+import { PaginationModel } from "@model/PaginationModel";
+import { MessageService } from "@common/MessageService";
+import { OrganizeModel } from "@model/OrganizeModel";
+import { SuperAdminOrganizeQueryPaginationModel } from "@model/SuperAdminOrganizeQueryPaginationModel";
 
 export default observer(() => {
 
