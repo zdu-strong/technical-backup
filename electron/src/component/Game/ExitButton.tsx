@@ -31,8 +31,6 @@ export default observer((props: {
     ready: false,
     leftOrRight: 10,
 
-  }, {
-    ...props,
   })
 
   useMount(() => {
@@ -55,8 +53,8 @@ export default observer((props: {
       </Fab>}
     </div>
     {state.exitDialog.open && <ExitDialog
-      canvasRef={state.canvasRef}
-      exit={state.exit}
+      canvasRef={props.canvasRef}
+      exit={props.exit}
       closeDialog={() => {
         state.exitDialog.open = false
       }}

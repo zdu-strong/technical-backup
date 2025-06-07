@@ -15,8 +15,6 @@ export default observer((props: {
 
   const state = useMobxState({
     loading: false,
-  }, {
-    ...props
   })
 
   async function withdrawn() {
@@ -25,7 +23,7 @@ export default observer((props: {
     }
     try {
       state.loading = true;
-      await api.UserMessage.recallMessage(state.message.id);
+      await api.UserMessage.recallMessage(props.message.id);
     } catch (error) {
       MessageService.error(error);
       state.loading = false;
@@ -38,7 +36,7 @@ export default observer((props: {
     }
     try {
       state.loading = true;
-      await api.UserMessage.deleteMessage(state.message.id);
+      await api.UserMessage.deleteMessage(props.message.id);
     } catch (error) {
       MessageService.error(error);
       state.loading = false;
@@ -54,10 +52,10 @@ export default observer((props: {
   >
     <div className="flex flex-row justify-between">
       <div className="flex flex-row">
-        {state.message.pageNum}
+        {props.message.pageNum}
         {":"}
       </div>
-      {state.message.user.id === GlobalUserInfo.id && <Button
+      {props.message.user.id === GlobalUserInfo.id && <Button
         variant="outlined"
         onClick={withdrawn}
         style={{ marginRight: "1em" }}
@@ -66,7 +64,7 @@ export default observer((props: {
       >
         <FormattedMessage id="Withdrawn" defaultMessage="Withdrawn" />
       </Button>}
-      {state.message.user.id !== GlobalUserInfo.id && <Button
+      {props.message.user.id !== GlobalUserInfo.id && <Button
         variant="outlined"
         onClick={deleteMessage}
         style={{ marginRight: "1em" }}
@@ -76,18 +74,18 @@ export default observer((props: {
         <FormattedMessage id="Delete" defaultMessage="Delete" />
       </Button>}
     </div>
-    {!!state.message.url && <div>
+    {!!props.message.url && <div>
       <Button
         variant="contained"
         startIcon={<FontAwesomeIcon icon={faDownload} />}
-        href={state.message.url}
+        href={props.message.url}
         download={true}
       >
-        {decodeURIComponent(path.basename(state.message.url))}
+        {decodeURIComponent(path.basename(props.message.url))}
       </Button>
     </div>}
-    {!state.message.url && <div>
-      {state.message.content}
+    {!props.message.url && <div>
+      {props.message.content}
     </div>}
   </div>
 })

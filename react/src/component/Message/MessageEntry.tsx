@@ -1,4 +1,3 @@
-import { GlobalUserInfo } from "@/common/Server";
 import MessageChat from "@/component/Message/MessageChat";
 import { observer } from "mobx-react-use-autorun";
 import { stylesheet } from "typestyle";
@@ -23,9 +22,6 @@ export default observer(() => {
 
   return <div className={css.container} >
     <MessageUnlimitedAutoSizer />
-    <MessageChat
-      userId={GlobalUserInfo.id!}
-      username={GlobalUserInfo.username!}
-    />
+    <MessageChat />
   </div>
 })

@@ -10,7 +10,6 @@ export default observer((props: {
 
   const state = useMobxState({
   }, {
-    ...props,
     canvasRef: useRef<HTMLCanvasElement>(null),
   })
 
@@ -18,12 +17,12 @@ export default observer((props: {
     <Dialog
       fullScreen
       open={true}
-      onClose={state.closeDialog}
+      onClose={props.closeDialog}
       disableRestoreFocus={true}
       disableEscapeKeyDown={true}
     >
       <ExitButton
-        exit={state.closeDialog}
+        exit={props.closeDialog}
         canvasRef={state.canvasRef}
       />
       <Game

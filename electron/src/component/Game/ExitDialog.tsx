@@ -2,7 +2,7 @@ import remote from "@/remote";
 import { faCookieBite, faRightFromBracket, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Dialog, DialogActions, DialogTitle, Fab } from "@mui/material";
-import { observer, useMobxState } from "mobx-react-use-autorun";
+import { observer } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 
 export default observer((props: {
@@ -11,17 +11,12 @@ export default observer((props: {
   canvasRef: React.RefObject<HTMLCanvasElement>
 }) => {
 
-  const state = useMobxState({
-  }, {
-    ...props
-  })
-
   return <Dialog
     open={true}
     onClose={async () => {
-      state.closeDialog();
+      props.closeDialog();
       await Promise.resolve(null);
-      state.canvasRef.current!.focus();
+      props.canvasRef.current!.focus();
     }}
     disableRestoreFocus={true}
   >
@@ -37,9 +32,9 @@ export default observer((props: {
         <FormattedMessage id="AreYouSure" defaultMessage="Are you sure?" />
       </div>
       <Fab size="small" color="default" onClick={async () => {
-        state.closeDialog();
+        props.closeDialog();
         await Promise.resolve(null);
-        state.canvasRef.current!.focus();
+        props.canvasRef.current!.focus();
       }}>
         <FontAwesomeIcon icon={faXmark} size="xl" />
       </Fab>
@@ -47,8 +42,8 @@ export default observer((props: {
     <DialogActions className="flex justify-end">
       <Button
         onClick={() => {
-          state.closeDialog();
-          state.exit();
+          props.closeDialog();
+          props.exit();
         }}
         variant="contained"
         style={{ marginLeft: "1em" }}

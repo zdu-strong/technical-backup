@@ -11,8 +11,6 @@ export default observer((props: { friendship: FriendshipModel, refreshFriendship
 
   const state = useMobxState({
     loading: false
-  }, {
-    ...props,
   });
 
   async function addToFriendList() {
@@ -21,8 +19,8 @@ export default observer((props: { friendship: FriendshipModel, refreshFriendship
     }
     try {
       state.loading = true;
-      await api.Friendship.addToFriendList(state.friendship.friend?.id!);
-      await state.refreshFriendshipList();
+      await api.Friendship.addToFriendList(props.friendship.friend?.id!);
+      await props.refreshFriendshipList();
     } catch (error) {
       MessageService.error(error);
     } finally {
@@ -32,7 +30,7 @@ export default observer((props: { friendship: FriendshipModel, refreshFriendship
 
   return <div className="flex flex-row justify-between items-center">
     <div className="flex flex-row">
-      {state.friendship.friend?.username}
+      {props.friendship.friend?.username}
     </div>
     <Button
       variant="contained"

@@ -11,10 +11,7 @@ import { FormattedMessage } from "react-intl";
 import { concatMap, from, map, timer, toArray } from "rxjs";
 import { v7 } from 'uuid';
 
-export default observer((props: {
-  username: string,
-  userId: string,
-}) => {
+export default observer(() => {
   const state = useMobxState({
     /* Pending send message */
     messageContent: "",
@@ -27,7 +24,6 @@ export default observer((props: {
       open: false,
     },
   }, {
-    ...props,
     inputFileRef: useRef<HTMLInputElement>(null),
     variableSizeListRef: useRef<{
       scrollToItemByLast: () => Promise<void>,

@@ -11,8 +11,6 @@ export default observer((props: {
 }) => {
   const state = useMobxState({
     ready: false,
-  }, {
-    ...props,
   })
 
   useMount(async (subscription) => {
@@ -32,10 +30,10 @@ export default observer((props: {
     <Dialog
       fullScreen
       open={true}
-      onClose={state.closeDialog}
+      onClose={props.closeDialog}
       disableRestoreFocus={true}
     >
-      {state.ready && <ExitButton exit={state.closeDialog} />}
+      {state.ready && <ExitButton exit={props.closeDialog} />}
       <Game />
     </Dialog>
   </>

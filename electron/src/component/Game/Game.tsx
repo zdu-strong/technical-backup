@@ -38,8 +38,6 @@ export default observer((props: {
     engine: null as BABYLON.Engine | null,
     ready: false,
     error: null as any,
-  }, {
-    ...props,
   })
 
   useMount(async (subscription) => {
@@ -47,7 +45,7 @@ export default observer((props: {
       for (let i = 100; i > 0; i--) {
         await timer(1).toPromise();
       }
-      state.engine = await initGameEngine(state.canvasRef);
+      state.engine = await initGameEngine(props.canvasRef);
       subscription.add(new Subscription(() => {
         state.engine?.dispose();
       }));
@@ -55,7 +53,7 @@ export default observer((props: {
       for (let i = 10; i > 0; i--) {
         await timer(16).toPromise();
       }
-      state.canvasRef.current!.focus();
+      props.canvasRef.current!.focus();
       state.ready = true;
     } catch (error) {
       state.error = error
@@ -86,7 +84,7 @@ export default observer((props: {
 
   return <>
     <div className={css.div} style={state.ready ? {} : { position: "relative" }}>
-      <canvas ref={state.canvasRef} style={{ outlineStyle: "none" }} />
+      <canvas ref={props.canvasRef} style={{ outlineStyle: "none" }} />
       {!state.ready && <LoadingOrErrorComponent ready={state.ready} error={state.error} />}
     </div>
   </>

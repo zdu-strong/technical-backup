@@ -8,7 +8,6 @@ export default observer((props: { children: ReactNode }) => {
   }, {
     I18nLocale: useI18nLocale(),
     I18nJson: useI18nJson(),
-    ...props
   });
 
   useMobxEffect(() => {
@@ -17,7 +16,7 @@ export default observer((props: { children: ReactNode }) => {
 
   return (
     <IntlProvider messages={state.I18nJson} locale={state.I18nLocale}>
-      {state.children}
+      {props.children}
     </IntlProvider>
   );
 })

@@ -20,7 +20,6 @@ export default observer((props: {
     error: null as any,
     hasInitAccessToken: false,
   }), {
-    ...props,
     navigate: useNavigate()
   })
 
@@ -41,35 +40,35 @@ export default observer((props: {
 
   useMobxEffect(() => {
     state.subject.next();
-  }, [state.isAutoLogin, state.checkIsSignIn, state.checkIsNotSignIn, GlobalUserInfo.accessToken])
+  }, [props.isAutoLogin, props.checkIsSignIn, props.checkIsNotSignIn, GlobalUserInfo.accessToken])
 
   function handleCheckIsNotSignIn() {
-    if (state.checkIsNotSignIn && state.checkIsSignIn) {
+    if (props.checkIsNotSignIn && props.checkIsSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+    if (props.checkIsNotSignIn && GlobalUserInfo.accessToken) {
       state.navigate("/");
     }
   }
 
   function handleIsSignIn() {
-    if (state.checkIsSignIn && state.checkIsNotSignIn) {
+    if (props.checkIsSignIn && props.checkIsNotSignIn) {
       throw new Error("Must check if sign in")
     }
 
-    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
+    if (props.checkIsSignIn && !GlobalUserInfo.accessToken) {
       toSignIn();
     }
   }
 
   async function handleIsAutoSignIn() {
-    if (state.isAutoLogin && !state.checkIsSignIn) {
+    if (props.isAutoLogin && !props.checkIsSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (state.isAutoLogin && state.checkIsNotSignIn) {
+    if (props.isAutoLogin && props.checkIsNotSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (state.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
+    if (props.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
       await api.Authorization.signUp(v7(), "visitor", []);
     }
     if (!state.hasInitAccessToken && GlobalUserInfo.accessToken) {
@@ -78,16 +77,16 @@ export default observer((props: {
   }
 
   function isReady() {
-    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
+    if (props.checkIsSignIn && !GlobalUserInfo.accessToken) {
       return false;
     }
-    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+    if (props.checkIsNotSignIn && GlobalUserInfo.accessToken) {
       return false;
     }
     return true;
   }
 
   return <LoadingOrErrorComponent ready={isReady()} error={state.error} >
-    {state.children}
+    {props.children}
   </LoadingOrErrorComponent>
 })

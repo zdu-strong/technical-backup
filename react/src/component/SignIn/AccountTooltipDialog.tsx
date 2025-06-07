@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Fab } from "@mui/material";
-import { observer, useMobxState } from "mobx-react-use-autorun";
+import { observer } from "mobx-react-use-autorun";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FormattedMessage } from "react-intl";
@@ -8,14 +8,9 @@ export default observer((props: {
   closeDialog: () => void,
 }) => {
 
-  const state = useMobxState({
-  }, {
-    ...props
-  })
-
   return <Dialog
     open={true}
-    onClose={state.closeDialog}
+    onClose={props.closeDialog}
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
   >
@@ -23,7 +18,7 @@ export default observer((props: {
       <div>
         <FormattedMessage id="AccountTip" defaultMessage="Account tip" />
       </div>
-      <Fab color="primary" size="small" aria-label="add" onClick={state.closeDialog} >
+      <Fab color="primary" size="small" aria-label="add" onClick={props.closeDialog} >
         <FontAwesomeIcon icon={faXmark} size="xl" />
       </Fab>
     </DialogTitle>

@@ -33,8 +33,6 @@ export default observer((props: { exit: () => void }) => {
     ready: false,
     isLeftAndNotIsRight: false,
     leftOrRight: 10,
-  }, {
-    ...props,
   })
 
   useMount(async (subscription) => {
@@ -98,6 +96,6 @@ export default observer((props: { exit: () => void }) => {
         <FontAwesomeIcon icon={faGear} size="xl" />
       </Fab>}
     </div>
-    {state.exitDialog.open && <ExitDialog exit={state.exit} closeDialog={() => { state.exitDialog.open = false }} />}
+    {state.exitDialog.open && <ExitDialog exit={props.exit} closeDialog={() => { state.exitDialog.open = false }} />}
   </>
 })
