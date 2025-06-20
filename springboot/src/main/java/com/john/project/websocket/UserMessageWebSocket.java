@@ -30,7 +30,6 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.PublishProcessor;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.CloseReason.CloseCodes;
@@ -61,6 +60,10 @@ public class UserMessageWebSocket {
      */
     @Getter
     private final static CopyOnWriteArrayList<UserMessageWebSocket> staticWebSocketList = new CopyOnWriteArrayList<UserMessageWebSocket>();
+
+    private final ConcurrentHashMap<Long, UserMessageModel> onlineMessageMap = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, UserMessageModel> onlineMessageReceiveDateMap = new ConcurrentHashMap<>();
+
     private ObjectMapper objectMapper;
     private PermissionUtil permissionUtil;
     private UUIDUtil uuidUtil;
@@ -69,8 +72,6 @@ public class UserMessageWebSocket {
     private UserMessageWebSocketSendModel lastMessageCache = new UserMessageWebSocketSendModel().setTotalPages(0L)
             .setItems(Lists.newArrayList());
     private boolean ready = false;
-    private ConcurrentHashMap<Long, UserMessageModel> onlineMessageMap = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Long, UserMessageModel> onlineMessageReceiveDateMap = new ConcurrentHashMap<>();
     private PublishProcessor<String> checkIsSignInPublishProcessor;
     private Session webSocketSession;
 
