@@ -158,6 +158,10 @@ Group by id, username
         return map;
     });
 
+# Notes - jinq - distinct
+
+Distinct is not supported, please use group by instead
+
 ## Notes - jinq - order by
 
 Sort by username first, then by id

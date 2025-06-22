@@ -1,6 +1,9 @@
 package com.john.project.test.scheduled.SystemInitScheduled;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import cn.hutool.core.util.ObjectUtil;
+import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,20 +17,24 @@ public class SystemInitScheduledInitUserRoleAfterMoveOrganinzeTest extends BaseT
 
     @Test
     public void test() {
-        var roleList = this.roleOrganizeRelationService
-                .searchOrganizeRoleForSuperAdminByPagination(1, SystemRoleEnum.values().length, organizeId, false)
-                .getItems();
+        var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
+        superAdminRoleQueryPaginationModel.setPageNum(1L);
+        superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+        superAdminRoleQueryPaginationModel.setOrganizeId(organizeId);
+        var roleList = this.roleService.searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel).getItems();
         assertEquals(2, roleList.size());
-        assertTrue(JinqStream.from(roleList).map(s -> SystemRoleEnum.parse(s.getName())).toList()
-                .contains(SystemRoleEnum.ORGANIZE_VIEW));
-        assertTrue(JinqStream.from(roleList).map(s -> SystemRoleEnum.parse(s.getName())).toList()
-                .contains(SystemRoleEnum.ORGANIZE_MANAGE));
-        assertEquals(this.organizeId,
+        assertTrue(
                 JinqStream.from(roleList)
-                        .selectAllList(s -> s.getOrganizeList())
-                        .select(s -> s.getId())
-                        .distinct()
-                        .getOnlyValue());
+                        .selectAllList(s -> s.getPermissionList())
+                        .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_MANAGE.getValue()))
+                        .exists());
+        assertTrue(
+                JinqStream.from(roleList)
+                        .selectAllList(s -> s.getPermissionList())
+                        .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_VIEW.getValue()))
+                        .exists());
     }
 
     @BeforeEach

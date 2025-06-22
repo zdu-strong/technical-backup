@@ -32,6 +32,6 @@ public class PermissionEntity {
     private Date updateDate;
 
     @OneToMany(mappedBy = "permission", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<RolePermissionRelationEntity> rolePermissionRelationList;
+    private List<PermissionRelationEntity> permissionRelationList;
 
 }

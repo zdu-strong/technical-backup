@@ -17,9 +17,6 @@ public abstract class BaseDistributedExecution {
     protected OrganizeService organizeService;
 
     @Autowired
-    protected RoleOrganizeRelationService roleOrganizeRelationService;
-
-    @Autowired
     protected OrganizeRelationService organizeRelationService;
 
     @Autowired

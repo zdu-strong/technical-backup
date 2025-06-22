@@ -7,5 +7,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class SuperAdminUserRoleQueryPaginationModel extends PaginationModel<RoleModel>{
+public class SuperAdminRoleQueryPaginationModel extends PaginationModel<RoleModel> {
+
+    private String organizeId;
+
 }

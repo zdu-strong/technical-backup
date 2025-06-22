@@ -2,7 +2,7 @@ import { jsonMember, jsonObject } from 'typedjson'
 import { makeAutoObservable } from 'mobx-react-use-autorun'
 
 @jsonObject
-export class SuperAdminUserRoleQueryPaginationModel {
+export class SuperAdminRoleQueryPaginationModel {
 
   @jsonMember(Number)
   pageNum: number = 1;

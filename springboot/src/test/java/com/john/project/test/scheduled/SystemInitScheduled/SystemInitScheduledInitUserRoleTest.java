@@ -2,7 +2,8 @@ package com.john.project.test.scheduled.SystemInitScheduled;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.john.project.model.SuperAdminUserRoleQueryPaginationModel;
+import com.john.project.model.SuperAdminRoleQueryPaginationModel;
+import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +13,12 @@ import com.john.project.test.common.BaseTest.BaseTest;
 
 public class SystemInitScheduledInitUserRoleTest extends BaseTest {
 
-    private SuperAdminUserRoleQueryPaginationModel superAdminUserRoleQueryPaginationModel;
+    private SuperAdminRoleQueryPaginationModel superAdminRoleQueryPaginationModel;
 
     @Test
     public void test() {
         this.systemInitScheduled.scheduled();
-        var paginationModel = this.userRoleRelationService.searchUserRoleForSuperAdminByPagination(superAdminUserRoleQueryPaginationModel);
+        var paginationModel = this.roleService.searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel);
         var roleList = paginationModel.getItems();
         assertEquals(1, roleList.size());
         var roleModel = JinqStream.from(roleList).getOnlyValue();
@@ -25,17 +26,17 @@ public class SystemInitScheduledInitUserRoleTest extends BaseTest {
         assertEquals(SystemRoleEnum.SUPER_ADMIN.getValue(), roleModel.getName());
         assertNotNull(roleModel.getCreateDate());
         assertNotNull(roleModel.getUpdateDate());
-        assertTrue(roleModel.getOrganizeList().isEmpty());
         assertEquals(1, roleModel.getPermissionList().size());
         var permission = JinqStream.from(roleModel.getPermissionList()).getOnlyValue();
-        assertEquals(SystemPermissionEnum.SUPER_ADMIN.getValue(), permission);
+        assertEquals(SystemPermissionEnum.SUPER_ADMIN.getValue(), permission.getPermission());
+        assertEquals(StringUtils.EMPTY, permission.getOrganize().getId());
     }
 
     @BeforeEach
     public void beforeEach() {
-        superAdminUserRoleQueryPaginationModel = new SuperAdminUserRoleQueryPaginationModel();
-        superAdminUserRoleQueryPaginationModel.setPageNum(1L);
-        superAdminUserRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+        superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
+        superAdminRoleQueryPaginationModel.setPageNum(1L);
+        superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
     }
 
 }

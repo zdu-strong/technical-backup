@@ -14,19 +14,10 @@ public class RoleFormatter extends BaseService {
         BeanUtils.copyProperties(roleEntity, roleModel);
         var id = roleEntity.getId();
 
-        var organizeList = this.streamAll(RoleEntity.class)
-                .where(s -> s.getId().equals(id))
-                .selectAllList(s -> s.getRoleOrganizeRelationList())
-                .select(s -> s.getOrganize())
-                .where(s -> !s.getIsDeleted())
-                .map(this.organizeFormatter::format)
-                .toList();
-        roleModel.setOrganizeList(organizeList);
-
         var permissionList = this.streamAll(RoleEntity.class)
                 .where(s -> s.getId().equals(id))
-                .selectAllList(s -> s.getRolePermissionRelationList())
-                .select(s -> s.getPermission().getName())
+                .selectAllList(s -> s.getPermissionRelationList())
+                .map(this.permissionRelationFormatter::format)
                 .toList();
         roleModel.setPermissionList(permissionList);
         return roleModel;

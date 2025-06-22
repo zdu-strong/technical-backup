@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Date;
 
 import com.john.project.model.OrganizeModel;
+import com.john.project.service.PermissionRelationService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import com.john.project.enums.LongTermTaskTypeEnum;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.service.OrganizeRelationService;
 import com.john.project.service.OrganizeService;
-import com.john.project.service.RoleOrganizeRelationService;
 
 import lombok.SneakyThrows;
 
@@ -31,13 +31,13 @@ public class OrganizeUtil {
     private OrganizeRelationService organizeRelationService;
 
     @Autowired
+    private PermissionRelationService permissionRelationService;
+
+    @Autowired
     private LongTermTaskUtil longTermTaskUtil;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private RoleOrganizeRelationService roleOrganizeRelationService;
 
     public void move(String id, String parentId) {
         this.organizeService.checkCanBeMoveOfOrganize(id, parentId);
@@ -72,7 +72,7 @@ public class OrganizeUtil {
         var deadline = this.getDeadline();
 
         while (!new Date().after(deadline)) {
-            var hasNext = this.roleOrganizeRelationService.refresh(organizeId);
+            var hasNext = this.permissionRelationService.refresh(organizeId);
             if (hasNext) {
                 continue;
             }

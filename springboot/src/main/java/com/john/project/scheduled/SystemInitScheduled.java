@@ -2,7 +2,8 @@ package com.john.project.scheduled;
 
 import java.util.List;
 import java.util.concurrent.Executor;
-import com.john.project.model.SuperAdminUserRoleQueryPaginationModel;
+import com.john.project.model.SuperAdminRoleQueryPaginationModel;
+import com.john.project.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
@@ -16,12 +17,6 @@ import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.model.UserEmailModel;
 import com.john.project.model.UserModel;
-import com.john.project.service.EncryptDecryptService;
-import com.john.project.service.LongTermTaskService;
-import com.john.project.service.PermissionService;
-import com.john.project.service.UserRoleRelationService;
-import com.john.project.service.UserService;
-import com.john.project.service.VerificationCodeEmailService;
 import io.reactivex.rxjava3.core.Flowable;
 import lombok.Getter;
 
@@ -57,6 +52,9 @@ public class SystemInitScheduled {
 
     @Autowired
     private UserRoleRelationService userRoleRelationService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Getter
     private Boolean hasInit = false;
@@ -105,11 +103,11 @@ public class SystemInitScheduled {
                 this.verificationCodeEmailService.getById(verificationCodeEmailModel.getId()).getVerificationCode());
         superAdminUser.setUserEmailList(
                 List.of(new UserEmailModel().setEmail(email).setVerificationCodeEmail(verificationCodeEmailModel)));
-        var superAdminUserRoleQueryPaginationModel = new SuperAdminUserRoleQueryPaginationModel();
-        superAdminUserRoleQueryPaginationModel.setPageNum(1L);
-        superAdminUserRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+        var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
+        superAdminRoleQueryPaginationModel.setPageNum(1L);
+        superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
         superAdminUser.setRoleList(
-                this.userRoleRelationService.searchUserRoleForSuperAdminByPagination(superAdminUserRoleQueryPaginationModel).getItems());
+                this.roleService.searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel).getItems());
         this.userService.create(superAdminUser);
     }
 

@@ -1,6 +1,7 @@
 package com.john.project.common.baseController;
 
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
+import com.john.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,19 +15,6 @@ import com.john.project.common.permission.PermissionUtil;
 import com.john.project.properties.AuthorizationEmailProperties;
 import com.john.project.properties.DateFormatProperties;
 import com.john.project.common.storage.Storage;
-import com.john.project.service.EncryptDecryptService;
-import com.john.project.service.FriendshipService;
-import com.john.project.service.LongTermTaskService;
-import com.john.project.service.OrganizeService;
-import com.john.project.service.PermissionService;
-import com.john.project.service.RoleOrganizeRelationService;
-import com.john.project.service.RoleService;
-import com.john.project.service.TokenService;
-import com.john.project.service.UserEmailService;
-import com.john.project.service.UserMessageService;
-import com.john.project.service.UserRoleRelationService;
-import com.john.project.service.UserService;
-import com.john.project.service.VerificationCodeEmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -115,9 +103,9 @@ public class BaseController {
     protected UserRoleRelationService userRoleRelationService;
 
     @Autowired
-    protected RoleOrganizeRelationService roleOrganizeRelationService;
+    protected PermissionService permissionService;
 
     @Autowired
-    protected PermissionService permissionService;
+    protected PermissionRelationService permissionRelationService;
 
 }

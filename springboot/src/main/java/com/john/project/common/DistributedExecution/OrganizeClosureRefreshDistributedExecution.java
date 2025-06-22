@@ -17,15 +17,15 @@ public class OrganizeClosureRefreshDistributedExecution extends BaseDistributedE
         var paginationModel = this.organizeService.searchOrganizeByPagination(pageNum,
                 1L);
         for (var organizeModel : paginationModel.getItems()) {
-            while (true) {
-                if (this.roleOrganizeRelationService.hasNeededToRefresh(organizeModel.getId())) {
-                    var hasNext = this.roleOrganizeRelationService.refresh(organizeModel.getId());
-                    if (hasNext) {
-                        continue;
-                    }
-                }
-                break;
-            }
+//            while (true) {
+//                if (this.roleOrganizeRelationService.hasNeededToRefresh(organizeModel.getId())) {
+//                    var hasNext = this.roleOrganizeRelationService.refresh(organizeModel.getId());
+//                    if (hasNext) {
+//                        continue;
+//                    }
+//                }
+//                break;
+//            }
             while (true) {
                 if (this.organizeRelationService.hasNeededToRefresh(organizeModel.getId())) {
                     var hasNext = this.organizeRelationService.refresh(organizeModel.getId());

@@ -2,10 +2,11 @@ package com.john.project.service;
 
 import java.util.Arrays;
 import java.util.Date;
+
+import com.john.project.entity.PermissionRelationEntity;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.entity.PermissionEntity;
-import com.john.project.entity.RolePermissionRelationEntity;
 import com.john.project.enums.SystemPermissionEnum;
 
 @Service
@@ -48,7 +49,7 @@ public class PermissionService extends BaseService {
                 .orElse(null);
         if (permissionEntity != null) {
             var idOfPermission = permissionEntity.getId();
-            var rolePermissionRelationEntity = this.streamAll(RolePermissionRelationEntity.class)
+            var rolePermissionRelationEntity = this.streamAll(PermissionRelationEntity.class)
                     .where(s -> s.getPermission().getId().equals(idOfPermission))
                     .findFirst()
                     .orElse(null);

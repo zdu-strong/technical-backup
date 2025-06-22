@@ -63,6 +63,6 @@ public class OrganizeEntity {
     private List<OrganizeRelationEntity> ancestorList;
 
     @OneToMany(mappedBy = "organize", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<RoleOrganizeRelationEntity> roleOrganizeRelationList;
+    private List<PermissionRelationEntity> permissionRelationList;
 
 }

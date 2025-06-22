@@ -1,8 +1,10 @@
 package com.john.project.common.permission;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -64,16 +66,17 @@ public class PermissionUtil {
         }
         var userId = this.getUserId(request);
         var user = this.userService.getUserWithMoreInformation(userId);
-        var hasAnyRole = JinqStream.from(user.getRoleList())
+        var hasAnyPermission = JinqStream.from(user.getRoleList())
                 .selectAllList(s -> s.getPermissionList())
+                .select(s -> s.getPermission())
                 .select(s -> SystemPermissionEnum.parse(s))
                 .where(s -> ArrayUtils.contains(permissionList, s))
                 .exists();
-        return hasAnyRole;
+        return hasAnyPermission;
     }
 
     public boolean hasAnyPermission(HttpServletRequest request, String organizeId,
-            SystemPermissionEnum... permissionList) {
+                                    SystemPermissionEnum... permissionList) {
         if (StringUtils.isBlank(organizeId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OrganizeId Cannot be empty");
         }
@@ -88,15 +91,16 @@ public class PermissionUtil {
 
         if (Arrays.stream(permissionList).anyMatch(s -> s.getIsSuperAdmin())
                 && JinqStream.from(user.getRoleList())
-                        .where(s -> !s.getIsOrganizeRole())
-                        .selectAllList(s -> s.getPermissionList())
-                        .select(s -> SystemPermissionEnum.parse(s))
-                        .anyMatch(s -> s.getIsSuperAdmin())) {
+                .selectAllList(s -> s.getPermissionList())
+                .select(s -> s.getPermission())
+                .select(s -> SystemPermissionEnum.parse(s))
+                .anyMatch(s -> s.getIsSuperAdmin())) {
             return true;
         }
         if (!Arrays.stream(permissionList)
                 .anyMatch(s -> JinqStream.from(user.getRoleList())
                         .selectAllList(t -> t.getPermissionList())
+                        .select(t -> t.getPermission())
                         .select(t -> SystemPermissionEnum.parse(t))
                         .toList()
                         .contains(s))) {
@@ -118,7 +122,7 @@ public class PermissionUtil {
     }
 
     public void checkAnyPermission(HttpServletRequest request, List<String> organizeIdList,
-            SystemPermissionEnum... permissionList) {
+                                   SystemPermissionEnum... permissionList) {
         for (var organizeId : organizeIdList) {
             if (!this.hasAnyPermission(request, organizeId, permissionList)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
@@ -127,14 +131,14 @@ public class PermissionUtil {
     }
 
     public void checkAnyPermission(HttpServletRequest request, String organizeId,
-            SystemPermissionEnum... permissionList) {
+                                   SystemPermissionEnum... permissionList) {
         if (!this.hasAnyPermission(request, organizeId, permissionList)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
 
     public List<String> getOrganizeIdListByAnyPermission(HttpServletRequest request,
-            SystemPermissionEnum... permissionList) {
+                                                         SystemPermissionEnum... permissionList) {
         if (permissionList.length == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be empty");
         }
@@ -144,11 +148,14 @@ public class PermissionUtil {
         var userId = this.getUserId(request);
         var user = this.userService.getUserWithMoreInformation(userId);
         var organizeIdList = JinqStream.from(user.getRoleList())
-                .where(s -> s.getIsOrganizeRole())
-                .where(s -> JinqStream.from(s.getPermissionList())
+                .selectAllList(s -> s.getPermissionList())
+                .where(s -> JinqStream.of(s)
+                        .select(t -> t.getPermission())
+                        .select(t -> SystemPermissionEnum.parse(t))
+                        .where(t -> t.getIsOrganizeRole())
                         .anyMatch(t -> ArrayUtils.contains(permissionList,
-                                SystemPermissionEnum.parse(t))))
-                .selectAllList(s -> s.getOrganizeList())
+                                t)))
+                .select(s -> s.getOrganize())
                 .select(s -> s.getId())
                 .toList();
         return organizeIdList;

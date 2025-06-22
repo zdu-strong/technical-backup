@@ -3,6 +3,7 @@ package com.john.project.common.baseService;
 import com.google.cloud.spanner.AbortedDueToConcurrentModificationException;
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
 import com.john.project.common.uuid.UUIDUtil;
+import com.john.project.format.*;
 import io.grpc.StatusRuntimeException;
 import org.hibernate.exception.GenericJDBCException;
 import org.jinq.jpa.JPAJinqStream;
@@ -24,20 +25,6 @@ import com.john.project.properties.DatabaseJdbcProperties;
 import com.john.project.properties.DateFormatProperties;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.common.storage.Storage;
-import com.john.project.format.DistributedExecutionDetailFormatter;
-import com.john.project.format.DistributedExecutionMainFormatter;
-import com.john.project.format.FriendshipFormatter;
-import com.john.project.format.LoggerFormatter;
-import com.john.project.format.LongTermTaskFormatter;
-import com.john.project.format.NonceFormatter;
-import com.john.project.format.OrganizeFormatter;
-import com.john.project.format.StorageSpaceFormatter;
-import com.john.project.format.RoleFormatter;
-import com.john.project.format.TokenFormatter;
-import com.john.project.format.UserEmailFormatter;
-import com.john.project.format.UserFormatter;
-import com.john.project.format.UserMessageFormatter;
-import com.john.project.format.VerificationCodeEmailFormatter;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -127,6 +114,9 @@ public abstract class BaseService {
 
     @Autowired
     protected DistributedExecutionDetailFormatter distributedExecutionDetailFormatter;
+
+    @Autowired
+    protected PermissionRelationFormatter permissionRelationFormatter;
 
     protected void persist(Object entity) {
         this.entityManager.persist(entity);

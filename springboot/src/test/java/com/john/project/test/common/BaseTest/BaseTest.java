@@ -67,8 +67,7 @@ import com.john.project.service.OrganizeRelationService;
 import com.john.project.service.OrganizeService;
 import com.john.project.service.StorageSpaceService;
 import com.john.project.service.PermissionService;
-import com.john.project.service.RoleOrganizeRelationService;
-import com.john.project.service.RolePermissionRelationService;
+import com.john.project.service.PermissionRelationService;
 import com.john.project.service.RoleService;
 import com.john.project.service.TokenService;
 import com.john.project.service.UserEmailService;
@@ -209,13 +208,10 @@ public class BaseTest {
     protected DistributedExecutionDetailService distributedExecutionDetailService;
 
     @Autowired
-    protected RolePermissionRelationService rolePermissionRelationService;
+    protected PermissionRelationService permissionRelationService;
 
     @Autowired
     protected UserRoleRelationService userRoleRelationService;
-
-    @Autowired
-    protected RoleOrganizeRelationService roleOrganizeRelationService;
 
     @Autowired
     protected MessageScheduled messageScheduled;
@@ -247,10 +243,11 @@ public class BaseTest {
             var response = this.testRestTemplate.postForEntity(url, new OrganizeModel()
                     .setName(uuidUtil.v4()), OrganizeModel.class);
             assertEquals(HttpStatus.OK, response.getStatusCode());
-            var company = response.getBody();
-            var roleList = this.roleOrganizeRelationService
-                    .searchOrganizeRoleForSuperAdminByPagination(1, SystemRoleEnum.values().length, company.getId(),
-                            false)
+            var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
+            superAdminRoleQueryPaginationModel.setPageNum(1L);
+            superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+            var roleList = this.roleService
+                    .searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel)
                     .getItems();
             userModel.getRoleList().addAll(roleList);
             this.userService.update(userModel);
@@ -262,11 +259,11 @@ public class BaseTest {
     protected UserModel createAccountOfSuperAdmin(String email) {
         var userModel = createAccount(email);
         {
-            var superAdminUserRoleQueryPaginationModel = new SuperAdminUserRoleQueryPaginationModel();
-            superAdminUserRoleQueryPaginationModel.setPageNum(1L);
-            superAdminUserRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
-            var roleList = this.userRoleRelationService
-                    .searchUserRoleForSuperAdminByPagination(superAdminUserRoleQueryPaginationModel)
+            var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
+            superAdminRoleQueryPaginationModel.setPageNum(1L);
+            superAdminRoleQueryPaginationModel.setPageSize(200L);
+            var roleList = this.roleService
+                    .searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel)
                     .getItems();
             userModel.getRoleList().addAll(roleList);
             this.userService.update(userModel);

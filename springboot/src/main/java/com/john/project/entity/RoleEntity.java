@@ -33,19 +33,10 @@ public class RoleEntity {
     @Column(nullable = false)
     private Boolean isDeleted;
 
-    @Column(nullable = false)
-    private String deletionCode;
-
-    @Column(nullable = false)
-    private Boolean isOrganizeRole;
-
     @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<RolePermissionRelationEntity> rolePermissionRelationList;
+    private List<PermissionRelationEntity> permissionRelationList;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<UserRoleRelationEntity> userRoleRelationList;
-
-    @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<RoleOrganizeRelationEntity> roleOrganizeRelationList;
 
 }

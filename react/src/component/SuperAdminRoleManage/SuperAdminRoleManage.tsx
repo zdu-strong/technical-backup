@@ -12,7 +12,7 @@ import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
 import { MessageService } from "@common/MessageService";
 import SuperAdminRoleDetailButton from "./SuperAdminRoleDetailButton";
-import { SuperAdminUserRoleQueryPaginationModel } from "@model/SuperAdminUserRoleQueryPaginationModel";
+import { SuperAdminRoleQueryPaginationModel } from "@model/SuperAdminRoleQueryPaginationModel";
 
 export default observer(() => {
 
@@ -20,7 +20,7 @@ export default observer(() => {
     ready: false,
     loading: true,
     error: null as any,
-    query: new SuperAdminUserRoleQueryPaginationModel(),
+    query: new SuperAdminRoleQueryPaginationModel(),
     paginationModel: new PaginationModel<SystemRoleModel>(),
     columns: [
       {

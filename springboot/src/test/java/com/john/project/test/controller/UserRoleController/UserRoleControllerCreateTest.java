@@ -1,8 +1,11 @@
 package com.john.project.test.controller.UserRoleController;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
+
+import com.john.project.model.OrganizeModel;
+import com.john.project.model.PermissionRelationModel;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,12 +26,13 @@ public class UserRoleControllerCreateTest extends BaseTest {
     public void test() {
         var body = new RoleModel();
         body.setName("Manager");
-        body.setOrganizeList(JinqStream.from(user.getRoleList())
-                .selectAllList(s -> s.getOrganizeList())
-                .group(s -> s.getId(), (s, t) -> t.findFirst().get())
-                .select(s -> s.getTwo())
+        body.setPermissionList(JinqStream.from(user.getRoleList())
+                .selectAllList(s -> s.getPermissionList())
+                .group(s -> s.getOrganize().getId(), (s, t) -> t.findFirst().get())
+                .select(s -> s.getOne())
+                .where(StringUtils::isNotBlank)
+                .select(s -> new PermissionRelationModel().setPermission(SystemPermissionEnum.ORGANIZE_MANAGE.getValue()).setOrganize(new OrganizeModel().setId(s)))
                 .toList());
-        body.setPermissionList(List.of(SystemPermissionEnum.ORGANIZE_MANAGE.getValue()));
         var url = new URIBuilder("/role/create").build();
         var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(body), RoleModel.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());

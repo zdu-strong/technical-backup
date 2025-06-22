@@ -2,13 +2,18 @@ package com.john.project.service;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.common.database.JPQLFunction;
+import com.john.project.entity.PermissionRelationEntity;
 import com.john.project.entity.RoleEntity;
-import com.john.project.entity.RolePermissionRelationEntity;
+import com.john.project.model.PaginationModel;
+import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
+import org.jinq.tuples.Pair;
+import org.jinq.tuples.Tuple3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,28 +28,19 @@ import jakarta.servlet.http.HttpServletRequest;
 public class RoleService extends BaseService {
 
     @Autowired
-    private RolePermissionRelationService rolePermissionRelationService;
+    private PermissionRelationService permissionRelationService;
 
-    @Autowired
-    private RoleOrganizeRelationService roleOrganizeRelationService;
-
-    public RoleModel create(String role, List<SystemPermissionEnum> permissionList, List<String> organizeIdList) {
+    public RoleModel create(RoleModel roleModel) {
         var roleEntity = new RoleEntity();
         roleEntity.setId(newId());
         roleEntity.setCreateDate(new Date());
         roleEntity.setUpdateDate(new Date());
-        roleEntity.setName(role);
+        roleEntity.setName(roleModel.getName());
         roleEntity.setIsDeleted(false);
-        roleEntity.setDeletionCode(StringUtils.EMPTY);
-        roleEntity.setIsOrganizeRole(!organizeIdList.isEmpty());
         this.persist(roleEntity);
 
-        for (var permissionEnum : permissionList) {
-            this.rolePermissionRelationService.create(roleEntity.getId(), permissionEnum);
-        }
-
-        for (var organizeId : organizeIdList) {
-            this.roleOrganizeRelationService.create(roleEntity.getId(), organizeId);
+        for (var permission : roleModel.getPermissionList()) {
+            this.permissionRelationService.create(roleEntity.getId(), permission.getOrganize(), SystemPermissionEnum.parse(permission.getPermission()));
         }
 
         return this.roleFormatter.format(roleEntity);
@@ -59,27 +55,47 @@ public class RoleService extends BaseService {
         roleEntity.setUpdateDate(new Date());
         this.merge(roleEntity);
 
-        var rolePermissionRelationList = this.streamAll(RolePermissionRelationEntity.class)
+        var permissionList = this.streamAll(PermissionRelationEntity.class)
                 .where(s -> s.getRole().getId().equals(id))
                 .toList();
 
-        for (var rolePermissionRelationEntity : rolePermissionRelationList) {
-            if (roleModel.getPermissionList().contains(rolePermissionRelationEntity.getPermission().getName())) {
+        for (var permission : permissionList) {
+            if (JinqStream.from(roleModel.getPermissionList())
+                    .where(s -> ObjectUtil.equals(permission.getPermission(), s.getPermission()))
+                    .where(s -> ObjectUtil.equals(
+                            Optional.ofNullable(permission.getOrganize()).map(m -> m.getId()).orElse(null),
+                            Optional.ofNullable(s.getOrganize())
+                                    .map(m -> Optional.ofNullable(m.getId()))
+                                    .filter(m -> m.isPresent())
+                                    .map(m -> m.get())
+                                    .filter(StringUtils::isNotBlank)
+                                    .orElse(null)
+
+                    ))
+                    .exists()
+            ) {
                 continue;
             }
-            this.remove(rolePermissionRelationEntity);
+            this.remove(permission);
         }
 
-        for (var permissionEnum : roleModel.getPermissionList().stream()
-                .map(s -> SystemPermissionEnum.parse(s))
-                .toList()) {
-            if (JinqStream.from(rolePermissionRelationList)
-                    .select(s -> s.getPermission().getName())
-                    .toList()
-                    .contains(permissionEnum.getValue())) {
+        for (var permission : roleModel.getPermissionList()) {
+            if (JinqStream.from(permissionList)
+                    .where(s -> ObjectUtil.equals(permission.getPermission(), s.getPermission()))
+                    .where(s -> ObjectUtil.equals(
+                            Optional.ofNullable(permission.getOrganize())
+                                    .map(m -> Optional.ofNullable(m.getId()))
+                                    .filter(m -> m.isPresent())
+                                    .map(m -> m.get())
+                                    .filter(StringUtils::isNotBlank)
+                                    .orElse(null),
+                            Optional.ofNullable(s.getOrganize()).map(m -> m.getId()).orElse(null)
+                    ))
+                    .exists()
+            ) {
                 continue;
             }
-            this.rolePermissionRelationService.create(id, permissionEnum);
+            this.permissionRelationService.create(roleEntity.getId(), permission.getOrganize(), SystemPermissionEnum.parse(permission.getPermission()));
         }
 
     }
@@ -89,13 +105,12 @@ public class RoleService extends BaseService {
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
         roleEntity.setIsDeleted(true);
-        roleEntity.setDeletionCode(uuidUtil.v4());
         roleEntity.setUpdateDate(new Date());
         this.merge(roleEntity);
     }
 
     @Transactional(readOnly = true)
-    public void checkCanCreateUserRole(RoleModel roleModel, HttpServletRequest request) {
+    public void checkCanCreateRole(RoleModel roleModel, HttpServletRequest request) {
         if (!roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
                 .filter(m -> !m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
             return;
@@ -108,31 +123,47 @@ public class RoleService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public void checkCanCreateOrganizeRole(RoleModel roleModel, HttpServletRequest request) {
-        if (!roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
-                .filter(m -> m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
-            return;
+    public PaginationModel<RoleModel> searchRoleForSuperAdminByPagination(SuperAdminRoleQueryPaginationModel query) {
+        var stream = this.streamAll(PermissionRelationEntity.class)
+                .join(s -> JinqStream.of(s.getRole()))
+                .join(s -> JinqStream.of(s.getOne().getPermission()))
+                .leftOuterJoin(s -> JinqStream.of(s.getOne().getOne().getOrganize()))
+                .select(s -> new Tuple3<>(s.getOne().getOne().getTwo(), s.getOne().getTwo(), s.getTwo()))
+                .leftOuterJoinList(s -> s.getThree().getAncestorList())
+                .leftOuterJoin(s -> JinqStream.of(s.getTwo().getAncestor()))
+                .select(s -> new Tuple3<>(s.getOne().getOne().getOne(), s.getOne().getOne().getTwo(), s.getTwo()));
+        stream = stream.where(s -> !s.getOne().getIsDeleted());
+
+        if (StringUtils.isNotBlank(query.getOrganizeId())) {
+            var organizeId = query.getOrganizeId();
+            stream = stream.where(s -> s.getThree().getId().equals(organizeId));
         }
-        if (roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
-                .filter(m -> !m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role cannot have system permissions");
-        }
-        if (this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN)) {
-            return;
-        }
-        for (var permissionName : roleModel.getPermissionList()) {
-            for (var organizeModel : roleModel.getOrganizeList()) {
-                this.permissionUtil.checkAnyPermission(request, organizeModel.getId(),
-                        SystemPermissionEnum.parse(permissionName));
-            }
-        }
+
+        var roleStream = stream.group(s -> s.getOne(), (s, t) -> s)
+                .select(s -> s.getOne());
+
+        return new PaginationModel<>(query.getPageNum(), query.getPageSize(), roleStream, this.roleFormatter::format);
     }
 
-    @Transactional(readOnly = true)
-    public void fillOfOrganizeList(RoleModel roleModel) {
-        if (ObjectUtil.isEmpty(roleModel.getOrganizeList())) {
-            roleModel.setOrganizeList(List.of());
-        }
-    }
+//    @Transactional(readOnly = true)
+//    public void checkCanCreateOrganizeRole(RoleModel roleModel, HttpServletRequest request) {
+//        if (!roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
+//                .filter(m -> m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
+//            return;
+//        }
+//        if (roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
+//                .filter(m -> !m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role cannot have system permissions");
+//        }
+//        if (this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN)) {
+//            return;
+//        }
+//        for (var permissionName : roleModel.getPermissionList()) {
+//            for (var organizeModel : roleModel.getOrganizeList()) {
+//                this.permissionUtil.checkAnyPermission(request, organizeModel.getId(),
+//                        SystemPermissionEnum.parse(permissionName));
+//            }
+//        }
+//    }
 
 }
