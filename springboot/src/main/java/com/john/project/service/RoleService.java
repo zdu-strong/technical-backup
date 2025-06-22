@@ -10,6 +10,7 @@ import com.john.project.entity.PermissionRelationEntity;
 import com.john.project.entity.RoleEntity;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.jinq.tuples.Pair;
@@ -131,12 +132,17 @@ public class RoleService extends BaseService {
                 .select(s -> new Tuple3<>(s.getOne().getOne().getTwo(), s.getOne().getTwo(), s.getTwo()))
                 .leftOuterJoinList(s -> s.getThree().getAncestorList())
                 .leftOuterJoin(s -> JinqStream.of(s.getTwo().getAncestor()))
-                .select(s -> new Tuple3<>(s.getOne().getOne().getOne(), s.getOne().getOne().getTwo(), s.getTwo()));
-        stream = stream.where(s -> !s.getOne().getIsDeleted());
+                .select(s -> new Tuple3<>(s.getOne().getOne().getOne(), s.getOne().getOne().getTwo(), s.getTwo()))
+                .where(s -> !s.getOne().getIsDeleted());
 
         if (StringUtils.isNotBlank(query.getOrganizeId())) {
             var organizeId = query.getOrganizeId();
             stream = stream.where(s -> s.getThree().getId().equals(organizeId));
+        }
+
+        if (CollectionUtils.isNotEmpty(query.getPermissionList())) {
+            var permissionList = query.getPermissionList();
+            stream = stream.where(s -> permissionList.contains(s.getTwo().getName()));
         }
 
         var roleStream = stream.group(s -> s.getOne(), (s, t) -> s)
