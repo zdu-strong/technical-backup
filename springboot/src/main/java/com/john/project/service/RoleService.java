@@ -12,6 +12,7 @@ import com.john.project.model.PaginationModel;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jinq.jpa.JPQL;
 import org.jinq.orm.stream.JinqStream;
 import org.jinq.tuples.Pair;
 import org.jinq.tuples.Tuple3;
@@ -143,6 +144,11 @@ public class RoleService extends BaseService {
         if (CollectionUtils.isNotEmpty(query.getPermissionList())) {
             var permissionList = query.getPermissionList();
             stream = stream.where(s -> permissionList.contains(s.getTwo().getName()));
+        }
+
+        if (StringUtils.isNotBlank(query.getRoleName())) {
+            var roleName = query.getRoleName();
+            stream = stream.where(s -> JPQL.like(s.getOne().getName(), roleName + "%"));
         }
 
         var roleStream = stream.group(s -> s.getOne(), (s, t) -> s)

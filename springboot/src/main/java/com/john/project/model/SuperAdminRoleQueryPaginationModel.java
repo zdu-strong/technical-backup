@@ -15,4 +15,6 @@ public class SuperAdminRoleQueryPaginationModel extends PaginationModel<RoleMode
 
     private List<String> permissionList;
 
+    private String roleName;
+
 }
