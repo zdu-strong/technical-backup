@@ -46,7 +46,7 @@ public class AuthorizationEmailUtil {
         for (var i = 10; i > 0; i--) {
             var verificationCodeEmailModelTwo = this.verificationCodeEmailService.createVerificationCodeEmail(email);
 
-            var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.yearMonthDayHourMinuteSecond);
+            var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND);
             var createDate = fastDateFormat.parse(
                     fastDateFormat.format(DateUtils.addSeconds(verificationCodeEmailModelTwo.getCreateDate(), 1)));
             ThreadUtils.sleepQuietly(

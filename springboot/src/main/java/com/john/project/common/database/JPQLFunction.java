@@ -10,7 +10,6 @@ import com.john.project.constant.DateFormatConstant;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.jinq.jpa.JinqJPAStreamProvider;
-import cn.hutool.extra.spring.SpringUtil;
 
 /**
  * In order to call database-specific functions
@@ -75,7 +74,7 @@ public class JPQLFunction {
      * @return like 2022
      */
     public static String formatDateAsYear(Date date, String utcOffset) {
-        return FastDateFormat.getInstance(DateFormatConstant.year,
+        return FastDateFormat.getInstance(DateFormatConstant.YEAR,
                 TimeZone.getTimeZone(utcOffset)).format(date);
     }
 
@@ -86,7 +85,7 @@ public class JPQLFunction {
      * @return like 2022-08
      */
     public static String formatDateAsYearMonth(Date date, String utcOffset) {
-        return FastDateFormat.getInstance(DateFormatConstant.yearMonth,
+        return FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH,
                 TimeZone.getTimeZone(utcOffset)).format(date);
     }
 
@@ -97,7 +96,7 @@ public class JPQLFunction {
      * @return like 2022-08-08
      */
     public static String formatDateAsYearMonthDay(Date date, String utcOffset) {
-        return FastDateFormat.getInstance(DateFormatConstant.yearMonthDay,
+        return FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY,
                 TimeZone.getTimeZone(utcOffset)).format(date);
     }
 
@@ -108,7 +107,7 @@ public class JPQLFunction {
      * @return like 2022-08-08 13
      */
     public static String formatDateAsYearMonthDayHour(Date date, String utcOffset) {
-        return FastDateFormat.getInstance(DateFormatConstant.yearMonthDayHour,
+        return FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY_HOUR,
                 TimeZone.getTimeZone(utcOffset)).format(date);
     }
 
@@ -119,7 +118,7 @@ public class JPQLFunction {
      * @return like 2022-08-08 13:05
      */
     public static String formatDateAsYearMonthDayHourMinute(Date date, String utcOffset) {
-        return FastDateFormat.getInstance(DateFormatConstant.yearMonthDayHourMinute,
+        return FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE,
                 TimeZone.getTimeZone(utcOffset)).format(date);
     }
 
@@ -131,7 +130,7 @@ public class JPQLFunction {
      */
     public static String formatDateAsYearMonthDayHourMinuteSecond(Date date, String utcOffset) {
         return FastDateFormat
-                .getInstance(DateFormatConstant.yearMonthDayHourMinuteSecond,
+                .getInstance(DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND,
                         TimeZone.getTimeZone(utcOffset))
                 .format(date);
     }
@@ -144,7 +143,7 @@ public class JPQLFunction {
      */
     public static String formatDateAsYearMonthDayHourMinuteSecondMillisecond(Date date, String utcOffset) {
         return FastDateFormat.getInstance(
-                DateFormatConstant.yearMonthDayHourMinuteSecondMillisecond,
+                DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND_MILLISECOND,
                 TimeZone.getTimeZone(utcOffset)).format(date);
     }
 
