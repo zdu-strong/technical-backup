@@ -192,6 +192,14 @@ Sort by username first, then by id
         JinqStream.from(s.getUserEmailList()).where(m -> m.getEmail().equals("tom@gmail.com")).exists()
     );
 
+# Notes - jinq - contains string
+
+    this.streamAll(UserEntity.class).where( s -> s.getUsername().contains("abc) );
+
+# Notes - jinq - startsWith string
+
+    this.streamAll(UserEntity.class).where( s -> JPQL.like(s.getUsername(), "abc" + "%" );
+
 ## Notes - jinq - Format entity to model
 
 All data can be obtained and set to the model, support any structure

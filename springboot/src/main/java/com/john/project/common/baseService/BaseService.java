@@ -22,7 +22,6 @@ import com.john.project.common.TimeZoneUtil.TimeZoneUtil;
 import com.john.project.common.database.JPQLFunction;
 import com.john.project.common.permission.PermissionUtil;
 import com.john.project.properties.DatabaseJdbcProperties;
-import com.john.project.properties.DateFormatProperties;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.common.storage.Storage;
 import jakarta.persistence.EntityManager;
@@ -63,9 +62,6 @@ public abstract class BaseService {
 
     @Autowired
     protected ValidationFieldUtil validationFieldUtil;
-
-    @Autowired
-    protected DateFormatProperties dateFormatProperties;
 
     @Autowired
     private DatabaseJdbcProperties databaseJdbcProperties;

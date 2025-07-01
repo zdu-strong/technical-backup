@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.regex.Pattern;
+
+import com.john.project.constant.DateFormatConstant;
 import jakarta.mail.internet.MimeMessage;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
@@ -19,7 +21,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.john.project.properties.AuthorizationEmailProperties;
-import com.john.project.properties.DateFormatProperties;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.model.VerificationCodeEmailModel;
 import com.john.project.service.VerificationCodeEmailService;
@@ -39,16 +40,13 @@ public class AuthorizationEmailUtil {
     @Autowired
     private VerificationCodeEmailService verificationCodeEmailService;
 
-    @Autowired
-    private DateFormatProperties dateFormatProperties;
-
     @SneakyThrows
     public VerificationCodeEmailModel sendVerificationCode(String email) {
         VerificationCodeEmailModel verificationCodeEmailModel = null;
         for (var i = 10; i > 0; i--) {
             var verificationCodeEmailModelTwo = this.verificationCodeEmailService.createVerificationCodeEmail(email);
 
-            var fastDateFormat = FastDateFormat.getInstance(dateFormatProperties.getYearMonthDayHourMinuteSecond());
+            var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.yearMonthDayHourMinuteSecond);
             var createDate = fastDateFormat.parse(
                     fastDateFormat.format(DateUtils.addSeconds(verificationCodeEmailModelTwo.getCreateDate(), 1)));
             ThreadUtils.sleepQuietly(

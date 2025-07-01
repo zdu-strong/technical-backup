@@ -3,6 +3,8 @@ package com.john.project.common.config;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
+
+import com.john.project.constant.DateFormatConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.john.project.constant.NonceConstant;
-import com.john.project.properties.DateFormatProperties;
 import com.john.project.service.NonceService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
@@ -29,9 +30,6 @@ public class NonceControllerAdviceConfig {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private DateFormatProperties dateFormatProperties;
 
     @Autowired
     private NonceService nonceService;
@@ -79,7 +77,7 @@ public class NonceControllerAdviceConfig {
 
     private Date convertDateStringToDate(String timestampString) {
         try {
-            return FastDateFormat.getInstance(this.dateFormatProperties.getUTC()).parse(timestampString);
+            return FastDateFormat.getInstance(DateFormatConstant.UTC).parse(timestampString);
         } catch (Throwable e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid timestamp");
         }

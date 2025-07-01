@@ -13,7 +13,6 @@ import com.john.project.common.TimeZoneUtil.TimeZoneUtil;
 import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.common.permission.PermissionUtil;
 import com.john.project.properties.AuthorizationEmailProperties;
-import com.john.project.properties.DateFormatProperties;
 import com.john.project.common.storage.Storage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -62,9 +61,6 @@ public class BaseController {
 
     @Autowired
     protected GitProperties gitProperties;
-
-    @Autowired
-    protected DateFormatProperties dateFormatProperties;
 
     @Autowired
     protected AuthorizationEmailProperties authorizationEmailProperties;
