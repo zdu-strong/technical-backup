@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
 
+import com.john.project.constant.DateFormatConstant;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -41,7 +42,7 @@ public class NonceControllerAdviceConfigEmptyTimestampTest extends BaseTest {
     @SneakyThrows
     public void beforeEach() {
         this.nonce = UUID.randomUUID().toString();
-        this.timestamp = FastDateFormat.getInstance(this.dateFormatProperties.getUTC()).format(new Date());
+        this.timestamp = FastDateFormat.getInstance(DateFormatConstant.UTC).format(new Date());
         URI url = new URIBuilder("/").build();
         var httpHeaders = new HttpHeaders();
         httpHeaders.set("X-Nonce", nonce);

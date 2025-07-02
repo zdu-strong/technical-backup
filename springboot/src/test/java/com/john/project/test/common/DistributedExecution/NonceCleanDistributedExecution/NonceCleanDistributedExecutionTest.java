@@ -1,5 +1,6 @@
 package com.john.project.test.common.DistributedExecution.NonceCleanDistributedExecution;
 
+import com.john.project.constant.DateFormatConstant;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -24,7 +25,7 @@ public class NonceCleanDistributedExecutionTest extends BaseTest {
     @SneakyThrows
     public void beforeEach() {
         var nonce = UUID.randomUUID().toString();
-        var timestamp = FastDateFormat.getInstance(this.dateFormatProperties.getUTC()).format(new Date());
+        var timestamp = FastDateFormat.getInstance(DateFormatConstant.UTC).format(new Date());
         URI url = new URIBuilder("/").build();
         var httpHeaders = new HttpHeaders();
         httpHeaders.set("X-Nonce", nonce);

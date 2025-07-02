@@ -147,9 +147,6 @@ public class BaseTest {
     protected AliyunCloudStorageProperties aliyunCloudStorageProperties;
 
     @Autowired
-    protected DateFormatProperties dateFormatProperties;
-
-    @Autowired
     protected AuthorizationEmailProperties authorizationEmailProperties;
 
     @Autowired
