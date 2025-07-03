@@ -10,7 +10,7 @@ public class DateFormatPropertiesGetYearMonthDayHourMinuteSecondMillisecondTest 
 
     @Test
     public void test() {
-        assertEquals("yyyy-MM-dd HH:mm:ss.SSS", DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND);
+        assertEquals("yyyy-MM-dd HH:mm:ss.SSS", DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND_MILLISECOND);
     }
 
 }
