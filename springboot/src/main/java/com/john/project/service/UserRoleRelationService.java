@@ -69,7 +69,7 @@ public class UserRoleRelationService extends BaseService {
     private boolean refreshDefaultUserRoleList(SystemRoleEnum systemRoleEnum) {
 //        var roleName = systemRoleEnum.getValue();
 //        var roleList = this.streamAll(RoleEntity.class)
-//                .where(s -> Boolean.FALSE.equals(s.getIsOrganizeRole()))
+//                .where(s -> s.getIsOrganizeRole().equals(false))
 //                .where(s -> s.getName().equals(roleName))
 //                .toList();
 //        for (var roleEntity : roleList) {
