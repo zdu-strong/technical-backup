@@ -158,7 +158,7 @@ Group by id, username
         return map;
     });
 
-# Notes - jinq - distinct
+## Notes - jinq - distinct
 
 Distinct is not supported, please use group by instead
 
@@ -192,13 +192,108 @@ Sort by username first, then by id
         JinqStream.from(s.getUserEmailList()).where(m -> m.getEmail().equals("tom@gmail.com")).exists()
     );
 
-# Notes - jinq - contains string
+## Notes - jinq - equals string
 
-    this.streamAll(UserEntity.class).where( s -> s.getUsername().contains("abc) );
+    this.streamAll(UserEntity.class).where( s -> s.getUsername().equals("abc") );
 
-# Notes - jinq - startsWith string
+## Notes - jinq - contains string
+
+    this.streamAll(UserEntity.class).where( s -> s.getUsername().contains("abc") );
+
+## Notes - jinq - startsWith string
 
     this.streamAll(UserEntity.class).where( s -> JPQL.like(s.getUsername(), "abc" + "%" );
+
+## Notes - jinq - string to lowercase
+
+    this.streamAll(UserEntity.class).where( s -> s.getUsernameToLowerCase().equals("abc".toLowerCase()) );
+
+## Notes - jinq - compareTo string
+
+    this.streamAll(UserEntity.class).where( s -> s.getUsername().compareTo("abc") < 0 );
+
+## Notes - jinq - equals Long
+
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> s.getPageNum() == 100 );
+
+## Notes - jinq - greater than Long
+
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> s.getPageNum() > 100 );
+
+## Notes - jinq - greater than or equal to Long
+
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> s.getPageNum() >= 100 );
+
+## Notes - jinq - less than Long
+
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> s.getPageNum() < 100 );
+
+## Notes - jinq - less than or equal to Long
+
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> s.getPageNum() <= 100 );
+
+## Notes - jinq - equals BigDecimal
+
+    var one = new BigDecimal("100");
+    var two = new BigDecimal("200");
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> one.compareTo(two) == 0 );
+
+## Notes - jinq - greater than BigDecimal
+
+    var one = new BigDecimal("100");
+    var two = new BigDecimal("200");
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> one.compareTo(two) > 0 );
+
+## Notes - jinq - greater than or equal to BigDecimal
+
+    var one = new BigDecimal("100");
+    var two = new BigDecimal("200");
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> one.compareTo(two) >= 0 );
+
+## Notes - jinq - less than BigDecimal
+
+    var one = new BigDecimal("100");
+    var two = new BigDecimal("200");
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> one.compareTo(two) < 0 );
+
+## Notes - jinq - less than or equal to BigDecimal
+
+    var one = new BigDecimal("100");
+    var two = new BigDecimal("200");
+    this.streamAll(DistributedExecutionDetailEntity.class).where( s -> one.compareTo(two) <= 0 );
+
+## Notes - jinq - equals Date
+
+    var today = new Date();
+    this.streamAll(UserEntity.class).where(s -> s.getCreateDate().equals(today));
+
+## Notes - jinq - greater than Date
+
+    var today = new Date();
+    this.streamAll(UserEntity.class).where(s -> s.getCreateDate().after(today));
+
+## Notes - jinq - greater than or equal to Date
+
+    var today = new Date();
+    this.streamAll(UserEntity.class).where(s -> !s.getCreateDate().before(today));
+
+## Notes - jinq - less than Date
+
+    var today = new Date();
+    this.streamAll(UserEntity.class).where(s -> s.getCreateDate().before(today));
+
+## Notes - jinq - less than or equal to Date
+
+    var today = new Date();
+    this.streamAll(UserEntity.class).where(s -> !s.getCreateDate().after(today));
+
+## Notes - jinq - Boolean equals true
+
+    this.streamAll(UserEntity.class).where(s -> s.getIsDeleted());
+
+## Notes - jinq - Boolean equals false
+
+    this.streamAll(UserEntity.class).where(s -> s.getIsDeleted().equals(false));
 
 ## Notes - jinq - Format entity to model
 
