@@ -2,7 +2,12 @@ package com.john.project.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
+import java.util.Map;
+
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.hc.core5.net.URIBuilder;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +26,9 @@ public class AuthorizationAlipayController extends BaseController {
         var url = new URIBuilder("https://openauth.alipay.com/oauth2/publicAppAuthorize.htm")
                 .setParameter("app_id", "2021002177648626").setParameter("scope", "auth_user")
                 .setParameter("redirect_uri", "https://kame-sennin.com/abc").setParameter("state", "init").build();
-        var bitMatrix = new QRCodeWriter().encode(url.toString(), BarcodeFormat.QR_CODE, 200, 200);
+        var bitMatrix = new QRCodeWriter().encode(url.toString(), BarcodeFormat.QR_CODE, 200, 200, Map.of(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H));
         try (var output = new ByteArrayOutputStream()) {
-            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", output);
+            MatrixToImageWriter.writeToStream(bitMatrix, MediaType.IMAGE_PNG.getSubtype(), output);
             var pngData = output.toByteArray();
             var imageData = Base64.getEncoder().encodeToString(pngData);
             var imageUrl = "data:image/png;base64," + imageData;
