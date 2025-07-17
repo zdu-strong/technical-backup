@@ -23,7 +23,6 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author John Williams
  *
  */
-@RestController
 public abstract class BaseController {
 
     @Autowired
