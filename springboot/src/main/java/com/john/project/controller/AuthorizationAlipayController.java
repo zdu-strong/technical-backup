@@ -1,6 +1,7 @@
 package com.john.project.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
@@ -26,7 +27,11 @@ public class AuthorizationAlipayController extends BaseController {
         var url = new URIBuilder("https://openauth.alipay.com/oauth2/publicAppAuthorize.htm")
                 .setParameter("app_id", "2021002177648626").setParameter("scope", "auth_user")
                 .setParameter("redirect_uri", "https://kame-sennin.com/abc").setParameter("state", "init").build();
-        var bitMatrix = new QRCodeWriter().encode(url.toString(), BarcodeFormat.QR_CODE, 200, 200, Map.of(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H));
+        var configOfQR = Map.of(
+                EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H,
+                EncodeHintType.CHARACTER_SET, StandardCharsets.UTF_8
+        );
+        var bitMatrix = new QRCodeWriter().encode(url.toString(), BarcodeFormat.QR_CODE, 200, 200, configOfQR);
         try (var output = new ByteArrayOutputStream()) {
             MatrixToImageWriter.writeToStream(bitMatrix, MediaType.IMAGE_PNG.getSubtype(), output);
             var pngData = output.toByteArray();
