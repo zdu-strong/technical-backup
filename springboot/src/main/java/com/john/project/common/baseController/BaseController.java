@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  */
 @RestController
-public class BaseController {
+public abstract class BaseController {
 
     @Autowired
     protected HttpServletRequest request;
