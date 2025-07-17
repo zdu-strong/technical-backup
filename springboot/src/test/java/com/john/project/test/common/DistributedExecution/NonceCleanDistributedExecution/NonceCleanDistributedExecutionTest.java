@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
 import java.net.URI;
 import java.util.Date;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,7 +23,7 @@ public class NonceCleanDistributedExecutionTest extends BaseTest {
     @BeforeEach
     @SneakyThrows
     public void beforeEach() {
-        var nonce = UUID.randomUUID().toString();
+        var nonce = this.uuidUtil.v4();
         var timestamp = FastDateFormat.getInstance(DateFormatConstant.UTC).format(new Date());
         URI url = new URIBuilder("/").build();
         var httpHeaders = new HttpHeaders();

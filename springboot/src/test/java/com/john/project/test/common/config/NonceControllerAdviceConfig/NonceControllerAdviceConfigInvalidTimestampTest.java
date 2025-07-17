@@ -2,8 +2,6 @@ package com.john.project.test.common.config.NonceControllerAdviceConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URI;
-import java.util.UUID;
-
 import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +32,7 @@ public class NonceControllerAdviceConfigInvalidTimestampTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.nonce = UUID.randomUUID().toString();
+        this.nonce = this.uuidUtil.v4();
         this.timestamp = "Invalid Timestamp";
     }
 }

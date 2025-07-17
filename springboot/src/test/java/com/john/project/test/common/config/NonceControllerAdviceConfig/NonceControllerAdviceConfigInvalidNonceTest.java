@@ -3,7 +3,6 @@ package com.john.project.test.common.config.NonceControllerAdviceConfig;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URI;
 import java.util.Date;
-import java.util.UUID;
 
 import com.john.project.constant.DateFormatConstant;
 import lombok.SneakyThrows;
@@ -40,7 +39,7 @@ public class NonceControllerAdviceConfigInvalidNonceTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         this.nonce = StringUtils.join(Flowable.range(1, 4)
-                .map(s -> UUID.randomUUID().toString())
+                .map(s -> this.uuidUtil.v4())
                 .toList()
                 .blockingGet());
         this.timestamp = FastDateFormat.getInstance(DateFormatConstant.UTC).format(new Date());
