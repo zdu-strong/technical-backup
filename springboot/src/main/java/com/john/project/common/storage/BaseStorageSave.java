@@ -25,9 +25,10 @@ public abstract class BaseStorageSave extends BaseStorageCreateTempFile {
 
     @SneakyThrows
     public StorageFileModel storageResource(Resource resource) {
-        var storageFileModel = new StorageFileModel()
-                .setFolderName(uuidUtil.v4());
-        this.storageSpaceService.create(storageFileModel.getFolderName());
+        var storageFileModel = new StorageFileModel();
+
+        // set folder name
+        storageFileModel.setFolderName(newFolderName());
 
         /* Set file name */
         storageFileModel.setFileName(this.getFileNameFromResource(resource));
@@ -143,7 +144,8 @@ public abstract class BaseStorageSave extends BaseStorageCreateTempFile {
         var tempFolder = this
                 .createTempFolderByDecompressingResource(this.getResourceFromRequest(mockHttpServletRequest));
         var relativePath = tempFolder.getName();
-        var storageFileModel = new StorageFileModel().setFolderName(tempFolder.getName());
+        var storageFileModel = new StorageFileModel();
+        storageFileModel.setFolderName(tempFolder.getName());
         storageFileModel.setFolderSize(FileUtils.sizeOfDirectory(tempFolder));
         storageFileModel.setFileName(null);
         storageFileModel.setRelativePath(relativePath);

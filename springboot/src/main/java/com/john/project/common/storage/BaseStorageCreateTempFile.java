@@ -95,15 +95,7 @@ public abstract class BaseStorageCreateTempFile extends BaseStorageIsDirectory {
 
     @SneakyThrows
     public File createTempFolder() {
-        var folderName = this.uuidUtil.v4();
-        Optional.of(CompletableFuture.runAsync(() -> {
-            this.storageSpaceService.create(folderName);
-        }))
-                .filter(s -> this.databaseJdbcProperties.getIsSupportParallelWrite())
-                .ifPresent(sneaky(s -> {
-                    s.get();
-                }));
-        File tempFolder = new File(this.getRootPath(), folderName);
+        File tempFolder = new File(this.getRootPath(), newFolderName());
         tempFolder.mkdirs();
         return tempFolder;
     }
@@ -112,7 +104,9 @@ public abstract class BaseStorageCreateTempFile extends BaseStorageIsDirectory {
         var tempFile = this.createTempFileOrFolder(resource);
         try {
             File tempFolder = this.createTempFolder();
-            CompressUtil.createExtractor(StandardCharsets.UTF_8, tempFile).extract(tempFolder);
+            try (var extractor = CompressUtil.createExtractor(StandardCharsets.UTF_8, tempFile)) {
+                extractor.extract(tempFolder);
+            }
             return tempFolder;
         } finally {
             this.delete(tempFile);

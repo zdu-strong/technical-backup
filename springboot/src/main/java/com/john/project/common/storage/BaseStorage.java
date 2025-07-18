@@ -5,6 +5,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
 import com.john.project.common.uuid.UUIDUtil;
@@ -28,6 +30,8 @@ import com.john.project.model.ResourceAccessLegalModel;
 import com.john.project.service.EncryptDecryptService;
 import com.john.project.service.StorageSpaceService;
 import cn.hutool.core.util.HexUtil;
+
+import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
 
 public abstract class BaseStorage {
 
@@ -183,5 +187,15 @@ public abstract class BaseStorage {
         if (Paths.get(folderName).isAbsolute()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Folder name is invalid");
         }
+    }
+
+    protected String newFolderName() {
+        var folderName = this.uuidUtil.v4();
+        Optional.of(CompletableFuture.runAsync(() -> {
+                    this.storageSpaceService.create(folderName);
+                }))
+                .filter(s -> this.databaseJdbcProperties.getIsSupportParallelWrite())
+                .ifPresent(sneaky(CompletableFuture::get));
+        return folderName;
     }
 }
