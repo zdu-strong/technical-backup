@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class AuthorizationControllerSignInOneTimeIncorrectPasswordTest extends BaseTest {
+public class AuthorizationControllerSignInNotExistsUsernameTest extends BaseTest {
 
     private String username;
     private String password;
@@ -16,7 +16,7 @@ public class AuthorizationControllerSignInOneTimeIncorrectPasswordTest extends B
     @Test
     @SneakyThrows
     public void test() {
-        var url = new URIBuilder("/sign-in/one-time-password")
+        var url = new URIBuilder("/sign-in")
                 .setParameter("username", username)
                 .setParameter("password", this.encryptDecryptService.encryptByPublicKeyOfRSA(password))
                 .build();
@@ -28,8 +28,7 @@ public class AuthorizationControllerSignInOneTimeIncorrectPasswordTest extends B
     @BeforeEach
     public void beforeEach() {
         this.username = this.uuidUtil.v4() + "zdu.strong@gmail.com";
-        this.createAccount(username);
-        this.password = "Incorrect Password";
+        this.password = this.username;
     }
 
 }

@@ -97,7 +97,7 @@ public class SystemInitScheduled {
         }
         var superAdminUser = new UserModel();
         superAdminUser.setUsername("SuperAdmin");
-        superAdminUser.setPassword(email);
+        superAdminUser.setPassword(this.encryptDecryptService.encryptByPublicKeyOfRSA(email));
         var verificationCodeEmailModel = this.authorizationEmailUtil.sendVerificationCode(email);
         verificationCodeEmailModel.setVerificationCode(
                 this.verificationCodeEmailService.getById(verificationCodeEmailModel.getId()).getVerificationCode());

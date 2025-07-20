@@ -12,24 +12,9 @@ import lombok.SneakyThrows;
 @RestController
 public class AuthorizationController extends BaseController {
 
-    /**
-     * username: email, userId
-     */
     @PostMapping("/sign-in")
     @SneakyThrows
     public ResponseEntity<?> signIn(@RequestParam String username, @RequestParam String password) {
-        this.userService.checkExistAccount(username);
-        var userId = this.userService.getUserId(username);
-        var accessToken = this.tokenService.generateAccessToken(userId,
-                this.encryptDecryptService.encryptByPublicKeyOfRSA(password));
-        var user = this.userService.getUserWithMoreInformation(userId);
-        user.setAccessToken(accessToken);
-        return ResponseEntity.ok(user);
-    }
-
-    @PostMapping("/sign-in/one-time-password")
-    @SneakyThrows
-    public ResponseEntity<?> signInOneTime(@RequestParam String username, @RequestParam String password) {
         this.userService.checkExistAccount(username);
         var userId = this.userService.getUserId(username);
         var accessToken = this.tokenService.generateAccessToken(userId, password);

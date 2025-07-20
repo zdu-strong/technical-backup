@@ -3,30 +3,18 @@ package com.john.project.test.controller.AuthorizationController;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hc.core5.net.URIBuilder;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class AuthorizationControllerSignInTest extends BaseTest {
     private String email;
-    private String password;
 
     @Test
-    @SneakyThrows
     public void test() {
-        var url = new URIBuilder("/sign-in")
-                .setParameter("username", email)
-                .setParameter("password", password)
-                .build();
-        var response = this.testRestTemplate.postForEntity(url, null, UserModel.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        var result = response.getBody();
+        var result = this.createAccount(this.email);
         assertNotNull(result);
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertTrue(StringUtils.isNotBlank(result.getUsername()));
@@ -42,8 +30,6 @@ public class AuthorizationControllerSignInTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         this.email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
-        this.password = email;
-        this.createAccount(email);
     }
 
 }

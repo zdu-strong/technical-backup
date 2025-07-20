@@ -301,7 +301,7 @@ public class BaseTest {
         var userModelOfSignUp = new UserModel();
         userModelOfSignUp
                 .setUsername(email)
-                .setPassword(password)
+                .setPassword(this.encryptDecryptService.encryptByPublicKeyOfRSA(password))
                 .setUserEmailList(Lists.newArrayList(
                         new UserEmailModel()
                                 .setEmail(email)
@@ -323,7 +323,7 @@ public class BaseTest {
 
     @SneakyThrows
     private UserModel signIn(String email, String password) {
-        var url = new URIBuilder("/sign-in/one-time-password")
+        var url = new URIBuilder("/sign-in")
                 .setParameter("username", email)
                 .setParameter("password", this.encryptDecryptService.encryptByPublicKeyOfRSA(password))
                 .build();

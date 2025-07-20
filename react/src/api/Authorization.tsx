@@ -11,7 +11,7 @@ export async function signUp(password: string, nickname: string, userEmailList: 
   await signOut();
   const { data } = await axios.post(`/sign-up`, {
     username: nickname,
-    password: password,
+    password: await encryptByPublicKeyOfRSA(password, await getKeyOfRSAPublicKey()),
     userEmailList: userEmailList,
   });
   const user = new TypedJSON(UserModel).parse(data)!;
@@ -25,7 +25,7 @@ export async function sendVerificationCode(email: string) {
 
 export async function signIn(username: string, password: string): Promise<void> {
   await signOut();
-  const { data } = await axios.post(`/sign-in/one-time-password`, null, {
+  const { data } = await axios.post(`/sign-in`, null, {
     params: {
       username: username,
       password: await encryptByPublicKeyOfRSA(password, await getKeyOfRSAPublicKey()),
