@@ -40,7 +40,7 @@ public class UserService extends BaseService {
     public UserModel create(UserModel userModel) {
         var id = newId();
         var password = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(userModel.getPassword());
-        var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(id + DigestUtils.sha3_512Hex(password));
+        var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(id + password));
         var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(id, secretKeyOfAES);
         var userEntity = new UserEntity();
         userEntity.setId(id);
