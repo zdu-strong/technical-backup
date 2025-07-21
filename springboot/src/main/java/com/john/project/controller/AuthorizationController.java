@@ -43,7 +43,7 @@ public class AuthorizationController extends BaseController {
         this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
 
         var user = this.userService.create(userModel);
-        var accessToken = this.tokenService.generateAccessToken(user.getId());
+        var accessToken = this.tokenService.generateAccessToken(user.getId(), userModel.getPassword());
         user.setAccessToken(accessToken);
         return ResponseEntity.ok(user);
     }
