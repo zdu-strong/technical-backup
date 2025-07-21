@@ -124,9 +124,9 @@ public class TokenService extends BaseService {
                     .where(s -> s.getId().equals(userId))
                     .getOnlyValue();
             var password = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
+            var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(userId + DigestUtils.sha3_512Hex(password));
 
-            if (!userId.equals(this.encryptDecryptService.decryptByAES(userEntity.getPassword(),
-                    this.encryptDecryptService.generateSecretKeyOfAES(userId + password)))) {
+            if (!userId.equals(this.encryptDecryptService.decryptByAES(userEntity.getPassword(), secretKeyOfAES))) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Incorrect username or password");
             }

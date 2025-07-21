@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,13 @@ public class UserService extends BaseService {
 
     public UserModel create(UserModel userModel) {
         var id = newId();
-        var password = this.encryptDecryptService.encryptByAES(id,
-                this.encryptDecryptService.generateSecretKeyOfAES(id + this.encryptDecryptService.decryptByByPrivateKeyOfRSA(userModel.getPassword())));
+        var password = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(userModel.getPassword());
+        var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(id + DigestUtils.sha3_512Hex(password));
+        var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(id, secretKeyOfAES);
         var userEntity = new UserEntity();
         userEntity.setId(id);
         userEntity.setUsername(userModel.getUsername());
-        userEntity.setPassword(password);
+        userEntity.setPassword(passwordAfterEncrypted);
         userEntity.setIsDeleted(false);
         userEntity.setCreateDate(new Date());
         userEntity.setUpdateDate(new Date());
