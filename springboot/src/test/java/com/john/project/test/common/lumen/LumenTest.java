@@ -29,7 +29,8 @@ public class LumenTest extends BaseTest {
     public void test() {
         var ccus = injectPair(new BigDecimal(100), new BigDecimal(10000));
         var firstInjectCcus = inject(usd, new BigDecimal(100));
-        var secondInjectCcus = inject(japan, new BigDecimal(10000));
+        var secondInjectCcus = inject(japan, new BigDecimal("10000"));
+        var obtainCcu = JinqStream.from(List.of(firstInjectCcus, secondInjectCcus)).sumBigDecimal(s -> s);
         "".toString();
     }
 
@@ -65,7 +66,7 @@ public class LumenTest extends BaseTest {
     }
 
     private BigDecimal inject(CurrencyModel sourceCurrency, BigDecimal sourceBalance) {
-        var halfCurrency = sourceBalance.divide(new BigDecimal(2), 6, RoundingMode.FLOOR);
+        var halfCurrency = sourceBalance.divide(new BigDecimal("2"), 6, RoundingMode.FLOOR);
         var targetCurrencyBalance = exchange(sourceCurrency, halfCurrency, JinqStream.from(List.of(usd, japan)).where(s -> !ObjectUtil.equals(sourceCurrency.getId(), s.getId())).getOnlyValue());
         var usdBalance = JinqStream.of(usd).where(s -> ObjectUtil.equals(sourceCurrency.getId(), s.getId())).select(s -> halfCurrency).findFirst().orElse(targetCurrencyBalance);
         var japanBalance = JinqStream.of(japan).where(s -> ObjectUtil.equals(sourceCurrency.getId(), s.getId())).select(s -> halfCurrency).findFirst().orElse(targetCurrencyBalance);
