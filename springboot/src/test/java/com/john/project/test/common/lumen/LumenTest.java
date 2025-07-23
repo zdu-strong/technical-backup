@@ -4,7 +4,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.jinq.orm.stream.JinqStream;
 import org.jinq.tuples.Pair;
-import org.jinq.tuples.Tuple3;
 import org.jinq.tuples.Tuple4;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +38,10 @@ public class LumenTest extends BaseTest {
     private BigDecimal injectPair(BigDecimal usdBalance, BigDecimal japanBalance) {
         var balance = getBalance();
         if (balance.getUsdCcuBalance().compareTo(BigDecimal.ZERO) > 0) {
-            var usdCcu = usdBalance.divide(balance.getUsdCurrencyBalance(), 6, RoundingMode.FLOOR).multiply(balance.getUsdCcuBalance());
-            var japanCcu = japanBalance.divide(balance.getJapanCurrencyBalance(), 6, RoundingMode.FLOOR).multiply(balance.getJapanCcuBalance());
+            var totalCcu = balance.getUsdCcuBalance().add(balance.getJapanCcuBalance());
+            var halfCcu = totalCcu.divide(new BigDecimal(2), 6, RoundingMode.FLOOR);
+            var usdCcu = usdBalance.divide(balance.getUsdCurrencyBalance(), 6, RoundingMode.FLOOR).multiply(halfCcu);
+            var japanCcu = japanBalance.divide(balance.getJapanCurrencyBalance(), 6, RoundingMode.FLOOR).multiply(halfCcu);
             var minCcu = usdCcu.min(japanCcu);
             balanceList.add(new CcuBalanceModel()
                     .setId(this.uuidUtil.v4())
