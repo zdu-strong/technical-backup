@@ -28,8 +28,6 @@ public class LumenTest extends BaseTest {
     @Test
     public void test() {
         var ccus = injectPair(new BigDecimal(100), new BigDecimal(10000));
-        var japanCurrencyBalance = exchange(usd, new BigDecimal(100), japan);
-        var usdCurrencyBalance = exchange(japan, japanCurrencyBalance, usd);
         var firstInjectCcus = inject(usd, new BigDecimal(100));
         var secondInjectCcus = inject(japan, new BigDecimal(10000));
         "".toString();
