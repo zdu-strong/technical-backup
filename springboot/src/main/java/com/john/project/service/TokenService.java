@@ -28,25 +28,6 @@ public class TokenService extends BaseService {
     @Autowired
     private EncryptDecryptService encryptDecryptService;
 
-    public void deleteTokenEntity(String id) {
-        var tokenEntity = this.streamAll(TokenEntity.class)
-                .where(s -> s.getId().equals(id))
-                .getOnlyValue();
-        tokenEntity.setIsDeleted(true);
-        this.merge(tokenEntity);
-    }
-
-    public String generateAccessToken(String userId) {
-        var uniqueOneTimePasswordLogo = this.generateUniqueOneTimePasswordLogo();
-        var tokenModel = this.createTokenEntity(uniqueOneTimePasswordLogo, userId);
-        var accessToken = JWT.create().withSubject(userId)
-                .withIssuedAt(new Date())
-                .withJWTId(tokenModel.getId())
-                .sign(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
-                        this.encryptDecryptService.getKeyOfRSAPrivateKey()));
-        return accessToken;
-    }
-
     public String generateAccessToken(String userId, String password) {
         this.checkCorrectPassword(password, userId);
 
@@ -58,19 +39,6 @@ public class TokenService extends BaseService {
                 .sign(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
                         this.encryptDecryptService.getKeyOfRSAPrivateKey()));
         return accessToken;
-    }
-
-    public String generateNewAccessToken(String accessToken) {
-        var uniqueOneTimePasswordLogo = this.generateUniqueOneTimePasswordLogo();
-        var decodedJWT = this.getDecodedJWTOfAccessToken(accessToken);
-        var userId = decodedJWT.getSubject();
-        var tokenModel = this.createTokenEntity(uniqueOneTimePasswordLogo, userId);
-        String accessTokenOfNew = JWT.create().withSubject(userId)
-                .withIssuedAt(new Date())
-                .withJWTId(tokenModel.getId())
-                .sign(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
-                        this.encryptDecryptService.getKeyOfRSAPrivateKey()));
-        return accessTokenOfNew;
     }
 
     @Transactional(readOnly = true)
@@ -106,11 +74,12 @@ public class TokenService extends BaseService {
         return exists;
     }
 
-    private String generateUniqueOneTimePasswordLogo() {
-        var password = this.uuidUtil.v4();
-        var encryptedPassword = this.encryptDecryptService.encryptByPublicKeyOfRSA(password);
-        var logo = Base64.getEncoder().encodeToString(DigestUtils.sha3_512(encryptedPassword));
-        return logo;
+    public void deleteTokenEntity(String id) {
+        var tokenEntity = this.streamAll(TokenEntity.class)
+                .where(s -> s.getId().equals(id))
+                .getOnlyValue();
+        tokenEntity.setIsDeleted(true);
+        this.merge(tokenEntity);
     }
 
     private String getUniqueOneTimePasswordLogo(String encryptedPassword) {
