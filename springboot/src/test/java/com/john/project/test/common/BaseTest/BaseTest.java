@@ -82,7 +82,7 @@ import lombok.SneakyThrows;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-public class BaseTest {
+public abstract class BaseTest {
 
     @Autowired
     protected TestRestTemplate testRestTemplate;

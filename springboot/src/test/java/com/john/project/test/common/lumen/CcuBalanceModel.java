@@ -13,13 +13,9 @@ public class CcuBalanceModel {
 
     private String id;
 
-    private CurrencyModel usdType;
-
     private BigDecimal usdCurrencyBalance;
 
     private BigDecimal usdCcuBalance;
-
-    private CurrencyModel japanType;
 
     private BigDecimal japanCurrencyBalance;
 
