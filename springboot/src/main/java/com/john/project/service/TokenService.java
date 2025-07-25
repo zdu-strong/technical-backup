@@ -29,10 +29,9 @@ public class TokenService extends BaseService {
     private EncryptDecryptService encryptDecryptService;
 
     public String generateAccessToken(String userId, String password) {
-        this.checkCorrectPassword(password, userId);
+        this.checkCorrectPassword(userId, password);
 
-        var uniqueOneTimePasswordLogo = this.getUniqueOneTimePasswordLogo(password);
-        var tokenModel = this.createTokenEntity(uniqueOneTimePasswordLogo, userId);
+        var tokenModel = this.createTokenEntity(userId, password);
         var accessToken = JWT.create().withSubject(userId)
                 .withIssuedAt(new Date())
                 .withJWTId(tokenModel.getId())
@@ -87,7 +86,7 @@ public class TokenService extends BaseService {
         return logo;
     }
 
-    private void checkCorrectPassword(String encryptedPassword, String userId) {
+    private void checkCorrectPassword(String userId, String encryptedPassword) {
         try {
             var userEntity = this.streamAll(UserEntity.class)
                     .where(s -> s.getId().equals(userId))
@@ -115,7 +114,8 @@ public class TokenService extends BaseService {
         }
     }
 
-    private TokenModel createTokenEntity(String uniqueOneTimePasswordLogo, String userId) {
+    private TokenModel createTokenEntity(String userId, String encryptedPassword) {
+        var uniqueOneTimePasswordLogo = this.getUniqueOneTimePasswordLogo(encryptedPassword);
         var user = this.streamAll(UserEntity.class).where(s -> s.getId().equals(userId)).getOnlyValue();
 
         var tokenEntity = new TokenEntity();
