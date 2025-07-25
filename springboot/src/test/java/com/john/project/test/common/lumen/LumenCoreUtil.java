@@ -20,6 +20,16 @@ public class LumenCoreUtil {
     @Autowired
     private UUIDUtil uuidUtil;
 
+    public void injectPair(CcuBalanceModel origin, CcuBalanceModel temp, String sourceCurrency, BigDecimal sourceBalance, String targetCurrency, BigDecimal targetBalance){
+        var balance = combineBalance(origin, temp);
+        // sourceBalance / sourceTotalBalance * sourceCcus
+        // targetBalance / targetTotalBalance * targetCcus
+    }
+
+    public void withdrawalPair(CcuBalanceModel origin, CcuBalanceModel temp, BigDecimal ccus){
+
+    }
+
     public CcuBalanceModel exchange(CcuBalanceModel origin, CcuBalanceModel temp, String sourceCurrency, BigDecimal sourceBalance) {
         var balance = combineBalance(origin, temp);
         var isUsdOfSource = ObjectUtil.equals(sourceCurrency, CcuConstant.USD);
