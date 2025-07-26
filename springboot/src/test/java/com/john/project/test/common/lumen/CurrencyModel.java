@@ -4,19 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @Accessors(chain = true)
-public class CcuBalanceModel {
+public class CurrencyModel {
 
     private String id;
 
-    private CurrencyModel currency;
-
-    private BigDecimal currencyBalance;
-
-    private BigDecimal ccuBalance;
+    private String name;
 
 }
