@@ -28,10 +28,10 @@ public class TokenService extends BaseService {
     @Autowired
     private EncryptDecryptService encryptDecryptService;
 
-    public String generateAccessToken(String userId, String password) {
-        this.checkCorrectPassword(userId, password);
+    public String generateAccessToken(String userId, String encryptedPassword) {
+        this.checkCorrectPassword(userId, encryptedPassword);
 
-        var tokenModel = this.createTokenEntity(userId, password);
+        var tokenModel = this.createTokenEntity(userId, encryptedPassword);
         var accessToken = JWT.create().withSubject(userId)
                 .withIssuedAt(new Date())
                 .withJWTId(tokenModel.getId())
