@@ -13,8 +13,10 @@ public class LumenTest extends BaseTest {
     @Test
     public void test() {
         var aa = lumenContext.injectPair(new BigDecimal(100), new BigDecimal(100));
-        var cc = lumenContext.exchange(lumenContext.getUsd(), new BigDecimal(50));
-        var hh = lumenContext.injectPair(new BigDecimal(50), new BigDecimal(100).add(cc));
+        var bb = lumenContext.exchange(lumenContext.getJapan(), new BigDecimal(100));
+        var cc = lumenContext.inject(lumenContext.getUsd(), new BigDecimal(100));
+        var dd = lumenContext.inject(lumenContext.getJapan(), new BigDecimal(50));
+        var ff = lumenContext.inject(lumenContext.getUsd(), bb);
         "".toString();
     }
 

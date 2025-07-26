@@ -29,6 +29,13 @@ public class LumenContextModel {
     private CurrencyModel usd;
     private CurrencyModel japan;
 
+    public BigDecimal inject(CurrencyModel sourceCurrency, BigDecimal sourceBalance) {
+        checkBalanceGreaterThanZero();
+        var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
+        var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
+        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
+    }
+
     public BigDecimal injectPair(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance) {
         if (sourceUsdCurrencyBalance.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
@@ -61,10 +68,99 @@ public class LumenContextModel {
     }
 
     private BigDecimal injectPairByGreaterZeroBalance(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance) {
-        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance, 1);
+        return injectPairByGreaterZeroBalance(usd, sourceUsdCurrencyBalance, japan, sourceJapanCurrencyBalance, 1);
     }
 
-    private BigDecimal injectPairByGreaterZeroBalance(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance, int surtimes) {
+    private BigDecimal injectPairByGreaterZeroBalance(CurrencyModel injectOneCurrency, BigDecimal injectOneCurrencyBalance, CurrencyModel injectTwoCurrency, BigDecimal injectTwoCurrencyBalance, int remainingTimes) {
+        if (injectOneCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+        if (injectTwoCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+        if (
+                !JinqStream.from(
+                                List.of(
+                                        usd,
+                                        japan
+                                )
+                        )
+                        .where(s -> ObjectUtil.equals(s.getId(), injectOneCurrency.getId()))
+                        .exists()
+
+        ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+        if (
+                !JinqStream.from(
+                                List.of(
+                                        usd,
+                                        japan
+                                )
+                        )
+                        .where(s -> ObjectUtil.equals(s.getId(), injectTwoCurrency.getId()))
+                        .exists()
+
+        ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+        if (ObjectUtil.equals(injectOneCurrency.getId(), injectTwoCurrency.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+
+        var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
+        var usdCurrencyBalance = getUsdCurrency();
+        var japanCurrencyBalance = getJapanCurrency();
+        var usdCcuBalance = getUsdCcu();
+        var japanCcuBalance = getJapanCcu();
+        var isUsd = ObjectUtil.equals(usd.getId(), injectOneCurrency.getId());
+        var oneCurrencyBalance = isUsd ? usdCurrencyBalance : japanCurrencyBalance;
+        var twoCurrencyBalance = isUsd ? japanCurrencyBalance : usdCurrencyBalance;
+        var oneCcuBalance = isUsd ? usdCcuBalance : japanCcuBalance;
+        var twoCcuBalance = isUsd ? japanCcuBalance : usdCcuBalance;
+
+        var obtainOneCcuBalance = injectOneCurrencyBalance.divide(oneCurrencyBalance, 6, RoundingMode.FLOOR).multiply(oneCcuBalance).setScale(6, RoundingMode.FLOOR);
+        var obtainTwoCcuBalance = injectTwoCurrencyBalance.divide(twoCurrencyBalance, 6, RoundingMode.FLOOR).multiply(twoCcuBalance).setScale(6, RoundingMode.FLOOR);
+
+        if (ObjectUtil.equals(remainingTimes, 0) || ObjectUtil.equals(obtainOneCcuBalance, obtainTwoCcuBalance)) {
+            var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
+            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
+            tempBalanceList.add(new CcuBalanceModel()
+                    .setId(uuidUtil.v4())
+                    .setCurrency(injectOneCurrency)
+                    .setCurrencyBalance(injectOneCurrencyBalance)
+                    .setCcuBalance(obtainOneCcuBalance));
+            tempBalanceList.add(new CcuBalanceModel()
+                    .setId(uuidUtil.v4())
+                    .setCurrency(injectTwoCurrency)
+                    .setCurrencyBalance(injectTwoCurrencyBalance)
+                    .setCcuBalance(obtainTwoCcuBalance));
+            return obtainCcuBalance;
+        }
+
+        if (obtainOneCcuBalance.compareTo(injectTwoCurrencyBalance) > 0) {
+            var amountNeedToExchangeOfOne = getAmountNeedToExchange(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance);
+            var exchangeCurrencyBalanceOfTwo = exchange(injectOneCurrency, amountNeedToExchangeOfOne);
+            return injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountNeedToExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0);
+        }
+
+        if (obtainTwoCcuBalance.compareTo(injectOneCurrencyBalance) > 0) {
+            return injectPairByGreaterZeroBalance(injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrency, injectOneCurrencyBalance, 1);
+        }
+
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+    }
+
+    private BigDecimal getAmountNeedToExchange(CurrencyModel injectOneCurrency, BigDecimal injectOneCurrencyBalance, CurrencyModel injectTwoCurrency, BigDecimal injectTwoCurrencyBalance) {
+        BigDecimal sourceUsdCurrencyBalance = BigDecimal.ZERO;
+        BigDecimal sourceJapanCurrencyBalance = BigDecimal.ZERO;
+        if (sourceUsdCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+        if (sourceJapanCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        }
+        var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
         var usdCurrencyBalance = getUsdCurrency();
         var japanCurrencyBalance = getJapanCurrency();
         var usdCcuBalance = getUsdCcu();
@@ -72,29 +168,30 @@ public class LumenContextModel {
         var obtainUsdCcuBalance = sourceUsdCurrencyBalance.divide(usdCurrencyBalance, 6, RoundingMode.FLOOR).multiply(usdCcuBalance).setScale(6, RoundingMode.FLOOR);
         var obtainJapanCcuBalance = sourceJapanCurrencyBalance.divide(japanCurrencyBalance, 6, RoundingMode.FLOOR).multiply(japanCcuBalance).setScale(6, RoundingMode.FLOOR);
 
-        if (ObjectUtil.equals(surtimes, 0)) {
-            var obtainCcuBalanceEachSide = obtainUsdCcuBalance.min(obtainJapanCcuBalance);
-            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
-            return obtainCcuBalance;
-        }
+        // 66.66 usdCurrencyBalance 200japanCurrencyBalance
+        // 150 usdCcuBalance          50 japanCcuBalance
 
-        if (obtainJapanCcuBalance.compareTo(obtainUsdCcuBalance) > 0) {
-            var rate = japanCurrencyBalance.add(sourceJapanCurrencyBalance).divide(usdCurrencyBalance.add(sourceUsdCurrencyBalance), 6, RoundingMode.FLOOR);
-            var lackCcuBalance = japanCcuBalance.subtract(usdCcuBalance.multiply(rate)).divide(rate.add(new BigDecimal(1)), 6, RoundingMode.FLOOR);
-            var exchangeJapanCurrencyBalance = lackCcuBalance.multiply(japanCurrencyBalance).divide(japanCcuBalance, 6, RoundingMode.FLOOR).divide(new BigDecimal(1).subtract(lackCcuBalance.divide(japanCcuBalance, 6, RoundingMode.FLOOR)), 6, RoundingMode.FLOOR);
-            var exchangeUsdCurrencyBalance = exchange(japan, exchangeJapanCurrencyBalance);
-            return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance.add(exchangeUsdCurrencyBalance), sourceJapanCurrencyBalance.subtract(exchangeJapanCurrencyBalance), 0);
-        }
-
-        if (obtainUsdCcuBalance.compareTo(obtainJapanCcuBalance) > 0) {
-            var rate = usdCurrencyBalance.add(sourceUsdCurrencyBalance).divide(japanCurrencyBalance.add(sourceJapanCurrencyBalance), 6, RoundingMode.FLOOR);
-            var lackCcuBalance = usdCcuBalance.subtract(japanCcuBalance.multiply(rate)).divide(rate.add(new BigDecimal(1)), 6, RoundingMode.FLOOR);
-            var exchangeUsdCurrencyBalance = lackCcuBalance.multiply(usdCurrencyBalance).divide(usdCcuBalance, 6, RoundingMode.FLOOR).divide(new BigDecimal(1).subtract(lackCcuBalance.divide(usdCcuBalance, 6, RoundingMode.FLOOR)), 6, RoundingMode.FLOOR);
-            var exchangeJapanCurrencyBalance = exchange(usd, exchangeUsdCurrencyBalance);
-            return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance.subtract(exchangeUsdCurrencyBalance), sourceJapanCurrencyBalance.add(exchangeJapanCurrencyBalance), 0);
-        }
-
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
+        // 233.33 injectUsdCurrencyBalance, 100 injectJapanCurrencyBalance
+        // x usdCurrencyBalance      y japanCurrencyBalance
+        // - x / (x + 66.66) * 150 ccu         + x / (x + 66.66) * 150 ccu
+        // + x usdCurrencyBalance              - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200  japanCurrencyBalance
+        // 池中ccu:  150 - x / (x + 66.66) * 150 usdCcu       50 +  x / (x + 66.66) * 150 japanCcu
+        // 池中货币:  66.66 + x  usdCurrencyBalance          200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200  japanCurrencyBalance
+        // 233.33 -x injectUsdCurrencyBalance        100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) injectJapanCurrencyBalance
+        // (233.33 - x) / ( 66.66 + x ) * ( 150 - x / (x + 66.66) * 150 )
+        // ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 )
+        // (233.33 - x) / ( 66.66 + x ) * ( 150 - x / (x + 66.66) * 150 ) = ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 )
+        // (233.33 - x)  * ( 150 - x / (x + 66.66) * 150 ) = ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x )
+        // (233.33 - x)  =  ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x ) / ( 150 - x / (x + 66.66) * 150 )
+        // 233.33 = ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x ) / ( 150 - x / (x + 66.66) * 150 )  + x
+        // ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x ) / ( 150 - x / (x + 66.66) * 150 )  + x = 233.33
+        // x usdCurrencyBalance
+        // y = z / (50 + z ) * 200  japanCurrencyBalance
+        // z = x / (x + 66.66) * 150 ccu
+        // ( 100 + y ) / ( 200 - y ) * ( 50 +  z ) * ( 66.66 + x ) / ( 150 - z )  + x = 233.33
+        // 233.33 - x = ( 100 + y ) / ( 200 - y ) * ( 50 +  z ) * ( 66.66 + x ) / ( 150 - z )
+        // (233.33 - x) * (200 - y) *  ( 150 - z ) = ( 100 + y ) * ( 50 +  z ) * ( 66.66 + x )
+        return BigDecimal.ZERO;
     }
 
     public BigDecimal withdrawal(CurrencyModel targetCurrency, BigDecimal ccuBalance) {
