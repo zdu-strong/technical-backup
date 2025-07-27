@@ -6,16 +6,11 @@ import org.junit.jupiter.api.Test;
 public class LumenMathTest extends BaseTest {
 
     private final String usdCurrencyBalance = "66.66";
-
     private final String japanCurrencyBalance = "200";
-
     private final String usdCcuBalance = "150";
-
     private final String japanCcuBalance = "50";
-
     private final String injectUsdCurrencyBalance = "233.33";
     private final String injectJapanCurrencyBalance = "100";
-
     private final String amountNeedToExchangeUsdCurrencyBalance = "x";
 
     // z = x * 150 / (x + 66.66) ccu
@@ -27,7 +22,7 @@ public class LumenMathTest extends BaseTest {
     public static final String equalSymbol = "=";
     public static final String addSymbol = "+";
     public static final String subtractSymbol = "-";
-    public static final String multipleSymbol = "*";
+    public static final String multiplySymbol = "*";
     public static final String divideSymbol = "/";
 
     @Test
@@ -42,6 +37,11 @@ public class LumenMathTest extends BaseTest {
                 .setChildOne(new MathBracketModel().setName(japanCurrencyBalance))
                 .setCalculationSymbol(subtractSymbol)
                 .setChildTwo(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
+        );
+        aa.handleAddToMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(injectUsdCurrencyBalance))
+                .setCalculationSymbol(subtractSymbol)
+                .setChildTwo(new MathBracketModel().setName(amountNeedToExchangeUsdCurrencyBalance))
         );
 
         "".toString();
@@ -60,7 +60,7 @@ public class LumenMathTest extends BaseTest {
                                                                 .setCalculationSymbol(subtractSymbol)
                                                                 .setChildTwo(new MathBracketModel().setName(amountNeedToExchangeUsdCurrencyBalance))
                                                 )
-                                                .setCalculationSymbol(multipleSymbol)
+                                                .setCalculationSymbol(multiplySymbol)
                                                 .setChildTwo(
                                                         new MathBracketModel()
                                                                 .setChildOne(new MathBracketModel().setName(usdCcuBalance))
@@ -87,7 +87,7 @@ public class LumenMathTest extends BaseTest {
                                                                 .setCalculationSymbol(addSymbol)
                                                                 .setChildTwo(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
                                                 )
-                                                .setCalculationSymbol(multipleSymbol)
+                                                .setCalculationSymbol(multiplySymbol)
                                                 .setChildTwo(
                                                         new MathBracketModel()
                                                                 .setChildOne(new MathBracketModel().setName(japanCcuBalance))
