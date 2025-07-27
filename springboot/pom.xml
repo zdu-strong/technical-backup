@@ -57,6 +57,7 @@
         <org-tukaani-xz.version>1.10</org-tukaani-xz.version>
         <sneakyfun.version>1.0.0</sneakyfun.version>
         <commons-exec.version>1.5.0</commons-exec.version>
+        <chicory.version>1.5.1</chicory.version>
     </properties>
 
     <dependencies>
@@ -225,6 +226,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
             <version>${commons-exec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dylibso.chicory</groupId>
+            <artifactId>runtime</artifactId>
+            <version>${chicory.version}</version>
         </dependency>
     </dependencies>
 
