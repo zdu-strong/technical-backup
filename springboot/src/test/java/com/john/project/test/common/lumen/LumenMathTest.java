@@ -35,6 +35,17 @@ public class LumenMathTest extends BaseTest {
     @Test
     public void test() {
         var aa = init();
+        aa.handleMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(usdCurrencyBalance))
+                .setCalculationSymbol(addSymbol)
+                .setChildTwo(new MathBracketModel().setName(amountNeedToExchangeUsdCurrencyBalance))
+        );
+        aa.handleMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(japanCurrencyBalance))
+                .setCalculationSymbol(subtractSymbol)
+                .setChildTwo(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
+        );
+
         "".toString();
     }
 
