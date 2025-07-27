@@ -33,11 +33,11 @@ public class MathBracketModel {
 
     private MathBracketModel childTwo;
 
-    private void handleAdd(MathBracketModel addModel) {
+    public void handleAdd(MathBracketModel addModel) {
         handleAdd(addSymbol, addModel, this);
     }
 
-    private void handleSubtract(MathBracketModel addModel) {
+    public void handleSubtract(MathBracketModel addModel) {
         handleAdd(subtractSymbol, addModel, this);
     }
 
@@ -50,14 +50,14 @@ public class MathBracketModel {
         }
 
         if (ObjectUtil.equals(equalSymbol, calculationSymbol)) {
-            if (!childOne.handleMultiply(addModel, this)) {
+            if (!childOne.handleAdd(addCalculationSymbol, addModel, this)) {
                 setChildOne(new MathBracketModel()
                         .setChildOne(childOne)
                         .setCalculationSymbol(addCalculationSymbol)
                         .setChildTwo(objectMapper.readValue(objectMapper.writeValueAsString(addModel), MathBracketModel.class))
                 );
             }
-            if (!childTwo.handleMultiply(addModel, this)) {
+            if (!childTwo.handleAdd(addCalculationSymbol, addModel, this)) {
                 setChildTwo(new MathBracketModel()
                         .setChildOne(childTwo)
                         .setCalculationSymbol(addCalculationSymbol)
@@ -65,22 +65,22 @@ public class MathBracketModel {
                 );
             }
         } else {
-            if (ObjectUtil.equals(childTwo.toString(), addModel.toString()) && ObjectUtil.equals(addCalculationSymbol, calculationSymbol) && ObjectUtil.equals(parent.getChildOne().toString(), this.toString())) {
+            if (ObjectUtil.equals(childTwo.toString(), addModel.toString()) && ObjectUtil.notEqual(addCalculationSymbol, calculationSymbol) && ObjectUtil.equals(parent.getChildOne().toString(), this.toString())) {
                 parent.setChildOne(objectMapper.readValue(objectMapper.writeValueAsString(childOne), MathBracketModel.class));
                 return true;
-            } else if (ObjectUtil.equals(childTwo.toString(), addModel.toString()) && ObjectUtil.equals(addCalculationSymbol, calculationSymbol) && ObjectUtil.equals(parent.getChildTwo().toString(), this.toString())) {
+            } else if (ObjectUtil.equals(childTwo.toString(), addModel.toString()) && ObjectUtil.notEqual(addCalculationSymbol, calculationSymbol) && ObjectUtil.equals(parent.getChildTwo().toString(), this.toString())) {
                 parent.setChildOne(objectMapper.readValue(objectMapper.writeValueAsString(childOne), MathBracketModel.class));
                 return true;
-            } else if (ObjectUtil.equals(childOne.toString(), addModel.toString()) && ObjectUtil.equals(addSymbol, calculationSymbol) && List.of(addSymbol, equalSymbol).contains(parent.getCalculationSymbol()) && ObjectUtil.equals(subtractSymbol, addCalculationSymbol) && ObjectUtil.equals(parent.getChildOne().toString(), this.toString())) {
+            } else if (ObjectUtil.equals(childOne.toString(), addModel.toString()) && ObjectUtil.notEqual(subtractSymbol, calculationSymbol) && List.of(addSymbol, equalSymbol).contains(parent.getCalculationSymbol()) && ObjectUtil.equals(subtractSymbol, addCalculationSymbol) && ObjectUtil.equals(parent.getChildOne().toString(), this.toString())) {
                 parent.setChildOne(objectMapper.readValue(objectMapper.writeValueAsString(childTwo), MathBracketModel.class));
                 return true;
-            }  else if (ObjectUtil.equals(childOne.toString(), addModel.toString()) && ObjectUtil.equals(addSymbol, calculationSymbol) && List.of(addSymbol, equalSymbol).contains(parent.getCalculationSymbol()) && ObjectUtil.equals(subtractSymbol, addCalculationSymbol) && ObjectUtil.equals(parent.getChildTwo().toString(), this.toString())) {
+            } else if (ObjectUtil.equals(childOne.toString(), addModel.toString()) && ObjectUtil.notEqual(subtractSymbol, calculationSymbol) && List.of(addSymbol, equalSymbol).contains(parent.getCalculationSymbol()) && ObjectUtil.equals(subtractSymbol, addCalculationSymbol) && ObjectUtil.equals(parent.getChildTwo().toString(), this.toString())) {
                 parent.setChildTwo(objectMapper.readValue(objectMapper.writeValueAsString(childTwo), MathBracketModel.class));
                 return true;
             } else {
-                if (childOne.handleMultiply(addModel, this)) {
+                if (childOne.handleAdd(addCalculationSymbol, addModel, this)) {
                     return true;
-                } else if (childTwo.handleMultiply(addModel, this)) {
+                } else if (childTwo.handleAdd(addCalculationSymbol, addModel, this)) {
                     return true;
                 }
             }
