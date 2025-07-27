@@ -3,8 +3,6 @@ package com.john.project.test.common.lumen;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
 public class LumenMathTest extends BaseTest {
 
     private final String usdCurrencyBalance = "66.66";
