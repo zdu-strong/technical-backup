@@ -43,7 +43,31 @@ public class LumenMathTest extends BaseTest {
                 .setCalculationSymbol(subtractSymbol)
                 .setChildTwo(new MathBracketModel().setName(amountNeedToExchangeUsdCurrencyBalance))
         );
-
+        aa.handleAddToMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(usdCcuBalance))
+                .setCalculationSymbol(subtractSymbol)
+                .setChildTwo(new MathBracketModel().setName(exchangeCcuBalance))
+        );
+        aa.handleAddToMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(japanCurrencyBalance))
+                .setCalculationSymbol(subtractSymbol)
+                .setChildTwo(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
+        );
+        aa.handleAddToMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(injectJapanCurrencyBalance))
+                .setCalculationSymbol(addSymbol)
+                .setChildTwo(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
+        );
+        aa.handleAddToMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(usdCurrencyBalance))
+                .setCalculationSymbol(addSymbol)
+                .setChildTwo(new MathBracketModel().setName(amountNeedToExchangeUsdCurrencyBalance))
+        );
+        aa.handleAddToMultiply(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(japanCcuBalance))
+                .setCalculationSymbol(addSymbol)
+                .setChildTwo(new MathBracketModel().setName(exchangeCcuBalance))
+        );
         "".toString();
     }
 
