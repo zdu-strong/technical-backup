@@ -323,7 +323,7 @@ public abstract class BaseTest {
 
     @SneakyThrows
     private UserModel signIn(String email, String password) {
-        var url = new URIBuilder("/sign-in")
+        var url = new URIBuilder("/sign-in/rsa/one-time")
                 .setParameter("username", email)
                 .setParameter("password", this.encryptDecryptService.encryptByPublicKeyOfRSA(password))
                 .build();

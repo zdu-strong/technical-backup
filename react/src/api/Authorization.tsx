@@ -25,7 +25,7 @@ export async function sendVerificationCode(email: string) {
 
 export async function signIn(username: string, password: string): Promise<void> {
   await signOut();
-  const { data } = await axios.post(`/sign-in`, null, {
+  const { data } = await axios.post(`/sign-in/rsa/one-time`, null, {
     params: {
       username: username,
       password: await encryptByPublicKeyOfRSA(password, await getKeyOfRSAPublicKey()),
