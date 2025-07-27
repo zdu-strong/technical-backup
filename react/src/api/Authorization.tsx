@@ -6,12 +6,13 @@ import { VerificationCodeEmailModel } from "@model/VerificationCodeEmailModel";
 import axios from "axios";
 import { TypedJSON } from "typedjson";
 import { getKeyOfRSAPublicKey } from "@api/EncryptDecrypt";
+import { sha3_512 } from 'js-sha3';
 
 export async function signUp(password: string, nickname: string, userEmailList: UserEmailModel[]): Promise<void> {
   await signOut();
   const { data } = await axios.post(`/sign-up`, {
     username: nickname,
-    password: await encryptByPublicKeyOfRSA(password, await getKeyOfRSAPublicKey()),
+    password: await encryptByPublicKeyOfRSA(sha3_512(password), await getKeyOfRSAPublicKey()),
     userEmailList: userEmailList,
   });
   const user = new TypedJSON(UserModel).parse(data)!;
@@ -28,7 +29,7 @@ export async function signIn(username: string, password: string): Promise<void> 
   const { data } = await axios.post(`/sign-in/rsa/one-time`, null, {
     params: {
       username: username,
-      password: await encryptByPublicKeyOfRSA(password, await getKeyOfRSAPublicKey()),
+      password: await encryptByPublicKeyOfRSA(sha3_512(password), await getKeyOfRSAPublicKey()),
     }
   });
   const user = new TypedJSON(UserModel).parse(data)!;

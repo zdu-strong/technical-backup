@@ -59,6 +59,7 @@
     "date-fns": "4.1.0",
     "execa": "5.1.1",
     "is-mobile": "5.0.0",
+    "js-sha3": "0.9.3",
     "jsencrypt": "3.3.2",
     "linq": "4.0.3",
     "mathjs": "14.5.0",

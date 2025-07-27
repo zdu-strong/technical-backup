@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import com.john.project.service.*;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
@@ -97,7 +98,7 @@ public class SystemInitScheduled {
         }
         var superAdminUser = new UserModel();
         superAdminUser.setUsername("SuperAdmin");
-        superAdminUser.setPassword(this.encryptDecryptService.encryptByPublicKeyOfRSA(email));
+        superAdminUser.setPassword(this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(email)));
         var verificationCodeEmailModel = this.authorizationEmailUtil.sendVerificationCode(email);
         verificationCodeEmailModel.setVerificationCode(
                 this.verificationCodeEmailService.getById(verificationCodeEmailModel.getId()).getVerificationCode());

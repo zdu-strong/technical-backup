@@ -2,6 +2,7 @@ package com.john.project.test.controller.AuthorizationController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import lombok.SneakyThrows;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class AuthorizationControllerSignInAgainPasswordTest extends BaseTest {
     public void beforeEach() {
         this.username = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(username);
-        this.passwordOneTime = this.encryptDecryptService.encryptByPublicKeyOfRSA(this.username);
+        this.passwordOneTime = this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(username));
         var url = new URIBuilder("/sign-in/rsa/one-time")
                 .setParameter("username", username)
                 .setParameter("password", passwordOneTime)
