@@ -13,8 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.john.project.test.common.lumen.LumenMathTest.addSymbol;
-import static com.john.project.test.common.lumen.LumenMathTest.multipleSymbol;
+import static com.john.project.test.common.lumen.LumenMathTest.*;
 
 @Getter
 @Setter
@@ -43,6 +42,10 @@ public class MathBracketModel {
                 hasBracketSymbolOfChildOne = false;
             }
             if (StringUtils.isNotBlank(childTwo.getName())) {
+                hasBracketSymbolOfChildTwo = false;
+            }
+            if (StringUtils.equals(equalSymbol, calculationSymbol)) {
+                hasBracketSymbolOfChildOne = false;
                 hasBracketSymbolOfChildTwo = false;
             }
             return StrFormatter.format(

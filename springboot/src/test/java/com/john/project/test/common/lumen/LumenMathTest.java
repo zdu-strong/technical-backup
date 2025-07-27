@@ -26,7 +26,7 @@ public class LumenMathTest extends BaseTest {
     // y = z * 200 / (50 + z )
     private final String exchangeJapanCurrencyBalance = "y";
 
-    private final String equalSymbol = "=";
+    public static final String equalSymbol = "=";
     public static final String addSymbol = "+";
     public static final String subtractSymbol = "-";
     public static final String multipleSymbol = "*";
@@ -35,7 +35,6 @@ public class LumenMathTest extends BaseTest {
     @Test
     public void test() {
         var aa = init();
-        var cc = aa.toString();
         "".toString();
     }
 
