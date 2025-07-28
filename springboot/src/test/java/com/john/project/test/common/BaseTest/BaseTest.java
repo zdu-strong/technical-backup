@@ -14,7 +14,6 @@ import com.john.project.common.DistributedExecution.StorageSpaceCleanDistributed
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
 import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.model.*;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ThreadUtils;
@@ -302,7 +301,7 @@ public abstract class BaseTest {
         var userModelOfSignUp = new UserModel();
         userModelOfSignUp
                 .setUsername(email)
-                .setPassword(this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(password)))
+                .setPassword(this.tokenService.getEncryptedPassword(password))
                 .setUserEmailList(Lists.newArrayList(
                         new UserEmailModel()
                                 .setEmail(email)
@@ -326,7 +325,7 @@ public abstract class BaseTest {
     private UserModel signIn(String email, String password) {
         var url = new URIBuilder("/sign-in/rsa/one-time")
                 .setParameter("username", email)
-                .setParameter("password", this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(password)))
+                .setParameter("password", this.tokenService.getEncryptedPassword(password))
                 .build();
         var response = this.testRestTemplate.postForEntity(url, null, UserModel.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());

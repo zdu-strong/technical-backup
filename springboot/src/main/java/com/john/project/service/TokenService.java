@@ -6,8 +6,10 @@ import java.util.Date;
 
 import com.john.project.entity.TokenEntity;
 import com.john.project.entity.UserEntity;
+import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,6 +75,29 @@ public class TokenService extends BaseService {
         return exists;
     }
 
+    @Transactional(readOnly = true)
+    @SneakyThrows
+    public String getEncryptedPassword(String password) {
+        var encryptedPassword = this.encryptDecryptService.encryptByPublicKeyOfRSA(objectMapper.writeValueAsString(new Object[]{DigestUtils.sha3_512Hex(password), new Date()}));
+        return encryptedPassword;
+    }
+
+    @Transactional(readOnly = true)
+    @SneakyThrows
+    public String getDecryptedPassword(String encryptedPassword) {
+        var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
+        var password = this.objectMapper.readTree(passwordJsonString).get(0).asText();
+        return password;
+    }
+
+    @Transactional(readOnly = true)
+    @SneakyThrows
+    public Date getCreateDateOfEncryptedPassword(String encryptedPassword) {
+        var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
+        var createDate = this.objectMapper.readValue(this.objectMapper.writeValueAsString(this.objectMapper.readTree(passwordJsonString).get(1).asText()), Date.class);
+        return createDate;
+    }
+
     public void deleteTokenEntity(String id) {
         var tokenEntity = this.streamAll(TokenEntity.class)
                 .where(s -> s.getId().equals(id))
@@ -91,7 +116,16 @@ public class TokenService extends BaseService {
             var userEntity = this.streamAll(UserEntity.class)
                     .where(s -> s.getId().equals(userId))
                     .getOnlyValue();
-            var password = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
+            var createDate = this.getCreateDateOfEncryptedPassword(encryptedPassword);
+            if (createDate.before(DateUtils.addMinutes(new Date(), -5))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Incorrect username or password");
+            }
+            if (createDate.after(DateUtils.addMinutes(new Date(), 5))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Incorrect username or password");
+            }
+            var password = this.getDecryptedPassword(encryptedPassword);
             var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(userId + password));
 
             if (!userId.equals(this.encryptDecryptService.decryptByAES(userEntity.getPassword(), secretKeyOfAES))) {

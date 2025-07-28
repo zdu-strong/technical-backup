@@ -2,7 +2,6 @@ package com.john.project.test.controller.AuthorizationController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import lombok.SneakyThrows;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ public class AuthorizationControllerSignInIncorrectPasswordTest extends BaseTest
     public void test() {
         var url = new URIBuilder("/sign-in/rsa/one-time")
                 .setParameter("username", username)
-                .setParameter("password", this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(password)))
+                .setParameter("password", this.tokenService.getEncryptedPassword(password))
                 .build();
         var response = this.testRestTemplate.postForEntity(url, null, Throwable.class);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

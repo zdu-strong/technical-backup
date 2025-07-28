@@ -37,9 +37,12 @@ public class UserService extends BaseService {
     @Autowired
     private UserEmailService userEmailService;
 
+    @Autowired
+    private TokenService tokenService;
+
     public UserModel create(UserModel userModel) {
         var id = newId();
-        var password = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(userModel.getPassword());
+        var password = this.tokenService.getDecryptedPassword(userModel.getPassword());
         var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(id + password));
         var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(id, secretKeyOfAES);
         var userEntity = new UserEntity();

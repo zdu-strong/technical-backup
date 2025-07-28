@@ -12,7 +12,7 @@ export async function signUp(password: string, nickname: string, userEmailList: 
   await signOut();
   const { data } = await axios.post(`/sign-up`, {
     username: nickname,
-    password: await encryptByPublicKeyOfRSA(sha3_512(password), await getKeyOfRSAPublicKey()),
+    password: await getEncryptedPassword(password),
     userEmailList: userEmailList,
   });
   const user = new TypedJSON(UserModel).parse(data)!;
@@ -29,7 +29,7 @@ export async function signIn(username: string, password: string): Promise<void> 
   const { data } = await axios.post(`/sign-in/rsa/one-time`, null, {
     params: {
       username: username,
-      password: await encryptByPublicKeyOfRSA(sha3_512(password), await getKeyOfRSAPublicKey()),
+      password: await getEncryptedPassword(password),
     }
   });
   const user = new TypedJSON(UserModel).parse(data)!;
@@ -60,4 +60,8 @@ export async function isSignIn() {
     }
   }
   return true;
+}
+
+async function getEncryptedPassword(password: string) {
+  return await encryptByPublicKeyOfRSA(JSON.stringify([sha3_512(password), new Date()]), await getKeyOfRSAPublicKey());
 }

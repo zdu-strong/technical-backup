@@ -57,6 +57,9 @@ public class SystemInitScheduled {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Getter
     private Boolean hasInit = false;
 
@@ -98,7 +101,7 @@ public class SystemInitScheduled {
         }
         var superAdminUser = new UserModel();
         superAdminUser.setUsername("SuperAdmin");
-        superAdminUser.setPassword(this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(email)));
+        superAdminUser.setPassword(this.tokenService.getEncryptedPassword(email));
         var verificationCodeEmailModel = this.authorizationEmailUtil.sendVerificationCode(email);
         verificationCodeEmailModel.setVerificationCode(
                 this.verificationCodeEmailService.getById(verificationCodeEmailModel.getId()).getVerificationCode());

@@ -1,6 +1,5 @@
 package com.john.project.controller;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +17,7 @@ public class AuthorizationController extends BaseController {
     public ResponseEntity<?> signIn(@RequestParam String username, @RequestParam String password) {
         this.userService.checkExistAccount(username);
         var userId = this.userService.getUserId(username);
-        var accessToken = this.tokenService.generateAccessToken(userId, this.encryptDecryptService.encryptByPublicKeyOfRSA(DigestUtils.sha3_512Hex(password)));
+        var accessToken = this.tokenService.generateAccessToken(userId, this.tokenService.getEncryptedPassword(password));
         var user = this.userService.getUserWithMoreInformation(userId);
         user.setAccessToken(accessToken);
         return ResponseEntity.ok(user);
