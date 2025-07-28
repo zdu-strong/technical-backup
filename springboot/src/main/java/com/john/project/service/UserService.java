@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
+import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -40,15 +41,12 @@ public class UserService extends BaseService {
     @Autowired
     private TokenService tokenService;
 
+    @SneakyThrows
     public UserModel create(UserModel userModel) {
-        var id = newId();
-        var password = this.tokenService.getDecryptedPassword(userModel.getPassword());
-        var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(id + password));
-        var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(id, secretKeyOfAES);
         var userEntity = new UserEntity();
-        userEntity.setId(id);
+        userEntity.setId(newId());
         userEntity.setUsername(userModel.getUsername());
-        userEntity.setPassword(passwordAfterEncrypted);
+        userEntity.setPassword(this.tokenService.getPasswordInDatabaseOfEncryptedPassword(userModel.getPassword(), userEntity.getId()));
         userEntity.setIsDeleted(false);
         userEntity.setCreateDate(new Date());
         userEntity.setUpdateDate(new Date());

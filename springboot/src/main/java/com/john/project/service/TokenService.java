@@ -98,6 +98,14 @@ public class TokenService extends BaseService {
         return createDate;
     }
 
+    @SneakyThrows
+    public String getPasswordInDatabaseOfEncryptedPassword(String encryptedPassword, String userId) {
+        var password = this.getDecryptedPassword(encryptedPassword);
+        var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(userId + password));
+        var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(objectMapper.writeValueAsString(new Object[]{userId, this.uuidUtil.v4()}), secretKeyOfAES);
+        return passwordAfterEncrypted;
+    }
+
     public void deleteTokenEntity(String id) {
         var tokenEntity = this.streamAll(TokenEntity.class)
                 .where(s -> s.getId().equals(id))
@@ -111,6 +119,7 @@ public class TokenService extends BaseService {
         return logo;
     }
 
+    @SneakyThrows
     private void checkCorrectPassword(String userId, String encryptedPassword) {
         try {
             var userEntity = this.streamAll(UserEntity.class)
@@ -127,8 +136,9 @@ public class TokenService extends BaseService {
             }
             var password = this.getDecryptedPassword(encryptedPassword);
             var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(userId + password));
-
-            if (!userId.equals(this.encryptDecryptService.decryptByAES(userEntity.getPassword(), secretKeyOfAES))) {
+            var passwordJsonString = this.encryptDecryptService.decryptByAES(userEntity.getPassword(), secretKeyOfAES);
+            var userIdOfPasswordInDatabase = this.objectMapper.readTree(passwordJsonString).get(0).asText();
+            if (!userId.equals(userIdOfPasswordInDatabase)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Incorrect username or password");
             }
