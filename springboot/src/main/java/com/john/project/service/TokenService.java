@@ -94,7 +94,7 @@ public class TokenService extends BaseService {
     @SneakyThrows
     public Date getCreateDateOfEncryptedPassword(String encryptedPassword) {
         var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
-        var createDate = this.objectMapper.readValue(this.objectMapper.writeValueAsString(this.objectMapper.readTree(passwordJsonString).get(1).asText()), Date.class);
+        var createDate = this.objectMapper.treeToValue(this.objectMapper.readTree(passwordJsonString).get(1), Date.class);
         return createDate;
     }
 
