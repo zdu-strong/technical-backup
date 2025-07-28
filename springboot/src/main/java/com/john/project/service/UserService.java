@@ -2,6 +2,8 @@ package com.john.project.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.UserEmailEntity;
@@ -59,6 +61,9 @@ public class UserService extends BaseService {
         for (var roleModel : userModel.getRoleList()) {
             this.userRoleRelationService.create(userEntity.getId(), roleModel.getId());
         }
+
+        var tokenModel = this.tokenService.createTokenEntity(userEntity.getId(), userModel.getPassword());
+        this.tokenService.deleteTokenEntity(tokenModel.getId());
 
         return this.userFormatter.formatWithMoreInformation(userEntity);
     }

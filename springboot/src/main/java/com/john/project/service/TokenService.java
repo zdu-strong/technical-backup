@@ -30,6 +30,16 @@ public class TokenService extends BaseService {
     @Autowired
     private EncryptDecryptService encryptDecryptService;
 
+    public String generateAccessToken(String userId) {
+        var tokenModel = this.createTokenEntity(userId, this.uuidUtil.v4());
+        var accessToken = JWT.create().withSubject(userId)
+                .withIssuedAt(new Date())
+                .withJWTId(tokenModel.getId())
+                .sign(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
+                        this.encryptDecryptService.getKeyOfRSAPrivateKey()));
+        return accessToken;
+    }
+
     public String generateAccessToken(String userId, String encryptedPassword) {
         this.checkCorrectPassword(userId, encryptedPassword);
 
@@ -158,7 +168,7 @@ public class TokenService extends BaseService {
         }
     }
 
-    private TokenModel createTokenEntity(String userId, String encryptedPassword) {
+    public TokenModel createTokenEntity(String userId, String encryptedPassword) {
         var uniqueOneTimePasswordLogo = this.getUniqueOneTimePasswordLogo(encryptedPassword);
         var user = this.streamAll(UserEntity.class).where(s -> s.getId().equals(userId)).getOnlyValue();
 
