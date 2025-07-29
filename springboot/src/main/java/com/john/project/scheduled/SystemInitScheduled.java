@@ -2,9 +2,10 @@ package com.john.project.scheduled;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
+import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.service.*;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
@@ -60,6 +61,9 @@ public class SystemInitScheduled {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    protected DevelopmentMockModeProperties developmentMockModeProperties;
+
     @Getter
     private Boolean hasInit = false;
 
@@ -87,6 +91,9 @@ public class SystemInitScheduled {
     }
 
     private void initSuperAdminUser() {
+        if (this.developmentMockModeProperties.getIsUnitTestEnvironment()) {
+            return;
+        }
         var email = "zdu.strong@gmail.com";
         var hasExists = !Flowable.fromCallable(() -> {
                     return this.userService.getUserId(email);
