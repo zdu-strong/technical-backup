@@ -42,9 +42,8 @@ public class PermissionUtil {
     }
 
     public boolean isSignIn(HttpServletRequest request) {
-        String accessToken = this.tokenService.getAccessToken(request);
         try {
-            this.tokenService.getDecodedJWTOfAccessToken(accessToken);
+            this.tokenService.getDecodedJWTOfAccessToken(request);
             return true;
         } catch (Throwable e) {
             return false;
@@ -52,12 +51,7 @@ public class PermissionUtil {
     }
 
     public String getUserId(HttpServletRequest request) {
-        String accessToken = this.tokenService.getAccessToken(request);
-        var decodedJWT = JWT
-                .require(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
-                        this.encryptDecryptService.getKeyOfRSAPrivateKey()))
-                .build().verify(accessToken);
-        return decodedJWT.getSubject();
+        return this.tokenService.getDecodedJWTOfAccessToken(request).getSubject();
     }
 
     public boolean hasAnyPermission(HttpServletRequest request, SystemPermissionEnum... permissionList) {

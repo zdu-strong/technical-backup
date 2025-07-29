@@ -37,7 +37,7 @@ public class AuthorizationController extends BaseController {
     @PostMapping("/sign-out")
     public ResponseEntity<?> signOut() {
         if (this.permissionUtil.isSignIn(request)) {
-            var id = this.tokenService.getDecodedJWTOfAccessToken(this.tokenService.getAccessToken(request)).getId();
+            var id = this.tokenService.getDecodedJWTOfAccessToken(request).getId();
             if (this.tokenService.hasExistTokenEntity(id)) {
                 this.tokenService.deleteTokenEntity(id);
             }

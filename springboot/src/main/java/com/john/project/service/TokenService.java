@@ -53,15 +53,9 @@ public class TokenService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public String getAccessToken(HttpServletRequest request) {
-        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.isNotBlank(authorization)) {
-            String prefix = "Bearer ";
-            if (authorization.startsWith(prefix)) {
-                return authorization.substring(prefix.length());
-            }
-        }
-        return "";
+    public DecodedJWT getDecodedJWTOfAccessToken(HttpServletRequest request) {
+        var accessToken = this.getAccessToken(request);
+        return this.getDecodedJWTOfAccessToken(accessToken);
     }
 
     @Transactional(readOnly = true)
@@ -69,7 +63,8 @@ public class TokenService extends BaseService {
         var decodedJWT = JWT
                 .require(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
                         this.encryptDecryptService.getKeyOfRSAPrivateKey()))
-                .build().verify(accessToken);
+                .build()
+                .verify(accessToken);
         if (!this.hasExistTokenEntity(decodedJWT.getId())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login first and then visit");
         }
@@ -164,6 +159,17 @@ public class TokenService extends BaseService {
         var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
         var createDate = this.objectMapper.treeToValue(this.objectMapper.readTree(passwordJsonString).get(1), Date.class);
         return createDate;
+    }
+
+    private String getAccessToken(HttpServletRequest request) {
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.isNotBlank(authorization)) {
+            String prefix = "Bearer ";
+            if (authorization.startsWith(prefix)) {
+                return authorization.substring(prefix.length());
+            }
+        }
+        return "";
     }
 
     private TokenModel createTokenEntity(String userId, String encryptedPassword) {
