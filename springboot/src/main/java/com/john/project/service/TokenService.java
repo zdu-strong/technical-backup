@@ -92,22 +92,6 @@ public class TokenService extends BaseService {
         return encryptedPassword;
     }
 
-    @Transactional(readOnly = true)
-    @SneakyThrows
-    public String getDecryptedPassword(String encryptedPassword) {
-        var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
-        var password = this.objectMapper.readTree(passwordJsonString).get(0).asText();
-        return password;
-    }
-
-    @Transactional(readOnly = true)
-    @SneakyThrows
-    public Date getCreateDateOfEncryptedPassword(String encryptedPassword) {
-        var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
-        var createDate = this.objectMapper.treeToValue(this.objectMapper.readTree(passwordJsonString).get(1), Date.class);
-        return createDate;
-    }
-
     @SneakyThrows
     public String getPasswordInDatabaseOfEncryptedPassword(String encryptedPassword, String userId) {
         var password = this.getDecryptedPassword(encryptedPassword);
@@ -166,6 +150,20 @@ public class TokenService extends BaseService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Incorrect username or password");
         }
+    }
+
+    @SneakyThrows
+    private String getDecryptedPassword(String encryptedPassword) {
+        var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
+        var password = this.objectMapper.readTree(passwordJsonString).get(0).asText();
+        return password;
+    }
+
+    @SneakyThrows
+    private Date getCreateDateOfEncryptedPassword(String encryptedPassword) {
+        var passwordJsonString = this.encryptDecryptService.decryptByByPrivateKeyOfRSA(encryptedPassword);
+        var createDate = this.objectMapper.treeToValue(this.objectMapper.readTree(passwordJsonString).get(1), Date.class);
+        return createDate;
     }
 
     private TokenModel createTokenEntity(String userId, String encryptedPassword) {

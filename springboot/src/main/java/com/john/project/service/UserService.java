@@ -2,15 +2,12 @@ package com.john.project.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
 import lombok.SneakyThrows;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
