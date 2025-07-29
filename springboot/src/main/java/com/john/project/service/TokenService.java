@@ -168,7 +168,7 @@ public class TokenService extends BaseService {
         }
     }
 
-    public TokenModel createTokenEntity(String userId, String encryptedPassword) {
+    private TokenModel createTokenEntity(String userId, String encryptedPassword) {
         var uniqueOneTimePasswordLogo = this.getUniqueOneTimePasswordLogo(encryptedPassword);
         var user = this.streamAll(UserEntity.class).where(s -> s.getId().equals(userId)).getOnlyValue();
 

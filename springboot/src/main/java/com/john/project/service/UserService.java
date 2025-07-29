@@ -62,8 +62,8 @@ public class UserService extends BaseService {
             this.userRoleRelationService.create(userEntity.getId(), roleModel.getId());
         }
 
-        var tokenModel = this.tokenService.createTokenEntity(userEntity.getId(), userModel.getPassword());
-        this.tokenService.deleteTokenEntity(tokenModel.getId());
+        var accessToken = this.tokenService.generateAccessToken(userEntity.getId(), userModel.getPassword());
+        this.tokenService.deleteTokenEntity(this.tokenService.getDecodedJWTOfAccessToken(accessToken).getId());
 
         return this.userFormatter.formatWithMoreInformation(userEntity);
     }
