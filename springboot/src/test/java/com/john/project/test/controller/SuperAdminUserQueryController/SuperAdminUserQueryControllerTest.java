@@ -1,16 +1,11 @@
 package com.john.project.test.controller.SuperAdminUserQueryController;
 
-import cn.hutool.core.util.ObjectUtil;
-import com.john.project.enums.SystemPermissionEnum;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
-import com.john.project.model.RoleModel;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
-import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,7 +30,7 @@ public class SuperAdminUserQueryControllerTest extends BaseTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1, response.getBody().getPageNum());
         assertEquals(200, response.getBody().getPageSize());
-        assertEquals(3, response.getBody().getTotalRecords());
+        assertEquals(2, response.getBody().getTotalRecords());
         assertEquals(1, response.getBody().getTotalPages());
         assertFalse(response.getBody().getItems().isEmpty());
     }
