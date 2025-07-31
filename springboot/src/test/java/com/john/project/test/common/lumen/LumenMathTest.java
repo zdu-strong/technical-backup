@@ -68,14 +68,14 @@ public class LumenMathTest extends BaseTest {
                 .setCalculationSymbol(addSymbol)
                 .setChildTwo(new MathBracketModel().setName(exchangeCcuBalance))
         );
-//        aa.handleAdd(new MathBracketModel()
-//                .setChildOne(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
-//                .setCalculationSymbol(multiplySymbol)
-//                .setChildTwo(new MathBracketModel()
-//                        .setChildOne(new MathBracketModel().setName(injectUsdCurrencyBalance))
-//                        .setCalculationSymbol(multiplySymbol)
-//                        .setChildTwo(new MathBracketModel().setName(usdCcuBalance))
-//                ));
+        aa.handleAdd(new MathBracketModel()
+                .setChildOne(new MathBracketModel().setName(exchangeJapanCurrencyBalance))
+                .setCalculationSymbol(multiplySymbol)
+                .setChildTwo(new MathBracketModel()
+                        .setChildOne(new MathBracketModel().setName(injectUsdCurrencyBalance))
+                        .setCalculationSymbol(multiplySymbol)
+                        .setChildTwo(new MathBracketModel().setName(usdCcuBalance))
+                ));
         "".toString();
     }
 
