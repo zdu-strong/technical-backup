@@ -24,7 +24,7 @@ public class SuperAdminOrganizeQueryControllerTest extends BaseTest {
                 .setParameter("pageNum", "1")
                 .setParameter("pageSize", "200")
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null), new ParameterizedTypeReference<PaginationModel<OrganizeModel>>() {
+        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<PaginationModel<OrganizeModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1, response.getBody().getPageNum());

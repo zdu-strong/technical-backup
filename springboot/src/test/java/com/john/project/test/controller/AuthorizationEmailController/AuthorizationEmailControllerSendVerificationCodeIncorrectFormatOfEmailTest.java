@@ -16,7 +16,7 @@ public class AuthorizationEmailControllerSendVerificationCodeIncorrectFormatOfEm
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/email/send-verification-code").setParameter("email", email).build();
-        var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(null),
+        var response = this.testRestTemplate.postForEntity(url, null,
                 Throwable.class);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Invalid email format", response.getBody().getMessage());

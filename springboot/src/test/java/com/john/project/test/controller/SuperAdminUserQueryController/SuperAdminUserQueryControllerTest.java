@@ -24,7 +24,7 @@ public class SuperAdminUserQueryControllerTest extends BaseTest {
                 .setParameter("pageNum", "1")
                 .setParameter("pageSize", "200")
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null), new ParameterizedTypeReference<PaginationModel<UserModel>>() {
+        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<PaginationModel<UserModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(HttpStatus.OK, response.getStatusCode());

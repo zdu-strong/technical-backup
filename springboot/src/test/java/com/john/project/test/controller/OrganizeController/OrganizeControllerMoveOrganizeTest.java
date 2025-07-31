@@ -22,7 +22,7 @@ public class OrganizeControllerMoveOrganizeTest extends BaseTest {
         var url = new URIBuilder("/organize/move").setParameter("id", organizeId)
                 .setParameter("parentId", parentOrganizeId)
                 .build();
-        var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(null), Void.class);
+        var response = this.testRestTemplate.postForEntity(url, null, Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         var result = this.organizeService.getById(organizeId);
         assertEquals(this.parentOrganizeId, result.getParent().getId());

@@ -280,7 +280,7 @@ public abstract class BaseTest {
     @SneakyThrows
     protected VerificationCodeEmailModel sendVerificationCode(String email) {
         var url = new URIBuilder("/email/send-verification-code").setParameter("email", email).build();
-        var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(null),
+        var response = this.testRestTemplate.postForEntity(url, null,
                 VerificationCodeEmailModel.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         return response.getBody();
@@ -364,7 +364,7 @@ public abstract class BaseTest {
                             .setPath("/long-term-task")
                             .setParameter("encryptedId", encryptedId)
                             .build();
-                    var response = new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(null),
+                    var response = new RestTemplate().exchange(url, HttpMethod.GET, null,
                             responseType);
                     return response;
                 })

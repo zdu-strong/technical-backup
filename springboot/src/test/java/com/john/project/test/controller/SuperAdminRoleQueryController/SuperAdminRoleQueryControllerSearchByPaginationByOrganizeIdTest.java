@@ -31,7 +31,7 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByOrganizeIdTest ext
                 .setParameter("pageSize", "200")
                 .setParameter("organizeId", this.organizeId)
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null), new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
+        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
         var roleList = response.getBody().getItems();

@@ -17,7 +17,7 @@ public class AuthorizationEmailControllerSendVerificationCodeTest extends BaseTe
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/email/send-verification-code").setParameter("email", email).build();
-        var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(null),
+        var response = this.testRestTemplate.postForEntity(url, null,
                 VerificationCodeEmailModel.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(6, response.getBody().getVerificationCodeLength());

@@ -19,7 +19,7 @@ public class UserMessageControllerDeleteMessageTest extends BaseTest {
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/user-message/delete").setParameter("id", id).build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(null), Void.class);
+        var response = this.testRestTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

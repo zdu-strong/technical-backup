@@ -29,7 +29,7 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByPermissionListTest
                 .setParameter("pageSize", "200")
                 .addParameter("permissionList", SystemPermissionEnum.SUPER_ADMIN.getValue())
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null), new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
+        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
         var roleList = response.getBody().getItems();

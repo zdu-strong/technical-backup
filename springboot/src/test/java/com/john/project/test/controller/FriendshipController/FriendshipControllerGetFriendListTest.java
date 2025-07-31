@@ -32,7 +32,7 @@ public class FriendshipControllerGetFriendListTest extends BaseTest {
                 .setParameter("pageNum", String.valueOf(1))
                 .setParameter("pageSize", String.valueOf(20))
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null),
+        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<PaginationModel<FriendshipModel>>() {
                 });
         assertEquals(HttpStatus.OK, response.getStatusCode());
