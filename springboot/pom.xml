@@ -259,7 +259,7 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
                     <diffChangeLogFile>${database.liquibase.diff.changelog.file}</diffChangeLogFile>
-                    <changeLogFile>liquibase/index.xml</changeLogFile>
+                    <changeLogFile>database/liquibase/index.xml</changeLogFile>
                     <url>${database.spring.datasource.url}</url>
                     <username>${database.username}</username>
                     <password>${database.password}</password>

@@ -167,7 +167,7 @@ public class SpringbootProjectApplication {
         var today = FastDateFormat.getInstance("yyyy.MM.dd.HH.mm.ss", TimeZone.getTimeZone("UTC"))
                 .format(new Date());
         var filePathOfDiffChangeLogFile = Paths
-                .get(getBaseFolderPath(), "src/main/resources", "liquibase/changelog",
+                .get(getBaseFolderPath(), "src/main/resources", "database/liquibase/changelog",
                         today.substring(0, 10),
                         today + "_changelog." + getDatabaseType().getType() + getFilenameExtensionOfChangeLog())
                 .normalize().toString().replaceAll(Pattern.quote("\\"), "/");

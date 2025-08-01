@@ -8,5 +8,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
 >
-    <includeAll path="liquibase/changelog/" />
+    <includeAll path="database/liquibase/changelog" />
 </databaseChangeLog>
