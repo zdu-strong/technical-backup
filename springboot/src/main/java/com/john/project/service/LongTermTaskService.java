@@ -152,7 +152,7 @@ public class LongTermTaskService extends BaseService {
         longTermTaskEntity.setCreateDate(new Date());
         longTermTaskEntity.setUpdateDate(new Date());
         longTermTaskEntity.setIsDone(false);
-        longTermTaskEntity.setResult(this.longTermTaskFormatter.formatResult(null));
+        longTermTaskEntity.setResult(this.longTermTaskFormatter.formatResult(ResponseEntity.ok().build()));
         longTermTaskEntity.setUniqueKeyJsonString(uniqueKeyJsonString);
         this.persist(longTermTaskEntity);
 

@@ -1,12 +1,11 @@
 package com.john.project.format;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.function.Consumer;
+import java.util.*;
+
+import cn.hutool.core.util.ObjectUtil;
+import eu.ciechanowiec.sneakyfun.SneakyBiConsumer;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.constant.LongTermTaskTempWaitDurationConstant;
 import com.john.project.entity.LongTermTaskEntity;
@@ -23,13 +21,25 @@ import com.john.project.model.LongTermTaskModel;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import lombok.SneakyThrows;
 
+import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
+
 @Service
 public class LongTermTaskFormatter extends BaseService {
 
     @SneakyThrows
-    public String formatResult(Object result) {
+    public String formatResult(ResponseEntity<?> result) {
+        var headersMap = new HashMap<>();
+        result.getHeaders().forEach(SneakyBiConsumer.sneaky((headerKey, headerValue) -> {
+            if (ObjectUtil.isNotNull(headerValue)) {
+                headersMap.put(headerKey, headerValue);
+            }
+        }));
+        var responseMap = new HashMap<>(this.objectMapper.readValue(this.objectMapper.writeValueAsString(result), new TypeReference<Map<String, Object>>() {
+        }));
+        responseMap.put("headers", headersMap);
+        responseMap.put("statusCodeValue", result.getStatusCode().value());
         return Base64.getEncoder()
-                .encodeToString(this.objectMapper.writeValueAsString(result).getBytes(StandardCharsets.UTF_8));
+                .encodeToString(this.objectMapper.writeValueAsString(responseMap).getBytes(StandardCharsets.UTF_8));
     }
 
     @SneakyThrows
@@ -80,27 +90,27 @@ public class LongTermTaskFormatter extends BaseService {
             longTermTaskModel.setResult(this.objectMapper
                     .readValue(this.objectMapper.writeValueAsString(result.get("body")), Object.class));
             HttpHeaders httpHeaders = new HttpHeaders();
-            result.get("headers").fields().forEachRemaining(new Consumer<Entry<String, JsonNode>>() {
+            result.get("headers").fields().forEachRemaining(sneaky((s) -> {
+                var headerKey = s.getKey();
+                var headerValue = s.getValue();
+                httpHeaders.addAll(headerKey,
+                        objectMapper.readValue(
+                                objectMapper.writeValueAsString(headerValue),
+                                new TypeReference<List<String>>() {
+                                }));
+            }));
 
-                @Override
-                @SneakyThrows
-                public void accept(Entry<String, JsonNode> s) {
-                    httpHeaders.addAll(s.getKey(),
-                            objectMapper.readValue(objectMapper.writeValueAsString(s.getValue()),
-                                    new TypeReference<List<String>>() {
-                                    }));
-                }
-
-            });
-            if (String.valueOf(result.get("statusCodeValue").asInt()).startsWith("2")) {
+            if (HttpStatus.valueOf(result.get("statusCodeValue").asInt()).is2xxSuccessful()) {
                 ResponseEntity<LongTermTaskModel<?>> response = ResponseEntity
                         .status(result.get("statusCodeValue").asInt())
-                        .headers(httpHeaders).body(longTermTaskModel);
+                        .headers(httpHeaders)
+                        .body(longTermTaskModel);
                 return response;
             } else {
                 ResponseEntity<?> response = ResponseEntity
                         .status(result.get("statusCodeValue").asInt())
-                        .headers(httpHeaders).body(result.get("body"));
+                        .headers(httpHeaders)
+                        .body(result.get("body"));
                 return response;
             }
         } else {
