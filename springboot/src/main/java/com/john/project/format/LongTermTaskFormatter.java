@@ -5,7 +5,6 @@ import java.util.*;
 
 import cn.hutool.core.util.ObjectUtil;
 import eu.ciechanowiec.sneakyfun.SneakyBiConsumer;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
@@ -34,10 +33,10 @@ public class LongTermTaskFormatter extends BaseService {
                 headersMap.put(headerKey, headerValue);
             }
         }));
-        var responseMap = new HashMap<>(this.objectMapper.readValue(this.objectMapper.writeValueAsString(result), new TypeReference<Map<String, Object>>() {
-        }));
+        var responseMap = new HashMap<>();
         responseMap.put("headers", headersMap);
         responseMap.put("statusCodeValue", result.getStatusCode().value());
+        responseMap.put("body", result.getBody());
         return Base64.getEncoder()
                 .encodeToString(this.objectMapper.writeValueAsString(responseMap).getBytes(StandardCharsets.UTF_8));
     }
