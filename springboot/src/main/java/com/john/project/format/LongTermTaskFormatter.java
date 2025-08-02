@@ -36,9 +36,10 @@ public class LongTermTaskFormatter extends BaseService {
         var responseMap = new HashMap<String, Object>();
         responseMap.put("headers", headersMap);
         responseMap.put("statusCodeValue", result.getStatusCode().value());
-        responseMap.put("body", result.getBody());
         if (ObjectUtil.isNotNull(result.getBody()) && result.getBody() instanceof Throwable) {
             responseMap.put("body", this.objectMapper.readTree(formatThrowable((Throwable) result.getBody())).get("body"));
+        } else {
+            responseMap.put("body", result.getBody());
         }
         return Base64.getEncoder()
                 .encodeToString(this.objectMapper.writeValueAsString(responseMap).getBytes(StandardCharsets.UTF_8));
