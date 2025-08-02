@@ -33,10 +33,13 @@ public class LongTermTaskFormatter extends BaseService {
                 headersMap.put(headerKey, headerValue);
             }
         }));
-        var responseMap = new HashMap<>();
+        var responseMap = new HashMap<String, Object>();
         responseMap.put("headers", headersMap);
         responseMap.put("statusCodeValue", result.getStatusCode().value());
         responseMap.put("body", result.getBody());
+        if (ObjectUtil.isNotNull(result.getBody()) && result.getBody() instanceof Throwable) {
+            responseMap.put("body", this.objectMapper.readTree(formatThrowable((Throwable) result.getBody())).get("body"));
+        }
         return Base64.getEncoder()
                 .encodeToString(this.objectMapper.writeValueAsString(responseMap).getBytes(StandardCharsets.UTF_8));
     }
