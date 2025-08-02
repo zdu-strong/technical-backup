@@ -226,18 +226,9 @@ public class MathBracketModel {
             return name;
         }
         if (ObjectUtil.isNotNull(childOne) && ObjectUtil.isNotNull(childTwo) && StringUtils.isNotBlank(calculationSymbol)) {
-            var hasBracketSymbolOfChildOne = !(List.of(addSymbol, multiplySymbol).contains(calculationSymbol) && ObjectUtil.equals(calculationSymbol, childOne.getCalculationSymbol()));
-            var hasBracketSymbolOfChildTwo = !(List.of(addSymbol, multiplySymbol).contains(calculationSymbol) && ObjectUtil.equals(calculationSymbol, childTwo.getCalculationSymbol()));
-            if (StringUtils.isNotBlank(childOne.getName())) {
-                hasBracketSymbolOfChildOne = false;
-            }
-            if (StringUtils.isNotBlank(childTwo.getName())) {
-                hasBracketSymbolOfChildTwo = false;
-            }
-            if (StringUtils.equals(equalSymbol, calculationSymbol)) {
-                hasBracketSymbolOfChildOne = false;
-                hasBracketSymbolOfChildTwo = false;
-            }
+            var hasBracketSymbolOfChildOne = getHasBracketSymbolOfChild(childOne);
+            var hasBracketSymbolOfChildTwo = getHasBracketSymbolOfChild(childTwo);
+
             return StrFormatter.format(
                     "{}{}{} {} {}{}{}",
                     Optional.of(hasBracketSymbolOfChildOne).filter(s -> s).map(s -> "(").orElse(StringUtils.EMPTY),
@@ -250,6 +241,40 @@ public class MathBracketModel {
             );
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no match model");
+    }
+
+    private boolean getHasBracketSymbolOfChild(MathBracketModel child) {
+        if (StringUtils.isNotBlank(child.getName())) {
+            return false;
+        }
+        if (StringUtils.isBlank(child.getCalculationSymbol())) {
+            return false;
+        }
+        if (StringUtils.equals(equalSymbol, calculationSymbol)) {
+            return false;
+        }
+        if (StringUtils.equals(addSymbol, calculationSymbol)) {
+            return false;
+        }
+        if (StringUtils.equals(subtractSymbol, calculationSymbol)) {
+//            if (List.of(multiplySymbol, divideSymbol).contains(child.getCalculationSymbol())) {
+//                return false;
+//            } else {
+                return true;
+//            }
+        }
+        if (StringUtils.equals(multiplySymbol, calculationSymbol)) {
+            if (ObjectUtil.notEqual(multiplySymbol, child.getCalculationSymbol())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (StringUtils.equals(divideSymbol, calculationSymbol)) {
+            return true;
+        }
+
+        return true;
     }
 
 }
