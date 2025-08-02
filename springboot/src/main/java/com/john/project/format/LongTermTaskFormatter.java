@@ -65,10 +65,10 @@ public class LongTermTaskFormatter extends BaseService {
         map.put("error", HttpStatus.valueOf(Integer.valueOf(String.valueOf(map.get("status")))).getReasonPhrase());
         var text = this.objectMapper.writeValueAsString(map);
         var body = this.objectMapper.readValue(text, Object.class);
-        var responseEntity = e instanceof ResponseStatusException
+        var responseBuilder = e instanceof ResponseStatusException
                 ? ResponseEntity.status(((ResponseStatusException) e).getStatusCode())
                 : ResponseEntity.internalServerError();
-        var response = responseEntity.body(body);
+        var response = responseBuilder.body(body);
         return this.formatResult(response);
     }
 
