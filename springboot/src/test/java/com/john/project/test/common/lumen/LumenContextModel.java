@@ -158,27 +158,20 @@ public class LumenContextModel {
     }
 
     private BigDecimal getAmountNeedToExchange(CurrencyModel injectOneCurrency, BigDecimal injectOneCurrencyBalance, CurrencyModel injectTwoCurrency, BigDecimal injectTwoCurrencyBalance) {
-        BigDecimal sourceUsdCurrencyBalance = BigDecimal.ZERO;
-        BigDecimal sourceJapanCurrencyBalance = BigDecimal.ZERO;
-        if (sourceUsdCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
-        }
-        if (sourceJapanCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
-        }
         var arrayDeque = new ArrayDeque<Pair<BigDecimal, BigDecimal>>();
         arrayDeque.add(new Pair<>(BigDecimal.ZERO, injectOneCurrencyBalance));
         while (!arrayDeque.isEmpty()) {
             var pair = arrayDeque.pop();
             var minOneCurrencyBalance = pair.getOne();
             var maxOneCurrencyBalance = pair.getTwo();
-            if (ObjectUtil.equals(minOneCurrencyBalance, maxOneCurrencyBalance)) {
-                return injectOneCurrencyBalance.subtract(minOneCurrencyBalance);
+            if (ObjectUtil.equals(minOneCurrencyBalance.setScale(4, RoundingMode.FLOOR), maxOneCurrencyBalance.setScale(4, RoundingMode.FLOOR))) {
+                return injectOneCurrencyBalance.subtract(maxOneCurrencyBalance);
             }
             var leftOneCurrencyBalance = minOneCurrencyBalance.add(maxOneCurrencyBalance.subtract(minOneCurrencyBalance).divide(new BigDecimal(3), 6, RoundingMode.FLOOR));
-            var rightOneCurrencyBalance = minOneCurrencyBalance.add(maxOneCurrencyBalance.subtract(minOneCurrencyBalance).multiply(new BigDecimal(2)).divide(new BigDecimal(3), 6, RoundingMode.FLOOR));
+            var rightOneCurrencyBalance = minOneCurrencyBalance.add(maxOneCurrencyBalance.subtract(minOneCurrencyBalance).multiply(new BigDecimal(2)).divide(new BigDecimal(3), 6, RoundingMode.CEILING)).min(maxOneCurrencyBalance);
             var leftOneCcuBalance = getCcuTryToExchangeAndInject(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrencyBalance.subtract(leftOneCurrencyBalance));
             var rightOneCcuBalance = getCcuTryToExchangeAndInject(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrencyBalance.subtract(rightOneCurrencyBalance));
+
             if (ObjectUtil.equals(leftOneCcuBalance, rightOneCcuBalance)) {
                 arrayDeque.add(new Pair<>(leftOneCurrencyBalance, rightOneCurrencyBalance));
                 continue;
