@@ -272,8 +272,8 @@ public class LumenContextModel {
         var sourceCcuBalance = combineBalance(sourceCurrency).getCcuBalance();
         var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
         var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
-        var obtainSourceCcu = sourceBalance.divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR).multiply(sourceCcuBalance);
-        var obtainTargetBalance = obtainSourceCcu.divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR).multiply(targetCurrencyBalance);
+        var obtainSourceCcu = sourceBalance.divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR).multiply(sourceCcuBalance).setScale(6, RoundingMode.FLOOR);
+        var obtainTargetBalance = obtainSourceCcu.divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR).multiply(targetCurrencyBalance).setScale(6, RoundingMode.FLOOR);
         tempBalanceList.add(new CcuBalanceModel()
                 .setId(uuidUtil.v4())
                 .setCurrency(sourceCurrency)
