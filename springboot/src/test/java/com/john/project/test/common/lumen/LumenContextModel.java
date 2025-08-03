@@ -124,9 +124,10 @@ public class LumenContextModel {
         var twoCurrencyBalance = isUsd ? japanCurrencyBalance : usdCurrencyBalance;
         var oneCcuBalance = isUsd ? usdCcuBalance : japanCcuBalance;
         var twoCcuBalance = isUsd ? japanCcuBalance : usdCcuBalance;
+        var totalCcu = oneCcuBalance.add(twoCcuBalance);
 
-        var obtainOneCcuBalance = injectOneCurrencyBalance.divide(oneCurrencyBalance, 6, RoundingMode.FLOOR).multiply(oneCcuBalance).setScale(6, RoundingMode.FLOOR);
-        var obtainTwoCcuBalance = injectTwoCurrencyBalance.divide(twoCurrencyBalance, 6, RoundingMode.FLOOR).multiply(twoCcuBalance).setScale(6, RoundingMode.FLOOR);
+        var obtainOneCcuBalance = injectOneCurrencyBalance.divide(oneCurrencyBalance, 6, RoundingMode.FLOOR).multiply(totalCcu).divide(new BigDecimal(2), 6, RoundingMode.FLOOR).setScale(6, RoundingMode.FLOOR);
+        var obtainTwoCcuBalance = injectTwoCurrencyBalance.divide(twoCurrencyBalance, 6, RoundingMode.FLOOR).multiply(totalCcu).divide(new BigDecimal(2), 6, RoundingMode.FLOOR).setScale(6, RoundingMode.FLOOR);
 
         if (ObjectUtil.equals(remainingTimes, 0) || ObjectUtil.equals(obtainOneCcuBalance, obtainTwoCcuBalance)) {
             var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);

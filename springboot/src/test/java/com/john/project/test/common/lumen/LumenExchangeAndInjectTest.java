@@ -17,7 +17,7 @@ public class LumenExchangeAndInjectTest extends BaseTest {
     public void test() {
         var obtainJapan = this.lumenContext.exchange(lumenContext.getUsd(), new BigDecimal(100));
         var result = this.lumenContext.inject(lumenContext.getJapan(), new BigDecimal(100).add(obtainJapan));
-        assertTrue(ObjectUtil.equals(new BigDecimal("199.999100"), result));
+        assertTrue(ObjectUtil.equals(new BigDecimal("199.999200"), result));
     }
 
     @BeforeEach
