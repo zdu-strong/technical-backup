@@ -2,17 +2,23 @@ package com.john.project.test.common.lumen;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.john.project.common.uuid.UUIDUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 import org.jinq.orm.stream.JinqStream;
+import org.jinq.tuples.Pair;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -160,56 +166,39 @@ public class LumenContextModel {
         if (sourceJapanCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
-        var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
-        var usdCurrencyBalance = getUsdCurrency();
-        var japanCurrencyBalance = getJapanCurrency();
-        var usdCcuBalance = getUsdCcu();
-        var japanCcuBalance = getJapanCcu();
-        var obtainUsdCcuBalance = sourceUsdCurrencyBalance.divide(usdCurrencyBalance, 6, RoundingMode.FLOOR).multiply(usdCcuBalance).setScale(6, RoundingMode.FLOOR);
-        var obtainJapanCcuBalance = sourceJapanCurrencyBalance.divide(japanCurrencyBalance, 6, RoundingMode.FLOOR).multiply(japanCcuBalance).setScale(6, RoundingMode.FLOOR);
-
-        // 66.66 usdCurrencyBalance 200japanCurrencyBalance
-        // 150 usdCcuBalance          50 japanCcuBalance
-
-        // 233.33 injectUsdCurrencyBalance, 100 injectJapanCurrencyBalance
-        // x usdCurrencyBalance      y japanCurrencyBalance
-        // - x / (x + 66.66) * 150 ccu         + x / (x + 66.66) * 150 ccu
-        // + x usdCurrencyBalance              - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200  japanCurrencyBalance
-        // 池中ccu:  150 - x / (x + 66.66) * 150 usdCcu       50 +  x / (x + 66.66) * 150 japanCcu
-        // 池中货币:  66.66 + x  usdCurrencyBalance          200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200  japanCurrencyBalance
-        // 233.33 -x injectUsdCurrencyBalance        100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) injectJapanCurrencyBalance
-        // (233.33 - x) / ( 66.66 + x ) * ( 150 - x / (x + 66.66) * 150 )
-        // ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 )
-        // (233.33 - x) / ( 66.66 + x ) * ( 150 - x / (x + 66.66) * 150 ) = ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 )
-        // (233.33 - x)  * ( 150 - x / (x + 66.66) * 150 ) = ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x )
-        // (233.33 - x)  =  ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x ) / ( 150 - x / (x + 66.66) * 150 )
-        // 233.33 = ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x ) / ( 150 - x / (x + 66.66) * 150 )  + x
-        // ( 100 + (  (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) ) / ( 200 - (x / (x + 66.66) * 150 ) / (50 + x / (x + 66.66) * 150 ) * 200 ) * ( 50 +  x / (x + 66.66) * 150 ) * ( 66.66 + x ) / ( 150 - x / (x + 66.66) * 150 )  + x = 233.33
-        // x usdCurrencyBalance
-        // y = z * 200 / (50 + z )   japanCurrencyBalance
-        // z = x * 150 / (x + 66.66) ccu
-        // ( 100 + y ) / ( 200 - y ) * ( 50 +  z ) * ( 66.66 + x ) / ( 150 - z )  + x = 233.33
-        // 233.33 - x = ( 100 + y ) / ( 200 - y ) * ( 50 +  z ) * ( 66.66 + x ) / ( 150 - z )
-        // (233.33 - x) * (200 - y) *  ( 150 - z ) = ( 100 + y ) * ( 50 +  z ) * ( 66.66 + x )
-        // 233.33 * (200 - y) * (150 - z) - x * (200 - y) *  ( 150 - z ) = 66.66 * ( 100 + y ) * ( 50 +  z ) + x * ( 100 + y ) * ( 50 +  z )
-        // 233.33 * (200 - y) * (150 - z) = 66.66 * ( 100 + y ) * ( 50 +  z ) + x * ( 100 + y ) * ( 50 +  z )  + x * (200 - y) *  ( 150 - z )
-        // 233.33 * (200 - y) * (150 - z) - 66.66 * ( 100 + y ) * ( 50 +  z ) = x * ( 100 + y ) * ( 50 +  z )  + x * (200 - y) *  ( 150 - z )
-        // 33.33 * (200 - y) * (150 - z) - 66.66 * ( 100 + y ) * ( 50 +  z ) = x * 100 * (50 + z) + x * y * (50 + z) + x * 200 * ( 150 - z ) - x * y * (150 - z)
-        // 33.33 * (200 - y) * (150 - z) - 66.66 * ( 100 + y ) * ( 50 +  z ) = x * 100 * (50 + z) + x * y * (50 + z) + x * 200 * ( 150 - z ) - x * y * 150 + x * y *z
-        // 33.33 * (200 - y) * (150 - z) - 66.66 * ( 100 + y ) * ( 50 +  z ) = x * 100 * 50 + x * 100 *  z + x * y * 50 + x * y * z + x * 200 * 150 - x * 200 *  z - x * y * 150 + x * y *z
-        // 33.33 * 200 * (150 - z) - 33.33 * y * (150 - z) - 66.66 * 100 * ( 50 +  z ) - 66.66 * y * ( 50 +  z ) = = x * 100 * 50 + x * 100 *  z + x * y * 50 + x * y * z + x * 200 * 150 - x * 200 *  z - x * y * 150 + x * y *z
-        // 33.33 * 200 * 150 - 33.33 * 200 * z - 33.33 * y * 150 + 33.33 * y * z - 66.66 * 100 * 50 - 66.66 * 100 * z - 66.66 * y * 50 - 66.66 * y * z = x * 100 * 50 + x * 100 *  z + x * y * 50 + x * y * z + x * 200 * 150 - x * 200 *  z - x * y * 150 + x * y *z
-        // 33.33 * 200 * 150 - 66.66 * 100 * 50 = x * 100 * 50 + x * 100 *  z + x * y * 50 + x * y * z + x * 200 * 150 - x * 200 *  z - x * y * 150 + x * y * z + 33.33 * 200 * z + 33.33 * y * 150 - 33.33 * y * z + 66.66 * 100 * z + 66.66 * y * 50 + 66.66 * y * z
-        // 33.33 * 200 * 150 - 66.66 * 100 * 50 - x * 100 * 50 - x * 100 *  z - x * 200 * 150 + x * 200 *  z - 33.33 * 200 * z - 66.66 * 100 * z = x * 50 * y + x * z * y  - x * 150 * y + x * z * y  + 33.33 * 150 * y - 33.33 * z * y + 66.66 * 50 * y + 66.66 * z * y
-        // 33.33 * 200 * 150 - 66.66 * 100 * 50 - x * 100 * 50 - x * 100 *  z - x * 200 * 150 + x * 200 *  z - 33.33 * 200 * z - 66.66 * 100 * z = (x * 50 + x * z - x * 150 + x * z + 33.33 * 150 - 33.33 * z + 66.66 * 50 + 66.66 * z) * y
-        // 33.33 * 200 * 150 - 66.66 * 100 * 50 - x * 100 * 50 - x * 100 *  z - x * 200 * 150 + x * 200 *  z - 33.33 * 200 * z - 66.66 * 100 * z = (x * 50 + x * z - x * 150 + x * z + 33.33 * 150 - 33.33 * z + 66.66 * 50 + 66.66 * z) * z * 200 / (50 + z )
-        // 33.33 * 200 * 150 * 50 + 33.33 * 200 * 150 * z - 66.66 * 100 * 50 * 50 - 66.66 * 100 * 50 * z - x * 100 * 50 * 50 - x * 100 * 50 * z - x * 100 *  z * 50 - x * 100 *  z * z - x * 200 * 150 * 50 - x * 200 * 150 * z + x * 200 *  z * 50 + x * 200 *  z * z - 33.33 * 200 * z * 50 - 33.33 * 200 * z * z - 66.66 * 100 * z * 50 - 66.66 * 100 * z * z = (x * 50 + x * z - x * 150 + x * z + 33.33 * 150 - 33.33 * z + 66.66 * 50 + 66.66 * z) * z * 200
-        //       - x * 200 * 150 * 50 - x * 200 * 150 * z + x * 200 *  z * 50 + x * 200 *  z * z - 33.33 * 200 * z * 50 - 33.33 * 200 * z * z - 66.66 * 100 * z * 50 - 66.66 * 100 * z * z = x * 50 * z * 200 + x * z * z * 200 - x * 150 * z * 200 + x * z * z * 200 + 33.33 * 150 * z * 200 - 33.33 * z * z * 200 + 66.66 * 50 * z * 200 + 66.66 * z * * z * 200 + x * 100 *  z * 50 + x * 100 *  z * z
-        // 33.33 * 200 * 150 * 50 - 66.66 * 100 * 50 * 50 - x * 100 * 50 * 50 = 66.66 * 100 * 50 * z - 33.33 * 200 * 150 * z + x * 100 * 50 * z
+        var arrayDeque = new ArrayDeque<Pair<BigDecimal, BigDecimal>>();
+        arrayDeque.add(new Pair<>(BigDecimal.ZERO, injectOneCurrencyBalance));
+        while (!arrayDeque.isEmpty()) {
+            var pair = arrayDeque.pop();
+            var minOneCurrencyBalance = pair.getOne();
+            var maxOneCurrencyBalance = pair.getTwo();
+            if (ObjectUtil.equals(minOneCurrencyBalance, maxOneCurrencyBalance)) {
+                return injectOneCurrencyBalance.subtract(minOneCurrencyBalance);
+            }
+            var leftOneCurrencyBalance = minOneCurrencyBalance.add(maxOneCurrencyBalance.subtract(minOneCurrencyBalance).divide(new BigDecimal(3), 6, RoundingMode.FLOOR));
+            var rightOneCurrencyBalance = minOneCurrencyBalance.add(maxOneCurrencyBalance.subtract(minOneCurrencyBalance).multiply(new BigDecimal(2)).divide(new BigDecimal(3), 6, RoundingMode.FLOOR));
+            var leftOneCcuBalance = getCcuTryToExchangeAndInject(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrencyBalance.subtract(leftOneCurrencyBalance));
+            var rightOneCcuBalance = getCcuTryToExchangeAndInject(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrencyBalance.subtract(rightOneCurrencyBalance));
+            if (ObjectUtil.equals(leftOneCcuBalance, rightOneCcuBalance)) {
+                arrayDeque.add(new Pair<>(leftOneCurrencyBalance, rightOneCurrencyBalance));
+                continue;
+            }
+            if (leftOneCcuBalance.compareTo(rightOneCcuBalance) > 0) {
+                arrayDeque.add(new Pair<>(minOneCurrencyBalance, rightOneCurrencyBalance));
+                continue;
+            }
+            arrayDeque.add(new Pair<>(leftOneCurrencyBalance, maxOneCurrencyBalance));
+        }
         return BigDecimal.ZERO;
     }
 
-
+    @SneakyThrows
+    private BigDecimal getCcuTryToExchangeAndInject(CurrencyModel injectOneCurrency, BigDecimal injectOneCurrencyBalance, CurrencyModel injectTwoCurrency, BigDecimal injectTwoCurrencyBalance, BigDecimal amountOfNeedExchangeOfOne) {
+        var objectMapper = SpringUtil.getBean(ObjectMapper.class);
+        var tempLumenContextModel = objectMapper.readValue(objectMapper.writeValueAsString(this), LumenContextModel.class);
+        var exchangeCurrencyBalanceOfTwo = tempLumenContextModel.exchange(injectOneCurrency, amountOfNeedExchangeOfOne);
+        return tempLumenContextModel.injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountOfNeedExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0);
+    }
 
     public BigDecimal withdrawal(CurrencyModel targetCurrency, BigDecimal ccuBalance) {
         var balanceList = withdrawalPair(ccuBalance);
