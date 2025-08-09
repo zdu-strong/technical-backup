@@ -147,13 +147,13 @@ public class LumenContextModel {
             return obtainCcuBalance;
         }
 
-        if (obtainOneCcuBalance.compareTo(injectTwoCurrencyBalance) > 0) {
+        if (obtainOneCcuBalance.compareTo(obtainTwoCcuBalance) > 0) {
             var amountNeedToExchangeOfOne = getAmountNeedToExchange(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance);
             var exchangeCurrencyBalanceOfTwo = exchange(injectOneCurrency, amountNeedToExchangeOfOne);
             return injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountNeedToExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0);
         }
 
-        if (obtainTwoCcuBalance.compareTo(injectOneCurrencyBalance) > 0) {
+        if (obtainTwoCcuBalance.compareTo(obtainOneCcuBalance) > 0) {
             return injectPairByGreaterZeroBalance(injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrency, injectOneCurrencyBalance, 1);
         }
 
