@@ -126,8 +126,8 @@ public class LumenContextModel {
         var twoCcuBalance = isUsd ? japanCcuBalance : usdCcuBalance;
         var totalCcu = oneCcuBalance.add(twoCcuBalance);
 
-        var obtainOneCcuBalance = injectOneCurrencyBalance.divide(oneCurrencyBalance, 6, RoundingMode.FLOOR).multiply(totalCcu).divide(new BigDecimal(2), 6, RoundingMode.FLOOR).setScale(6, RoundingMode.FLOOR);
-        var obtainTwoCcuBalance = injectTwoCurrencyBalance.divide(twoCurrencyBalance, 6, RoundingMode.FLOOR).multiply(totalCcu).divide(new BigDecimal(2), 6, RoundingMode.FLOOR).setScale(6, RoundingMode.FLOOR);
+        var obtainOneCcuBalance = injectOneCurrencyBalance.multiply(totalCcu).divide(oneCurrencyBalance, 6, RoundingMode.FLOOR).divide(new BigDecimal(2), 6, RoundingMode.FLOOR);
+        var obtainTwoCcuBalance = injectTwoCurrencyBalance.multiply(totalCcu).divide(twoCurrencyBalance, 6, RoundingMode.FLOOR).divide(new BigDecimal(2), 6, RoundingMode.FLOOR);
 
         if (ObjectUtil.equals(remainingTimes, 0) || ObjectUtil.equals(obtainOneCcuBalance, obtainTwoCcuBalance)) {
             var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
@@ -167,7 +167,8 @@ public class LumenContextModel {
             var pair = arrayDeque.pop();
             var minOneCurrencyBalance = pair.getOne();
             var maxOneCurrencyBalance = pair.getTwo();
-            if (ObjectUtil.equals(minOneCurrencyBalance.setScale(4, RoundingMode.FLOOR), maxOneCurrencyBalance.setScale(4, RoundingMode.FLOOR))) {
+
+            if (maxOneCurrencyBalance.subtract(minOneCurrencyBalance).abs().compareTo(new BigDecimal("0.00001")) <= 0) {
                 return injectOneCurrencyBalance.subtract(maxOneCurrencyBalance);
             }
             var leftOneCurrencyBalance = minOneCurrencyBalance.add(maxOneCurrencyBalance.subtract(minOneCurrencyBalance).divide(new BigDecimal(3), 6, RoundingMode.FLOOR));
@@ -228,10 +229,10 @@ public class LumenContextModel {
         var japanCcuBalance = getJapanCcu();
         var usdCurrencyBalance = getUsdCurrency();
         var japanCurrencyBalance = getJapanCurrency();
-        var obtainUsdCcuBalance = ccuBalance.multiply(usdCcuBalance.divide(usdCcuBalance.add(japanCcuBalance), 6, RoundingMode.FLOOR));
-        var obtainJapanCcuBalance = ccuBalance.multiply(japanCcuBalance.divide(usdCcuBalance.add(japanCcuBalance), 6, RoundingMode.FLOOR));
-        var obtainUsdCurrencyBalance = usdCurrencyBalance.multiply(obtainUsdCcuBalance.divide(usdCcuBalance, 6, RoundingMode.FLOOR));
-        var obtainJapanCurrencyBalance = japanCurrencyBalance.multiply(obtainJapanCcuBalance.divide(japanCcuBalance, 6, RoundingMode.FLOOR));
+        var obtainUsdCcuBalance = ccuBalance.multiply(usdCcuBalance).divide(usdCcuBalance.add(japanCcuBalance), 6, RoundingMode.FLOOR);
+        var obtainJapanCcuBalance = ccuBalance.multiply(japanCcuBalance).divide(usdCcuBalance.add(japanCcuBalance), 6, RoundingMode.FLOOR);
+        var obtainUsdCurrencyBalance = usdCurrencyBalance.multiply(obtainUsdCcuBalance).divide(usdCcuBalance, 6, RoundingMode.FLOOR);
+        var obtainJapanCurrencyBalance = japanCurrencyBalance.multiply(obtainJapanCcuBalance).divide(japanCcuBalance, 6, RoundingMode.FLOOR);
         var obtainList = new ArrayList<CcuBalanceModel>();
         obtainList.add(new CcuBalanceModel()
                 .setId(uuidUtil.v4())
@@ -272,8 +273,8 @@ public class LumenContextModel {
         var sourceCcuBalance = combineBalance(sourceCurrency).getCcuBalance();
         var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
         var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
-        var obtainSourceCcu = sourceBalance.divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR).multiply(sourceCcuBalance).setScale(6, RoundingMode.FLOOR);
-        var obtainTargetBalance = obtainSourceCcu.divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR).multiply(targetCurrencyBalance).setScale(6, RoundingMode.FLOOR);
+        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR);
+        var obtainTargetBalance = obtainSourceCcu.multiply(targetCurrencyBalance).divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR);
         tempBalanceList.add(new CcuBalanceModel()
                 .setId(uuidUtil.v4())
                 .setCurrency(sourceCurrency)
