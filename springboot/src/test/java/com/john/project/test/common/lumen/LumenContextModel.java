@@ -132,7 +132,7 @@ public class LumenContextModel {
         if (ObjectUtil.equals(remainingTimes, 0) || ObjectUtil.equals(obtainOneCcuBalance, obtainTwoCcuBalance)) {
             var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
             var obtainOneCcuBalanceOfLast = obtainCcuBalanceEachSide.multiply(new BigDecimal(2)).multiply(oneCcuBalance).divide(oneCcuBalance.add(twoCcuBalance), 6, RoundingMode.FLOOR);
-            var obtainTwoCcuBalanceLast = obtainCcuBalanceEachSide.multiply(new BigDecimal(2)).subtract(obtainOneCcuBalanceOfLast);
+            var obtainTwoCcuBalanceOfLast = obtainCcuBalanceEachSide.multiply(new BigDecimal(2)).subtract(obtainOneCcuBalanceOfLast);
             var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
             tempBalanceList.add(new CcuBalanceModel()
                     .setId(uuidUtil.v4())
@@ -143,7 +143,7 @@ public class LumenContextModel {
                     .setId(uuidUtil.v4())
                     .setCurrency(injectTwoCurrency)
                     .setCurrencyBalance(injectTwoCurrencyBalance)
-                    .setCcuBalance(obtainTwoCcuBalanceLast));
+                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
             return obtainCcuBalance;
         }
 
