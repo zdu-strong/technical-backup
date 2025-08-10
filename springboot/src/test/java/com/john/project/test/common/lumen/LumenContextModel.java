@@ -71,10 +71,10 @@ public class LumenContextModel {
     }
 
     private BigDecimal injectPairByGreaterZeroBalance(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance) {
-        return injectPairByGreaterZeroBalance(usd, sourceUsdCurrencyBalance, japan, sourceJapanCurrencyBalance, 1);
+        return injectPairByGreaterZeroBalance(usd, sourceUsdCurrencyBalance, japan, sourceJapanCurrencyBalance, 1, false);
     }
 
-    private BigDecimal injectPairByGreaterZeroBalance(CurrencyModel injectOneCurrency, BigDecimal injectOneCurrencyBalance, CurrencyModel injectTwoCurrency, BigDecimal injectTwoCurrencyBalance, int remainingTimes) {
+    private BigDecimal injectPairByGreaterZeroBalance(CurrencyModel injectOneCurrency, BigDecimal injectOneCurrencyBalance, CurrencyModel injectTwoCurrency, BigDecimal injectTwoCurrencyBalance, int remainingTimes, boolean isTry) {
         if (injectOneCurrencyBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
@@ -147,11 +147,11 @@ public class LumenContextModel {
         if (obtainOneCcuBalance.compareTo(obtainTwoCcuBalance) > 0) {
             var amountNeedToExchangeOfOne = getAmountNeedToExchange(injectOneCurrency, injectOneCurrencyBalance, injectTwoCurrency, injectTwoCurrencyBalance);
             var exchangeCurrencyBalanceOfTwo = exchange(injectOneCurrency, amountNeedToExchangeOfOne);
-            return injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountNeedToExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0);
+            return injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountNeedToExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0, false);
         }
 
         if (obtainTwoCcuBalance.compareTo(obtainOneCcuBalance) > 0) {
-            return injectPairByGreaterZeroBalance(injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrency, injectOneCurrencyBalance, 1);
+            return injectPairByGreaterZeroBalance(injectTwoCurrency, injectTwoCurrencyBalance, injectOneCurrency, injectOneCurrencyBalance, 1, false);
         }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
@@ -191,7 +191,7 @@ public class LumenContextModel {
         var objectMapper = SpringUtil.getBean(ObjectMapper.class);
         var tempLumenContextModel = objectMapper.readValue(objectMapper.writeValueAsString(this), LumenContextModel.class);
         var exchangeCurrencyBalanceOfTwo = tempLumenContextModel.exchange(injectOneCurrency, amountOfNeedExchangeOfOne);
-        return tempLumenContextModel.injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountOfNeedExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0);
+        return tempLumenContextModel.injectPairByGreaterZeroBalance(injectOneCurrency, injectOneCurrencyBalance.subtract(amountOfNeedExchangeOfOne), injectTwoCurrency, injectTwoCurrencyBalance.add(exchangeCurrencyBalanceOfTwo), 0, true);
     }
 
     public BigDecimal withdrawal(CurrencyModel targetCurrency, BigDecimal ccuBalance) {
