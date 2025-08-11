@@ -19,8 +19,8 @@ public class LumenInjectPairDifferentRateTest extends BaseTest {
         var usdCcuBalance = this.lumenContext.getUsdCcu();
         var japanCcuBalance = this.lumenContext.getJapanCcu();
         assertTrue(ObjectUtil.equals(new BigDecimal("399.999984"), result));
-//        assertTrue(ObjectUtil.equals(new BigDecimal("400"), usdCcuBalance));
-//        assertTrue(ObjectUtil.equals(new BigDecimal("400"), japanCcuBalance));
+//        assertTrue(ObjectUtil.equals(new BigDecimal("399.999991"), usdCcuBalance));
+//        assertTrue(ObjectUtil.equals(new BigDecimal("399.999993"), japanCcuBalance));
     }
 
     @BeforeEach
