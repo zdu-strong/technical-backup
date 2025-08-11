@@ -4,42 +4,6 @@ import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
-import { stylesheet } from 'typestyle';
-
-
-const css = stylesheet({
-  dashboardLayoutContainer: {
-    display: "flex",
-    flex: "1 1 auto",
-    flexDirection: "row",
-    $nest: {
-      "& > div.MuiBox-root": {
-        display: "flex",
-        flex: "1 1 auto",
-        flexDirection: "row",
-        height: "unset",
-        width: "unset",
-        overflow: "visible"
-      },
-      "& > div.MuiBox-root > div.MuiBox-root": {
-        display: "flex",
-        flex: "1 1 auto",
-        flexDirection: "column",
-      },
-      "& > div.MuiBox-root > div.MuiBox-root > main.MuiBox-root": {
-        display: "flex",
-        flex: "1 1 auto",
-        flexDirection: "column",
-        overflow: "visible",
-      },
-      "& > div.MuiBox-root > header.MuiPaper-root > div.MuiToolbar-root": {
-        margin: "0px",
-        paddingLeft: "12px",
-        paddingRight: "12px",
-      },
-    }
-  }
-});
 
 export default observer((props: {
   children: ReactNode
@@ -55,12 +19,16 @@ export default observer((props: {
     navigation={state.navigation}
     branding={{ title: "", logo: "" }}
   >
-    <div className={css.dashboardLayoutContainer}>
-      <DashboardLayout
-        slots={{ toolbarActions: UserInfoMenu }}
-      >
-        {props.children}
-      </DashboardLayout>
-    </div>
+    <DashboardLayout
+      slots={{ toolbarActions: UserInfoMenu }}
+    >
+      <div className="overflow-auto flex flex-auto">
+        <div className="flex flex-col min-w-full min-h-full w-max">
+          <div className='flex flex-col flex-auto'>
+            {props.children}
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
   </ReactRouterAppProvider>
 })
