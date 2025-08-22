@@ -29,6 +29,18 @@ public class PaginationModel<T> {
     private Long totalPages = 0L;
     private List<T> items = List.of();
 
+    public PaginationModel(long pageNum, int pageSize, JinqStream<T> stream) {
+        this(pageNum, (long) pageSize, stream, s -> s);
+    }
+
+    public PaginationModel(int pageNum, long pageSize, JinqStream<T> stream) {
+        this((long) pageNum, pageSize, stream, s -> s);
+    }
+
+    public PaginationModel(int pageNum, int pageSize, JinqStream<T> stream) {
+        this((long) pageNum, (long) pageSize, stream, s -> s);
+    }
+
     public PaginationModel(Long pageNum, Long pageSize, JinqStream<T> stream) {
         this(pageNum, pageSize, stream, s -> s);
     }
