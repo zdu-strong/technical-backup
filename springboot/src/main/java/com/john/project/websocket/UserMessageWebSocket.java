@@ -42,13 +42,13 @@ import jakarta.websocket.server.ServerEndpoint;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
 import static eu.ciechanowiec.sneakyfun.SneakyPredicate.sneaky;
 
 /**
  * Required parameters: String accessToken;
- * 
- * @author John Williams
  *
+ * @author John Williams
  */
 @ServerEndpoint("/web-socket/user-message")
 @Component
@@ -147,19 +147,21 @@ public class UserMessageWebSocket {
     public void OnError(Session session, Throwable e) {
         if (StringUtils.isNotBlank(e.getMessage()) && e.getMessage()
                 .contains("An established connection was aborted by the software in your host machine")) {
-            // do noting
+            // do nothing
         } else if (e instanceof IllegalStateException) {
-            // do noting
+            // do nothing
         } else if (e instanceof GenericJDBCException) {
-            // do noting
+            // do nothing
         } else if (e instanceof CannotCreateTransactionException) {
-            // do noting
+            // do nothing
         } else if (StringUtils.isNotBlank(e.getMessage()) && e.getMessage()
                 .contains("java.nio.channels.ClosedChannelException")) {
-            // do noting
+            // do nothing
         } else if (StringUtils.isNotBlank(e.getMessage()) && e.getMessage()
                 .contains("No operations allowed after connection closed")) {
-            // do noting
+            // do nothing
+        } else if (e instanceof ResponseStatusException && ObjectUtil.equals(HttpStatus.UNAUTHORIZED.value(), ((ResponseStatusException) e).getStatusCode().value())) {
+            // do nothing
         } else {
             log.error(e.getMessage(), e);
         }
@@ -229,21 +231,21 @@ public class UserMessageWebSocket {
                 .toList()
                 .blockingGet();
         var pageNumListTwo = JinqStream.from(Flowable.range(
-                Math.max(1,
-                        Math.max(this.lastMessageCache.getTotalPages().intValue(),
-                                (int) (userMessageWebSocketSendModel.getTotalPages() - 20))),
-                Math.max(
-                        (int) (userMessageWebSocketSendModel.getTotalPages() - this.lastMessageCache.getTotalPages()),
-                        0))
-                .map(s -> (long) s)
-                .toList()
-                .blockingGet())
+                                Math.max(1,
+                                        Math.max(this.lastMessageCache.getTotalPages().intValue(),
+                                                (int) (userMessageWebSocketSendModel.getTotalPages() - 20))),
+                                Math.max(
+                                        (int) (userMessageWebSocketSendModel.getTotalPages() - this.lastMessageCache.getTotalPages()),
+                                        0))
+                        .map(s -> (long) s)
+                        .toList()
+                        .blockingGet())
                 .sortedDescendingBy(s -> s)
                 .limit(20)
                 .toList();
         var userMessageListOne = JinqStream.from(List.of(
-                pageNumListOne,
-                pageNumListTwo))
+                        pageNumListOne,
+                        pageNumListTwo))
                 .selectAllList(s -> s)
                 .where(s -> s > 0)
                 .where(s -> s < userMessageWebSocketSendModel.getTotalPages())
@@ -254,8 +256,8 @@ public class UserMessageWebSocket {
                         .getItems())
                 .toList();
         var userMessageList = JinqStream.from(List.of(
-                userMessageWebSocketSendModel.getItems(),
-                userMessageListOne))
+                        userMessageWebSocketSendModel.getItems(),
+                        userMessageListOne))
                 .selectAllList(s -> s)
                 .toList();
         var userMessageWebSocketSendNewModel = new UserMessageWebSocketSendModel()
@@ -292,7 +294,7 @@ public class UserMessageWebSocket {
 
     private MockHttpServletRequest getRequest(Session session) {
         var accessToken = JinqStream.from(new URIBuilder(session.getRequestURI())
-                .getQueryParams())
+                        .getQueryParams())
                 .where(s -> s.getName().equals("accessToken"))
                 .select(s -> s.getValue())
                 .findOne()
