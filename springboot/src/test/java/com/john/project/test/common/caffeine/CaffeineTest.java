@@ -21,13 +21,13 @@ public class CaffeineTest extends BaseTest {
         var caffeineLoadCache = Caffeine.newBuilder()
                 .expireAfterWrite(30, TimeUnit.SECONDS)
                 .refreshAfterWrite(29, TimeUnit.SECONDS)
-                .buildAsync((key) -> {
+                .build((key) -> {
                     return query();
                 });
-        caffeineLoadCache.get(StringUtils.EMPTY).get();
+        caffeineLoadCache.get(StringUtils.EMPTY);
         var timer = new TimeInterval();
         for (var i = 1000 * 1000; i > 0; i--) {
-            caffeineLoadCache.get(StringUtils.EMPTY).get();
+            caffeineLoadCache.get(StringUtils.EMPTY);
         }
         var costTimes = timer.interval();
         assertTrue(costTimes < 200);
