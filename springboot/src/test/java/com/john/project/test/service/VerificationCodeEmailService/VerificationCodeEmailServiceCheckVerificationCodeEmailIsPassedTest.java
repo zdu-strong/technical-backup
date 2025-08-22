@@ -2,6 +2,8 @@ package com.john.project.test.service.VerificationCodeEmailService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.regex.Pattern;
+
+import cn.hutool.core.util.ReUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +27,7 @@ public class VerificationCodeEmailServiceCheckVerificationCodeEmailIsPassedTest 
         assertEquals(email, result.getEmail());
         assertTrue(StringUtils.isNotBlank(result.getVerificationCode()));
         assertEquals(6, result.getVerificationCode().length());
-        assertTrue(Pattern.compile("^[0-9]{6}$").asPredicate().test(result.getVerificationCode()));
+        assertTrue(ReUtil.isMatch("^[0-9]{6}$", result.getVerificationCode()));
         assertEquals(6, result.getVerificationCodeLength());
         assertFalse(result.getHasUsed());
         assertFalse(result.getIsPassed());

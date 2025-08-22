@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
+
+import cn.hutool.core.util.ReUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,7 +15,7 @@ public class TimeZoneUtil {
 
     /**
      * return value like +08:00
-     * 
+     *
      * @param timeZone
      * @return
      */
@@ -24,7 +26,7 @@ public class TimeZoneUtil {
 
     /**
      * return value like +08:00
-     * 
+     *
      * @param timeZone
      * @return
      */
@@ -51,9 +53,8 @@ public class TimeZoneUtil {
         if (utcOffset.length() != 6) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid time zone");
         }
-        if (!Pattern.compile(
-                "^[" + Pattern.quote("+") + Pattern.quote("-") + "]{1}" + "[0-9]{2}" + Pattern.quote(":") + "[0-9]{2}$")
-                .asPredicate().test(utcOffset)) {
+
+        if (!ReUtil.isMatch("^[" + Pattern.quote("+") + Pattern.quote("-") + "]{1}" + "[0-9]{2}" + Pattern.quote(":") + "[0-9]{2}$", utcOffset)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid time zone");
         }
     }
