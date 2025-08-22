@@ -1,5 +1,6 @@
 package com.john.project.test.service.EncryptDecryptService;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -7,12 +8,11 @@ import org.junit.jupiter.api.Test;
 import com.john.project.test.common.BaseTest.BaseTest;
 
 public class EncryptDecryptServiceEncryptByPrivateKeyOfRSATest extends BaseTest {
-    private String text = "Hello, World!";
 
     @Test
     public void test() {
-        var result = this.encryptDecryptService.encryptByPrivateKeyOfRSA(text);
-        assertEquals(text,
+        var result = this.encryptDecryptService.encryptByPrivateKeyOfRSA(HELLO_WORLD);
+        assertEquals(HELLO_WORLD,
                 this.encryptDecryptService.decryptByByPublicKeyOfRSA(result));
     }
 

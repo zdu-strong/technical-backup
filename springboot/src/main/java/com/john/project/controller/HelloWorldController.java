@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.john.project.common.baseController.BaseController;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
+
 @RestController
 public class HelloWorldController extends BaseController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> helloWorld() {
-		return ResponseEntity.ok("Hello, World!");
+		return ResponseEntity.ok(HELLO_WORLD);
 	}
 
 }

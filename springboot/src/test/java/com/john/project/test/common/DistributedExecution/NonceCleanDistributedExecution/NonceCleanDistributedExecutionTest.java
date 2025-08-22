@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import java.net.URI;
 import java.util.Date;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NonceCleanDistributedExecutionTest extends BaseTest {
@@ -33,7 +34,7 @@ public class NonceCleanDistributedExecutionTest extends BaseTest {
                 new HttpEntity<>(httpHeaders), String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(13, response.getBody().length());
-        assertEquals("Hello, World!", response.getBody());
+        assertEquals(HELLO_WORLD, response.getBody());
     }
 
 }

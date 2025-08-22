@@ -1,5 +1,6 @@
 package com.john.project.test.controller.LongTermTaskController;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,11 +13,11 @@ public class LongTermTaskControllerGetLongTermTaskTest extends BaseTest {
     @Test
     public void test() {
         var result = this.fromLongTermTask(() -> this.longTermTaskUtil.run(() -> {
-            return ResponseEntity.ok("Hello, World!");
+            return ResponseEntity.ok(HELLO_WORLD);
         }), new ParameterizedTypeReference<String>() {
         });
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Hello, World!", result.getBody());
+        assertEquals(HELLO_WORLD, result.getBody());
     }
 
 }

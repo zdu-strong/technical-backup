@@ -1,5 +1,6 @@
 package com.john.project.test.controller.UserMessageController;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
 import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
@@ -26,7 +27,7 @@ public class UserMessageControllerRecallMessageTest extends BaseTest {
     public void beforeEach() {
         var email = this.uuidUtil.v4() + "@gmail.com";
         this.createAccount(email);
-        var userMessage = new UserMessageModel().setContent("Hello, World!");
+        var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
         this.id = this.userMessageService.sendMessage(userMessage, request).getId();
     }
 

@@ -1,5 +1,6 @@
 package com.john.project.test.service.UserMessageService;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ public class UserMessageServiceGetUserMessageByIdTest extends BaseTest {
         var result = this.userMessageService.getUserMessageById(this.userMessage.getId(),
                 this.userMessage.getUser().getId());
         assertEquals(this.userMessage.getId(), result.getId());
-        assertEquals("Hello, World!", result.getContent());
+        assertEquals(HELLO_WORLD, result.getContent());
         assertNotNull(result.getCreateDate());
         assertEquals(1, result.getPageNum());
         assertNotNull(result.getUpdateDate());
@@ -28,10 +29,10 @@ public class UserMessageServiceGetUserMessageByIdTest extends BaseTest {
         var userId = this
                 .createAccount(uuidUtil.v4() + "zdu.strong@gmail.com")
                 .getId();
-        var userMessage = new UserMessageModel().setContent("Hello, World!");
+        var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
         var message = this.userMessageService.sendMessage(userMessage, request);
         assertEquals(36, message.getId().length());
-        assertEquals("Hello, World!", message.getContent());
+        assertEquals(HELLO_WORLD, message.getContent());
         assertEquals(userId, message.getUser().getId());
         this.userMessage = message;
     }

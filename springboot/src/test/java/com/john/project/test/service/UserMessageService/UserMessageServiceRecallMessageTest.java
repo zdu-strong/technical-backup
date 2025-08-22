@@ -1,5 +1,6 @@
 package com.john.project.test.service.UserMessageService;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,10 +19,10 @@ public class UserMessageServiceRecallMessageTest extends BaseTest {
     public void beforeEach() {
         var userId = this.createAccount(uuidUtil.v4() + "zdu.strong@gmail.com")
                 .getId();
-        var userMessage = new UserMessageModel().setContent("Hello, World!");
+        var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
         var message = this.userMessageService.sendMessage(userMessage, request);
         assertEquals(36, message.getId().length());
-        assertEquals("Hello, World!", message.getContent());
+        assertEquals(HELLO_WORLD, message.getContent());
         assertEquals(userId, message.getUser().getId());
         this.userMessage = message;
     }

@@ -1,5 +1,6 @@
 package com.john.project.test.service.LongTermTaskService;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,11 +16,11 @@ public class LongTermTaskServiceUpdateLongTermTaskByResultTest extends BaseTest 
     @Test
     @SuppressWarnings("unchecked")
     public void test() {
-        this.longTermTaskService.updateLongTermTaskByResult(this.longTermtaskId, ResponseEntity.ok("Hello, World!"));
+        this.longTermTaskService.updateLongTermTaskByResult(this.longTermtaskId, ResponseEntity.ok(HELLO_WORLD));
         var result = (ResponseEntity<LongTermTaskModel<String>>) this.longTermTaskService
                 .getLongTermTask(this.longTermtaskId);
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Hello, World!", result.getBody().getResult());
+        assertEquals(HELLO_WORLD, result.getBody().getResult());
         assertTrue(result.getBody().getIsDone());
     }
 

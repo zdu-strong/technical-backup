@@ -1,5 +1,6 @@
 package com.john.project.test.controller.HelloWorldController;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
@@ -20,7 +21,7 @@ public class HelloWorldControllerTest extends BaseTest {
         ResponseEntity<String> response = this.testRestTemplate.getForEntity(url, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(13, response.getBody().length());
-        assertEquals("Hello, World!", response.getBody());
+        assertEquals(HELLO_WORLD, response.getBody());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.john.project.test.service.LoggerService;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,7 +28,7 @@ public class LoggerServiceCreateLoggerTest extends BaseTest {
         var result = this.loggerService.create(loggerModel);
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertTrue(result.getHasException());
-        assertEquals("Hello, World!", result.getMessage());
+        assertEquals(HELLO_WORLD, result.getMessage());
         assertEquals("java.lang.RuntimeException", result.getExceptionClassName());
         assertEquals("Bug", result.getExceptionMessage());
         assertTrue(result.getExceptionStackTrace().size() > 70);
@@ -42,7 +43,7 @@ public class LoggerServiceCreateLoggerTest extends BaseTest {
 
     @BeforeEach
     public void BeforeEach() {
-        this.loggerModel = new LoggerModel().setLevel(Level.ERROR.levelStr).setMessage("Hello, World!")
+        this.loggerModel = new LoggerModel().setLevel(Level.ERROR.levelStr).setMessage(HELLO_WORLD)
                 .setHasException(true)
                 .setExceptionClassName("java.lang.RuntimeException")
                 .setExceptionMessage("Bug")

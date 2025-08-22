@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.net.URI;
+
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
@@ -20,7 +22,7 @@ public class ServerCacheControlConfigTest extends BaseTest {
         ResponseEntity<String> response = this.testRestTemplate.getForEntity(url, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(13, response.getBody().length());
-        assertEquals("Hello, World!", response.getBody());
+        assertEquals(HELLO_WORLD, response.getBody());
         assertEquals("no-store", response.getHeaders().getCacheControl());
     }
 

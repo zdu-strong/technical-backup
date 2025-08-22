@@ -1,5 +1,6 @@
 package com.john.project.test.websocket.UserMessageWebSocket;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
 import java.net.URI;
 import java.time.Duration;
@@ -43,7 +44,7 @@ public class UserMessageWebSocketTest extends BaseTest {
         assertEquals(1, userMessageResultList.size());
         assertEquals(1, JinqStream.from(userMessageResultList).select(s -> s.getTotalPages()).getOnlyValue());
         var userMessage = JinqStream.from(userMessageResultList).selectAllList(s -> s.getItems()).getOnlyValue();
-        assertEquals("Hello, World!", userMessage.getContent());
+        assertEquals(HELLO_WORLD, userMessage.getContent());
         assertNull(userMessage.getUrl());
         assertEquals(this.user.getId(), userMessage.getUser().getId());
         assertNotNull(userMessage.getCreateDate());
@@ -55,7 +56,7 @@ public class UserMessageWebSocketTest extends BaseTest {
     public void beforeEach() {
         var email = this.uuidUtil.v4() + "@gmail.com";
         this.user = this.createAccount(email);
-        var userMessage = new UserMessageModel().setContent("Hello, World!");
+        var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
         this.userMessageService.sendMessage(userMessage, request);
     }
 

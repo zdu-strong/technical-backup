@@ -1,5 +1,6 @@
 package com.john.project.test.common.config.LoggerAppenderConfig;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +24,7 @@ public class LoggerAppenderConfigTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        log.error("Hello, World!", new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Hello, World!"));
+        log.error(HELLO_WORLD, new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, HELLO_WORLD));
         var result = Flowable.interval(1, TimeUnit.MILLISECONDS)
                 .map(s -> this.loggerService.searchByPagination(1, 1, ""))
                 .filter(s -> !s.getItems().isEmpty())
@@ -34,7 +35,7 @@ public class LoggerAppenderConfigTest extends BaseTest {
         assertNotNull(result.getCreateDate());
         assertNotNull(result.getUpdateDate());
         assertTrue(result.getHasException());
-        assertEquals("Hello, World!", result.getMessage());
+        assertEquals(HELLO_WORLD, result.getMessage());
         assertEquals(this.gitProperties.getCommitId(), result.getGitCommitId());
         assertEquals(Date.from(this.gitProperties.getCommitTime()), result.getGitCommitDate());
         assertEquals(ResponseStatusException.class.getName(), result.getExceptionClassName());

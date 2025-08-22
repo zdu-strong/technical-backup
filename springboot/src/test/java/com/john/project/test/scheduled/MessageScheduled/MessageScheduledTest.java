@@ -1,5 +1,6 @@
 package com.john.project.test.scheduled.MessageScheduled;
 
+import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
@@ -27,7 +28,7 @@ public class MessageScheduledTest extends BaseTest {
 
     @Test
     public void test() {
-        assertEquals("Hello, World!", userMessage.getContent());
+        assertEquals(HELLO_WORLD, userMessage.getContent());
         assertNull(userMessage.getUrl());
         assertEquals(this.user.getId(), userMessage.getUser().getId());
         assertNotNull(userMessage.getCreateDate());
@@ -41,7 +42,7 @@ public class MessageScheduledTest extends BaseTest {
         {
             var email = this.uuidUtil.v4() + "@gmail.com";
             this.user = this.createAccount(email);
-            var userMessage = new UserMessageModel().setContent("Hello, World!");
+            var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
             this.userMessageService.sendMessage(userMessage, request);
         }
         {
