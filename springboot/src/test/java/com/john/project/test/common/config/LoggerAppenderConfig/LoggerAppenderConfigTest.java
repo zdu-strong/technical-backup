@@ -42,7 +42,7 @@ public class LoggerAppenderConfigTest extends BaseTest {
         assertEquals("500 INTERNAL_SERVER_ERROR \"Hello, World!\"", result.getExceptionMessage());
         assertTrue(result.getExceptionStackTrace().size() >= 70);
         assertEquals("test", result.getCallerMethodName());
-        assertEquals(26, result.getCallerLineNumber());
+        assertEquals(27, result.getCallerLineNumber());
         assertEquals(Level.ERROR.levelStr, result.getLevel());
         assertEquals("com.john.project.test.common.config.LoggerAppenderConfig.LoggerAppenderConfigTest",
                 result.getLoggerName());
