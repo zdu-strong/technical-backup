@@ -8,12 +8,13 @@ async function main() {
 
 async function startClient() {
   await execa.command(
-    "rsbuild dev --open",
+    "rsbuild dev",
     {
       stdio: "inherit",
       cwd: path.join(__dirname, ".."),
       extendEnv: true,
       env: {
+        "RSBUILD_OPEN": process.env.RSBUILD_PORT || true
       }
     }
   );

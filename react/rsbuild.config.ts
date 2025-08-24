@@ -28,7 +28,7 @@ export default defineConfig({
     }
   },
   source: {
-    define: loadEnv({ prefixes: ['REACT_APP_'] }).publicVars,
+    define: loadEnv({ prefixes: ['REACT_APP_', 'PUBLIC_'] }).publicVars,
     decorators: {
       version: 'legacy',
     },
@@ -37,5 +37,9 @@ export default defineConfig({
     distPath: {
       root: 'build'
     },
+  },
+  server: {
+    open: process.env.RSBUILD_OPEN === 'true',
+    port: Number(process.env.RSBUILD_PORT) || undefined,
   },
 });

@@ -75,8 +75,8 @@ async function startClient(availableServerPort) {
       cwd: path.join(__dirname, '../../react'),
       extendEnv: true,
       env: {
-        "BROWSER": 'NONE',
-        "PORT": `${avaliableClientPort}`,
+        "RSBUILD_OPEN": false,
+        "RSBUILD_PORT": `${avaliableClientPort}`,
         "REACT_APP_SERVER_PORT": `${availableServerPort}`,
       }
     }
