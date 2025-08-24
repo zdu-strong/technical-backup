@@ -60,6 +60,18 @@ export function useReactRouterAppProviderNavigation() {
     },
     {
       segment: '.',
+      title: 'Lumen',
+      icon: <BarChartIcon />,
+      children: [
+        {
+          segment: 'lumen/exchange',
+          title: 'Exchange',
+          icon: <DescriptionIcon />,
+        },
+      ],
+    },
+    {
+      segment: '.',
       title: 'Reports',
       icon: <BarChartIcon />,
       children: [

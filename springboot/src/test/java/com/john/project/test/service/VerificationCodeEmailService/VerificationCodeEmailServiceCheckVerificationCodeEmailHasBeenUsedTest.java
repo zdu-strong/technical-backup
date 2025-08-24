@@ -2,8 +2,6 @@ package com.john.project.test.service.VerificationCodeEmailService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.regex.Pattern;
-
 import cn.hutool.core.util.ReUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;

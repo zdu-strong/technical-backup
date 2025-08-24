@@ -8,6 +8,7 @@ import NotFoundPage from '@/router/page/NotFoundPage';
 import SuperAdminRoleManagePage from '@/router/page/SuperAdminRoleManagePage';
 import SuperAdminOrganizeManagePage from '@/router/page/SuperAdminOrganizeManagePage';
 import SuperAdminUserManagePage from '@/router/page/SuperAdminUserManagePage';
+import LumenExchangePage from '@/router/page/LumenExchangePage';
 
 export default (
   <BrowserRouter>
@@ -17,6 +18,7 @@ export default (
       <Route path="/sign-in" element={SignInPage} />
       <Route path="/sign-up" element={SignUpPage} />
       <Route path="/git" element={GitPage} />
+      <Route path="/lumen/exchange" element={LumenExchangePage} />
       <Route path="/home" element={<Home />} />
       <Route path="/404" element={NotFoundPage} />
       <Route path="/super-admin/role/manage" element={SuperAdminRoleManagePage} />
