@@ -1,5 +1,5 @@
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import { ReactNode } from 'react';
+import { type ReactNode } from "react";
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';

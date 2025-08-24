@@ -1,6 +1,6 @@
 import WindowsLocale from 'windows-locale';
 import { observable } from 'mobx-react-use-autorun';
-import { Locale, enUS, zhCN } from 'date-fns/locale'
+import { type Locale, enUS, zhCN } from 'date-fns/locale'
 import en_US_JSON from '@/i18n/en-US.json'
 import zh_CN_JSON from '@/i18n/zh-CN.json';
 

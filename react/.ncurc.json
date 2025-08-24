@@ -1,13 +1,5 @@
 {
   "reject": [
-    "execa",
-    "@types/react",
-    "@types/react-dom",
-    "node-polyfill-webpack-plugin",
-    "react",
-    "react-dom",
-    "react-intl",
-    "typescript",
-    "tailwindcss"
+    "execa"
   ]
 }

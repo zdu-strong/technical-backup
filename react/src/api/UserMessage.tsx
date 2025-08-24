@@ -3,7 +3,7 @@ import { UserMessageModel } from "@model/UserMessageModel";
 import { UserMessageWebSocketReceiveModel } from "@model/UserMessageWebSocketReceiveModel";
 import axios from "axios";
 import { Subject, catchError, map, switchMap, tap, of, concatMap, ReplaySubject } from "rxjs";
-import makeWebSocketObservable, { GetWebSocketResponses } from "rxjs-websockets";
+import makeWebSocketObservable, { type GetWebSocketResponses } from "rxjs-websockets";
 import { TypedJSON } from "typedjson";
 
 export async function sendMessage(body: {

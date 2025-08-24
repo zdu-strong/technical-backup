@@ -1,5 +1,5 @@
 import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
-import { DataGrid, GridColDef, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef, useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button } from "@mui/material";
 import { format } from "date-fns";
 import { AutoSizer } from "react-virtualized";
@@ -23,7 +23,7 @@ export default observer(() => {
     loading: true,
     error: null as any,
     query: new SuperAdminUserQueryPaginationModel(),
-    querySubject: new ReplaySubject<String>(1),
+    querySubject: new ReplaySubject<string>(1),
     paginationModel: new PaginationModel<UserModel>(),
     columns: [
       {

@@ -1,5 +1,5 @@
 import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
-import { DataGrid, GridColDef, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef, useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button } from "@mui/material";
 import { format } from "date-fns";
 import { AutoSizer } from "react-virtualized";

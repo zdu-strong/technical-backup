@@ -8,13 +8,12 @@ async function main() {
 
 async function startClient() {
   await execa.command(
-    "react-app-rewired start",
+    "rsbuild dev --open",
     {
       stdio: "inherit",
       cwd: path.join(__dirname, ".."),
       extendEnv: true,
       env: {
-        "GENERATE_SOURCEMAP": "false"
       }
     }
   );

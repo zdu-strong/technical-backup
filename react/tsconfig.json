@@ -1,51 +1,59 @@
 {
   "compilerOptions": {
-    "target": "ES5",
     "lib": [
       "DOM",
       "DOM.Iterable",
       "ESNext"
     ],
-    "allowJs": true,
+    "jsx": "react-jsx",
+    "target": "ES5",
+    "noEmit": true,
     "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    /* modules */
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noUncheckedSideEffectImports": false,
+    /* type checking */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "experimentalDecorators": true,
+    "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "experimentalDecorators": true,
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@component/*": [
-        "src/component/*"
+        "./src/component/*"
       ],
       "@common/*": [
-        "src/common/*"
+        "./src/common/*"
       ],
       "@api": [
-        "src/api"
+        "./src/api"
       ],
       "@api/*": [
-        "src/api/*"
+        "./src/api/*"
       ],
       "@enums/*": [
-        "src/enums/*"
+        "./src/enums/*"
       ],
       "@model/*": [
-        "src/model/*"
+        "./src/model/*"
       ]
     }
   },
   "include": [
     "src"
-  ],
+  ]
 }

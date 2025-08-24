@@ -9,14 +9,13 @@ async function main() {
 async function build() {
   await execa.command(
     [
-      "react-app-rewired build",
+      "rsbuild build",
     ].join(" "),
     {
       stdio: "inherit",
       cwd: path.join(__dirname, ".."),
       extendEnv: true,
       env: {
-        "GENERATE_SOURCEMAP": "false"
       }
     }
   );

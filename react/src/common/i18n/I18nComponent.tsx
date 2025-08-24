@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { IntlProvider } from 'react-intl';
 import { useI18nJson, useI18nLocale } from '.';
 import { observer, useMobxEffect, useMobxState } from 'mobx-react-use-autorun';

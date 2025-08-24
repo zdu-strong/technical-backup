@@ -2,7 +2,7 @@ import api from "@api";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { GlobalUserInfo, toSignIn } from "@common/Server";
 import { observer, useMobxEffect, useMobxState, useMount } from "mobx-react-use-autorun";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReplaySubject, from } from "rxjs";
 import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
