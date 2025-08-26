@@ -1,5 +1,5 @@
 import { Capacitor } from '@capacitor/core';
-import { BatteryInfo, Device } from '@capacitor/device';
+import { type BatteryInfo, Device } from '@capacitor/device';
 import { useMobxState } from 'mobx-react-use-autorun';
 import { useMount } from "mobx-react-use-autorun"
 import { concatMap, delay, from, of, repeat, Subscription, tap } from 'rxjs';

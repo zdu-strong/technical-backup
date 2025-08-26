@@ -2,7 +2,7 @@ import { v7 } from 'uuid';
 import { observable } from 'mobx-react-use-autorun'
 import { FormattedMessage } from 'react-intl';
 import { GlobalExactMessageMatch } from '@common/MessageService/js/GlobalExactMessageMatch'
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { getFuzzyMessageMatch } from '@common/MessageService/js/GlobalFuzzyMessageMatch';
 import en_US_JSON from '@/i18n/en-US.json'
 

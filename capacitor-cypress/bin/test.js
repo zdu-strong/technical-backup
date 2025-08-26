@@ -47,7 +47,7 @@ async function startReact() {
       cwd: path.join(__dirname, '../../capacitor'),
       extendEnv: true,
       env: {
-        "PORT": `${avaliablePort}`,
+        "RSBUILD_PORT": `${avaliablePort}`,
         "CAPACITOR_CYPRESS_IS_TEST": 'true',
       },
     }

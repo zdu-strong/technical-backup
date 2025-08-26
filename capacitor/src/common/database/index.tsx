@@ -1,5 +1,5 @@
 import { StorageSpaceModel } from '@model/StorageSpaceModel';
-import Dexie, { Table } from 'dexie'
+import Dexie, { type Table } from 'dexie'
 
 export class Database extends Dexie {
   public StorageSpaceList!: Table<StorageSpaceModel, string>;

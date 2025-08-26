@@ -99,7 +99,7 @@ async function getUnusedFileName(downloadFolder: string, fileName: string) {
         return filePath;
       }
     } else {
-      var extensionName = path.extname(fileName);
+      const extensionName = path.extname(fileName);
       const filePath = path.join(downloadFolder, `${path.basename(fileName, extensionName)} (${i})${extensionName}`);
       try {
         await Filesystem.stat({

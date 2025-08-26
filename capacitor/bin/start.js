@@ -30,24 +30,31 @@ async function main() {
 }
 
 async function buildReact() {
-  const folderPathOfBuild = path.join(__dirname, "..", "build");
-  const folderPathOfPublic = path.join(__dirname, "..", "public");
-  await fs.promises.cp(folderPathOfPublic, folderPathOfBuild, { recursive: true, force: true });
-}
-
-async function startReact(avaliablePort) {
-  const childProcessOfReact = execa.command(
+  await execa.command(
     [
-      "react-app-rewired start",
+      "rsbuild build",
     ].join(" "),
     {
       stdio: "inherit",
       cwd: path.join(__dirname, ".."),
       extendEnv: true,
       env: {
-        "BROWSER": "NONE",
-        "PORT": String(avaliablePort),
-        "GENERATE_SOURCEMAP": "false",
+      },
+    }
+  );
+}
+
+async function startReact(avaliablePort) {
+  const childProcessOfReact = execa.command(
+    [
+      "rsbuild dev",
+    ].join(" "),
+    {
+      stdio: "inherit",
+      cwd: path.join(__dirname, ".."),
+      extendEnv: true,
+      env: {
+        "RSBUILD_PORT": String(avaliablePort),
       },
     }
   );
@@ -65,16 +72,12 @@ function isTestEnvironment() {
 
 async function runCapacitorForCypress() {
   await execa.command(
-    [
-      "react-app-rewired start",
-    ].join(" "),
+    "rsbuild dev",
     {
       stdio: "inherit",
       cwd: path.join(__dirname, ".."),
       extendEnv: true,
       env: {
-        "BROWSER": "NONE",
-        "GENERATE_SOURCEMAP": "false",
       },
     }
   );
