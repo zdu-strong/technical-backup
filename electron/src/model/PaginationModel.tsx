@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx-react-use-autorun';
 import linq from "linq";
 import * as mathjs from 'mathjs';
-import { jsonArrayMember, jsonMember, jsonObject, Serializable, TypedJSON } from 'typedjson';
+import { jsonArrayMember, jsonMember, jsonObject, type Serializable, TypedJSON } from 'typedjson';
 
 export class PaginationModel<T> {
 

@@ -48,16 +48,14 @@ async function startReact() {
   const avaliableClientPort = Number(process.env.ELECTRON_PORT || await getPort());
   const childProcessOfReact = execa.command(
     [
-      "react-app-rewired start",
+      "rsbuild dev",
     ].join(" "),
     {
       stdio: "inherit",
       cwd: path.join(__dirname, ".."),
       extendEnv: true,
       env: {
-        "BROWSER": "NONE",
-        "PORT": String(avaliableClientPort),
-        "GENERATE_SOURCEMAP": "false",
+        "RSBUILD_PORT": String(avaliableClientPort),
       }
     }
   );

@@ -1,14 +1,42 @@
 {
   "name": "my-app",
   "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "homepage": ".",
   "scripts": {
     "start": "node bin/pre-load-configuration.js && node bin/start.js",
     "pack": "node bin/pre-load-configuration.js && node bin/pack.js",
     "make": "node bin/pre-load-configuration.js && node bin/make.js"
   },
-  "main": "./dist/index.js",
-  "private": true,
-  "homepage": ".",
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "import/no-anonymous-default-export": [
+        "off",
+        {
+          "allowArrowFunction": true
+        }
+      ],
+      "react-hooks/exhaustive-deps": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/prefer-as-const": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "prefer-const": "off"
+    }
+  },
+  "browserslist": {
+    "production": [
+      "last 1 chrome version"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
+  },
   "build": {
     "extends": null,
     "files": [
@@ -41,89 +69,80 @@
       "node_modules/node-os-utils"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ],
-    "rules": {
-      "import/no-anonymous-default-export": [
-        "off",
-        {
-          "allowArrowFunction": true
-        }
-      ]
-    }
-  },
-  "browserslist": {
-    "production": [
-      "last 1 chrome version"
-    ],
-    "development": [
-      "last 1 chrome version"
-    ]
-  },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
-    "@babylonjs/core": "8.9.0",
     "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.0",
-    "@fontsource/roboto": "5.2.5",
+    "@emotion/styled": "11.14.1",
+    "@fontsource/roboto": "5.2.6",
     "@fortawesome/free-brands-svg-icons": "6.7.2",
     "@fortawesome/free-solid-svg-icons": "6.7.2",
     "@fortawesome/react-fontawesome": "0.2.2",
-    "@mui/icons-material": "7.1.0",
-    "@mui/lab": "7.0.0-beta.12",
-    "@mui/material": "7.1.0",
-    "@mui/x-charts": "8.4.0",
-    "@mui/x-data-grid": "8.4.0",
-    "@mui/x-data-grid-pro": "8.4.0",
-    "@mui/x-date-pickers": "8.4.0",
-    "@nestjs/cli": "11.0.7",
-    "@toolpad/core": "0.15.0",
-    "@types/node": "22.15.21",
-    "@types/node-os-utils": "1.3.4",
+    "@mui/icons-material": "7.3.1",
+    "@mui/lab": "7.0.0-beta.16",
+    "@mui/material": "7.3.1",
+    "@mui/x-charts": "8.10.2",
+    "@mui/x-data-grid": "8.10.2",
+    "@mui/x-data-grid-pro": "8.10.2",
+    "@mui/x-date-pickers": "8.10.2",
+    "@rsbuild/core": "1.4.16",
+    "@rsbuild/plugin-babel": "1.0.6",
+    "@rsbuild/plugin-eslint": "1.1.2",
+    "@rsbuild/plugin-node-polyfill": "1.4.1",
+    "@rsbuild/plugin-react": "1.3.5",
+    "@rsbuild/plugin-type-check": "1.2.4",
+    "@toolpad/core": "0.16.0",
+    "@types/node": "24.3.0",
     "@types/node-rsa": "1.1.4",
     "@types/qs": "6.14.0",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
-    "@types/wait-on": "5.3.4",
+    "@types/react-virtualized": "9.22.2",
+    "@typescript-eslint/eslint-plugin": "8.40.0",
+    "@typescript-eslint/parser": "8.40.0",
     "autoprefixer": "10.4.21",
-    "axios": "1.9.0",
+    "axios": "1.11.0",
+    "babel-plugin-macros": "3.1.0",
     "date-fns": "4.1.0",
-    "dexie": "4.0.11",
-    "electron": "35.2.1",
-    "electron-builder": "26.0.12",
-    "eslint": "8.57.0",
     "execa": "5.1.1",
-    "get-port": "5.1.1",
     "is-mobile": "5.0.0",
-    "jsencrypt": "3.3.2",
-    "mathjs": "14.5.0",
+    "js-sha3": "0.9.3",
+    "jsencrypt": "3.5.4",
+    "linq": "4.0.3",
+    "mathjs": "14.6.0",
     "mobx-react-use-autorun": "4.0.61",
-    "node-polyfill-webpack-plugin": "4.0.0",
     "node-rsa": "1.1.1",
-    "postcss": "8.5.3",
+    "postcss": "8.5.6",
     "qs": "6.14.0",
     "react": "18.3.1",
-    "react-app-rewired": "2.2.1",
     "react-dom": "18.3.1",
     "react-git-info": "2.0.1",
     "react-intl": "6.8.7",
-    "react-router-dom": "7.6.0",
-    "react-scripts": "5.0.1",
+    "react-router-dom": "7.8.0",
+    "react-virtualized": "9.22.6",
+    "rxjs": "7.8.2",
     "rxjs-exhaustmap-with-trailing": "2.1.1",
-    "source-map-support": "0.5.21",
+    "rxjs-websockets": "9.0.0",
     "tailwindcss": "3.4.17",
     "ts-enum-util": "4.1.0",
+    "typedjson": "1.8.0",
+    "typescript": "5.9.2",
+    "typestyle": "2.4.0",
+    "uuid": "11.1.0",
+    "vh-check": "2.0.5",
+    "web-vitals": "5.1.0",
+    "webworker-promise": "0.5.1",
+    "windows-locale": "1.1.3",
+    "@babylonjs/core": "8.9.0",
+    "@nestjs/cli": "11.0.7",
+    "@types/node-os-utils": "1.3.4",
+    "@types/wait-on": "5.3.4",
+    "dexie": "4.0.11",
+    "electron": "35.2.1",
+    "electron-builder": "26.0.12",
+    "get-port": "5.1.1",
+    "source-map-support": "0.5.21",
     "ts-loader": "9.5.2",
     "tsconfig-paths": "4.2.0",
-    "typedjson": "1.8.0",
-    "typescript": "4.9.5",
-    "typestyle": "2.4.0",
-    "wait-on": "8.0.3",
-    "web-vitals": "5.0.1",
-    "webworker-promise": "0.5.1",
-    "windows-locale": "1.1.3"
+    "wait-on": "8.0.3"
   },
   "dependencies": {
     "@electron/remote": "2.1.2",
