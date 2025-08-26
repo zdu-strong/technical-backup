@@ -14,7 +14,7 @@
     "allowImportingTsExtensions": false,
     "paths": {
       "@/*": [
-        "main/*"
+        "./main/*"
       ]
     },
   },
