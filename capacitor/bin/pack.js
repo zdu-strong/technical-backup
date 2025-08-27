@@ -174,7 +174,7 @@ async function getDeviceList(isRunAndroid, androidSdkRootPath) {
       .select(item => linq.from(item.split(new RegExp("\\s\\s+")))
         .select(item => item.trim()).toArray()
       )
-      .where(s => s.some(m => m.trim() === "API 35"))
+      .where(s => s.some(m => m.trim() === "API 36"))
       .orderByDescending(s => linq.from(s).first())
       .orderByDescending(s => s.some(m => m.includes("Pixel 8")))
       .orderByDescending(s => s.some(m => m.includes("Pixel 9")))
