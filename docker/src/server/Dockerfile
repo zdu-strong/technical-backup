@@ -1,4 +1,4 @@
-FROM rockylinux/rockylinux:10.0.20250606 AS first_docker
+FROM rockylinux/rockylinux:9.6.20250531 AS first_docker
 
 LABEL maintainer="zdu.strong@gmail.com"
 
