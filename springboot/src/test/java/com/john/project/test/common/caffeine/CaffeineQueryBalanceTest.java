@@ -26,8 +26,7 @@ public class CaffeineQueryBalanceTest extends BaseTest {
     public void test() {
         var caffeineLoadCache = Caffeine.newBuilder()
                 .executor(Executors.newVirtualThreadPerTaskExecutor())
-                .expireAfterWrite(3, TimeUnit.SECONDS)
-                .refreshAfterWrite(2, TimeUnit.SECONDS)
+                .expireAfterAccess(3, TimeUnit.SECONDS)
                 .buildAsync((String key) -> {
                     return queryBalance(key);
                 });
