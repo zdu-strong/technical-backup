@@ -4,6 +4,7 @@ const path = require('path')
 async function main() {
   await buildReact();
   await buildSpringboot();
+  await buildFFCreator();
   await runCapacitorTest();
   await runElectronTest();
   await buildCloud();
@@ -66,6 +67,21 @@ async function buildSpringboot() {
     {
       stdio: "inherit",
       cwd: path.join(__dirname, "./server"),
+    }
+  );
+}
+
+async function buildFFCreator() {
+  execSync(
+    [
+      "docker build",
+      "-t ffcreator",
+      "-f ./Dockerfile",
+      "../../..",
+    ].join(" "),
+    {
+      stdio: "inherit",
+      cwd: path.join(__dirname, "./ffcreator"),
     }
   );
 }
