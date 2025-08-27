@@ -1,4 +1,4 @@
-package com.john.project.test.common.lumen;
+package com.john.project.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class CurrencyModel {
+public class LumenCurrencyModel {
 
     private String id;
 

@@ -1,6 +1,7 @@
 package com.john.project.test.common.lumen;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.model.LumenContextModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

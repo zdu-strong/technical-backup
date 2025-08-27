@@ -1,4 +1,4 @@
-package com.john.project.test.common.lumen;
+package com.john.project.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class CcuBalanceModel {
+public class LumenCcuBalanceModel {
 
     private String id;
 
-    private CurrencyModel currency;
+    private LumenCurrencyModel currency;
 
     private BigDecimal currencyBalance;
 
