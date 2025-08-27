@@ -1,3 +1,5 @@
+import { faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 
@@ -28,6 +30,7 @@ export default observer(() => {
     <div className="flex flex-row">
       <Button
         variant="contained"
+        startIcon={<FontAwesomeIcon icon={faMoneyCheckDollar} />}
       >
         {"exchange"}
       </Button>

@@ -1,7 +1,7 @@
 import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
 import { GlobalChatMessage, GlobalScrollToLastItemSubject } from '@component/Message/js/Global_Chat';
 import { List, type Size } from 'react-virtualized';
-import SingleMessage from "@component/Message/SingleMessage";
+import SingleMessageLoaded from "@/component/Message/SingleMessageLoaded";
 import { useRef } from "react";
 import { EMPTY, concatMap, delay, interval, of, take, tap } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing'
@@ -49,7 +49,7 @@ export default observer((props: Size) => {
     rowCount={GlobalChatMessage.totalRecords}
     rowHeight={150}
     rowRenderer={(s) => <div style={s.style} key={s.key}>
-      <SingleMessage pageNum={s.index + 1} key={s.index + 1} />
+      <SingleMessageLoaded pageNum={s.index + 1} key={s.index + 1} />
     </div>}
   >
   </List>
