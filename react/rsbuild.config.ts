@@ -27,6 +27,11 @@ export default defineConfig({
       "@model": "./src/model",
     }
   },
+  tools: {
+     rspack(config){
+      config.cache = false;
+     }
+  },
   source: {
     define: loadEnv({ prefixes: ['REACT_APP_'] }).publicVars,
     decorators: {
