@@ -97,7 +97,7 @@ export default observer(() => {
               rows={state.paginationModel.items}
               rowCount={state.paginationModel.totalRecords}
               onPaginationModelChange={(s) => {
-                state.query.pageNum = Math.max(s.page, 1);
+                state.query.pageNum = Math.max(s.page + 1, 1);
                 state.query.pageSize = Math.max(s.pageSize, 1);
                 searchByPagination();
               }}
