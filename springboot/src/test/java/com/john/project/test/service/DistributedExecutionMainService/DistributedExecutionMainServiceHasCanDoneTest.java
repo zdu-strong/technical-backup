@@ -1,6 +1,7 @@
 package com.john.project.test.service.DistributedExecutionMainService;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -22,8 +23,10 @@ public class DistributedExecutionMainServiceHasCanDoneTest extends BaseTest {
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
         this.distributedExecutionMainModel = this.distributedExecutionMainService
                 .create(storageSpaceCleanDistributedExecution);
-        this.distributedExecutionDetailService
-                .createByResult(this.distributedExecutionMainModel.getId(), 1L, 1L);
+        for (var i = distributedExecutionMainModel.getTotalPages(); i > 0; i--) {
+            this.distributedExecutionDetailService
+                    .createByResult(this.distributedExecutionMainModel.getId(), i, 1L);
+        }
     }
 
 }

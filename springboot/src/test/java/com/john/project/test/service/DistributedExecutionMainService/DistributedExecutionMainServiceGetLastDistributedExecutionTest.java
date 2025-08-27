@@ -31,8 +31,10 @@ public class DistributedExecutionMainServiceGetLastDistributedExecutionTest exte
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
         var distributedExecutionMainModel = this.distributedExecutionMainService
                 .create(storageSpaceCleanDistributedExecution);
-        this.distributedExecutionDetailService
-                .createByResult(distributedExecutionMainModel.getId(), 1L, 1L);
+        for (var i = distributedExecutionMainModel.getTotalPages(); i > 0; i--) {
+            this.distributedExecutionDetailService
+                    .createByResult(distributedExecutionMainModel.getId(), i, 1L);
+        }
         this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
     }
 
