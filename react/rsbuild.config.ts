@@ -28,7 +28,7 @@ export default defineConfig({
     }
   },
   source: {
-    define: loadEnv({ prefixes: ['REACT_APP_', 'PUBLIC_'] }).publicVars,
+    define: loadEnv({ prefixes: ['REACT_APP_'] }).publicVars,
     decorators: {
       version: 'legacy',
     },
