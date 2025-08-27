@@ -1,5 +1,13 @@
 {
   "reject": [
-    "execa"
+    "execa",
+    "@fortawesome/free-brands-svg-icons",
+    "@fortawesome/free-solid-svg-icons",
+    "@fortawesome/react-fontawesome",
+    "@types/react",
+    "@types/react-dom",
+    "react",
+    "react-dom",
+    "react-intl"
   ]
 }
