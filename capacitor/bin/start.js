@@ -247,8 +247,8 @@ async function getDeviceList(isRunAndroid, androidSdkRootPath) {
       )
       .where(s => s.some(m => m.trim() === "API 36"))
       .orderByDescending(s => linq.from(s).first())
-      .orderByDescending(s => s.some(m => m.includes("Pixel 8")))
-      .orderByDescending(s => s.some(m => m.includes("Pixel 9")))
+      .orderByDescending(s => s.some(m => m.includes("Pixel 8 ")))
+      .orderByDescending(s => s.some(m => m.includes("Pixel 9 ")))
       .select(s => linq.from(s).last())
       .take(1)
       .toArray();
