@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import io.reactivex.rxjava3.core.Flowable;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.john.project.model.DistributedExecutionMainModel;
 import com.john.project.test.common.BaseTest.BaseTest;
+
+import java.util.concurrent.TimeUnit;
 
 public class DistributedExecutionDetailServiceCreateByResultTest extends BaseTest {
 
@@ -31,6 +35,10 @@ public class DistributedExecutionDetailServiceCreateByResultTest extends BaseTes
     @BeforeEach
     public void beforeEach() {
         this.storage.storageResource(new ClassPathResource("email/email.xml"));
+        Flowable.interval(0, 1, TimeUnit.MILLISECONDS)
+                .filter(s -> this.storageSpaceCleanDistributedExecution.searchByPagination().getTotalRecords() > 0)
+                .take(1)
+                .blockingSubscribe();
         this.distributedExecutionMainModel = this.distributedExecutionMainService
                 .create(storageSpaceCleanDistributedExecution);
     }
