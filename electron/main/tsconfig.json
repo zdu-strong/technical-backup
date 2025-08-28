@@ -5,6 +5,9 @@
     "noEmit": false,
     "module": "CommonJS",
     "pretty": true,
+    "verbatimModuleSyntax": false,
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": false,
     "paths": {
       "@/*": [
         "main/*"
