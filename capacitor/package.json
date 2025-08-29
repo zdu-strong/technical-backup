@@ -14,6 +14,9 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended"
     ],
+    "plugins": [
+      "unused-imports"
+    ],
     "rules": {
       "import/no-anonymous-default-export": [
         "off",
@@ -23,10 +26,13 @@
       ],
       "react-hooks/exhaustive-deps": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/prefer-as-const": "off",
+      "@typescript-eslint/prefer-as-const": "warn",
       "@typescript-eslint/no-empty-object-type": "off",
+      "prefer-const": "warn",
+      "no-var": "warn",
       "@typescript-eslint/no-unused-vars": "off",
-      "prefer-const": "off"
+      "unused-imports/no-unused-imports": "warn",
+      "unused-imports/no-unused-vars": "off"
     }
   },
   "browserslist": {
@@ -111,6 +117,7 @@
     "date-fns": "4.1.0",
     "dexie": "4.2.0",
     "es6-promise-plugin": "4.2.2",
+    "eslint-plugin-unused-imports": "4.2.0",
     "execa": "5.1.1",
     "get-port": "5.1.1",
     "inquirer": "8.2.4",
