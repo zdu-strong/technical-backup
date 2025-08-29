@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
-import java.util.concurrent.CompletableFuture;
 
 import static eu.ciechanowiec.sneakyfun.SneakyRunnable.sneaky;
 
@@ -31,16 +30,14 @@ public class StorageSpaceCleanDistributedExecution extends BaseDistributedExecut
             if (!this.storageSpaceService.isUsed(folderName)) {
                 this.longTermTaskUtil.runSkipWhenExists(sneaky(() -> {
                     if (!this.storageSpaceService.isUsed(folderName)) {
-                        CompletableFuture.runAsync(() -> {
-                            var request = new MockHttpServletRequest();
-                            request.setRequestURI(this.storage.getResoureUrlFromResourcePath(folderName));
-                            this.storage.delete(request);
-                            if (new File(this.storage.getRootPath(), folderName).exists()) {
-                                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                                        StrFormatter.format("Folder deletion failed. FolderName:{}", folderName));
-                            }
-                            this.storageSpaceService.delete(folderName);
-                        }, applicationTaskExecutor).get();
+                        var request = new MockHttpServletRequest();
+                        request.setRequestURI(this.storage.getResoureUrlFromResourcePath(folderName));
+                        this.storage.delete(request);
+                        if (new File(this.storage.getRootPath(), folderName).exists()) {
+                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                    StrFormatter.format("Folder deletion failed. FolderName:{}", folderName));
+                        }
+                        this.storageSpaceService.delete(folderName);
                     }
                 }), getLongTermTaskUniqueKeyModel(folderName));
             }

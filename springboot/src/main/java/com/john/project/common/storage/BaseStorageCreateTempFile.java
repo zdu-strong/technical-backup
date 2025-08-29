@@ -6,8 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -22,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import cn.hutool.extra.compress.CompressUtil;
 import lombok.SneakyThrows;
-import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
 
 public abstract class BaseStorageCreateTempFile extends BaseStorageIsDirectory {
 

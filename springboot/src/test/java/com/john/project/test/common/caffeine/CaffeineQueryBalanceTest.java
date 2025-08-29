@@ -10,7 +10,6 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
@@ -24,7 +23,7 @@ public class CaffeineQueryBalanceTest extends BaseTest {
     @SneakyThrows
     public void test() {
         var caffeineLoadCache = Caffeine.newBuilder()
-                .executor(Executors.newVirtualThreadPerTaskExecutor())
+                .executor(applicationTaskExecutor)
                 .expireAfterAccess(3, TimeUnit.SECONDS)
                 .buildAsync((String key) -> queryBalance());
         var timer = new TimeInterval();

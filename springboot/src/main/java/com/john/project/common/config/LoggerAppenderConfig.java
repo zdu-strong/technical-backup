@@ -2,10 +2,10 @@ package com.john.project.common.config;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.util.ObjectUtil;
+import io.reactivex.rxjava3.core.Flowable;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
@@ -27,8 +27,6 @@ import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.ReflectUtil;
 import jakarta.annotation.PostConstruct;
 
-import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
-
 @Component
 public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
 
@@ -40,9 +38,6 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
 
     @Autowired
     private DatabaseJdbcProperties databaseJdbcProperties;
-
-    @Autowired
-    private Executor applicationTaskExecutor;
 
     @Override
     protected void append(ILoggingEvent eventObject) {
@@ -80,17 +75,13 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     }
 
     private void saveLoggerModel(LoggerModel loggerModel) {
-        Optional.of(CompletableFuture.runAsync(() -> {
-                    this.loggerService.create(loggerModel);
-                }, applicationTaskExecutor))
-                .filter(s -> this.databaseJdbcProperties.getIsSupportParallelWrite())
-                .ifPresent(sneaky(s -> {
-                    try {
-                        s.get();
-                    } catch (Throwable e) {
-                        // do nothing
-                    }
-                }));
+        if (this.databaseJdbcProperties.getIsSupportParallelWrite()) {
+            this.loggerService.create(loggerModel);
+        } else {
+            Flowable.timer(1, TimeUnit.MILLISECONDS)
+                    .doOnNext((s) -> this.loggerService.create(loggerModel))
+                    .subscribe();
+        }
     }
 
     private boolean isNeedRecord(ILoggingEvent eventObject) {

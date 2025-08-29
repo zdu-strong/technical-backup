@@ -5,12 +5,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.properties.DevelopmentMockModeProperties;
+import io.reactivex.rxjava3.core.Flowable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +30,6 @@ import com.john.project.model.ResourceAccessLegalModel;
 import com.john.project.service.EncryptDecryptService;
 import com.john.project.service.StorageSpaceService;
 import cn.hutool.core.util.HexUtil;
-
-import static eu.ciechanowiec.sneakyfun.SneakyConsumer.sneaky;
 
 public abstract class BaseStorage {
 
@@ -191,11 +189,13 @@ public abstract class BaseStorage {
 
     protected String newFolderName() {
         var folderName = this.uuidUtil.v4();
-        Optional.of(CompletableFuture.runAsync(() -> {
-                    this.storageSpaceService.create(folderName);
-                }))
-                .filter(s -> this.databaseJdbcProperties.getIsSupportParallelWrite())
-                .ifPresent(sneaky(CompletableFuture::get));
+        if (this.databaseJdbcProperties.getIsSupportParallelWrite()) {
+            this.storageSpaceService.create(folderName);
+        } else {
+            Flowable.timer(1, TimeUnit.MILLISECONDS)
+                    .doOnNext((s) -> this.storageSpaceService.create(folderName))
+                    .subscribe();
+        }
         return folderName;
     }
 }
