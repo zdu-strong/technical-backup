@@ -2,10 +2,12 @@ package com.john.project.common.config;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import cn.hutool.core.util.ObjectUtil;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,9 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
 
     @Autowired
     private DatabaseJdbcProperties databaseJdbcProperties;
+
+    @Autowired
+    private Executor applicationTaskExecutor;
 
     @Override
     protected void append(ILoggingEvent eventObject) {
@@ -79,6 +84,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
             this.loggerService.create(loggerModel);
         } else {
             Flowable.timer(0, TimeUnit.MILLISECONDS)
+                    .observeOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext((s) -> this.loggerService.create(loggerModel))
                     .subscribe();
         }

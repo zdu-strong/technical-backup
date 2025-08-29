@@ -5,12 +5,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -56,6 +58,9 @@ public abstract class BaseStorage {
 
     @Autowired
     protected UUIDUtil uuidUtil;
+
+    @Autowired
+    private Executor applicationTaskExecutor;
 
     private String storageRootPath;
 
@@ -193,6 +198,7 @@ public abstract class BaseStorage {
             this.storageSpaceService.create(folderName);
         } else {
             Flowable.timer(0, TimeUnit.MILLISECONDS)
+                    .observeOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext((s) -> this.storageSpaceService.create(folderName))
                     .subscribe();
         }
