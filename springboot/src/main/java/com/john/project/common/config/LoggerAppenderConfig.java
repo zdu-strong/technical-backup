@@ -78,7 +78,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
         if (this.databaseJdbcProperties.getIsSupportParallelWrite()) {
             this.loggerService.create(loggerModel);
         } else {
-            Flowable.timer(1, TimeUnit.MILLISECONDS)
+            Flowable.timer(0, TimeUnit.MILLISECONDS)
                     .doOnNext((s) -> this.loggerService.create(loggerModel))
                     .subscribe();
         }

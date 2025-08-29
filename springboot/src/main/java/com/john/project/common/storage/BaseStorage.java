@@ -192,7 +192,7 @@ public abstract class BaseStorage {
         if (this.databaseJdbcProperties.getIsSupportParallelWrite()) {
             this.storageSpaceService.create(folderName);
         } else {
-            Flowable.timer(1, TimeUnit.MILLISECONDS)
+            Flowable.timer(0, TimeUnit.MILLISECONDS)
                     .doOnNext((s) -> this.storageSpaceService.create(folderName))
                     .subscribe();
         }
