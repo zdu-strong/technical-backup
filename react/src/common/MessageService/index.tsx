@@ -2,7 +2,7 @@ import { v7 } from 'uuid';
 import { observable } from 'mobx-react-use-autorun'
 import { FormattedMessage } from 'react-intl';
 import { GlobalExactMessageMatch } from '@common/MessageService/js/GlobalExactMessageMatch'
-import { type ReactNode } from "react";
+import { type ReactNode } from 'react';
 import { getFuzzyMessageMatch } from '@common/MessageService/js/GlobalFuzzyMessageMatch';
 import en_US_JSON from '@/i18n/en-US.json'
 
@@ -21,16 +21,18 @@ export const MessageService = {
   }
 }
 
-export const GlobalMessageList = observable([]) as { id: string, message: ReactNode, type: "error" | "warning" | "info" | "success" }[];
+export type MESSAGE_TYPE = "error" | "warning" | "info" | "success";
+
+export const GlobalMessageList = observable([]) as { id: string, message: ReactNode, type: MESSAGE_TYPE }[];
 
 export const MESSAGE_TYPE_ENUM = {
-  error: "error" as "error",
-  warning: "warning" as "warning",
-  info: "info" as "info",
-  success: "success" as "success",
+  error: "error" as MESSAGE_TYPE,
+  warning: "warning" as MESSAGE_TYPE,
+  info: "info" as MESSAGE_TYPE,
+  success: "success" as MESSAGE_TYPE,
 }
 
-export function getMessageObject(type: "error" | "warning" | "info" | "success", message: any) {
+export function getMessageObject(type: MESSAGE_TYPE, message: any) {
   const messageString = getMessageString(message);
   const messageOfI18n = getI18nMessageReactNode(messageString);
   return {
@@ -54,7 +56,7 @@ function getI18nMessageReactNode(message: string): ReactNode {
   return getFuzzyMessageMatch(message);
 }
 
-function handleMessage(type: "error" | "warning" | "info" | "success", message: string | string[] | Error | Error[] | any) {
+function handleMessage(type: MESSAGE_TYPE, message: string | string[] | Error | Error[] | any) {
   if (message instanceof Array) {
     GlobalMessageList.splice(0, GlobalMessageList.length);
     for (const messageItem of message) {
