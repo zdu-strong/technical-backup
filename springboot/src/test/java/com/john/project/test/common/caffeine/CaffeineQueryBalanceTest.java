@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CaffeineQueryBalanceTest extends BaseTest {
 
     private final long intervalMilliseconds = 10;
-    private final AsyncLoadingCache<String, String> caffeineLoadCache = Caffeine.newBuilder()
+    private final AsyncLoadingCache<Long, String> caffeineLoadCache = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
             .expireAfterAccess(3, TimeUnit.SECONDS)
             .buildAsync(this::queryBalanceFromDatabase);
@@ -31,7 +31,7 @@ public class CaffeineQueryBalanceTest extends BaseTest {
         Flowable.range(1, 1000 * 10)
                 .parallel(1000 * 10)
                 .runOn(Schedulers.from(applicationTaskExecutor))
-                .doOnNext((s) -> getBalance())
+                .doOnNext((s) -> queryBalance())
                 .sequential()
                 .blockingSubscribe();
         var costTimes = timer.interval();
@@ -39,12 +39,15 @@ public class CaffeineQueryBalanceTest extends BaseTest {
     }
 
     @SneakyThrows
-    private String getBalance() {
-        ThreadUtil.sleep(intervalMilliseconds);
-        return caffeineLoadCache.get(String.valueOf(System.currentTimeMillis() / intervalMilliseconds)).get();
+    private String queryBalance() {
+        return caffeineLoadCache.get((System.currentTimeMillis() + intervalMilliseconds) / intervalMilliseconds).get();
     }
 
-    private String queryBalanceFromDatabase(String key) {
+    private String queryBalanceFromDatabase(long key) {
+        var waitMilliseconds = Math.max(key * intervalMilliseconds - System.currentTimeMillis(), 0);
+        if (waitMilliseconds > 0) {
+            ThreadUtil.sleep(waitMilliseconds);
+        }
         ThreadUtil.sleep(100);
         return HELLO_WORLD;
     }
