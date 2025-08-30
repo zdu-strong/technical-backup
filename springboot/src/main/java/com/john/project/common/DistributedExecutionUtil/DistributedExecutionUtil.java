@@ -77,6 +77,7 @@ public class DistributedExecutionUtil {
         for (var baseDistributedExecution : SpringUtil.getBeansOfType(BaseDistributedExecution.class).values()) {
             var isFirstAtomicBoolean = new AtomicBoolean(true);
             Flowable.just(StringUtils.EMPTY)
+                    .observeOn(Schedulers.from(applicationTaskExecutor))
                     .concatMap(s -> {
                         if (isFirstAtomicBoolean.get()) {
                             isFirstAtomicBoolean.set(false);
@@ -95,8 +96,6 @@ public class DistributedExecutionUtil {
                             return Flowable.timer(delayMilliseconds, TimeUnit.MILLISECONDS);
                         }
                     })
-                    .delay(1, TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.from(applicationTaskExecutor))
                     .observeOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext(s -> {
                         this.refreshData(baseDistributedExecution);

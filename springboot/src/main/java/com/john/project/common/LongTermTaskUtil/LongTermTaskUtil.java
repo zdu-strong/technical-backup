@@ -18,13 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import com.john.project.constant.LongTermTaskTempWaitDurationConstant;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.service.EncryptDecryptService;
 import com.john.project.service.LongTermTaskService;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.john.project.constant.LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION;
 
 @Component
 @Slf4j
@@ -51,10 +52,7 @@ public class LongTermTaskUtil {
     public ResponseEntity<String> run(Supplier<ResponseEntity<?>> supplier) {
         String idOfLongTermTask = this.longTermTaskService.createLongTermTask();
         Thread.startVirtualThread(() -> {
-            var subscription = Flowable
-                    .timer(LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION.toMillis(),
-                            TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.from(applicationTaskExecutor))
+            var subscription = Flowable.timer(REFRESH_INTERVAL_DURATION.toMillis(), TimeUnit.MILLISECONDS)
                     .observeOn(Schedulers.from(applicationTaskExecutor))
                     .doOnNext((a) -> {
                         synchronized (idOfLongTermTask) {
@@ -146,9 +144,7 @@ public class LongTermTaskUtil {
         }
         var idList = idListOfLongTermTask;
         var syncKey = this.uuidUtil.v4();
-        var subscription = Flowable
-                .timer(LongTermTaskTempWaitDurationConstant.REFRESH_INTERVAL_DURATION.toMillis(), TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.from(applicationTaskExecutor))
+        var subscription = Flowable.timer(REFRESH_INTERVAL_DURATION.toMillis(), TimeUnit.MILLISECONDS)
                 .observeOn(Schedulers.from(applicationTaskExecutor))
                 .doOnNext((a) -> {
                     synchronized (syncKey) {
