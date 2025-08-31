@@ -1,10 +1,10 @@
 package com.john.project.common.baseController;
 
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
+import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
-import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
 import com.john.project.common.OrganizeUtil.OrganizeUtil;
@@ -57,6 +57,9 @@ public abstract class BaseController {
 
     @Autowired
     protected ValidationFieldUtil validationFieldUtil;
+
+    @Autowired
+    protected UUIDUtil uuidUtil;
 
     @Autowired
     protected GitProperties gitProperties;

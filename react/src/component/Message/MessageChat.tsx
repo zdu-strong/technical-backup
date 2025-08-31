@@ -97,9 +97,11 @@ export default observer(() => {
     onChange={(e) => {
       state.messageContent = e.target.value;
     }}
-    inputProps={{
-      style: {
-        ...(isMobilePhone ? {} : { resize: "vertical" }),
+    slotProps={{
+      htmlInput: {
+        style: {
+          ...(isMobilePhone ? {} : { resize: "vertical" }),
+        }
       }
     }}
     style={{ width: "230px" }}

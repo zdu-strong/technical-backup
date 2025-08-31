@@ -114,13 +114,15 @@ export default observer(() => {
         autoComplete="off"
         error={!!state.errors.username()}
         helperText={state.errors.username()}
-        InputProps={{
-          endAdornment: <IconButton
-            color="primary"
-            onClick={() => state.usernameTooltipDialog.open = true}
-          >
-            <FontAwesomeIcon icon={faCircleQuestion} />
-          </IconButton>
+        slotProps={{
+          input: {
+            endAdornment: <IconButton
+              color="primary"
+              onClick={() => state.usernameTooltipDialog.open = true}
+            >
+              <FontAwesomeIcon icon={faCircleQuestion} />
+            </IconButton>
+          }
         }}
         autoFocus={true}
       />
@@ -133,24 +135,26 @@ export default observer(() => {
         onChange={(e) => {
           state.password = e.target.value;
         }}
-        inputProps={{
-          style: {
-            resize: "vertical",
-          }
-        }}
         value={state.password}
         autoComplete="off"
         multiline={true}
         rows={6}
         error={!!state.errors.password()}
         helperText={state.errors.password()}
-        InputProps={{
-          endAdornment: <IconButton
-            color="primary"
-            onClick={() => state.passwordTooltipDialog.open = true}
-          >
-            <FontAwesomeIcon icon={faCircleQuestion} />
-          </IconButton>
+        slotProps={{
+          htmlInput: {
+            style: {
+              resize: "vertical",
+            }
+          },
+          input: {
+            endAdornment: <IconButton
+              color="primary"
+              onClick={() => state.passwordTooltipDialog.open = true}
+            >
+              <FontAwesomeIcon icon={faCircleQuestion} />
+            </IconButton>
+          }
         }}
         autoFocus={true}
       />}

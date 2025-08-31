@@ -241,9 +241,11 @@ export default observer(() => {
             onChange={(e) => {
               state.password = e.target.value;
             }}
-            inputProps={{
-              style: {
-                resize: "vertical",
+            slotProps={{
+              htmlInput: {
+                style: {
+                  resize: "vertical",
+                }
               }
             }}
             value={state.password}

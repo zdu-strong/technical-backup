@@ -9,6 +9,7 @@ import * as EncryptDecrypt from '@api/EncryptDecrypt'
 import * as LongTermTask from '@api/LongTermTask'
 import * as User from '@api/User'
 import * as SuperAdminOrganizeQuery from '@api/SuperAdminOrganizeQuery'
+import * as Lumen from '@api/Lumen'
 
 export default {
   Authorization,
@@ -22,4 +23,5 @@ export default {
   EncryptDecrypt,
   LongTermTask,
   User,
+  Lumen
 }
