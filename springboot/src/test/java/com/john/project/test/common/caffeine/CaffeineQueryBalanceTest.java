@@ -21,7 +21,7 @@ public class CaffeineQueryBalanceTest extends BaseTest {
     private final long intervalMilliseconds = 10;
     private final AsyncLoadingCache<Long, String> caffeineLoadCache = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
-            .expireAfterAccess(3, TimeUnit.SECONDS)
+            .expireAfterWrite(3, TimeUnit.SECONDS)
             .buildAsync(this::queryBalanceFromDatabase);
 
     @Test
