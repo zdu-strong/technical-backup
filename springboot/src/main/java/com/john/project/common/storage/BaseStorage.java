@@ -194,13 +194,13 @@ public abstract class BaseStorage {
 
     protected String newFolderName() {
         var folderName = this.uuidUtil.v4();
+        var flowable = Flowable.timer(0, TimeUnit.MILLISECONDS)
+                .observeOn(Schedulers.from(applicationTaskExecutor))
+                .doOnNext((s) -> this.storageSpaceService.create(folderName));
         if (this.databaseJdbcProperties.getIsSupportParallelWrite()) {
-            this.storageSpaceService.create(folderName);
+            flowable.blockingSubscribe();
         } else {
-            Flowable.timer(0, TimeUnit.MILLISECONDS)
-                    .observeOn(Schedulers.from(applicationTaskExecutor))
-                    .doOnNext((s) -> this.storageSpaceService.create(folderName))
-                    .subscribe();
+            flowable.subscribe();
         }
         return folderName;
     }

@@ -80,13 +80,13 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
     }
 
     private void saveLoggerModel(LoggerModel loggerModel) {
+        var flowable = Flowable.timer(0, TimeUnit.MILLISECONDS)
+                .observeOn(Schedulers.from(applicationTaskExecutor))
+                .doOnNext((s) -> this.loggerService.create(loggerModel));
         if (this.databaseJdbcProperties.getIsSupportParallelWrite()) {
-            this.loggerService.create(loggerModel);
+            flowable.blockingSubscribe();
         } else {
-            Flowable.timer(0, TimeUnit.MILLISECONDS)
-                    .observeOn(Schedulers.from(applicationTaskExecutor))
-                    .doOnNext((s) -> this.loggerService.create(loggerModel))
-                    .subscribe();
+            flowable.subscribe();
         }
     }
 
