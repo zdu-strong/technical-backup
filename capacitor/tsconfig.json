@@ -32,31 +32,31 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@component/*": [
-        "src/component/*"
+        "./src/component/*"
       ],
       "@common/*": [
-        "src/common/*"
+        "./src/common/*"
       ],
       "@api": [
-        "src/api"
+        "./src/api"
       ],
       "@api/*": [
-        "src/api/*"
+        "./src/api/*"
       ],
       "@enums/*": [
-        "src/enums/*"
+        "./src/enums/*"
       ],
       "@model/*": [
-        "src/model/*"
+        "./src/model/*"
       ],
       "@service": [
-        "src/service"
+        "./src/service"
       ],
       "@service/*": [
-        "src/service/*"
+        "./src/service/*"
       ]
     }
   },
