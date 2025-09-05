@@ -28,9 +28,10 @@ export default defineConfig({
     }
   },
   tools: {
-     rspack(config){
-      config.cache = false;
-     }
+    rspack: {
+      cache: false,
+      target: "web"
+    }
   },
   source: {
     define: loadEnv({ prefixes: ['REACT_APP_'] }).publicVars,
