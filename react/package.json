@@ -2,6 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "start": "node bin/pre-load-configuration.js && node bin/start.js",
     "build": "node bin/pre-load-configuration.js && node bin/build.js"

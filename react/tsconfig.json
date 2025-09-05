@@ -29,6 +29,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
