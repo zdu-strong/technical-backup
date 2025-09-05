@@ -43,6 +43,7 @@ export default defineConfig({
     distPath: {
       root: 'build'
     },
+    assetPrefix: "./"
   },
   server: {
     port: Number(process.env.RSBUILD_PORT) || undefined,
