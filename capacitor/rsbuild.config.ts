@@ -43,8 +43,10 @@ export default defineConfig({
     distPath: {
       root: 'build'
     },
+    assetPrefix: "auto"
   },
   server: {
     port: Number(process.env.RSBUILD_PORT) || undefined,
+    cors: true
   },
 });
