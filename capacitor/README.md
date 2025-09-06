@@ -8,7 +8,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 3. For Android:<br/>
 From https://adoptium.net install java v21, and choose Entire feature.<br/>
 4. For Android:<br/>
-From https://developer.android.com/studio install Android Studio. Next, create virtual device (Phone - Pixel 9 - Android API 36).<br/>
+From https://developer.android.com/studio install Android Studio.<br/>
+Next, create virtual device (Phone - Pixel 9 - Android API 36).<br/>
+Next, install Android SDK Command-line Tools (SDK Manager - SDK Tools - Android SDK Command-line Tools).<br/>
 5. For IOS:<br/>
 Follow this document (https://capacitorjs.com/docs/getting-started/environment-setup) to install Xcode.<br/>
 
