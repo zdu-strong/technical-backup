@@ -6,6 +6,8 @@
   "description": "An Capacitor project",
   "scripts": {
     "start": "node bin/pre-load-configuration.js && node bin/start.js",
+    "android": "node bin/pre-load-configuration.js && node bin/start_android.js",
+    "ios": "node bin/pre-load-configuration.js && node bin/start_ios.js",
     "pack": "node bin/pre-load-configuration.js && node bin/pack.js",
     "make": "node bin/pre-load-configuration.js && node bin/make.js"
   },
