@@ -7,10 +7,10 @@ const fs = require('fs')
 
 async function main() {
   const isRunAndroid = await getIsRunAndroid();
+  await buildReact();
   const androidSdkRootPath = getAndroidSdkRootPath();
   await addPlatformSupport(isRunAndroid, androidSdkRootPath);
   const deviceList = await getDeviceList(isRunAndroid, androidSdkRootPath);
-  await buildReact();
   await runAndroidOrIOS(isRunAndroid, androidSdkRootPath, deviceList);
   process.exit();
 }

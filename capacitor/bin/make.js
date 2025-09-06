@@ -10,9 +10,9 @@ const CapacitorConfig = require('../capacitor.config')
 
 async function main() {
   const isRunAndroid = await getIsRunAndroid();
+  await buildReact();
   const androidSdkRootPath = await getAndroidSdkRootPath();
   await addPlatformSupport(isRunAndroid, androidSdkRootPath);
-  await buildReact();
   await runAndroidOrIOS(isRunAndroid, androidSdkRootPath);
   await copySignedApk(isRunAndroid);
   process.exit();

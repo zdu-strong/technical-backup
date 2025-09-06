@@ -17,10 +17,10 @@ async function main() {
   }
   const avaliablePort = await getPort();
   const isRunAndroid = await getIsRunAndroid();
+  await buildReact();
   const androidSdkRootPath = getAndroidSdkRootPath();
   await addPlatformSupport(isRunAndroid, androidSdkRootPath);
   const deviceList = await getDeviceList(isRunAndroid, androidSdkRootPath);
-  await buildReact();
   const { childProcessOfReact } = await startReact(avaliablePort);
   const [childProcessOfCapacitor] = await createChildProcessOfCapacitor(isRunAndroid, avaliablePort, androidSdkRootPath, deviceList);
   await Promise.race([childProcessOfReact, childProcessOfCapacitor]);
