@@ -1,7 +1,7 @@
 package com.john.project.properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
