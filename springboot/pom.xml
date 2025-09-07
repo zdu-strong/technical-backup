@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>com.john</groupId>
     <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -83,17 +83,20 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-liquibase</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -242,7 +245,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.5</version>
+        <version>4.0.0-M2</version>
     </parent>
 
     <build>
@@ -255,7 +258,8 @@
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <failOnNoGitDirectory>true</failOnNoGitDirectory>
                     <dotGitDirectory>
-                        ${project.basedir}/../.git</dotGitDirectory>
+                        ${project.basedir}/../.git
+                    </dotGitDirectory>
                     <offline>true</offline>
                 </configuration>
             </plugin>
@@ -311,14 +315,16 @@
                         <id>delete</id>
                         <configuration>
                             <sqlCommand>DROP
-                                DATABASE IF EXISTS ${database.name};</sqlCommand>
+                                DATABASE IF EXISTS ${database.name};
+                            </sqlCommand>
                         </configuration>
                     </execution>
                     <execution>
                         <id>create</id>
                         <configuration>
                             <sqlCommand>CREATE
-                                DATABASE IF NOT EXISTS ${database.name};</sqlCommand>
+                                DATABASE IF NOT EXISTS ${database.name};
+                            </sqlCommand>
                         </configuration>
                     </execution>
                 </executions>
