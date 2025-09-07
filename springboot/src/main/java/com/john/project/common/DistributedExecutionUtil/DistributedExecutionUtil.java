@@ -192,7 +192,7 @@ public class DistributedExecutionUtil {
                             list.add(distributedExecutionMainModel);
                         }
                     }
-                }, getLongTermTaskUniqueKeyModelOfCreateDistributedMain());
+                }, getLongTermTaskUniqueKeyModelOfCreateDistributedMain(baseDistributedExecution));
 
                 if (!list.isEmpty()) {
                     return JinqStream.from(list).getOnlyValue();
@@ -294,10 +294,10 @@ public class DistributedExecutionUtil {
                         .writeValueAsString(new Pair<>(baseDistributedExecution.getClass().getSimpleName(), partitionNum)));
     }
 
-    private LongTermTaskUniqueKeyModel getLongTermTaskUniqueKeyModelOfCreateDistributedMain() {
+    private LongTermTaskUniqueKeyModel getLongTermTaskUniqueKeyModelOfCreateDistributedMain(BaseDistributedExecution baseDistributedExecution) {
         return new LongTermTaskUniqueKeyModel()
                 .setType(LongTermTaskTypeEnum.CREATE_DISTRIBUTED_EXECUTION_MAIN.getValue())
-                .setUniqueKey(StringUtils.EMPTY);
+                .setUniqueKey(baseDistributedExecution.getClass().getSimpleName());
     }
 
 }
