@@ -13,8 +13,8 @@ public enum SupportDatabaseTypeEnum {
 
     SPANNER("spanner", "com.google.cloud.spanner.jdbc.JdbcDriver", "CustomSpannerDialect");
 
-    private String type;
-    private String driver;
-    private String platform;
+    private final String type;
+    private final String driver;
+    private final String platform;
 
 }

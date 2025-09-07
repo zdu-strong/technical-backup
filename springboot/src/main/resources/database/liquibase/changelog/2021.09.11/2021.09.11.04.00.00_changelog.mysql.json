@@ -1,0 +1,47 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "zdu-alter-database-utf8mb4",
+        "author": "zdu",
+        "runInTransaction": false,
+        "changes": [
+          {
+            "sql": {
+              "dbms": "mysql",
+              "sql": "ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "zdu-alter-table-dclog-utf8mb4",
+        "author": "zdu",
+        "changes": [
+          {
+            "sql": {
+              "dbms": "mysql",
+              "sql": "ALTER TABLE DATABASECHANGELOG CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "zdu-alter-table-dcloglock-utf8mb4",
+        "author": "zdu",
+        "changes": [
+          {
+            "sql": {
+              "dbms": "mysql",
+              "sql": "ALTER TABLE DATABASECHANGELOGLOCK CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

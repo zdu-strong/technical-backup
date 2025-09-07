@@ -1,0 +1,2640 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1757252728589-1",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "has_error",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "page_num",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "partition_num",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "distributed_execution_main_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "distributed_execution_detail_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-2",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "execution_type",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "status",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "total_pages",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "total_partition",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "total_records",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "distributed_execution_main_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-3",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "unique": true
+                  },
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "private_key_ofrsa",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "public_key_ofrsa",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "secret_key_ofaes",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "encrypt_decrypt_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-4",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "has_initiative",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_friend",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_in_blacklist",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "friend_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "friendship_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-5",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "caller_class_name",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "caller_line_number",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "caller_method_name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "exception_class_name",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "exception_message",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "exception_stack_trace",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "git_commit_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "git_commit_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "has_exception",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "level",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "logger_name",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "message",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "logger_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-6",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_done",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "result",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "unique": true
+                  },
+                  "name": "unique_key_json_string",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "long_term_task_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-7",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "unique": true
+                  },
+                  "name": "nonce",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "nonce_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-8",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "deletion_code",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_company",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_deleted",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "name": "parent_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-9",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "ancestor_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "descendant_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "organize_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-10",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "unique": true
+                  },
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "permission_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-11",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "name": "organize_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "permission_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "role_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "permission_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-12",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_deleted",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "role_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-13",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "unique": true
+                  },
+                  "name": "folder_name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "storage_space_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-14",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_deleted",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "unique_one_time_password_logo",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "token_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-15",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "deletion_code",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "email",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_deleted",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "user_email_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-16",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_deleted",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "password",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "username",
+                  "type": "LONGTEXT"
+                }
+              }
+            ]
+            ,
+            "tableName": "user_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-17",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_message_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "user_message_deactivate_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-18",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "content",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "file_name",
+                  "type": "LONGTEXT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "folder_name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "folder_size",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_recall",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "user_message_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-19",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "role_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "user_role_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-20",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "create_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "email",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "has_used",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_passed",
+                  "type": "BIT(1)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "update_date",
+                  "type": "datetime(6)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "verification_code",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "verification_code_email_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-21",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "distributed_execution_main_id, partition_num, page_num",
+            "constraintName": "UK15v7504fn2h7g3y2hba1e460w",
+            "tableName": "distributed_execution_detail_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-22",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "user_id, unique_one_time_password_logo",
+            "constraintName": "UK5c8cpmrkalc5g4mty2t75lbdx",
+            "tableName": "token_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-23",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "create_date, id",
+            "constraintName": "UK9w6ej7fc4cg929habd6nnuxjg",
+            "tableName": "storage_space_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-24",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "role_id, permission_id, organize_id",
+            "constraintName": "UKaboxfwkak41dni436dqhbsucg",
+            "tableName": "permission_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-25",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "parent_id, name, deletion_code",
+            "constraintName": "UKb6qs7ivk9iu1vi60h04qgfeng",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-26",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "email, deletion_code",
+            "constraintName": "UKfgnoa0g2ehmplhq2oue2a7fl0",
+            "tableName": "user_email_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-27",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "user_message_id, user_id",
+            "constraintName": "UKgor4r6qme9rknaoyfrqmvweh3",
+            "tableName": "user_message_deactivate_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-28",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "user_id, role_id",
+            "constraintName": "UKnofobu3y0sqiglf30t1jt0d9j",
+            "tableName": "user_role_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-29",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "distributed_execution_main_id, page_num",
+            "constraintName": "UKqf20sgk2rqf45yrwwntjbl401",
+            "tableName": "distributed_execution_detail_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-30",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "user_id, friend_id",
+            "constraintName": "UKqsamcn1vehewm87nlwtjw2kfk",
+            "tableName": "friendship_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-31",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "ancestor_id, descendant_id",
+            "constraintName": "UKrmlbect4368yiy62ham79oq39",
+            "tableName": "organize_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-32",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "user_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FK132burgawm3e386ygcj8co5vu",
+            "tableName": "user_message_deactivate_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-33",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "descendant_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FK1ns4j4ixqmi5gbvjslbpeprrs",
+            "tableName": "organize_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-34",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "user_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FK23c715x0gcdv29x9l92r8dc74",
+            "tableName": "user_message_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-35",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "organize_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FK3l6w4agmyw25tyufjqnaw0r36",
+            "tableName": "permission_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-36",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "role_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FK9m7vhteoenein0bj7qm0lf0qo",
+            "tableName": "user_role_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-37",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "permission_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FKcjnmeu2avfsc9wk862kyq7mcw",
+            "tableName": "permission_relation_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-38",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "friend_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FKpq2at14h3gljwg848p43aw14w",
+            "tableName": "friendship_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-39",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "user_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FKq1njl6uveplkpgu70115gbf5o",
+            "tableName": "user_email_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-40",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "execution_type"
+                }
+              },
+              {
+                "column": {
+                  "name": "create_date"
+                }
+              },
+              {
+                "column": {
+                  "name": "id"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDX27pogkpy6r3tne9alm4pw5e8p",
+            "tableName": "distributed_execution_main_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-41",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "is_company"
+                }
+              },
+              {
+                "column": {
+                  "name": "is_deleted"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDX5w2of6p8sx2atafw8yqt31axr",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-42",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "create_date"
+                }
+              },
+              {
+                "column": {
+                  "name": "id"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDX8840dv7xlk21fn2oxkysj6me3",
+            "tableName": "nonce_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-43",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "create_date"
+                }
+              },
+              {
+                "column": {
+                  "name": "id"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXaba5xj8scn2308k0nahk2nbp8",
+            "tableName": "distributed_execution_main_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-44",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "distributed_execution_main_id"
+                }
+              },
+              {
+                "column": {
+                  "name": "has_error"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXaeb9vxnx6c013dbq42lthb647",
+            "tableName": "distributed_execution_detail_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-45",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "execution_type"
+                }
+              },
+              {
+                "column": {
+                  "name": "status"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXbbivfqxmshx9i0wf9cceai4uq",
+            "tableName": "distributed_execution_main_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-46",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "folder_name"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXg4isidkyw8pui6rnpe5ii9fdb",
+            "tableName": "user_message_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-47",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "parent_id"
+                }
+              },
+              {
+                "column": {
+                  "name": "is_deleted"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXift39bbd68wts6cwbbd38ybws",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-48",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "email"
+                }
+              },
+              {
+                "column": {
+                  "name": "create_date"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXoxeihgs43v794u9lhrh79ugm5",
+            "tableName": "verification_code_email_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-49",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "create_date"
+                }
+              },
+              {
+                "column": {
+                  "name": "id"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXtaxm65p0istgkmuysjcy4arkq",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-50",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "user_message_deactivate_entity",
+            "constraintName": "FK132burgawm3e386ygcj8co5vu",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-51",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "descendant_id",
+            "baseTableName": "organize_relation_entity",
+            "constraintName": "FK1ns4j4ixqmi5gbvjslbpeprrs",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "organize_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-52",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "user_message_entity",
+            "constraintName": "FK23c715x0gcdv29x9l92r8dc74",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-53",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "user_role_relation_entity",
+            "constraintName": "FK2gjhgy73kqr9f9xgvvp4uesm4",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-54",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "organize_id",
+            "baseTableName": "permission_relation_entity",
+            "constraintName": "FK3l6w4agmyw25tyufjqnaw0r36",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "organize_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-55",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "friendship_entity",
+            "constraintName": "FK4n7gua4wuvh9ymsen9pdt49v6",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-56",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "role_id",
+            "baseTableName": "user_role_relation_entity",
+            "constraintName": "FK9m7vhteoenein0bj7qm0lf0qo",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "role_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-57",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "token_entity",
+            "constraintName": "FKchycpasyr16kt66k09e6ompve",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-58",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "permission_id",
+            "baseTableName": "permission_relation_entity",
+            "constraintName": "FKcjnmeu2avfsc9wk862kyq7mcw",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "permission_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-59",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "parent_id",
+            "baseTableName": "organize_entity",
+            "constraintName": "FKg1i0kxqrixd8fdpw6me7x5t3q",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "organize_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-60",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "ancestor_id",
+            "baseTableName": "organize_relation_entity",
+            "constraintName": "FKgq2kbl4rrp402j4006bgg0e55",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "organize_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-61",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_message_id",
+            "baseTableName": "user_message_deactivate_entity",
+            "constraintName": "FKi41417apwfestnbkgv32u9amw",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_message_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-62",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "friend_id",
+            "baseTableName": "friendship_entity",
+            "constraintName": "FKpq2at14h3gljwg848p43aw14w",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-63",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "user_email_entity",
+            "constraintName": "FKq1njl6uveplkpgu70115gbf5o",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-64",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "distributed_execution_main_id",
+            "baseTableName": "distributed_execution_detail_entity",
+            "constraintName": "FKu3bcsmq1v20ho2nxy78a2m51",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "distributed_execution_main_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1757252728589-65",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "role_id",
+            "baseTableName": "permission_relation_entity",
+            "constraintName": "FKuykplwf8ej7aeiiksirgc6o7",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "role_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}

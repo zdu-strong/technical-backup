@@ -1,0 +1,9 @@
+{
+  "databaseChangeLog": [
+    {
+      "includeAll": {
+        "path": "database/liquibase/changelog"
+      }
+    }
+  ]
+}

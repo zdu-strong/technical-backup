@@ -21,7 +21,7 @@ spring:
       max-request-size: -1
   liquibase:
     enabled: false
-    change-log: classpath:database/liquibase/index.xml
+    change-log: classpath:database/liquibase/index.json
   h2:
     console:
       enabled: false
