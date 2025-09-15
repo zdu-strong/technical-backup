@@ -1,5 +1,5 @@
 import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
-import GitInfo from "@component/GitInfo";
+import { GitInfoComponent } from "@component/GitInfo/GitInfoComponent";
 import MainMenu from "@component/SystemMenu/MainMenu";
 
 export default <CheckPermissionComponent
@@ -7,6 +7,6 @@ export default <CheckPermissionComponent
   checkIsSignIn={true}
 >
   <MainMenu>
-    <GitInfo />
+    <GitInfoComponent />
   </MainMenu>
 </CheckPermissionComponent>
