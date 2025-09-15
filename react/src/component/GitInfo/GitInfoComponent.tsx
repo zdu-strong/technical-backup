@@ -8,7 +8,7 @@ import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorCompon
 import { observable, observer, makeObservable } from 'mobx-react-use-autorun'
 
 @observer
-export class GitInfoComponent extends React.Component<{ name?: string }> {
+export class GitInfoComponent extends React.Component {
 
   @observable
   clientGitInfo = GitInfo();
@@ -23,12 +23,8 @@ export class GitInfoComponent extends React.Component<{ name?: string }> {
   ready: boolean = false;
 
   async componentDidMount() {
-    await this.loadServerGitInfo();
-    this.ready = true;
-  }
-
-  loadServerGitInfo = async () => {
     this.serverGitInfo = await api.Git.getServerGitInfo();
+    this.ready = true;
   }
 
   render() {
@@ -78,7 +74,7 @@ export class GitInfoComponent extends React.Component<{ name?: string }> {
     </LoadingOrErrorComponent>
   }
 
-  constructor(props:any){
+  constructor(props: any) {
     super(props);
     makeObservable(this);
   }
