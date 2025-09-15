@@ -1,5 +1,4 @@
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faSpinner, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -15,8 +14,6 @@ export default observer(() => {
     signOut: {
       loading: false
     },
-  }, {
-    navigate: useNavigate(),
   })
 
   async function signOut() {

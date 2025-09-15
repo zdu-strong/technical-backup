@@ -3,7 +3,6 @@ import { observer, useMobxState } from "mobx-react-use-autorun";
 import FriendList from "@component/Friend/FriendList";
 import StrangerList from "@component/Stranger/StrangerList";
 import { NavigationEnum } from "@component/Friend/js/NavigationEnum";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faUserGroup, faUsersBetweenLines } from "@fortawesome/free-solid-svg-icons";
@@ -12,15 +11,6 @@ export default observer(() => {
 
   const state = useMobxState({
     navigation: NavigationEnum.Friend,
-  }, {
-    navigate: useNavigate(),
-    ...((() => {
-      const [URLSearchParams, SetURLSearchParams] = useSearchParams();
-      return {
-        URLSearchParams,
-        SetURLSearchParams
-      };
-    })()),
   })
 
   return <>

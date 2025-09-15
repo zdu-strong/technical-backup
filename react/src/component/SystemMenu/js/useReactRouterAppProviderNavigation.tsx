@@ -1,14 +1,14 @@
-import { useIntl } from 'react-intl';
 import { type Navigation } from '@toolpad/core/AppProvider';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
+import { useCommonContext } from '@/common/CommonContext';
 
 export function useReactRouterAppProviderNavigation() {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useCommonContext()
 
 
   return [

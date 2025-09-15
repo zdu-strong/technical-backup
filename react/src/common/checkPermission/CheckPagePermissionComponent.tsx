@@ -3,10 +3,10 @@ import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorCompon
 import { GlobalUserInfo, toSignIn } from "@common/Server";
 import { observer, useMobxEffect, useMobxState, useMount } from "mobx-react-use-autorun";
 import { type ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
 import { ReplaySubject, from } from "rxjs";
 import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
 import { v7 } from "uuid";
+import { useCommonContext } from "@/common/CommonContext";
 
 export default observer((props: {
   children: ReactNode,
@@ -15,15 +15,14 @@ export default observer((props: {
   checkIsNotSignIn?: boolean,
 }) => {
 
+  const context = useCommonContext();
+
   const state = useMobxState(() => ({
     subject: new ReplaySubject<void>(1),
     error: null as any,
     hasInitAccessToken: false,
   }), {
-    navigate: useNavigate(),
-    handleIsAutoSignIn,
-    handleIsSignIn,
-    handleCheckIsNotSignIn
+    ...props
   })
 
   useMount(async (subscription) => {
@@ -31,9 +30,9 @@ export default observer((props: {
       exhaustMapWithTrailing(() => from((async () => {
         try {
           state.error = null;
-          await state.handleIsAutoSignIn();
-          state.handleIsSignIn();
-          state.handleCheckIsNotSignIn();
+          await handleIsAutoSignIn();
+          handleIsSignIn();
+          handleCheckIsNotSignIn();
         } catch (error) {
           state.error = error;
         }
@@ -43,35 +42,35 @@ export default observer((props: {
 
   useMobxEffect(() => {
     state.subject.next();
-  }, [props.isAutoLogin, props.checkIsSignIn, props.checkIsNotSignIn, GlobalUserInfo.accessToken])
+  }, [state.isAutoLogin, state.checkIsSignIn, state.checkIsNotSignIn, GlobalUserInfo.accessToken])
 
   function handleCheckIsNotSignIn() {
-    if (props.checkIsNotSignIn && props.checkIsSignIn) {
+    if (state.checkIsNotSignIn && state.checkIsSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (props.checkIsNotSignIn && GlobalUserInfo.accessToken) {
-      state.navigate("/");
+    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+      context.navigate("/");
     }
   }
 
   function handleIsSignIn() {
-    if (props.checkIsSignIn && props.checkIsNotSignIn) {
+    if (state.checkIsSignIn && state.checkIsNotSignIn) {
       throw new Error("Must check if sign in")
     }
 
-    if (props.checkIsSignIn && !GlobalUserInfo.accessToken) {
+    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
       toSignIn();
     }
   }
 
   async function handleIsAutoSignIn() {
-    if (props.isAutoLogin && !props.checkIsSignIn) {
+    if (state.isAutoLogin && !state.checkIsSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (props.isAutoLogin && props.checkIsNotSignIn) {
+    if (state.isAutoLogin && state.checkIsNotSignIn) {
       throw new Error("Must check if sign in")
     }
-    if (props.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
+    if (state.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
       await api.Authorization.signUp(v7(), "visitor", []);
     }
     if (!state.hasInitAccessToken && GlobalUserInfo.accessToken) {
@@ -80,16 +79,16 @@ export default observer((props: {
   }
 
   function isReady() {
-    if (props.checkIsSignIn && !GlobalUserInfo.accessToken) {
+    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
       return false;
     }
-    if (props.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
       return false;
     }
     return true;
   }
 
   return <LoadingOrErrorComponent ready={isReady()} error={state.error} >
-    {props.children}
+    {state.children}
   </LoadingOrErrorComponent>
 })
