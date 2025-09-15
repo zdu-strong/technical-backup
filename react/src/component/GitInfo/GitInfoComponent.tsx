@@ -1,4 +1,3 @@
-import React from 'react'
 import GitInfo from 'react-git-info/macro'
 import { format, parseJSON } from "date-fns";
 import api from "@api";
@@ -6,21 +5,16 @@ import { GitPropertiesModel } from "@model/GitPropertiesModel";
 import { FormattedMessage } from "react-intl";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { observable, observer, makeObservable } from 'mobx-react-use-autorun'
+import { BaseComponent } from './BaseComponent';
 
 @observer
-export class GitInfoComponent extends React.Component {
+export class GitInfoComponent extends BaseComponent {
 
   @observable
   clientGitInfo = GitInfo();
 
   @observable
   serverGitInfo = null as any as GitPropertiesModel;
-
-  @observable
-  error = null as any;
-
-  @observable
-  ready: boolean = false;
 
   async componentDidMount() {
     this.serverGitInfo = await api.Git.getServerGitInfo();
