@@ -31,5 +31,7 @@ export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElemen
     scene.render();
   });
 
+  await scene.whenReadyAsync(true);
+
   return engine;
 }
