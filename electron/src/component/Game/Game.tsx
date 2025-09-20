@@ -2,8 +2,6 @@ import LoadingOrErrorComponent from '@common/MessageService/LoadingOrErrorCompon
 import { initGameEngine } from '@component/Game/js/initGameEngine';
 import * as BABYLON from '@babylonjs/core';
 import { observer, useMobxState, useMount } from 'mobx-react-use-autorun';
-import { EMPTY, Subscription, concat, concatMap, delay, fromEvent, interval, of, retry, take, tap, timer } from 'rxjs';
-import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 import { stylesheet } from 'typestyle';
 
 const css = stylesheet({
@@ -42,45 +40,13 @@ export default observer((props: {
 
   useMount(async (subscription) => {
     try {
-      for (let i = 100; i > 0; i--) {
-        await timer(1).toPromise();
-      }
-      state.engine = await initGameEngine(props.canvasRef);
-      subscription.add(new Subscription(() => {
-        state.engine?.dispose();
-      }));
-      resizeGameCanvas(subscription);
-      for (let i = 10; i > 0; i--) {
-        await timer(16).toPromise();
-      }
+      state.engine = await initGameEngine(props.canvasRef, subscription);
       props.canvasRef.current!.focus();
       state.ready = true;
     } catch (error) {
       state.error = error
     }
   })
-
-  function resizeGameCanvas(subscription: Subscription) {
-    subscription.add(concat(of(null), fromEvent(window, "resize")).pipe(
-      exhaustMapWithTrailing(() => concat(of(null), interval(1)).pipe(
-        concatMap(() => {
-          if (state.error) {
-            throw state.error;
-          }
-          if (state.engine) {
-            return of(null);
-          }
-          return EMPTY;
-        }),
-        take(1),
-        tap(() => {
-          state.engine?.resize();
-        }),
-        delay(16),
-      )),
-      retry(),
-    ).subscribe())
-  }
 
   return <>
     <div className={css.div} style={state.ready ? {} : { position: "relative" }}>

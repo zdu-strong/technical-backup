@@ -1,4 +1,36 @@
 import * as BABYLON from '@babylonjs/core';
+import { EMPTY, Subscription, concat, concatMap, delay, fromEvent, interval, of, retry, take, tap, timer } from 'rxjs';
+import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
+
+export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElement>, subscription: Subscription) {
+
+  for (let i = 100; i > 0; i--) {
+    await timer(1).toPromise();
+  }
+
+  const engine = new BABYLON.Engine(canvasRef.current, true, { preserveDrawingBuffer: true, stencil: true });
+  engine.resize();
+
+  const scene = await createScene(engine, canvasRef);
+
+  engine.runRenderLoop(function () {
+    scene.render();
+  });
+
+  await scene.whenReadyAsync(true);
+
+  subscription.add(new Subscription(() => {
+    engine?.dispose();
+  }));
+
+  resizeGameCanvas(engine, subscription);
+
+  for (let i = 10; i > 0; i--) {
+    await timer(16).toPromise();
+  }
+
+  return engine;
+}
 
 async function createScene(engine: BABYLON.Engine, canvasRef: React.RefObject<HTMLCanvasElement>) {
 
@@ -19,19 +51,23 @@ async function createScene(engine: BABYLON.Engine, canvasRef: React.RefObject<HT
   BABYLON.MeshBuilder.CreateGround("ground1", { width: 6, height: 6, subdivisions: 2, updatable: false }, scene);
   // Return the created scene
   return scene;
-};
+}
 
-export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElement>) {
-  const engine = new BABYLON.Engine(canvasRef.current, true, { preserveDrawingBuffer: true, stencil: true });
-  engine.resize();
-
-  const scene = await createScene(engine, canvasRef);
-
-  engine.runRenderLoop(function () {
-    scene.render();
-  });
-
-  await scene.whenReadyAsync(true);
-
-  return engine;
+function resizeGameCanvas(engine: BABYLON.Engine, subscription: Subscription) {
+  subscription.add(concat(of(null), fromEvent(window, "resize")).pipe(
+    exhaustMapWithTrailing(() => concat(of(null), interval(1)).pipe(
+      concatMap(() => {
+        if (engine.isDisposed) {
+          return of(EMPTY);
+        }
+        return of("");
+      }),
+      take(1),
+      tap(() => {
+        engine?.resize();
+      }),
+      delay(16),
+    )),
+    retry(),
+  ).subscribe())
 }
