@@ -12,7 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.info.GitProperties;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.google.common.collect.Lists;
@@ -27,7 +29,6 @@ import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.core.AppenderBase;
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.ReflectUtil;
-import jakarta.annotation.PostConstruct;
 
 @Component
 public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
@@ -71,7 +72,7 @@ public class LoggerAppenderConfig extends AppenderBase<ILoggingEvent> {
         saveLoggerModel(loggerModel);
     }
 
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
     public void init() {
         var context = (LoggerContext) LoggerFactory.getILoggerFactory();
         context.getLogger(Logger.ROOT_LOGGER_NAME).addAppender(this);
