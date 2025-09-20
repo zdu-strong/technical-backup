@@ -2,7 +2,9 @@ package com.john.project.common.storage;
 
 import org.springframework.core.io.ByteArrayResource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class BaseStorageIsDirectory extends BaseStorageGetResourceForRequest {
 
     public Boolean isDirectory(HttpServletRequest request) {

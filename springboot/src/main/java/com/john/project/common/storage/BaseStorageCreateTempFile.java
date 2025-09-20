@@ -15,12 +15,14 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import cn.hutool.extra.compress.CompressUtil;
 import lombok.SneakyThrows;
 
+@Component
 public abstract class BaseStorageCreateTempFile extends BaseStorageIsDirectory {
 
     /**

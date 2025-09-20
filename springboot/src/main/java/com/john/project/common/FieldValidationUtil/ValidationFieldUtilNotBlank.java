@@ -3,8 +3,10 @@ package com.john.project.common.FieldValidationUtil;
 import com.john.project.model.UserMessageModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+@Component
 public abstract class ValidationFieldUtilNotBlank extends ValidationFieldUtilBase {
 
     public void checkNotBlankOfUsername(String username) {

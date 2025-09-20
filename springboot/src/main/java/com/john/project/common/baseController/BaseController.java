@@ -16,6 +16,7 @@ import com.john.project.properties.AuthorizationEmailProperties;
 import com.john.project.common.storage.Storage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Base class for all controllers, providing all service variables
@@ -23,6 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author John Williams
  *
  */
+@RestController
 public abstract class BaseController {
 
     @Autowired

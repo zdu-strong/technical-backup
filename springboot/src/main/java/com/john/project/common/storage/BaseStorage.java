@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -33,6 +34,7 @@ import com.john.project.service.EncryptDecryptService;
 import com.john.project.service.StorageSpaceService;
 import cn.hutool.core.util.HexUtil;
 
+@Component
 public abstract class BaseStorage {
 
     @Autowired

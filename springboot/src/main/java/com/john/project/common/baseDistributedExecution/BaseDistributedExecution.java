@@ -5,9 +5,12 @@ import com.john.project.common.storage.Storage;
 import com.john.project.model.PaginationModel;
 import com.john.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
+@Component
 public abstract class BaseDistributedExecution {
 
     @Autowired

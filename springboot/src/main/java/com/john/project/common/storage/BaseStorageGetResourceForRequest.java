@@ -13,7 +13,9 @@ import org.springframework.core.io.Resource;
 import com.google.common.collect.Lists;
 import com.john.project.common.StorageResource.RandomAccessFileSystemResource;
 import com.john.project.common.StorageResource.RangeFileSystemResource;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class BaseStorageGetResourceForRequest extends BaseStorageDeleteResource {
     /**
      * If it is a directory, return like: JSON.toString(["childFile",
