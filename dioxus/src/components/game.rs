@@ -1,6 +1,9 @@
 use dioxus::prelude::*;
+use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Props, PartialEq, Clone, Debug, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default, Props, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct GameProps {
     pub name: Signal<String>,
 }

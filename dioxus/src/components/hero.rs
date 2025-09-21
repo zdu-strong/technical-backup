@@ -7,7 +7,7 @@ use uuid::Uuid;
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default, Props, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct CatModel {
     pub id: Signal<String>,
