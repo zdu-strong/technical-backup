@@ -99,6 +99,7 @@ export function reinitializeOfGlobalChat() {
   GlobalChatMessage.totalRecords = 0;
   GlobalChatMessage.lastMessageId = "";
   GlobalChatMessage.ready = false;
+  GlobalChatMessage.error = null;
   GlobalChatMessage.messageMap = {
   };
   subject = new ReplaySubject<{ pageNum: number, isCancel: boolean }>(100);
