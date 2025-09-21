@@ -23,7 +23,7 @@ public class OrganizeController extends BaseController {
         return ResponseEntity.ok(organize);
     }
 
-    @PutMapping("/organize/update")
+    @PostMapping("/organize/update")
     public ResponseEntity<?> update(@RequestBody OrganizeModel organizeModel) {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfId(organizeModel.getId());
