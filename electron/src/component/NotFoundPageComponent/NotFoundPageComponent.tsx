@@ -1,16 +1,8 @@
-import { Paper } from '@mui/material';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Paper } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { stylesheet } from 'typestyle';
-
-const css = stylesheet({
-  homeLink: {
-    marginTop: "1em",
-    fontSize: "large",
-    paddingTop: "0",
-    paddingBottom: "0"
-  }
-});
 
 export default (<div className="flex flex-col flex-auto justify-center items-center">
   <Paper className="flex flex-col justify-center" variant="outlined" style={{ padding: "1em", marginBottom: "1em" }}>
@@ -18,8 +10,13 @@ export default (<div className="flex flex-col flex-auto justify-center items-cen
       <FormattedMessage id="PageNotFound" defaultMessage="Not Found" />
     </div>
     <div>
-      <Link to="/" className={`no-underline hover:underline ${css.homeLink}`} >
-        <FormattedMessage id="ReturnToHomePage" defaultMessage="To home" />
+      <Link to="/" >
+        <Button
+          variant="contained"
+          startIcon={<FontAwesomeIcon icon={faHome} />}
+        >
+          <FormattedMessage id="ReturnToHomePage" defaultMessage="To home" />
+        </Button>
       </Link>
     </div>
   </Paper>

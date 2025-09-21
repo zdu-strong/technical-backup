@@ -12,7 +12,7 @@ import { MessageService } from "@common/MessageService";
 import { UserEmailModel } from "@model/UserEmailModel";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const css = stylesheet({
   container: {
@@ -379,7 +379,12 @@ export default observer(() => {
             <FormattedMessage id="Previous" defaultMessage="Previous" />
           </Button>}
           <Link to="/sign-in">
-            <FormattedMessage id="SignIn" defaultMessage="SignIn" />
+            <Button
+              variant="contained"
+              startIcon={<FontAwesomeIcon icon={faUser} />}
+            >
+              <FormattedMessage id="SignIn" defaultMessage="SignIn" />
+            </Button>
           </Link>
           {state.activeStep < state.steps.length - 1 && <Button
             variant="contained"

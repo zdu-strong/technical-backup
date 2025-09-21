@@ -105,7 +105,6 @@ export default observer(() => {
           }
           <div>
             <Button
-              className={`no-underline hover:underline`}
               variant="contained"
               color="primary"
               style={{ marginTop: "1em", fontSize: "large" }}

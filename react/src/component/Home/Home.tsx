@@ -1,10 +1,12 @@
 import logo from '@component/Home/image/logo.svg';
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { keyframes, stylesheet } from 'typestyle';
 import { useMobxState, observer, useMount } from 'mobx-react-use-autorun';
 import { concatMap, from, of, repeat, timer } from 'rxjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWater } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const css = stylesheet({
   container: {
@@ -42,12 +44,6 @@ const css = stylesheet({
     color: "#61dafb",
     display: "flex",
     flexDirection: "column",
-  },
-  homeLink: {
-    marginTop: "1em",
-    fontSize: "large",
-    paddingTop: "0",
-    paddingBottom: "0"
   },
 })
 
@@ -105,8 +101,13 @@ export default observer(() => {
             )
           }
           <div>
-            <Link to="/not_found" className={`no-underline hover:underline ${css.homeLink}`} >
-              <FormattedMessage id="GoToTheUnknownArea" defaultMessage="Go to the unknown area" />
+            <Link to="/not_found">
+              <Button
+                variant="contained"
+                startIcon={<FontAwesomeIcon icon={faWater} />}
+              >
+                <FormattedMessage id="GoToTheUnknownArea" defaultMessage="Go to the unknown area" />
+              </Button>
             </Link>
           </div>
         </div>

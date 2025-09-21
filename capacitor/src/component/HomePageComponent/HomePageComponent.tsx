@@ -9,6 +9,8 @@ import { observer, useMobxState } from 'mobx-react-use-autorun';
 import GameDialog from '@component/Game/GameDialog';
 import { App } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core';
+import { faGamepad, faRightFromBracket, faWater } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const css = stylesheet({
   container: {
@@ -47,12 +49,6 @@ const css = stylesheet({
   divContainer: {
     display: "flex",
     flexDirection: "column",
-  },
-  homeLink: {
-    marginTop: "1em",
-    fontSize: "large",
-    paddingTop: "0",
-    paddingBottom: "0"
   },
 })
 
@@ -108,15 +104,21 @@ export default observer(() => {
             )
           }
           <div className={css.divContainer}>
-            <Link to="/not_found" replace={true} className={`no-underline hover:underline ${css.homeLink}`} >
-              <FormattedMessage id="toUnknownArea" defaultMessage="Go to the unknown area" />
+
+            <Link to="/not_found">
+              <Button
+                variant="contained"
+                startIcon={<FontAwesomeIcon icon={faWater} />}
+              >
+                <FormattedMessage id="toUnknownArea" defaultMessage="Go to the unknown area" />
+              </Button>
             </Link>
 
             <Button
-              className={`no-underline hover:underline`}
-              variant="text"
+              variant="contained"
               color="primary"
               style={{ marginTop: "1em", fontSize: "large", paddingTop: "0", paddingBottom: "0" }}
+              startIcon={<FontAwesomeIcon icon={faGamepad} />}
               onClick={() => {
                 state.gameDialog.open = true;
               }}
@@ -129,6 +131,7 @@ export default observer(() => {
                 marginTop: "1em"
               }}
               onClick={exit}
+              startIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
             >
               <FormattedMessage id="ExitTheApp" defaultMessage="Exit the app" />
             </Button>

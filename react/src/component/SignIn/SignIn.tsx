@@ -8,7 +8,7 @@ import api from "@api";
 import { MessageService } from "@common/MessageService";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion, faArrowRightToBracket, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faCircleQuestion, faArrowRightToBracket, faSpinner, faHome, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 
 const css = stylesheet({
   container: {
@@ -179,11 +179,21 @@ export default observer(() => {
       </Button>
     </div>
     <div className="w-full" style={{ marginTop: "2em" }}>
-      <Link to="/sign-up">
-        <FormattedMessage id="SignUp" defaultMessage="SignUp" />
+      <Link to="/sign-up" >
+        <Button
+          variant="contained"
+          startIcon={<FontAwesomeIcon icon={faUserPlus} />}
+        >
+          <FormattedMessage id="SignUp" defaultMessage="SignUp" />
+        </Button>
       </Link>
       <Link to="/" style={{ marginLeft: "2em" }}>
-        <FormattedMessage id="ReturnToHomePage" defaultMessage="To home" />
+        <Button
+          variant="contained"
+          startIcon={<FontAwesomeIcon icon={faHome} />}
+        >
+          <FormattedMessage id="ReturnToHomePage" defaultMessage="To home" />
+        </Button>
       </Link>
     </div>
     {state.usernameTooltipDialog.open && <AccountTooltipDialog

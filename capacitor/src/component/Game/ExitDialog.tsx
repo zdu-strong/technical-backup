@@ -2,7 +2,7 @@ import { Button, Dialog, DialogActions, DialogTitle, Fab } from "@mui/material";
 import { observer } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCookieBite, faRightFromBracket, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { App } from '@capacitor/app'
 import { Capacitor } from "@capacitor/core";
 
@@ -48,6 +48,7 @@ export default observer((props: { closeDialog: () => void, exit: () => void }) =
         variant="contained"
         style={{ marginLeft: "1em" }}
         color="primary"
+        startIcon={<FontAwesomeIcon icon={faCookieBite} />}
       >
         <FormattedMessage id="EndTheGame" defaultMessage="End Game" />
       </Button>
@@ -56,6 +57,7 @@ export default observer((props: { closeDialog: () => void, exit: () => void }) =
         style={{ marginRight: "1em" }}
         onClick={exitApp}
         color="secondary"
+        startIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
       >
         <FormattedMessage id="ExitTheApp" defaultMessage="Exit" />
       </Button>
