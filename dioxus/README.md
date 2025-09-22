@@ -18,10 +18,10 @@ If you chose to develop with the router feature, you will also have a `views` fo
 
 In the project directory, you can run:<br/>
 
-### `dx serve --hot-reload=true --open=true`
+### `dx serve --hot-reload=true --open=true --port=3000`
 
 Runs the app in the development mode.<br/>
-Open [http://127.0.0.1:8080](http://127.0.0.1:8080) to view it in the browser.<br/>
+Open [http://127.0.0.1:3000](http://127.0.0.1:3000) to view it in the browser.<br/>
 
 The page will reload if you make edits.<br/>
 You will also see any lint errors in the console.<br/>

@@ -51,6 +51,10 @@ use typescript and playwright to write automated tests for electron project
 
 use rust to generate executable program
 
+### `dioxus`
+
+use rust and dioxus to build web, desktop, and mobile apps.
+
 ## Notes - Easier to use git
 
 Sometimes, you'll see a prompt like this: This repository currently has approximately 1500 loose objects.<br/>
