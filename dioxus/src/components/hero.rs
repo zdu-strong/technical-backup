@@ -44,7 +44,7 @@ pub fn Hero() -> Element {
             div {
                 margin: "10px",
                 margin_bottom: "10px",
-                    Button {
+                Button {
                     height: "100px",
                     onpress: onpress_hero,
                     "who are you?"
