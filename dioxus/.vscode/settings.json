@@ -21,7 +21,7 @@
     },
     "files.autoSave": "onFocusChange",
     "editor.insertSpaces": true,
-    "editor.tabSize": 2,
+    "editor.tabSize": 4,
     "editor.detectIndentation": false,
     "editor.codeActionsOnSave": {
         "source.organizeImports": "never"
@@ -30,4 +30,5 @@
     "git.enabled": false,
     "workbench.editor.enablePreview": false,
     "git.openRepositoryInParentFolders": "never",
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
 }

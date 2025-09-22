@@ -41,6 +41,7 @@ Check that a new version of the dependency is available<br/>
 
 ## Learn More
 
-1. Rust (https://www.rust-lang.org)
-2. Cargo (https://crates.io)
-3. Dioxus (https://dioxuslabs.com/)<br/>
+1. Rust (https://www.rust-lang.org)<br/>
+2. Cargo (https://crates.io)<br/>
+3. Dioxus (https://dioxuslabs.com)<br/>
+4. tailwindcss (https://tailwindcss.com)<br/>

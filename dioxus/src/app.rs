@@ -1,5 +1,6 @@
 use crate::route::Route;
 use dioxus::prelude::*;
+use dioxus_material::Theme;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
@@ -11,6 +12,8 @@ pub fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
         document::Script { src: TAILWIND_JS}
-        Router::<Route> {}
+        Theme {
+          Router::<Route> {}
+        }
     }
 }

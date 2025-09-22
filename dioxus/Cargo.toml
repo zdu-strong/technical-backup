@@ -18,6 +18,8 @@ strum = "0.27.1"
 strum_macros = "0.27.1"
 async-trait = "0.1"
 dioxus-sdk = { version = "0.6.0", features = ["storage"] }
+dioxus-free-icons = { version = "0.9", features = ["font-awesome-brands", "font-awesome-solid", "font-awesome-regular"] }
+dioxus-material = "0.3.0"
 
 [features]
 default = ["web"]

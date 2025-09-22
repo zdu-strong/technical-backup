@@ -1,6 +1,7 @@
 use crate::components::game::Game;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
+use dioxus_material::Button;
 use serde::Deserialize;
 use serde::Serialize;
 use uuid::Uuid;
@@ -31,6 +32,8 @@ pub fn Hero() -> Element {
         info!("{:?}", cat_list);
     });
 
+    let onpress_hero = |_| {};
+
     rsx! {
         // We can create elements inside the rsx macro with the element name followed by a block of attributes and children.
         div {
@@ -38,14 +41,15 @@ pub fn Hero() -> Element {
             id: "hero",
             // After all attributes are defined, we can define child elements and components
             img { src: HEADER_SVG, id: "header" }
-            button {
-                width: "400px",
-                height: "100px",
-                "data-style": "destructive",
-                color: "red",
-                background_color: "orange",
-                "who are you?"
-            },
+            div {
+                margin: "10px",
+                margin_bottom: "10px",
+                    Button {
+                    height: "100px",
+                    onpress: onpress_hero,
+                    "who are you?"
+                }
+            }
             Game {
                 name: cat.read().name,
             }
