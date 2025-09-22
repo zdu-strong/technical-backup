@@ -1,4 +1,5 @@
-use crate::components::game::Game;
+use crate::components::game_button::GameButton;
+use crate::components::game_input::GameInput;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 use dioxus_material::Button;
@@ -50,10 +51,10 @@ pub fn Hero() -> Element {
                     "who are you?"
                 }
             }
-            Game {
+            GameButton {
                 name: cat.read().name,
             }
-            Game {
+            GameInput {
                 name: cat.read().name,
             }
         }

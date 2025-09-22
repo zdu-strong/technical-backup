@@ -10,10 +10,7 @@ pub struct GameProps {
 }
 
 #[component]
-pub fn Game(mut props: GameProps) -> Element {
-    let oninput_name = move |e: FormEvent| {
-        *props.name.write() = e.value();
-    };
+pub fn GameButton(mut props: GameProps) -> Element {
 
     let onclick_change_name = move |_| {
         *props.name.write() += "a";
@@ -26,15 +23,6 @@ pub fn Game(mut props: GameProps) -> Element {
                 height: "100px",
                 onpress: onclick_change_name,
                 "{props.name}"
-            }
-        }
-        div {
-            margin: "10px",
-            TextField {
-                width: "400px",
-                label: "name",
-                value: props.name,
-                onchange: oninput_name
             }
         }
     }
