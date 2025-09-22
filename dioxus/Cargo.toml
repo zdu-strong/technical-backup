@@ -35,9 +35,12 @@ mobile = ["dioxus/mobile"]
 [profile.wasm-dev]
 inherits = "dev"
 opt-level = 1
-
-[profile.server-dev]
-inherits = "dev"
+overflow-checks = true
 
 [profile.android-dev]
 inherits = "dev"
+overflow-checks = true
+
+[profile.server-dev]
+inherits = "dev"
+overflow-checks = true
