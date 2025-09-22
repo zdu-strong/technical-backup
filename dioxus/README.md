@@ -26,15 +26,6 @@ Open [http://127.0.0.1:8080](http://127.0.0.1:8080) to view it in the browser.<b
 The page will reload if you make edits.<br/>
 You will also see any lint errors in the console.<br/>
 
-## Upgrade dependency
-
-You can use this command to check if a new version is available:<br/>
-
-    npx -y -p npm-check-updates npm-check-updates --interactive
-
-After upgrading the dependencies, please make sure that the project runs normally.<br/>
-After upgrading the dependencies, please make sure that the dependent versions in package.json are all accurate versions.<br/>
-
 ### `cargo update`
 
 Check that a new version of the dependency is available<br/>
