@@ -36,11 +36,14 @@ mobile = ["dioxus/mobile"]
 inherits = "dev"
 opt-level = 1
 overflow-checks = true
+incremental = false
 
 [profile.android-dev]
 inherits = "dev"
 overflow-checks = true
+incremental = false
 
 [profile.server-dev]
 inherits = "dev"
 overflow-checks = true
+incremental = false
