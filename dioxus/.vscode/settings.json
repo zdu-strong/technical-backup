@@ -30,6 +30,12 @@
     "git.enabled": false,
     "workbench.editor.enablePreview": false,
     "git.openRepositoryInParentFolders": "never",
-    "editor.defaultFormatter": "rust-lang.rust-analyzer",
-    "dioxus.formatOnSave": "enabled"
+    "dioxus.formatOnSave": "enabled",
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    },
+    "rust-analyzer.rustfmt.extraArgs": [],
+    "rust-analyzer.checkOnSave.command": "clippy"
 }
