@@ -8,6 +8,7 @@ async function main() {
   await runElectronTest();
   await buildCloud();
   await buildRust();
+  await buildDioxus();
 }
 
 async function runElectronTest() {
@@ -96,6 +97,21 @@ async function buildRust() {
     {
       stdio: "inherit",
       cwd: path.join(__dirname, "./rust"),
+    }
+  );
+}
+
+async function buildDioxus() {
+  execSync(
+    [
+      "docker build",
+      "-t dioxus",
+      "-f ./Dockerfile",
+      "../../..",
+    ].join(" "),
+    {
+      stdio: "inherit",
+      cwd: path.join(__dirname, "./dioxus"),
     }
   );
 }

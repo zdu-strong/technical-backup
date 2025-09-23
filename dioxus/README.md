@@ -11,8 +11,8 @@ If you chose to develop with the router feature, you will also have a `views` fo
    Next, install Dioxus (Extensions - Dioxus).<br/>
 2. From https://www.rust-lang.org install rust.<br/>
 3. From https://dioxuslabs.com/learn/0.6/getting_started install dioxus.<br/>
-4. for Ubuntu: sudo apt install build-essential<br/>
-5. for Centos: sudo yum install gcc<br/>
+4. for Ubuntu: sudo apt install -y build-essential<br/>
+5. for Centos: sudo dnf install -y gcc<br/>
 
 ## Available Scripts
 
