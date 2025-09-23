@@ -9,6 +9,7 @@ fn main() {
             "--open=true",
             "--port=3000",
             "--platform=web",
+            "--wsl-file-poll-interval=2",
         ])
         .current_dir(current_dir().unwrap())
         .status()
