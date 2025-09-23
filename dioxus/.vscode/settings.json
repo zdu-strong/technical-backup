@@ -37,5 +37,4 @@
         "editor.formatOnType": true
     },
     "rust-analyzer.rustfmt.extraArgs": [],
-    "rust-analyzer.checkOnSave.command": "clippy"
 }
