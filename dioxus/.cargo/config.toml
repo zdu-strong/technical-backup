@@ -1,2 +1,2 @@
 [alias]
-start = "run --quiet --bin start"
+dev = "run --quiet --bin dev"
