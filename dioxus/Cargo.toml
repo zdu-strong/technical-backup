@@ -22,8 +22,6 @@ dioxus-free-icons = { version = "0.9", features = ["font-awesome-brands", "font-
 dioxus-material = "0.3.0"
 reqwest = { version = "0.12.23", default-features = false, features = ["rustls-tls", "json"] }
 reqwest-websocket = { version = "0.5.1", features = ["json"] }
-tokio = { version = "1.47.1", features = ["macros", "sync", "io-util", "rt", "time"] }
-tokio_with_wasm = { version = "0.8.7", features = ["full"] }
 
 [features]
 default = ["web"]
