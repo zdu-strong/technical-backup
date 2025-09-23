@@ -41,7 +41,10 @@ pub fn Hero() -> Element {
             // Attributes should be defined in the element before any children
             id: "hero",
             // After all attributes are defined, we can define child elements and components
-            img { src: HEADER_SVG, id: "header" }
+            img {
+                id: "header",
+                src: HEADER_SVG,
+            }
             div {
                 margin: "10px",
                 margin_bottom: "10px",
