@@ -23,7 +23,6 @@ body {
 }
 
 #links a {
-    color: white;
     text-decoration: none;
     margin-top: 20px;
     margin: 10px 0px;
@@ -35,6 +34,7 @@ body {
 #links a:hover {
     background-color: #1f1f1f;
     cursor: pointer;
+    color: green;
 }
 
 #header {
