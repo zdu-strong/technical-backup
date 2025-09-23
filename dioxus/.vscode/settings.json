@@ -31,4 +31,5 @@
     "workbench.editor.enablePreview": false,
     "git.openRepositoryInParentFolders": "never",
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "dioxus.formatOnSave": "enabled"
 }
