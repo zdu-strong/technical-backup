@@ -1,20 +1,12 @@
 use crate::components::game_button::GameButton;
 use crate::components::game_input::GameInput;
+use crate::model::cat_model::CatModel;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 use dioxus_material::Button;
-use serde::Deserialize;
-use serde::Serialize;
 use uuid::Uuid;
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
-
-#[derive(Debug, Clone, Serialize, Deserialize, Default, Props, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct CatModel {
-    pub id: Signal<String>,
-    pub name: Signal<String>,
-}
 
 #[component]
 pub fn Hero() -> Element {
@@ -35,31 +27,16 @@ pub fn Hero() -> Element {
 
     let onpress_hero = |_| {};
 
+    let close_game = use_callback(|_| {});
+
     rsx! {
-        // We can create elements inside the rsx macro with the element name followed by a block of attributes and children.
-        div {
-            // Attributes should be defined in the element before any children
-            id: "hero",
-            // After all attributes are defined, we can define child elements and components
-            img {
-                id: "header",
-                src: HEADER_SVG,
+        div { id: "hero",
+            img { id: "header", src: HEADER_SVG }
+            div { margin: "10px", margin_bottom: "10px",
+                Button { height: "100px", onpress: onpress_hero, "who are you?" }
             }
-            div {
-                margin: "10px",
-                margin_bottom: "10px",
-                Button {
-                    height: "100px",
-                    onpress: onpress_hero,
-                    "who are you?"
-                }
-            }
-            GameButton {
-                name: cat.read().name,
-            }
-            GameInput {
-                name: cat.read().name,
-            }
+            GameButton { name: cat.read().name, close_game }
+            GameInput { name: cat.read().name }
         }
     }
 }

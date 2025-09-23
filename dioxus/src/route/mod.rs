@@ -8,7 +8,7 @@ pub mod blog;
 pub mod home;
 pub mod navbar;
 
-#[derive(Debug, EnumIter, Copy, Clone, Routable, PartialEq, AsRefStr)]
+#[derive(Debug, Clone, Copy, EnumIter, AsRefStr, Routable, PartialEq)]
 #[rustfmt::skip]
 pub enum Route {
     #[layout(Navbar)]
