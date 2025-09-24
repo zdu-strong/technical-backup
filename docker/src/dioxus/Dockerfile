@@ -41,6 +41,8 @@ RUN dx bundle --release --platform=web
 # cargo run
 FROM first_docker
 COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
+COPY --from=second_docker /all_code/dioxus/assets/serve.json /build/serve.json
+COPY --from=second_docker /all_code/dioxus/assets/favicon.ico /build/favicon.ico
 
 EXPOSE 443
 
