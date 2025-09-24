@@ -5,11 +5,13 @@ import { Button, Dialog, DialogActions, DialogTitle, Fab } from "@mui/material";
 import { observer } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 
-export default observer((props: {
-  closeDialog: () => void,
-  exit: () => void,
-  canvasRef: React.RefObject<HTMLCanvasElement>
-}) => {
+type Props = {
+  closeDialog: () => void;
+  exit: () => void;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}
+
+export default observer((props: Props) => {
 
   return <Dialog
     open={true}

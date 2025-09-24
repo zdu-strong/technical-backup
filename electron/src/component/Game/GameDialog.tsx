@@ -4,9 +4,11 @@ import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { useRef } from 'react';
 import Game from './Game';
 
-export default observer((props: {
-  closeDialog: () => void
-}) => {
+type Props = {
+  closeDialog: () => void;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
   }, {

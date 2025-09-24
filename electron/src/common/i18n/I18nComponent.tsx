@@ -3,7 +3,12 @@ import { IntlProvider } from 'react-intl';
 import { useI18nJson, useI18nLocale } from '.';
 import { useMobxState, useMobxEffect, observer } from 'mobx-react-use-autorun';
 
-export default observer((props: { children: ReactNode }) => {
+type Props = {
+  children: ReactNode;
+}
+
+export default observer((props: Props) => {
+
   const state = useMobxState({
   }, {
     I18nLocale: useI18nLocale(),

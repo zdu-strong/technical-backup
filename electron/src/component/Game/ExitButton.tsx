@@ -19,10 +19,12 @@ const css = stylesheet({
   }
 })
 
-export default observer((props: {
-  exit: () => void,
-  canvasRef: React.RefObject<HTMLCanvasElement>
-}) => {
+type Props = {
+  exit: () => void;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
     exitDialog: {

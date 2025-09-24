@@ -28,9 +28,11 @@ const css = stylesheet({
   }
 })
 
-export default observer((props: {
-  canvasRef: React.RefObject<HTMLCanvasElement>,
-}) => {
+type Props = {
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
     engine: null as BABYLON.Engine | null,
