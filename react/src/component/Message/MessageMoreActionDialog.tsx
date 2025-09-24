@@ -13,10 +13,12 @@ import { MessageMoreActionTranslation } from '@component/Message/MessageMoreActi
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { FormattedMessage } from 'react-intl';
 
-export default observer((props: {
-  closeDialog: () => void,
-  uploadFile: () => void,
-}) => {
+type Props = {
+  closeDialog: () => void;
+  uploadFile: () => void;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
   }, props);

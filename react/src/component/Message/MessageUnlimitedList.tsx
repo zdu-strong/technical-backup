@@ -1,13 +1,17 @@
 import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
 import { GlobalChatMessage, GlobalScrollToLastItemSubject } from '@component/Message/js/Global_Chat';
-import { List, type Size } from 'react-virtualized';
+import { List } from 'react-virtualized';
 import SingleMessageLoaded from "@/component/Message/SingleMessageLoaded";
 import { useRef } from "react";
 import { EMPTY, concatMap, delay, interval, of, take, tap } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing'
 
+type Props = {
+  height: number;
+  width: number;
+}
 
-export default observer((props: Size) => {
+export default observer((props: Props) => {
 
   const state = useMobxState({
   }, {

@@ -6,7 +6,12 @@ import { v7 } from "uuid";
 import SuperAdminUserDetailDialog from "@component/SuperAdminUserManage/SuperAdminUserDetailDialog";
 import { FormattedMessage } from "react-intl";
 
-export default observer((props: { id: string, searchByPagination: () => void }) => {
+type Props = {
+  id: string;
+  searchByPagination: () => void;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
     dialog: {

@@ -3,9 +3,11 @@ import { useGlobalSingleMessage } from "@component/Message/js/Global_Chat";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import SingleMessage from "@/component/Message/SingleMessage";
 
-export default observer((props: {
+type Props = {
   pageNum: number
-}) => {
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
   }, {

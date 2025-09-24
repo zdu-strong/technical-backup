@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FormattedMessage } from "react-intl";
 
-export default observer((props: {
-  closeDialog: () => void,
-}) => {
+type Props = {
+  closeDialog: () => void;
+}
+
+export default observer((props: Props) => {
 
   return <Dialog
     open={true}

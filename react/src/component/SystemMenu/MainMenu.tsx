@@ -5,9 +5,11 @@ import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
 
-export default observer((props: {
-  children: ReactNode
-}) => {
+type Props = {
+  children: ReactNode;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
 

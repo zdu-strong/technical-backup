@@ -7,7 +7,12 @@ import { FormattedMessage } from "react-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default observer((props: { friendship: FriendshipModel, refreshFriendshipList: () => Promise<void> }) => {
+type Props = {
+  friendship: FriendshipModel;
+  refreshFriendshipList: () => Promise<void>;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
     loading: false

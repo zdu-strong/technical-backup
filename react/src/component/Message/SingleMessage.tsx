@@ -9,9 +9,11 @@ import { UserMessageModel } from "@model/UserMessageModel";
 import path from "path";
 import { GlobalUserInfo } from "@common/Server";
 
-export default observer((props: {
+type Props = {
   message: UserMessageModel
-}) => {
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
     loading: false,

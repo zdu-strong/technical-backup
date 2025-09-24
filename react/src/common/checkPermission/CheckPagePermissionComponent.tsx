@@ -8,12 +8,14 @@ import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
 import { v7 } from "uuid";
 import { useCommonContext } from "@/common/CommonContext";
 
-export default observer((props: {
-  children: ReactNode,
-  isAutoLogin?: boolean,
-  checkIsSignIn?: boolean,
-  checkIsNotSignIn?: boolean,
-}) => {
+type Props = {
+  children: ReactNode;
+  isAutoLogin?: boolean;
+  checkIsSignIn?: boolean;
+  checkIsNotSignIn?: boolean;
+}
+
+export default observer((props: Props) => {
 
   const context = useCommonContext();
 

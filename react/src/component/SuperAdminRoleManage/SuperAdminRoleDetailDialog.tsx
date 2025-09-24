@@ -4,11 +4,13 @@ import { Dialog, DialogContent, DialogTitle, Divider, Fab } from "@mui/material"
 import { observer } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 
-export default observer((props: {
-  id: string,
-  searchByPagination: () => void,
-  closeDialog: () => void,
-}) => {
+type Props = {
+  id: string;
+  searchByPagination: () => void;
+  closeDialog: () => void;
+}
+
+export default observer((props: Props) => {
 
   function closeDialog(event: {}, reason: "backdropClick" | "escapeKeyDown") {
     if (reason === "backdropClick") {

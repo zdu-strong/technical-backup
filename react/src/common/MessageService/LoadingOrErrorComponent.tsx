@@ -3,7 +3,13 @@ import React from "react";
 import { MESSAGE_TYPE_ENUM, getMessageObject } from "@common/MessageService";
 import { observer } from 'mobx-react-use-autorun';
 
-export default observer((props: { ready: boolean, error: Error | Error[] | any, children?: React.ReactNode }) => {
+type Props = {
+  ready: boolean;
+  error: Error | Error[] | any;
+  children?: React.ReactNode;
+}
+
+export default observer((props: Props) => {
 
   return <>
     {props.error && props.error instanceof Array && props.error.map(error => {
