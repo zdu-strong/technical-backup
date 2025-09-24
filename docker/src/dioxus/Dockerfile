@@ -36,7 +36,7 @@ RUN cargo install dioxus-cli --locked
 # cargo build
 COPY . /all_code
 WORKDIR /all_code/dioxus
-RUN dx build --release --platform=web
+RUN dx bundle --release --platform=web
 
 # cargo run
 FROM first_docker
