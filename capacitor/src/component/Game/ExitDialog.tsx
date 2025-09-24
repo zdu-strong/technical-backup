@@ -6,7 +6,12 @@ import { faCookieBite, faRightFromBracket, faXmark } from '@fortawesome/free-sol
 import { App } from '@capacitor/app'
 import { Capacitor } from "@capacitor/core";
 
-export default observer((props: { closeDialog: () => void, exit: () => void }) => {
+type Props = {
+  closeDialog: () => void;
+  exit: () => void;
+}
+
+export default observer((props: Props) => {
 
   function endGame() {
     props.closeDialog();

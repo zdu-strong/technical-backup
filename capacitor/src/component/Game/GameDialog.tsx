@@ -6,9 +6,11 @@ import { LANDSCAPE, PORTRAIT_PRIMARY } from '@common/ScreenOrentation';
 import ExitButton from '@component/Game/ExitButton';
 import { Subscription, tap, timer } from 'rxjs';
 
-export default observer((props: {
-  closeDialog: () => void
-}) => {
+type Props = {
+  closeDialog: () => void;
+}
+
+export default observer((props: Props) => {
   const state = useMobxState({
     ready: false,
   })

@@ -24,7 +24,11 @@ const css = stylesheet({
   }
 })
 
-export default observer((props: { exit: () => void }) => {
+type Props = {
+  exit: () => void;
+}
+
+export default observer((props: Props) => {
 
   const state = useMobxState({
     exitDialog: {
