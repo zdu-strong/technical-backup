@@ -15,7 +15,7 @@ pub fn GameInput(mut props: Props) -> Element {
     rsx! {
         div { margin: "10px",
             TextField {
-                width: "400px",
+                width: "100%",
                 label: "name",
                 value: props.name,
                 onchange: oninput_name,
