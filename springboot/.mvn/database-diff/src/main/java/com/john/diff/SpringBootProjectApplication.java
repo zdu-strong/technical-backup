@@ -9,21 +9,18 @@ import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
-import org.apache.hc.core5.net.URIBuilder;
-import org.jinq.orm.stream.JinqStream;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.fasterxml.uuid.Generators;
 import com.google.cloud.spanner.InstanceId;
 import com.google.cloud.spanner.InstanceInfo;
 import com.google.cloud.spanner.SpannerOptions;
@@ -36,7 +33,7 @@ public class SpringBootProjectApplication {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if (isTestEnvironment()) {
             return;
         }
@@ -87,7 +84,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    public static boolean isOnlyResetDatabase(String[] args) {
+    public static boolean isOnlyResetDatabase(String[] args) throws Exception {
         checkSupportDatabase();
         if (args != null && Arrays.asList(args).contains("--onlyResetDatabase")) {
             resetDatabase();
@@ -98,15 +95,13 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static void resetDatabase() {
+    private static void resetDatabase() throws Exception {
         var databaseName = getDatabaseName();
         deleteDatabase(databaseName);
         createDatabase(databaseName);
     }
 
-    @SneakyThrows
-    public static void buildNewDatabase(String newDatabaseName) {
+    public static void buildNewDatabase(String newDatabaseName) throws Exception {
         var availableServerPort = getUnusedPort();
 
         var command = new ArrayList<String>();
@@ -133,7 +128,7 @@ public class SpringBootProjectApplication {
         processBuilder.environment().put("PROPERTIES_STORAGE_ROOT_PATH", "target/diff-for-new-database");
         var process = processBuilder.start();
         while (true) {
-            var url = new URIBuilder("http://127.0.0.1:" + availableServerPort).build();
+            var url = "http://127.0.0.1:" + availableServerPort;
             try {
                 new RestTemplate().getForObject(url, String.class);
                 break;
@@ -154,13 +149,11 @@ public class SpringBootProjectApplication {
         destroy(process.toHandle());
     }
 
-    @SneakyThrows
-    public static String getFilenameExtensionOfChangeLog() {
+    public static String getFilenameExtensionOfChangeLog() throws Exception {
         return ".json";
     }
 
-    @SneakyThrows
-    public static boolean diffDatabase(String newDatabaseName, String oldDatabaseName) {
+    public static boolean diffDatabase(String newDatabaseName, String oldDatabaseName) throws Exception {
         var today = FastDateFormat.getInstance("yyyy.MM.dd.HH.mm.ss", TimeZone.getTimeZone("UTC"))
                 .format(new Date());
         var filePathOfDiffChangeLogFile = Paths
@@ -223,8 +216,7 @@ public class SpringBootProjectApplication {
         return isCreateChangeLogFile;
     }
 
-    @SneakyThrows
-    private static boolean isEmptyOfDiffChangeLogFile(String filePathOfDiffChangeLogFile) {
+    private static boolean isEmptyOfDiffChangeLogFile(String filePathOfDiffChangeLogFile) throws Exception {
         if (!new File(filePathOfDiffChangeLogFile).exists()) {
             return true;
         }
@@ -244,8 +236,7 @@ public class SpringBootProjectApplication {
         hanlde.destroy();
     }
 
-    @SneakyThrows
-    public static void clean() {
+    public static void clean() throws Exception {
         var command = new ArrayList<String>();
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
             command.add("cmd");
@@ -271,8 +262,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    public static void deleteDatabase(String databaseName) {
+    public static void deleteDatabase(String databaseName) throws Exception {
         if (getDatabaseType() == SupportDatabaseTypeEnum.SPANNER) {
             deleteDatabaseOfSpanner(databaseName);
             return;
@@ -302,8 +292,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static void deleteDatabaseOfSpanner(String databaseName) {
+    private static void deleteDatabaseOfSpanner(String databaseName) throws Exception {
         createDatabase(databaseName);
         var project = getSpannerProject();
         var instance = getSpannerInstance();
@@ -315,8 +304,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static void createDatabaseOfSpanner(String databaseName) {
+    private static void createDatabaseOfSpanner(String databaseName) throws Exception {
         createInstanceOfSpanner();
         var project = getSpannerProject();
         var instance = getSpannerInstance();
@@ -331,7 +319,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    private static void createInstanceOfSpanner() {
+    private static void createInstanceOfSpanner() throws Exception {
         var project = getSpannerProject();
         var instance = getSpannerInstance();
         var spannerOptions = SpannerOptions.newBuilder().setProjectId(project).setEmulatorHost("127.0.0.1:9010")
@@ -346,8 +334,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    public static void createDatabase(String databaseName) {
+    public static void createDatabase(String databaseName) throws Exception {
         if (getDatabaseType() == SupportDatabaseTypeEnum.SPANNER) {
             createDatabaseOfSpanner(databaseName);
             return;
@@ -402,10 +389,9 @@ public class SpringBootProjectApplication {
         return existFolder;
     }
 
-    @SneakyThrows
-    public static String getANewDatabaseName() {
+    public static String getANewDatabaseName() throws Exception {
         var newDatabaseName = "database_"
-                + Generators.randomBasedGenerator().generate().toString().replaceAll(Pattern.quote("-"), "_");
+                + UUID.randomUUID().toString().replaceAll(Pattern.quote("-"), "_");
         if (getDatabaseType() == SupportDatabaseTypeEnum.SPANNER) {
             Thread.sleep(2);
             newDatabaseName = "database_"
@@ -415,8 +401,7 @@ public class SpringBootProjectApplication {
         return newDatabaseName;
     }
 
-    @SneakyThrows
-    public static boolean isTestEnvironment() {
+    public static boolean isTestEnvironment() throws Exception {
         try (var input = new ClassPathResource("application.yml").getInputStream()) {
             var isTestEnvironmentString = new YAMLMapper()
                     .readTree(IOUtils.toString(input, StandardCharsets.UTF_8)).get("properties")
@@ -426,18 +411,17 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static SupportDatabaseTypeEnum getDatabaseType() {
+    private static SupportDatabaseTypeEnum getDatabaseType() throws Exception {
         var driver = getDatabaseDriver();
         var databasePlatform = getDatabasePlatform();
-        var supportDatabase = JinqStream.from(Arrays.asList(SupportDatabaseTypeEnum.values()))
-                .where(s -> s.getDriver().equals(driver) && databasePlatform.contains(s.getPlatform()))
-                .getOnlyValue();
+        var supportDatabase = Stream.of(SupportDatabaseTypeEnum.values())
+                .filter(s -> s.getDriver().equals(driver) && databasePlatform.contains(s.getPlatform()))
+                .findFirst()
+                .get();
         return supportDatabase;
     }
 
-    @SneakyThrows
-    private static void checkSupportDatabase() {
+    private static void checkSupportDatabase() throws Exception {
         var driver = getDatabaseDriver();
         var databasePlatform = getDatabasePlatform();
         var hasMatch = Arrays.stream(SupportDatabaseTypeEnum.values())
@@ -449,8 +433,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static String getDatabaseDriver() {
+    private static String getDatabaseDriver() throws Exception {
         var file = new File("pom.xml");
         try (var input = new FileInputStream(file)) {
             var driver = new XmlMapper()
@@ -462,8 +445,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static String getDatabasePlatform() {
+    private static String getDatabasePlatform() throws Exception {
         var file = new File("pom.xml");
         try (var input = new FileInputStream(file)) {
             var platform = new XmlMapper()
@@ -475,8 +457,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static String getDatabaseJdbcUrl() {
+    private static String getDatabaseJdbcUrl() throws Exception {
         var file = new File("pom.xml");
         try (var input = new FileInputStream(file)) {
             var databaseJdbcUrl = new XmlMapper()
@@ -488,8 +469,7 @@ public class SpringBootProjectApplication {
         }
     }
 
-    @SneakyThrows
-    private static String getSpannerProject() {
+    private static String getSpannerProject() throws Exception {
         var databaseJdbcUrl = getDatabaseJdbcUrl();
         var pattern = Pattern
                 .compile("(?<=" + Pattern.quote("/projects/") + ")[^/]+(?=" + Pattern.quote("/instances/") + ")");
@@ -500,7 +480,7 @@ public class SpringBootProjectApplication {
         throw new RuntimeException("Not found spanner project");
     }
 
-    private static String getSpannerInstance() {
+    private static String getSpannerInstance() throws Exception {
         var databaseJdbcUrl = getDatabaseJdbcUrl();
         var pattern = Pattern.compile("(?<=" + Pattern.quote("/instances/") + ")[^/]+$");
         var matcher = pattern.matcher(databaseJdbcUrl);
@@ -510,8 +490,7 @@ public class SpringBootProjectApplication {
         throw new RuntimeException("Not found spanner instance");
     }
 
-    @SneakyThrows
-    private static String getDatabaseName() {
+    private static String getDatabaseName() throws Exception {
         var file = new File("pom.xml");
         try (var input = new FileInputStream(file)) {
             var databaseName = new XmlMapper()

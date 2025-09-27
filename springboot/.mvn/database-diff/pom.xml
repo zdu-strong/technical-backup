@@ -13,11 +13,8 @@
         <java.version>21</java.version>
         <resource.delimiter>${}</resource.delimiter>
         <commons-io.version>2.20.0</commons-io.version>
-        <java-uuid-generator.version>5.1.0</java-uuid-generator.version>
-        <jinq-jpa.version>2.0.3</jinq-jpa.version>
-        <google-cloud-spanner-jdbc.version>2.32.3</google-cloud-spanner-jdbc.version>
         <gax-httpjson.version>2.70.2</gax-httpjson.version>
-        <opentelemetry-api.version>1.54.1</opentelemetry-api.version>
+        <google-cloud-spanner-jdbc.version>2.33.0</google-cloud-spanner-jdbc.version>
     </properties>
 
     <dependencies>
@@ -29,10 +26,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -47,28 +40,9 @@
             <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.uuid</groupId>
-            <artifactId>java-uuid-generator</artifactId>
-            <version>${java-uuid-generator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jinq</groupId>
-            <artifactId>jinq-jpa</artifactId>
-            <version>${jinq-jpa.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.cloud</groupId>
-            <artifactId>google-cloud-spanner-jdbc</artifactId>
-            <version>${google-cloud-spanner-jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.api</groupId>
@@ -76,9 +50,9 @@
             <version>${gax-httpjson.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
-            <version>${opentelemetry-api.version}</version>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-spanner-jdbc</artifactId>
+            <version>${google-cloud-spanner-jdbc.version}</version>
         </dependency>
     </dependencies>
 

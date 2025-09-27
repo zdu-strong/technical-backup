@@ -8,7 +8,7 @@ import com.john.diff.test.common.BaseTest.BaseTest;
 public class SpringBootProjectApplicationTest extends BaseTest {
 
     @Test
-    public void test() {
+    public void test() throws Exception {
         SpringBootProjectApplication.main(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 

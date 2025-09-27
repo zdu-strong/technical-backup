@@ -1,10 +1,5 @@
 package com.john.diff;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
 public enum SupportDatabaseTypeEnum {
 
     MYSQL("mysql", "com.mysql.cj.jdbc.Driver", "CustomMySQLDialect"),
@@ -16,5 +11,23 @@ public enum SupportDatabaseTypeEnum {
     private final String type;
     private final String driver;
     private final String platform;
+
+    public String getType(){
+        return this.type;
+    }
+
+    public String getDriver(){
+        return this.driver;
+    }
+
+    public String getPlatform(){
+        return this.platform;
+    }
+
+    SupportDatabaseTypeEnum(String type, String driver, String platform){
+        this.type = type;
+        this.driver = driver;
+        this.platform = platform;
+    }
 
 }
