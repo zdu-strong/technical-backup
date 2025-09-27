@@ -1,7 +1,3 @@
-import 'tailwindcss/utilities.css';
-import '@common/app-base-css/index.css';
-import '@fontsource/roboto';
-import '@common/Server';
 import GlobalMessageComponent from '@common/MessageService/GlobalMessageComponent';
 import { I18nEnum, useI18nLocale } from '@common/i18n';
 import I18nComponent from '@common/i18n/I18nComponent';

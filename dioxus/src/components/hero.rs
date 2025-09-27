@@ -3,6 +3,8 @@ use std::time::Duration;
 use crate::components::game_button::GameButton;
 use crate::components::game_input::GameInput;
 use crate::model::cat_model::CatModel;
+use crate::model::user_model::UserModel;
+use chrono::Local;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 use dioxus_material::Button;
@@ -20,13 +22,15 @@ pub fn Hero() -> Element {
 
     use_future(|| async {
         sleep(Duration::from_millis(1)).await;
-        let ref mut cat_list = vec![CatModel {
+        let ref mut user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             name: Signal::new("Tom".to_string()),
+            create_date: Signal::new(Option::Some(Local::now())),
+            update_date: Signal::new(Option::Some(Local::now())),
         }];
-        let ref mut json_string = serde_json::to_string(cat_list).unwrap();
-        let ref mut cat_list: Vec<CatModel> = serde_json::from_str(json_string).unwrap();
-        info!("{:?}", cat_list);
+        let ref mut json_string = serde_json::to_string(user_list).unwrap();
+        let ref mut user_list: Vec<UserModel> = serde_json::from_str(json_string).unwrap();
+        info!("{:?}", user_list);
     });
 
     let onpress_hero = |_| {};
