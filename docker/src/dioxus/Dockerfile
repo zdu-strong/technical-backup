@@ -46,5 +46,5 @@ COPY --from=second_docker /all_code/dioxus/assets/favicon.ico /build/favicon.ico
 
 EXPOSE 443
 
-# # start server
+# start server
 ENTRYPOINT ["/bin/bash", "-c", "serve --single --cors --no-clipboard --no-port-switching --no-request-logging --listen=443 build"]
