@@ -1,11 +1,9 @@
-use tokio::task::spawn_blocking;
+use tokio::task::block_in_place;
 
 pub async fn non_blocking_async_task() {
-    let _ = spawn_blocking(move || async move {
+    let _ = block_in_place(move || async {
         // heavy_cpu
         return "Hello World".to_string();
     })
-    .await
-    .unwrap()
     .await;
 }

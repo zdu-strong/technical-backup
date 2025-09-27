@@ -16,7 +16,7 @@ pub async fn jerry_buy_phone() {
         }),
     ];
     iter(phone_list)
-        .for_each_concurrent(10, |phone| async move {
+        .for_each_concurrent(10, |phone| async {
             phone.buy().await;
         })
         .await;
