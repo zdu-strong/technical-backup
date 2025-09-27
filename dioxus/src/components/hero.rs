@@ -10,12 +10,12 @@ const HEADER_SVG: Asset = asset!("/assets/header.svg");
 
 #[component]
 pub fn Hero() -> Element {
-    let cat = use_signal(|| CatModel {
+    let mut cat = use_signal(|| CatModel {
         id: Signal::new(Uuid::new_v4().to_string()),
         name: Signal::new("Tom".to_string()),
     });
 
-    use_future(move || async move {
+    use_future(|| async {
         let ref mut cat_list = vec![CatModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             name: Signal::new("Tom".to_string()),
@@ -27,7 +27,9 @@ pub fn Hero() -> Element {
 
     let onpress_hero = |_| {};
 
-    let close_game = use_callback(|_| {});
+    let onclick_change_name = use_callback(move |_| {
+        *cat.write().name.write() += "a";
+    });
 
     rsx! {
         div { id: "hero",
@@ -35,7 +37,7 @@ pub fn Hero() -> Element {
             div { margin: "10px", margin_bottom: "10px",
                 Button { height: "100px", onpress: onpress_hero, "who are you?" }
             }
-            GameButton { name: cat.read().name, close_game }
+            GameButton { name: cat.read().name, onclick_change_name }
             GameInput { name: cat.read().name }
         }
     }
