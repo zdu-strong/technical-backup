@@ -1,9 +1,12 @@
+use std::time::Duration;
+
 use crate::components::game_button::GameButton;
 use crate::components::game_input::GameInput;
 use crate::model::cat_model::CatModel;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 use dioxus_material::Button;
+use tokio_with_wasm::alias::time::sleep;
 use uuid::Uuid;
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -16,6 +19,7 @@ pub fn Hero() -> Element {
     });
 
     use_future(|| async {
+        sleep(Duration::from_millis(1)).await;
         let ref mut cat_list = vec![CatModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             name: Signal::new("Tom".to_string()),
