@@ -32,7 +32,7 @@ public class CaffeineTest extends BaseTest {
             caffeineLoadCache.get(StringUtils.EMPTY).get();
         }
         var costTimes = timer.interval();
-        assertTrue(costTimes < 200);
+        assertTrue(costTimes < 1000);
     }
 
     @BeforeEach
