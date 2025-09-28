@@ -1,9 +1,3 @@
-import 'tailwindcss/utilities.css';
-import '@common/app-base-css/index.css';
-import '@fontsource/roboto';
-import '@common/Server';
-import '@common/ScreenOrentation';
-import '@common/StorageManage/StorageManageRun';
 import GlobalMessageComponent from '@common/MessageService/GlobalMessageComponent';
 import I18nComponent from '@common/i18n/I18nComponent';
 import Router from '@/router';
