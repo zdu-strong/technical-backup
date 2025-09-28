@@ -4,9 +4,9 @@ use dioxus_material::Theme;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
-const TAILWIND_JS: Asset = asset!("/assets/tailwind.js");
-const GOOGLE_ROBOT_FONT_CSS: Asset = asset!("/assets/google_robot_font.css");
-const GOOGLE_MATERIAL_CSS: Asset = asset!("/assets/google_material.css");
+const TAILWIND_JS: Asset = asset!("/assets/tailwind/tailwind.js");
+const GOOGLE_ROBOT_FONT_CSS: Asset = asset!("/assets/google_material/google_robot_font.css");
+const GOOGLE_MATERIAL_CSS: Asset = asset!("/assets/google_material/google_material.css");
 
 #[component]
 pub fn App() -> Element {

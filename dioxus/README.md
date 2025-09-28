@@ -26,7 +26,7 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000) to view it in the browser.<b
 The page will reload if you make edits.<br/>
 You will also see any lint errors in the console.<br/>
 
-### `dx bundle --release --platform=web`
+### `cargo make`
 
 Builds the app for production to the `target/dx/rust-app/release/web/public` folder.<br/>
 It correctly bundles React in production mode and optimizes the build for the best performance.<br/>

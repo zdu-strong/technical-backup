@@ -35,13 +35,11 @@ RUN cargo install dioxus-cli --locked
 # cargo build
 COPY . /all_code
 WORKDIR /all_code/dioxus
-RUN dx bundle --release --platform=web
+RUN cargo make
 
 # cargo run
 FROM first_docker
 COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
-COPY --from=second_docker /all_code/dioxus/assets/serve.json /build/serve.json
-COPY --from=second_docker /all_code/dioxus/assets/favicon.ico /build/favicon.ico
 
 EXPOSE 443
 
