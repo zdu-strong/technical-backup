@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 
 const BLOG_CSS: Asset = asset!("/assets/styling/blog.css");
 
-#[derive(Debug, Clone, Copy, Props, PartialEq)]
+#[derive(Debug, Clone, Copy, Default, Props, PartialEq)]
 pub struct Props {
     pub id: i32,
 }

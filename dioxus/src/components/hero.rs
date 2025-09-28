@@ -26,11 +26,12 @@ pub fn Hero() -> Element {
             id: Signal::new(Uuid::new_v4().to_string()),
             name: Signal::new("Tom".to_string()),
             create_date: Signal::new(Option::Some(Local::now())),
-            update_date: Signal::new(Option::Some(Local::now())),
+            update_date: Signal::new(Option::None),
         }];
         let ref mut json_string = serde_json::to_string(user_list).unwrap();
+        info!("user_list_json_string: {:?}", json_string);
         let ref mut user_list: Vec<UserModel> = serde_json::from_str(json_string).unwrap();
-        info!("{:?}", user_list);
+        info!("user_list: {:?}", user_list);
     });
 
     let onpress_hero = |_| {};

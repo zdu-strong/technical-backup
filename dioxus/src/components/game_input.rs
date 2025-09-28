@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_material::*;
 
-#[derive(Debug, Clone, Copy, Props, PartialEq)]
+#[derive(Debug, Clone, Copy, Default, Props, PartialEq)]
 pub struct Props {
     pub name: Signal<String>,
 }
