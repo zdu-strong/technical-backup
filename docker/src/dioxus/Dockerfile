@@ -31,7 +31,6 @@ RUN rustup -q toolchain install stable
 RUN rustup target add wasm32-unknown-unknown
 ENV CARGO_TARGET_DIR=/root/cargo/dioxus
 RUN cargo install dioxus-cli --locked
-# RUN curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
 
 # cargo build
 COPY . /all_code
