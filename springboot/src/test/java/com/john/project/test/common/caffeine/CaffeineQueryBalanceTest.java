@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -44,10 +45,9 @@ public class CaffeineQueryBalanceTest extends BaseTest {
     }
 
     private String queryBalanceFromDatabase(long key) {
-        var waitMilliseconds = Math.max(key * intervalMilliseconds - System.currentTimeMillis(), 0);
-        if (waitMilliseconds > 0) {
-            ThreadUtil.sleep(waitMilliseconds);
-        }
+        Optional.of(Math.max(key * intervalMilliseconds - System.currentTimeMillis(), 0))
+                .filter(s -> s > 0)
+                .ifPresent(ThreadUtil::sleep);
         ThreadUtil.sleep(100);
         return HELLO_WORLD;
     }
