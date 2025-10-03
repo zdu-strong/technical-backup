@@ -1,4 +1,4 @@
-use dioxus::signals::Signal;
+use dioxus::prelude::*;
 use serde::Deserialize;
 use serde::Serialize;
 
