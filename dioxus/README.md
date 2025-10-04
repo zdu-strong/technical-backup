@@ -2,9 +2,6 @@
 
 This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have any questions, please contact zdu.strong@gmail.com.<br/>
 
-Your new jumpstart project includes basic organization with an organized `assets` folder and a `components` folder.
-If you chose to develop with the router feature, you will also have a `views` folder.
-
 ## Development environment setup
 1. From https://zed.dev install Zed.<br/>
 2. From https://www.rust-lang.org install rust.<br/>
