@@ -4,7 +4,7 @@ This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have
 
 ## Development environment setup
 1. From https://zed.dev install Zed.<br/>
-2. From https://www.rust-lang.org install rust.<br/>
+2. From https://www.rust-lang.org install Rust.<br/>
 3. From https://dioxuslabs.com/learn/0.6/getting_started install dioxus.<br/>
 4. for Ubuntu: sudo apt install -y build-essential<br/>
 5. for Centos: sudo dnf install -y gcc<br/>
