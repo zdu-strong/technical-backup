@@ -11,6 +11,7 @@
     "react-intl",
     "get-port",
     "inquirer",
-    "linq"
+    "linq",
+    "@rsbuild/core"
   ]
 }

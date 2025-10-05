@@ -11,6 +11,7 @@
     "react-intl",
     "get-port",
     "linq",
-    "electron"
+    "electron",
+    "@rsbuild/core"
   ]
 }

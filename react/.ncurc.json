@@ -8,6 +8,7 @@
     "@types/react-dom",
     "react",
     "react-dom",
-    "react-intl"
+    "react-intl",
+    "@rsbuild/core"
   ]
 }
