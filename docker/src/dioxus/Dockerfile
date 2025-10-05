@@ -18,18 +18,12 @@ FROM first_docker AS second_docker
 RUN dnf install -y git
 
 # install cargo
-RUN dnf install -y epel-release
 RUN dnf install -y gcc
-RUN dnf -y groupinstall "Development Tools"
 RUN dnf -y install openssl-devel
-ENV CARGO_HOME=/root/.cargo
-ENV RUSTUP_HOME=/root/.rustup
-ENV PATH="${PATH}:${CARGO_HOME}/bin"
+ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable
 RUN rustup update
-RUN rustup -q toolchain install stable
 RUN rustup target add wasm32-unknown-unknown
-ENV CARGO_TARGET_DIR=/root/cargo/dioxus
 RUN cargo install dioxus-cli --locked
 
 # cargo build
@@ -37,7 +31,7 @@ COPY . /all_code
 WORKDIR /all_code/dioxus
 RUN cargo make
 
-# cargo run
+# copy build folder
 FROM first_docker
 COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
 
