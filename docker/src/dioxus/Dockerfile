@@ -19,7 +19,7 @@ RUN dnf install -y git
 
 # install cargo
 RUN dnf install -y gcc
-RUN dnf -y install openssl-devel
+RUN dnf install -y openssl-devel
 ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable
 RUN rustup update
