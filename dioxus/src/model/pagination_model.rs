@@ -37,7 +37,7 @@ impl<T> PaginationModel<T> {
                     .into_iter()
                     .skip(((page_num - 1) * page_size).to_usize().unwrap())
                     .take(page_size.to_usize().unwrap())
-                    .map(|s| Signal::new(s))
+                    .map(|item| Signal::new(item))
                     .collect::<Vec<Signal<_>>>(),
             ),
         }
