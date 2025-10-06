@@ -82,7 +82,7 @@ public class OrganizeService extends BaseService {
                 .where(s -> s.getIsCompany())
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate());
-        return new PaginationModel<>(query.getPageNum(), query.getPageSize(), stream, this.organizeFormatter::format);
+        return new PaginationModel<>(query, stream, this.organizeFormatter::format);
     }
 
     public void move(String id, String parentId) {

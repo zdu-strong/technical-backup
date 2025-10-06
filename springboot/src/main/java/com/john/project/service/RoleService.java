@@ -154,7 +154,7 @@ public class RoleService extends BaseService {
         var roleStream = stream.group(s -> s.getOne(), (s, t) -> s)
                 .select(s -> s.getOne());
 
-        return new PaginationModel<>(query.getPageNum(), query.getPageSize(), roleStream, this.roleFormatter::format);
+        return new PaginationModel<>(query, roleStream, this.roleFormatter::format);
     }
 
 //    @Transactional(readOnly = true)
