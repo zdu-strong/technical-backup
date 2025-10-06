@@ -4,7 +4,7 @@ use dioxus_material::*;
 #[component]
 pub fn GameInput(name: ReadOnlySignal<Signal<String>>) -> Element {
     let oninput_name = move |e: FormEvent| {
-        *(name.read().clone()).write() = e.value();
+        *name.read().clone().write() = e.value();
     };
 
     rsx! {
