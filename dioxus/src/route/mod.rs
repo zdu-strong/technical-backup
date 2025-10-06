@@ -1,18 +1,17 @@
-use crate::route::blog::Blog;
-use crate::route::home::Home;
-use crate::route::navbar::Navbar;
+use crate::components::navbar::Navbar;
+use crate::route::blog_page::BlogPage;
+use crate::route::home_page::HomePage;
 use dioxus::prelude::*;
-pub mod blog;
-pub mod home;
-pub mod navbar;
+pub mod blog_page;
+pub mod home_page;
 
 #[derive(Debug, Clone, Copy, Routable, PartialEq)]
 #[rustfmt::skip]
 pub enum Route {
     #[layout(Navbar)]
     #[route("/")]
-    Home {},
+    HomePage {},
 
     #[route("/blog/:id")]
-    Blog { id: i128 },
+    BlogPage { id: i128 },
 }

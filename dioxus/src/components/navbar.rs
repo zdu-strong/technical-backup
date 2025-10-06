@@ -9,8 +9,8 @@ pub fn Navbar() -> Element {
         document::Link { rel: "stylesheet", href: NAVBAR_CSS }
 
         div { id: "navbar",
-            Link { to: Route::Home {}, "Home" }
-            Link { to: Route::Blog { id: 1 }, "Blog" }
+            Link { to: Route::HomePage {}, "Home" }
+            Link { to: Route::BlogPage { id: 1 }, "Blog" }
         }
 
         Outlet::<Route> {}
