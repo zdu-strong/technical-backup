@@ -14,5 +14,5 @@ pub enum Route {
     Home {},
 
     #[route("/blog/:id")]
-    Blog { id: i32 },
+    Blog { id: i128 },
 }

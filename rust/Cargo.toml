@@ -17,6 +17,7 @@ strum = "0.27.1"
 strum_macros = "0.27.1"
 async-trait = "0.1"
 once_cell = "1.21.3"
+rust_decimal = { version = "1.38.0", features = ["macros"] }
 
 [profile.dev]
 overflow-checks = true

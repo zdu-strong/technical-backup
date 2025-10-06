@@ -8,6 +8,7 @@ use chrono::Local;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 use dioxus_material::Button;
+use rust_decimal::prelude::*;
 use tokio_with_wasm::alias::time::sleep;
 use uuid::Uuid;
 
@@ -25,8 +26,9 @@ pub fn Hero() -> Element {
         let ref mut user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             name: Signal::new("Tom".to_string()),
+            money: Signal::new(dec!(100.05123)),
             create_date: Signal::new(Option::Some(Local::now())),
-            update_date: Signal::new(Option::None),
+            update_date: Signal::new(Option::Some(Local::now())),
         }];
         let ref mut json_string = serde_json::to_string(user_list).unwrap();
         info!("user_list_json_string: {:?}", json_string);

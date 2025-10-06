@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 const BLOG_CSS: Asset = asset!("/assets/styling/blog.css");
 
 #[component]
-pub fn Blog(id: i32) -> Element {
+pub fn Blog(id: i128) -> Element {
     rsx! {
         document::Link { rel: "stylesheet", href: BLOG_CSS }
 
