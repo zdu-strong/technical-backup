@@ -36,11 +36,11 @@ pub fn Hero() -> Element {
         info!("user_list: {:?}", user_list);
     });
 
-    let onpress_hero = |_| {};
+    let onpress_hero = move |_| {};
 
-    let onclick_change_name = use_callback(move |_| {
+    let onclick_change_name = move |_| async move {
         *cat.write().name.write() += "a";
-    });
+    };
 
     rsx! {
         div { id: "hero",
