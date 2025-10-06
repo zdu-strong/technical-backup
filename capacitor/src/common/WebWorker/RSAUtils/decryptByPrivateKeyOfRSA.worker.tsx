@@ -8,6 +8,6 @@ registerWebworker(async ({
   data: string,
   privateKeyOfRSA: string,
 }) => {
-  const rsa = new NodeRSA(Buffer.from(privateKeyOfRSA, "base64"), "pkcs8-private-der", { encryptionScheme: "pkcs1" });
-  return rsa.decrypt(Buffer.from(data, 'base64'), "utf8");
+  const rsa = new NodeRSA(Buffer.from(privateKeyOfRSA, "hex"), "pkcs8-private-der", { encryptionScheme: "pkcs1" });
+  return rsa.decrypt(Buffer.from(data, "hex"), "utf8");
 });

@@ -31,7 +31,7 @@ registerWebworker(async ({
     loaded: number,
     total: number,
   };
-  let uploadProgressList: UploadProgessType[] = [{
+  const uploadProgressList: UploadProgessType[] = [{
     createDate: new Date(),
     loaded: 0,
     total: file.size,

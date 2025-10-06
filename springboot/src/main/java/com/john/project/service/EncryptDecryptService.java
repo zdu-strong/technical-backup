@@ -7,7 +7,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.Cipher;
@@ -17,6 +16,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import cn.hutool.core.util.HexUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
@@ -39,26 +40,26 @@ public class EncryptDecryptService extends BaseService {
 
     @Transactional(readOnly = true)
     public String encryptByAES(String text) {
-        var secretKeyOfAES = Base64.getEncoder().encodeToString(this.getKeyOfAESSecretKey().getEncoded());
+        var secretKeyOfAES = HexUtil.encodeHexStr(this.getKeyOfAESSecretKey().getEncoded());
         return this.encryptByAES(text, secretKeyOfAES);
     }
 
     @Transactional(readOnly = true)
     public String decryptByAES(String text) {
-        var secretKeyOfAES = Base64.getEncoder().encodeToString(this.getKeyOfAESSecretKey().getEncoded());
+        var secretKeyOfAES = HexUtil.encodeHexStr(this.getKeyOfAESSecretKey().getEncoded());
         return this.decryptByAES(text, secretKeyOfAES);
     }
 
     @Transactional(readOnly = true)
     public String encryptByPrivateKeyOfRSA(String text) {
         var rsa = new RSA(this.getKeyOfRSAPrivateKey(), this.getKeyOfRSAPublicKey());
-        return rsa.encryptBase64(text, KeyType.PrivateKey);
+        return rsa.encryptHex(text, KeyType.PrivateKey);
     }
 
     @Transactional(readOnly = true)
     public String encryptByPublicKeyOfRSA(String text) {
         var rsa = new RSA(this.getKeyOfRSAPrivateKey(), this.getKeyOfRSAPublicKey());
-        return rsa.encryptBase64(text, KeyType.PublicKey);
+        return rsa.encryptHex(text, KeyType.PublicKey);
     }
 
     @Transactional(readOnly = true)
@@ -79,20 +80,19 @@ public class EncryptDecryptService extends BaseService {
         var salt = DigestUtils.md5(uuidUtil.v4());
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(
-                Base64.getDecoder().decode(secretKeyOfAES), "AES"), new GCMParameterSpec(16 * 8, salt));
-        return Base64.getEncoder()
-                .encodeToString(ArrayUtils.addAll(salt, cipher.doFinal(text.getBytes(StandardCharsets.UTF_8))));
+                HexUtil.decodeHex(secretKeyOfAES), "AES"), new GCMParameterSpec(16 * 8, salt));
+        return HexUtil.encodeHexStr(ArrayUtils.addAll(salt, cipher.doFinal(text.getBytes(StandardCharsets.UTF_8))));
     }
 
     @Transactional(readOnly = true)
     @SneakyThrows
     public String decryptByAES(String text, String secretKeyOfAES) {
-        var textByteList = Base64.getDecoder().decode(text);
+        var textByteList = HexUtil.decodeHex(text);
         var salt = ArrayUtils.subarray(textByteList, 0, 16);
         var encryptedTextByteList = ArrayUtils.subarray(textByteList, 16, textByteList.length);
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(
-                Base64.getDecoder().decode(secretKeyOfAES), "AES"), new GCMParameterSpec(16 * 8, salt));
+                HexUtil.decodeHex(secretKeyOfAES), "AES"), new GCMParameterSpec(16 * 8, salt));
         return new String(cipher.doFinal(encryptedTextByteList), StandardCharsets.UTF_8);
     }
 
@@ -101,9 +101,9 @@ public class EncryptDecryptService extends BaseService {
     public String encryptByPrivateKeyOfRSA(String text, String privateKeyOfRSA) {
         var keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
                 .generatePrivate(new PKCS8EncodedKeySpec(
-                        Base64.getDecoder().decode(privateKeyOfRSA)));
+                        HexUtil.decodeHex(privateKeyOfRSA)));
         var rsa = new RSA(keyOfRSAPrivateKey, null);
-        return rsa.encryptBase64(text, KeyType.PrivateKey);
+        return rsa.encryptHex(text, KeyType.PrivateKey);
     }
 
     @SneakyThrows
@@ -111,9 +111,9 @@ public class EncryptDecryptService extends BaseService {
     public String encryptByPublicKeyOfRSA(String text, String publicKeyOfRSA) {
         var keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
                 .generatePublic(new X509EncodedKeySpec(
-                        Base64.getDecoder().decode(publicKeyOfRSA)));
+                        HexUtil.decodeHex(publicKeyOfRSA)));
         var rsa = new RSA(null, keyOfRSAPublicKey);
-        return rsa.encryptBase64(text, KeyType.PublicKey);
+        return rsa.encryptHex(text, KeyType.PublicKey);
     }
 
     @SneakyThrows
@@ -121,7 +121,7 @@ public class EncryptDecryptService extends BaseService {
     public String decryptByByPublicKeyOfRSA(String text, String publicKeyOfRSA) {
         var keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
                 .generatePublic(new X509EncodedKeySpec(
-                        Base64.getDecoder().decode(publicKeyOfRSA)));
+                        HexUtil.decodeHex(publicKeyOfRSA)));
         var rsa = new RSA(null, keyOfRSAPublicKey);
         return rsa.decryptStr(text, KeyType.PublicKey);
     }
@@ -131,7 +131,7 @@ public class EncryptDecryptService extends BaseService {
     public String decryptByByPrivateKeyOfRSA(String text, String privateKeyOfRSA) {
         var keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
                 .generatePrivate(new PKCS8EncodedKeySpec(
-                        Base64.getDecoder().decode(privateKeyOfRSA)));
+                        HexUtil.decodeHex(privateKeyOfRSA)));
         var rsa = new RSA(keyOfRSAPrivateKey, null);
         return rsa.decryptStr(text, KeyType.PrivateKey);
     }
@@ -144,7 +144,7 @@ public class EncryptDecryptService extends BaseService {
         var spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
         var secret = new SecretKeySpec(factory.generateSecret(spec)
                 .getEncoded(), "AES");
-        return Base64.getEncoder().encodeToString(secret.getEncoded());
+        return HexUtil.encodeHexStr(secret.getEncoded());
     }
 
     @SneakyThrows
@@ -152,7 +152,7 @@ public class EncryptDecryptService extends BaseService {
     public String generateSecretKeyOfAES() {
         var keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(256);
-        return Base64.getEncoder().encodeToString(keyGenerator.generateKey().getEncoded());
+        return HexUtil.encodeHexStr(keyGenerator.generateKey().getEncoded());
     }
 
     @SneakyThrows
@@ -162,9 +162,9 @@ public class EncryptDecryptService extends BaseService {
         keyPairGenerator.initialize(4096);
         var keyPair = keyPairGenerator.generateKeyPair();
         return new EncryptDecryptModel()
-                .setPublicKeyOfRSA(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()))
+                .setPublicKeyOfRSA(HexUtil.encodeHexStr(keyPair.getPublic().getEncoded()))
                 .setPrivateKeyOfRSA(
-                        Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()));
+                        HexUtil.encodeHexStr(keyPair.getPrivate().getEncoded()));
     }
 
     @Transactional(readOnly = true)
@@ -173,8 +173,7 @@ public class EncryptDecryptService extends BaseService {
         var salt = DigestUtils.md5(text);
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, this.getKeyOfAESSecretKey(), new GCMParameterSpec(16 * 8, salt));
-        return Base64.getEncoder()
-                .encodeToString(ArrayUtils.addAll(salt, cipher.doFinal(text.getBytes(StandardCharsets.UTF_8))));
+        return HexUtil.encodeHexStr(ArrayUtils.addAll(salt, cipher.doFinal(text.getBytes(StandardCharsets.UTF_8))));
     }
 
     @Transactional(readOnly = true)
@@ -242,12 +241,12 @@ public class EncryptDecryptService extends BaseService {
                             .getOnlyValue();
                     this.keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
                             .generatePublic(new X509EncodedKeySpec(
-                                    Base64.getDecoder().decode(encryptDecryptEntity.getPublicKeyOfRSA())));
+                                    HexUtil.decodeHex(encryptDecryptEntity.getPublicKeyOfRSA())));
                     this.keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
                             .generatePrivate(new PKCS8EncodedKeySpec(
-                                    Base64.getDecoder().decode(encryptDecryptEntity.getPrivateKeyOfRSA())));
+                                    HexUtil.decodeHex(encryptDecryptEntity.getPrivateKeyOfRSA())));
                     this.keyOfAESSecretKey = new SecretKeySpec(
-                            Base64.getDecoder().decode(encryptDecryptEntity.getSecretKeyOfAES()), "AES");
+                            HexUtil.decodeHex(encryptDecryptEntity.getSecretKeyOfAES()), "AES");
                     this.ready = true;
                 }
             }

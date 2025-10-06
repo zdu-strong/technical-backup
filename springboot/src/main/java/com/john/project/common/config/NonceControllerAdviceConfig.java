@@ -1,9 +1,9 @@
 package com.john.project.common.config;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Date;
 
+import cn.hutool.core.util.HexUtil;
 import com.john.project.constant.DateFormatConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -62,7 +62,7 @@ public class NonceControllerAdviceConfig {
                 DateUtils.addMilliseconds(new Date(), (int) -NonceConstant.NONCE_SURVIVAL_DURATION.toMillis()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nonce has expired");
         }
-        nonce = Base64.getEncoder().encodeToString(
+        nonce = HexUtil.encodeHexStr(
                 this.objectMapper.writeValueAsString(new Pair<>(timestamp, nonce)).getBytes(StandardCharsets.UTF_8));
         if (nonce.length() > 255) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid nonce");

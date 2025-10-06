@@ -55,9 +55,9 @@ async function encrypt(publicKeyOfRSA: string, data: string) {
       const lastStr = data.substring(bytes[bytes.length - 1] + 1)
       ct += k.encrypt(lastStr)
     }
-    return Buffer.from(ct, "hex").toString("base64");
+    return Buffer.from(ct, "hex").toString("hex");
   }
   const t = k.encrypt(data)
-  const y = Buffer.from(t, "hex").toString('base64');
+  const y = Buffer.from(t, "hex").toString("hex");
   return y;
 }

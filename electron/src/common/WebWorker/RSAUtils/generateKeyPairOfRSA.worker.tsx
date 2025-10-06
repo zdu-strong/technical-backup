@@ -5,7 +5,7 @@ registerWebworker(async () => {
   const rsa = new NodeRSA({ b: 4096 });
   rsa.setOptions({ encryptionScheme: "pkcs1" });
   return {
-    privateKey: rsa.exportKey("pkcs8-private-der").toString("base64"),
-    publicKey: rsa.exportKey("pkcs8-public-der").toString("base64"),
+    privateKey: rsa.exportKey("pkcs8-private-der").toString("hex"),
+    publicKey: rsa.exportKey("pkcs8-public-der").toString("hex"),
   }
 });

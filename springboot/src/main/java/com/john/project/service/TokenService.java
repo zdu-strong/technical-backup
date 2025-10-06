@@ -1,9 +1,9 @@
 package com.john.project.service;
 
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.Base64;
 import java.util.Date;
 
+import cn.hutool.core.util.HexUtil;
 import com.john.project.entity.TokenEntity;
 import com.john.project.entity.UserEntity;
 import lombok.SneakyThrows;
@@ -104,7 +104,7 @@ public class TokenService extends BaseService {
     }
 
     private String getUniqueOneTimePasswordLogo(String encryptedPassword) {
-        var logo = Base64.getEncoder().encodeToString(DigestUtils.sha3_512(encryptedPassword));
+        var logo = HexUtil.encodeHexStr(DigestUtils.sha3_512(encryptedPassword));
         return logo;
     }
 

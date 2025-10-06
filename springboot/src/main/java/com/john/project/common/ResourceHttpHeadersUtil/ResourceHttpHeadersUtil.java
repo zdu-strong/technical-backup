@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.ObjectUtil;
 import org.apache.hc.core5.net.URIBuilder;
 import org.apache.tika.Tika;
@@ -49,7 +50,7 @@ public class ResourceHttpHeadersUtil {
 
     public void setETag(HttpHeaders httpHeaders, HttpServletRequest request) {
         var eTag = StrFormatter.format("\"{}\"",
-                Base64.getEncoder().encodeToString(
+                HexUtil.encodeHexStr(
                         this.storage.getRelativePathFromRequest(request).getBytes(StandardCharsets.UTF_8)));
         httpHeaders
                 .setETag(eTag);

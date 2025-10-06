@@ -11,7 +11,7 @@ import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
 import { MessageService } from "@common/MessageService";
-import SuperAdminRoleDetailButton from "./SuperAdminRoleDetailButton";
+import SuperAdminRoleDetailButton from "@/component/SuperAdminRoleManage/SuperAdminRoleDetailButton";
 import { SuperAdminRoleQueryPaginationModel } from "@model/SuperAdminRoleQueryPaginationModel";
 
 export default observer(() => {

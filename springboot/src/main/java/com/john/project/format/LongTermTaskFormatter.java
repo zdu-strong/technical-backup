@@ -3,6 +3,7 @@ package com.john.project.format;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.ObjectUtil;
 import eu.ciechanowiec.sneakyfun.SneakyBiConsumer;
 import org.apache.commons.lang3.time.DateUtils;
@@ -41,8 +42,7 @@ public class LongTermTaskFormatter extends BaseService {
         } else {
             responseMap.put("body", result.getBody());
         }
-        return Base64.getEncoder()
-                .encodeToString(this.objectMapper.writeValueAsString(responseMap).getBytes(StandardCharsets.UTF_8));
+        return HexUtil.encodeHexStr(this.objectMapper.writeValueAsString(responseMap).getBytes(StandardCharsets.UTF_8));
     }
 
     @SneakyThrows
@@ -89,7 +89,7 @@ public class LongTermTaskFormatter extends BaseService {
                         LongTermTaskUniqueKeyModel.class));
         if (longTermTaskEntity.getIsDone()) {
             var result = this.objectMapper.readTree(
-                    new String(Base64.getDecoder().decode(longTermTaskEntity.getResult()), StandardCharsets.UTF_8));
+                    new String(HexUtil.decodeHex(longTermTaskEntity.getResult()), StandardCharsets.UTF_8));
             longTermTaskModel.setResult(this.objectMapper
                     .readValue(this.objectMapper.writeValueAsString(result.get("body")), Object.class));
             HttpHeaders httpHeaders = new HttpHeaders();

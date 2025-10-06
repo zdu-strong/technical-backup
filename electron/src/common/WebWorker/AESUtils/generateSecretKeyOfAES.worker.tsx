@@ -10,6 +10,6 @@ registerWebworker(async ({
   if (!password) {
     password = v7();
   }
-  const salt = createHash("MD5").update(Buffer.from(password, "utf-8")).digest("base64");
-  return pbkdf2Sync(Buffer.from(password, "utf-8"), Buffer.from(salt, "base64"), 65536, 256 / 8, "sha256").toString("base64");
+  const salt = createHash("MD5").update(Buffer.from(password, "utf-8")).digest("hex");
+  return pbkdf2Sync(Buffer.from(password, "utf-8"), Buffer.from(salt, "hex"), 65536, 256 / 8, "sha256").toString("hex");
 });
