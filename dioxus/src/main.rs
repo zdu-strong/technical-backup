@@ -4,7 +4,7 @@ pub mod component;
 pub mod constant;
 pub mod enums;
 pub mod model;
-pub mod route;
+pub mod router;
 
 fn main() {
     dioxus::launch(App);

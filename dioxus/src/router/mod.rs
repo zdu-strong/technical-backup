@@ -1,6 +1,6 @@
 use crate::component::navbar::Navbar;
-use crate::route::blog_page::BlogPage;
-use crate::route::home_page::HomePage;
+use crate::router::blog_page::BlogPage;
+use crate::router::home_page::HomePage;
 use dioxus::prelude::*;
 pub mod blog_page;
 pub mod home_page;
