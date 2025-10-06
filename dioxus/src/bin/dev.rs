@@ -1,7 +1,7 @@
 use std::env::current_dir;
-use std::process::Command;
-use std::net::TcpListener;
 use std::net::SocketAddr;
+use std::net::TcpListener;
+use std::process::Command;
 
 fn main() {
     let port = 3000;
@@ -19,6 +19,7 @@ fn main() {
             "--wsl-file-poll-interval=2",
         ])
         .current_dir(current_dir().unwrap())
+        .env("RUST_BACKTRACE", "1")
         .status()
         .unwrap()
         .success();
@@ -26,7 +27,7 @@ fn main() {
 
 fn is_port_in_use(port: u16) -> bool {
     let addr = SocketAddr::from(([127, 0, 0, 1], port));
-    
+
     match TcpListener::bind(addr) {
         Ok(_) => false,
         Err(_) => true,

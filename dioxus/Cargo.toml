@@ -25,6 +25,7 @@ reqwest-websocket = { version = "0.5.1", features = ["json"] }
 once_cell = "1.21.3"
 tokio_with_wasm = { version = "0.8.7", features = ["full"] }
 rust_decimal = { version = "1.38.0", features = ["macros"] }
+serde_with = "3.15.0"
 
 [features]
 default = ["web"]
