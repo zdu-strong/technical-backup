@@ -11,6 +11,6 @@ pub struct UserModel {
     pub id: Signal<String>,
     pub name: Signal<String>,
     pub money: Signal<Decimal>,
-    pub create_date: Signal<Option<DateTime<Local>>>,
-    pub update_date: Signal<Option<DateTime<Local>>>,
+    pub create_date: Signal<DateTime<Local>>,
+    pub update_date: Signal<DateTime<Local>>,
 }

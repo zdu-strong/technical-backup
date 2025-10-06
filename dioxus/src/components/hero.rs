@@ -27,8 +27,8 @@ pub fn Hero() -> Element {
             id: Signal::new(Uuid::new_v4().to_string()),
             name: Signal::new("Tom".to_string()),
             money: Signal::new(dec!(100.05123)),
-            create_date: Signal::new(Option::Some(Local::now())),
-            update_date: Signal::new(Option::Some(Local::now())),
+            create_date: Signal::new(Local::now()),
+            update_date: Signal::new(Local::now()),
         }];
         let ref mut json_string = serde_json::to_string(user_list).unwrap();
         info!("user_list_json_string: {:?}", json_string);
