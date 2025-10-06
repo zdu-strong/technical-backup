@@ -1,4 +1,4 @@
-use crate::components::navbar::Navbar;
+use crate::component::navbar::Navbar;
 use crate::route::blog_page::BlogPage;
 use crate::route::home_page::HomePage;
 use dioxus::prelude::*;

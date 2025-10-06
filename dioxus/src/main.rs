@@ -1,6 +1,6 @@
 use crate::app::App;
 pub mod app;
-pub mod components;
+pub mod component;
 pub mod constant;
 pub mod enums;
 pub mod model;

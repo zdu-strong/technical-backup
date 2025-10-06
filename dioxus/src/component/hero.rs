@@ -1,7 +1,7 @@
 use std::time::Duration;
 
-use crate::components::game_button::GameButton;
-use crate::components::game_input::GameInput;
+use crate::component::game_button::GameButton;
+use crate::component::game_input::GameInput;
 use crate::model::cat_model::CatModel;
 use crate::model::user_model::UserModel;
 use chrono::Local;
