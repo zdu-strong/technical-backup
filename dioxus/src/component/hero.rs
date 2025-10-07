@@ -31,7 +31,7 @@ pub fn Hero() -> Element {
             update_date: Signal::new(Local::now()),
         }];
         let ref mut json_string = serde_json::to_string(user_list).unwrap();
-        info!("user_list_json_string: {:?}", json_string);
+        info!("user_list_json_string: {}", json_string);
         let ref mut user_list: Vec<UserModel> = serde_json::from_str(json_string).unwrap();
         info!("user_list: {:?}", user_list);
     });
