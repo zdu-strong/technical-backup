@@ -1,4 +1,4 @@
-import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
+import { observer, useMobxState } from "mobx-react-use-autorun";
 import { DataGrid, type GridColDef, useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button } from "@mui/material";
 import { format } from "date-fns";
@@ -10,16 +10,13 @@ import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import SuperAdminOrganizeDetailButton from "@component/SuperAdminOrganizeManage/SuperAdminOrganizeDetailButton";
 import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
-import { MessageService } from "@common/MessageService";
 import { OrganizeModel } from "@model/OrganizeModel";
 import { SuperAdminOrganizeQueryPaginationModel } from "@model/SuperAdminOrganizeQueryPaginationModel";
+import { useQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
   const state = useMobxState({
-    ready: false,
-    loading: true,
-    error: null as any,
     query: new SuperAdminOrganizeQueryPaginationModel(),
     paginationModel: new PaginationModel<OrganizeModel>(),
     columns: [
@@ -49,7 +46,7 @@ export default observer(() => {
         field: '',
         renderCell: (row) => <SuperAdminOrganizeDetailButton
           id={row.row.id}
-          searchByPagination={searchByPagination}
+          searchByPagination={organizeQueryState.requery}
         />,
         width: 150,
       },
@@ -58,33 +55,17 @@ export default observer(() => {
     dataGridRef: useGridApiRef(),
   });
 
-  useMount(async () => {
-    await searchByPagination();
-  })
+  const organizeQueryState = useQuery(async () => {
+    state.paginationModel = await api.SuperAdminOrganizeQuery.searchByPagination(state.query);
+  });
 
-  async function searchByPagination() {
-    try {
-      state.loading = true;
-      state.paginationModel = await api.SuperAdminOrganizeQuery.searchByPagination(state.query);
-      state.loading = false;
-      state.ready = true;
-    } catch (e) {
-      state.error = e;
-      if (state.ready) {
-        MessageService.error(e);
-      }
-    } finally {
-      state.loading = false;
-    }
-  }
-
-  return <LoadingOrErrorComponent ready={state.ready} error={!state.ready && state.error}>
+  return <LoadingOrErrorComponent ready={organizeQueryState.ready} error={!organizeQueryState.ready && organizeQueryState.error}>
     <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
       <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
         <Button
           variant="contained"
-          onClick={searchByPagination}
-          startIcon={<FontAwesomeIcon icon={state.loading ? faSpinner : faSearch} spin={state.loading} />}
+          onClick={organizeQueryState.requery}
+          startIcon={<FontAwesomeIcon icon={organizeQueryState.loading ? faSpinner : faSearch} spin={organizeQueryState.loading} />}
         >
           <FormattedMessage id="Refresh" defaultMessage="Refresh" />
         </Button>
@@ -98,7 +79,7 @@ export default observer(() => {
               onPaginationModelChange={(s) => {
                 state.query.pageNum = Math.max(s.page + 1, 1);
                 state.query.pageSize = Math.max(s.pageSize, 1);
-                searchByPagination();
+                organizeQueryState.requery();
               }}
               apiRef={state.dataGridRef}
               sortingMode="server"

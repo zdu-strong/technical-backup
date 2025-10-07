@@ -1,4 +1,4 @@
-import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
+import { observer, useMobxState } from "mobx-react-use-autorun";
 import { DataGrid, type GridColDef, useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button } from "@mui/material";
 import { format } from "date-fns";
@@ -11,19 +11,17 @@ import { UserModel } from "@model/UserModel";
 import SuperAdminUserDetailButton from "@component/SuperAdminUserManage/SuperAdminUserDetailButton";
 import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
-import { MessageService } from "@common/MessageService";
 import { SuperAdminUserQueryPaginationModel } from "@model/SuperAdminUserQueryPaginationModel";
-import { from, ReplaySubject } from "rxjs";
-import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
+import { useQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
+  const userQueryState = useQuery(async () => {
+    state.paginationModel = await api.SuperAdminUserQuery.searchByPagination(state.query);
+  });
+
   const state = useMobxState({
-    ready: false,
-    loading: true,
-    error: null as any,
     query: new SuperAdminUserQueryPaginationModel(),
-    querySubject: new ReplaySubject<string>(1),
     paginationModel: new PaginationModel<UserModel>(),
     columns: [
       {
@@ -52,7 +50,7 @@ export default observer(() => {
         field: '',
         renderCell: (row) => <SuperAdminUserDetailButton
           id={row.row.id}
-          searchByPagination={searchByPagination}
+          searchByPagination={userQueryState.requery}
         />,
         width: 150,
       },
@@ -61,38 +59,13 @@ export default observer(() => {
     dataGridRef: useGridApiRef(),
   });
 
-  useMount(async (subscription) => {
-    subscription.add(state.querySubject.pipe(
-      exhaustMapWithTrailing(() => from((async () => {
-        try {
-          state.loading = true;
-          state.paginationModel = await api.SuperAdminUserQuery.searchByPagination(state.query);
-          state.loading = false;
-          state.ready = true;
-        } catch (e) {
-          state.error = e;
-          if (state.ready) {
-            MessageService.error(e);
-          }
-        } finally {
-          state.loading = false;
-        }
-      })()))
-    ).subscribe());
-    await searchByPagination();
-  })
-
-  async function searchByPagination() {
-    state.querySubject.next("")
-  }
-
-  return <LoadingOrErrorComponent ready={state.ready} error={!state.ready && state.error}>
+  return <LoadingOrErrorComponent ready={userQueryState.ready} error={!userQueryState.ready && userQueryState.error}>
     <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
       <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
         <Button
           variant="contained"
-          onClick={searchByPagination}
-          startIcon={<FontAwesomeIcon icon={state.loading ? faSpinner : faSearch} spin={state.loading} />}
+          onClick={userQueryState.requery}
+          startIcon={<FontAwesomeIcon icon={userQueryState.loading ? faSpinner : faSearch} spin={userQueryState.loading} />}
         >
           <FormattedMessage id="Refresh" defaultMessage="Refresh" />
         </Button>
@@ -106,7 +79,7 @@ export default observer(() => {
               onPaginationModelChange={(s) => {
                 state.query.pageNum = Math.max(s.page + 1, 1);
                 state.query.pageSize = Math.max(s.pageSize, 1);
-                searchByPagination();
+                userQueryState.requery();
               }}
               apiRef={state.dataGridRef}
               sortingMode="server"
