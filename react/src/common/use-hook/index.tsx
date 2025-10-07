@@ -21,6 +21,7 @@ export function useQuery(callback: () => void) {
   }
 
   useMount(async (subscription) => {
+    state.requery();
     subscription.add(subjectState.subject.pipe(
       exhaustMapWithTrailing(() => of(null).pipe(
         concatMap(() => from((async () => {
@@ -31,6 +32,7 @@ export function useQuery(callback: () => void) {
             state.loading = false;
             state.error = null;
           } catch (e) {
+            state.loading = false;
             state.error = e;
           }
         })())),
@@ -38,8 +40,6 @@ export function useQuery(callback: () => void) {
       retry(),
     ).subscribe());
   })
-
-  state.requery();
 
   return state;
 }
@@ -74,6 +74,7 @@ export function useMultipleSubmit(callback: () => void) {
           } catch (e) {
             MessageService.error(e);
             state.error = e;
+            state.loading = false;
           }
         })())),
       )),
@@ -117,6 +118,7 @@ export function useOnceSubmit(callback: () => void) {
           } catch (e) {
             MessageService.error(e);
             state.error = e;
+            state.loading = false;
           }
         })())),
       )),

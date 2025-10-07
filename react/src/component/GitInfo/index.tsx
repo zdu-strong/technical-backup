@@ -1,37 +1,26 @@
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import GitInfo from 'react-git-info/macro'
-import { useMount } from "mobx-react-use-autorun";
 import { format, parseJSON } from "date-fns";
 import api from "@api";
 import { GitPropertiesModel } from "@model/GitPropertiesModel";
 import { FormattedMessage } from "react-intl";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import { useQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
   const state = useMobxState({
     clientGitInfo: GitInfo(),
     serverGitInfo: null as any as GitPropertiesModel,
-    ready: false,
-    error: null as any,
   })
 
-  useMount(async () => {
-    try {
-      await loadServerGitInfo();
-      state.ready = true;
-    } catch (e){
-      state.error = e;
-    }
-  })
+  const serverGitState = useQuery(async () => {
+      state.serverGitInfo = await api.Git.getServerGitInfo();
+  });
 
-  async function loadServerGitInfo() {
-    state.serverGitInfo = await api.Git.getServerGitInfo();
-  }
-
-  return <LoadingOrErrorComponent ready={state.ready} error={state.error}>
+  return <LoadingOrErrorComponent ready={serverGitState.ready} error={serverGitState.error}>
     {
-      state.ready && <>
+      serverGitState.ready && <>
         <div className="w-full h-full flex justify-center flex-col items-center">
           <div className="flex flex-row">
             <div className="flex flex-row">
