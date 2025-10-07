@@ -27,8 +27,8 @@ export default observer(() => {
     MessageService.success(`exhange success! you get ${targetCurrencyBalance} ${state.isUsd ? "JAPAN" : "USD"}`);
   });
 
-  function exchangePreview(value: string) {
-    const sourceValue = Number(value);
+  function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const sourceValue = Number(e.target.value);
     if (sourceValue < Number.MAX_SAFE_INTEGER) {
       state.sourceCurrencyBalance = sourceValue;
       exchangePreviewState.requery();
@@ -47,7 +47,7 @@ export default observer(() => {
         type="number"
         autoComplete="off"
         value={`${state.sourceCurrencyBalance}`}
-        onChange={(e) => exchangePreview(e.target.value)}
+        onChange={exchangePreview}
         slotProps={{
           input: {
             startAdornment: <IconButton
