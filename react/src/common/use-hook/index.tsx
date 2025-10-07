@@ -1,5 +1,5 @@
 import { useMobxState, useMount } from "mobx-react-use-autorun";
-import { concatMap, from, of, ReplaySubject, retry } from "rxjs";
+import { concatMap, exhaustMap, from, of, ReplaySubject, retry } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 import { MessageService } from "../MessageService";
 
@@ -63,7 +63,7 @@ export function useMultipleSubmit(callback: () => void) {
 
   useMount(async (subscription) => {
     subscription.add(subjectState.subject.pipe(
-      exhaustMapWithTrailing(() => of(null).pipe(
+      exhaustMap(() => of(null).pipe(
         concatMap(() => from((async () => {
           state.loading = true;
           try {

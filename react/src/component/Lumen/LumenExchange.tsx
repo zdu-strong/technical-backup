@@ -25,6 +25,8 @@ export default observer(() => {
     const targetCurrencyBalance = math.floor(exchangeResult, 2);
     exchangePreviewState.requery();
     MessageService.success(`exhange success! you get ${targetCurrencyBalance} ${state.isUsd ? "JAPAN" : "USD"}`);
+    state.sourceCurrencyBalance = 0;
+    exchangePreviewState.requery();
   });
 
   function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
