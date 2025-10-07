@@ -1,13 +1,14 @@
 use std::env::current_dir;
 use std::net::SocketAddr;
 use std::net::TcpListener;
+use std::process;
 use std::process::Command;
 
 fn main() {
     let port = 3000;
     if is_port_in_use(port) {
-        println!("Port {} is already in use.", port);
-        return;
+        eprintln!("Port {} is already in use.", port);
+        process::exit(1);
     }
     let _ = Command::new("dx")
         .args([
