@@ -8,9 +8,16 @@ pub fn Navbar() -> Element {
     rsx! {
         document::Link { rel: "stylesheet", href: NAVBAR_CSS }
 
-        div { id: "navbar",
-            Link { to: Route::HomePage {}, "Home" }
-            Link { to: Route::BlogPage { id: 1 }, "Blog" }
+        div {
+            id: "navbar",
+            Link {
+                to: Route::HomePage {},
+                "Home"
+            }
+            Link {
+                to: Route::BlogPage { id: 1 },
+                "Blog"
+            }
         }
 
         Outlet::<Route> {}

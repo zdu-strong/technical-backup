@@ -8,8 +8,13 @@ pub fn GameButton(
     onclick_change_name: EventHandler<Event<MouseData>>,
 ) -> Element {
     rsx! {
-        div { margin: "10px",
-            Button { height: "100px", onpress: onclick_change_name, "{name}" }
+        div {
+            margin: "10px",
+            Button {
+                height: "100px",
+                onpress: onclick_change_name,
+                "{name}"
+            }
         }
     }
 }

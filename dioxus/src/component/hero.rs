@@ -1,5 +1,4 @@
 use std::time::Duration;
-
 use crate::component::game_button::GameButton;
 use crate::component::game_input::GameInput;
 use crate::model::cat_model::CatModel;
@@ -43,13 +42,28 @@ pub fn Hero() -> Element {
     };
 
     rsx! {
-        div { id: "hero",
-            img { id: "header", src: HEADER_SVG }
-            div { margin: "10px", margin_bottom: "10px",
-                Button { height: "100px", onpress: onpress_hero, "who are you?" }
+        div {
+            id: "hero",
+            img {
+                id: "header",
+                src: HEADER_SVG ,
             }
-            GameButton { name: cat.read().name, onclick_change_name }
-            GameInput { name: cat.read().name }
+            div {
+                margin: "10px",
+                margin_bottom: "10px",
+                Button {
+                    height: "100px",
+                    onpress: onpress_hero,
+                    "who are you?"
+                }
+            }
+            GameButton {
+                name: cat.read().name,
+                onclick_change_name,
+            }
+            GameInput {
+                name: cat.read().name,
+            }
         }
     }
 }

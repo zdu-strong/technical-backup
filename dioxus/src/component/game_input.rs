@@ -8,7 +8,8 @@ pub fn GameInput(name: ReadOnlySignal<Signal<String>>) -> Element {
     };
 
     rsx! {
-        div { margin: "10px",
+        div {
+            margin: "10px",
             TextField {
                 width: "100%",
                 label: "name",
