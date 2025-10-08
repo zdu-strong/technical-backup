@@ -11,20 +11,20 @@ import SuperAdminUserManagePage from '@/router/page/SuperAdminUserManagePage';
 import LumenExchangePage from '@/router/page/LumenExchangePage';
 
 export default (
-  <BrowserRouter>
-    <Routes>
-      <Route index element={MessagePage} />
-      <Route path="/chat" element={MessagePage} />
-      <Route path="/sign-in" element={SignInPage} />
-      <Route path="/sign-up" element={SignUpPage} />
-      <Route path="/git" element={GitPage} />
-      <Route path="/lumen/exchange" element={LumenExchangePage} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/404" element={NotFoundPage} />
-      <Route path="/super-admin/role/manage" element={SuperAdminRoleManagePage} />
-      <Route path="/super-admin/organize/manage" element={SuperAdminOrganizeManagePage} />
-      <Route path="/super-admin/user/manage" element={SuperAdminUserManagePage} />
-      <Route path="*" element={NotFoundPage} />
-    </Routes>
-  </BrowserRouter>
+    <BrowserRouter>
+        <Routes>
+            <Route index element={MessagePage} />
+            <Route path="/chat" element={MessagePage} />
+            <Route path="/sign-in" element={SignInPage} />
+            <Route path="/sign-up" element={SignUpPage} />
+            <Route path="/git" element={GitPage} />
+            <Route path="/lumen/exchange" element={LumenExchangePage} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/404" element={NotFoundPage} />
+            <Route path="/super-admin/role/manage" element={SuperAdminRoleManagePage} />
+            <Route path="/super-admin/organize/manage" element={SuperAdminOrganizeManagePage} />
+            <Route path="/super-admin/user/manage" element={SuperAdminUserManagePage} />
+            <Route path="*" element={NotFoundPage} />
+        </Routes>
+    </BrowserRouter>
 )

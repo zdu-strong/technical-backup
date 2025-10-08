@@ -5,38 +5,38 @@ import { UserModel } from '@model/UserModel';
 @jsonObject
 export class FriendshipModel {
 
-  @jsonMember(String)
-  id!: string;
+    @jsonMember(String)
+    id!: string;
 
-  @jsonMember(Boolean)
-  isFriend!: boolean;
+    @jsonMember(Boolean)
+    isFriend!: boolean;
 
-  @jsonMember(Boolean)
-  isInBlacklist!: boolean;
+    @jsonMember(Boolean)
+    isInBlacklist!: boolean;
 
-  @jsonMember(Boolean)
-  isFriendOfFriend!: boolean;
+    @jsonMember(Boolean)
+    isFriendOfFriend!: boolean;
 
-  @jsonMember(Boolean)
-  isInBlacklistOfFriend!: boolean;
+    @jsonMember(Boolean)
+    isInBlacklistOfFriend!: boolean;
 
-  @jsonMember(Boolean)
-  hasInitiative!: boolean;
+    @jsonMember(Boolean)
+    hasInitiative!: boolean;
 
-  @jsonMember(Date)
-  createDate!: Date;
+    @jsonMember(Date)
+    createDate!: Date;
 
-  @jsonMember(Date)
-  updateDate!: Date;
+    @jsonMember(Date)
+    updateDate!: Date;
 
-  @jsonMember(UserModel)
-  user!: UserModel;
+    @jsonMember(UserModel)
+    user!: UserModel;
 
-  @jsonMember(UserModel)
-  friend!: UserModel;
+    @jsonMember(UserModel)
+    friend!: UserModel;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    constructor() {
+        makeAutoObservable(this);
+    }
 
 }

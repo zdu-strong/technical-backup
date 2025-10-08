@@ -3,10 +3,10 @@ import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissio
 import MainMenu from "@component/SystemMenu/MainMenu";
 
 export default <CheckPermissionComponent
-  isAutoLogin={true}
-  checkIsSignIn={true}
+    isAutoLogin={true}
+    checkIsSignIn={true}
 >
-  <MainMenu>
-    <LumenExchange />
-  </MainMenu>
+    <MainMenu>
+        <LumenExchange />
+    </MainMenu>
 </CheckPermissionComponent>

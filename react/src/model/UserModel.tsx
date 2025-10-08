@@ -5,31 +5,31 @@ import { makeAutoObservable } from 'mobx-react-use-autorun'
 @jsonObject
 export class UserModel {
 
-  @jsonMember(String)
-  id!: string;
+    @jsonMember(String)
+    id!: string;
 
-  @jsonMember(String)
-  username!: string;
+    @jsonMember(String)
+    username!: string;
 
-  @jsonMember(String)
-  password!: string;
+    @jsonMember(String)
+    password!: string;
 
-  @jsonArrayMember(UserEmailModel)
-  userEmailList!: UserEmailModel[];
+    @jsonArrayMember(UserEmailModel)
+    userEmailList!: UserEmailModel[];
 
-  @jsonMember(String)
-  accessToken!: string;
+    @jsonMember(String)
+    accessToken!: string;
 
-  @jsonMember(Boolean)
-  menuOpen!: boolean;
+    @jsonMember(Boolean)
+    menuOpen!: boolean;
 
-  @jsonMember(Date)
-  createDate!: Date;
+    @jsonMember(Date)
+    createDate!: Date;
 
-  @jsonMember(Date)
-  updateDate!: Date;
+    @jsonMember(Date)
+    updateDate!: Date;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    constructor() {
+        makeAutoObservable(this);
+    }
 }

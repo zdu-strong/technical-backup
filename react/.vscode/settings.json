@@ -1,28 +1,32 @@
 {
-    "files.exclude": {
-        ".gitignore": true,
-        "package-lock.json": true,
-        "tsconfig.json": true,
-        ".vscode": true,
-        "bin": true,
-        "build": true,
-        "cypress/tsconfig.json": true,
-        "cypress.json": true,
-        "postcss.config.mjs": true,
-        "src/reportWebVitals.ts": true,
-        "src/react-app-env.d.ts": true,
-        ".ncurc.json": true,
-        "rsbuild.config.ts": true,
-    },
-    "files.autoSave": "onFocusChange",
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.detectIndentation": false,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "never"
-    },
-    "extensions.ignoreRecommendations": true,
-    "git.enabled": false,
-    "workbench.editor.enablePreview": false,
-    "git.openRepositoryInParentFolders": "never",
+  "files.exclude": {
+    ".gitignore": true,
+    "package-lock.json": true,
+    "tsconfig.json": true,
+    ".vscode": true,
+    "bin": true,
+    "build": true,
+    "cypress/tsconfig.json": true,
+    "cypress.json": true,
+    "postcss.config.mjs": true,
+    "src/reportWebVitals.ts": true,
+    "src/react-app-env.d.ts": true,
+    ".ncurc.json": true,
+    "rsbuild.config.ts": true,
+  },
+  "files.autoSave": "onFocusChange",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never"
+  },
+  "extensions.ignoreRecommendations": true,
+  "git.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "git.openRepositoryInParentFolders": "never",
+  "[typescriptreact]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+  }
 }

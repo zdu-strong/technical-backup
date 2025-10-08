@@ -7,45 +7,45 @@ import SuperAdminRoleDetailDialog from "@component/SuperAdminRoleManage/SuperAdm
 import { FormattedMessage } from "react-intl";
 
 type Props = {
-  id: string;
-  searchByPagination: () => void;
+    id: string;
+    searchByPagination: () => void;
 }
 
 export default observer((props: Props) => {
 
-  const state = useMobxState({
-    dialog: {
-      open: false,
-      id: v7()
-    }
-  })
+    const state = useMobxState({
+        dialog: {
+            open: false,
+            id: v7()
+        }
+    })
 
-  function openDialog() {
-    state.dialog = {
-      open: true,
-      id: v7()
+    function openDialog() {
+        state.dialog = {
+            open: true,
+            id: v7()
+        }
     }
-  }
 
-  function closeDialog() {
-    state.dialog.open = false;
-  }
-
-  return <>
-    <Button
-      onClick={openDialog}
-      variant="contained"
-      startIcon={<FontAwesomeIcon icon={faCircleInfo} />}
-    >
-      <FormattedMessage id="Detail" defaultMessage="Detail" />
-    </Button>
-    {
-      state.dialog.open && <SuperAdminRoleDetailDialog
-        id={props.id}
-        searchByPagination={props.searchByPagination}
-        key={state.dialog.id}
-        closeDialog={closeDialog}
-      />
+    function closeDialog() {
+        state.dialog.open = false;
     }
-  </>
+
+    return <>
+        <Button
+            onClick={openDialog}
+            variant="contained"
+            startIcon={<FontAwesomeIcon icon={faCircleInfo} />}
+        >
+            <FormattedMessage id="Detail" defaultMessage="Detail" />
+        </Button>
+        {
+            state.dialog.open && <SuperAdminRoleDetailDialog
+                id={props.id}
+                searchByPagination={props.searchByPagination}
+                key={state.dialog.id}
+                closeDialog={closeDialog}
+            />
+        }
+    </>
 })

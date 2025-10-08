@@ -3,7 +3,7 @@ import SignIn from '@component/SignIn/SignIn';
 
 
 export default <CheckPermissionComponent
-  checkIsNotSignIn={true}
+    checkIsNotSignIn={true}
 >
-  <SignIn />
+    <SignIn />
 </CheckPermissionComponent>

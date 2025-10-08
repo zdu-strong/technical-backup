@@ -5,29 +5,29 @@ import { jsonMember, jsonObject } from "typedjson";
 @jsonObject
 export class UserMessageModel {
 
-  @jsonMember(String)
-  id!: string;
+    @jsonMember(String)
+    id!: string;
 
-  @jsonMember(Date)
-  createDate!: Date;
+    @jsonMember(Date)
+    createDate!: Date;
 
-  @jsonMember(Date)
-  updateDate!: Date;
+    @jsonMember(Date)
+    updateDate!: Date;
 
-  @jsonMember(String)
-  content!: string;
+    @jsonMember(String)
+    content!: string;
 
-  @jsonMember(String)
-  url!: string;
+    @jsonMember(String)
+    url!: string;
 
-  @jsonMember(Number)
-  pageNum!: number;
+    @jsonMember(Number)
+    pageNum!: number;
 
-  @jsonMember(UserModel)
-  user!: UserModel;
+    @jsonMember(UserModel)
+    user!: UserModel;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    constructor() {
+        makeAutoObservable(this);
+    }
 }
 

@@ -3,20 +3,20 @@ import { jsonMember, jsonObject } from "typedjson";
 
 @jsonObject
 export class SystemRoleModel {
-  
-  @jsonMember(String)
-  id!: string;
 
-  @jsonMember(Date)
-  createDate!: Date;
+    @jsonMember(String)
+    id!: string;
 
-  @jsonMember(Date)
-  updateDate!: Date;
+    @jsonMember(Date)
+    createDate!: Date;
 
-  @jsonMember(String)
-  name!: string;
+    @jsonMember(Date)
+    updateDate!: Date;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    @jsonMember(String)
+    name!: string;
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 }
