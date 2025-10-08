@@ -1,6 +1,6 @@
-import page from '../../page'
+import page from '@/page'
 import { v7 } from 'uuid'
-import * as action from '../../action'
+import * as action from '@/action'
 
 it('', () => {
     page.Chat.RecallMessageButton(message).click()

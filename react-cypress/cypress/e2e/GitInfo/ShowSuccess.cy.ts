@@ -1,4 +1,4 @@
-import page from '../../page'
+import page from '@/page'
 
 it('', () => {
     page.GitInfo.FrondEndCommitIdInfo().then((element) => element.text()).should("have.length", 40)

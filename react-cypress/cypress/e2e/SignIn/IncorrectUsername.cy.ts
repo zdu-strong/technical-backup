@@ -1,5 +1,5 @@
 import { v7 } from 'uuid'
-import page from '../../page'
+import page from '@/page'
 
 it('', () => {
     page.SignIn.username().clear().type(email)

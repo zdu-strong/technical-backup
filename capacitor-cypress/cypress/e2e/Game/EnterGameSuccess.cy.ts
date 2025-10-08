@@ -1,5 +1,5 @@
-import page from '../../page'
-import * as action from '../../action'
+import page from '@/page'
+import * as action from '@/action'
 
 it('', () => {
     page.HomePage.EnterGame().click()

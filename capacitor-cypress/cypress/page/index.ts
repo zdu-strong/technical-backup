@@ -1,5 +1,5 @@
-import HomePage from './Home'
-import NotFound from './NotFound'
+import HomePage from '@/page/Home';
+import NotFound from '@/page/NotFound';
 
 export default {
     HomePage,

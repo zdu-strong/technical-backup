@@ -1,9 +1,9 @@
-import NotFound from './NotFound'
-import SignUp from './SignUp'
-import SignIn from './SignIn'
-import Chat from './Chat'
-import GitInfo from './GitInfo'
-import SuperAdminUserManage from './SuperAdminUserManage'
+import NotFound from '@/page/NotFound'
+import SignUp from '@/page/SignUp'
+import SignIn from '@/page/SignIn'
+import Chat from '@/page/Chat'
+import GitInfo from '@/page/GitInfo'
+import SuperAdminUserManage from '@/page/SuperAdminUserManage'
 
 export default {
     NotFound,

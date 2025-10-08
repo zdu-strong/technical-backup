@@ -1,4 +1,4 @@
-import page from '../page'
+import page from '@/page'
 
 export function signUp(email: string, password: string) {
     page.SignUp.nickname().type('John Hancock')

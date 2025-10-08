@@ -1,6 +1,6 @@
 import { v7 } from 'uuid'
-import page from '../../page'
-import * as action from '../../action'
+import page from '@/page'
+import * as action from '@/action'
 
 it('', () => {
     page.SignIn.username().clear().type(email)

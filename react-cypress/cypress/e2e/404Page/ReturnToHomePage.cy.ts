@@ -1,4 +1,4 @@
-import page from '../../page'
+import page from '@/page'
 
 it('', () => {
     page.NotFound.ReturnToHomeButton().click()
