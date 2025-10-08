@@ -4,17 +4,17 @@ import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorCompon
 import SingleMessage from "@/component/Message/SingleMessage";
 
 type Props = {
-  pageNum: number
+    pageNum: number
 }
 
 export default observer((props: Props) => {
 
-  const state = useMobxState({
-  }, {
-    ...useGlobalSingleMessage(props.pageNum)
-  })
+    const state = useMobxState({
+    }, {
+        ...useGlobalSingleMessage(props.pageNum)
+    })
 
-  return <LoadingOrErrorComponent ready={state.ready} error={null}>
-    <SingleMessage message={state.message} key={state.message.id} />
-  </LoadingOrErrorComponent>
+    return <LoadingOrErrorComponent ready={state.ready} error={null}>
+        <SingleMessage message={state.message} key={state.message.id} />
+    </LoadingOrErrorComponent>
 })

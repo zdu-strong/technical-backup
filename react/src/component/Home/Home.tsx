@@ -9,109 +9,109 @@ import { faWater } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 const css = stylesheet({
-  container: {
-    textAlign: "center",
-    display: "flex",
-    flex: "1 1 auto",
-    flexDirection: "column",
-  },
-  header: {
-    backgroundColor: "#282c34",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "calc(10px + 2vmin)",
-    color: "white",
-  },
-  img: {
-    height: "40vmin",
-    pointerEvents: "none",
-    animationName: keyframes({
-      "from": {
-        transform: "rotate(0deg)"
-      },
-      "to": {
-        transform: "rotate(360deg)",
-      }
-    }),
-    animationDuration: "20s",
-    animationIterationCount: "infinite",
-    animationTimingFunction: "linear",
-  },
-  batteryContainer: {
-    color: "#61dafb",
-    display: "flex",
-    flexDirection: "column",
-  },
+    container: {
+        textAlign: "center",
+        display: "flex",
+        flex: "1 1 auto",
+        flexDirection: "column",
+    },
+    header: {
+        backgroundColor: "#282c34",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "calc(10px + 2vmin)",
+        color: "white",
+    },
+    img: {
+        height: "40vmin",
+        pointerEvents: "none",
+        animationName: keyframes({
+            "from": {
+                transform: "rotate(0deg)"
+            },
+            "to": {
+                transform: "rotate(360deg)",
+            }
+        }),
+        animationDuration: "20s",
+        animationIterationCount: "infinite",
+        animationTimingFunction: "linear",
+    },
+    batteryContainer: {
+        color: "#61dafb",
+        display: "flex",
+        flexDirection: "column",
+    },
 })
 
 export default observer(() => {
 
-  const state = useMobxState({
-    randomNumber: null as number | null,
-    people: {
-      name: "",
-    },
-  })
+    const state = useMobxState({
+        randomNumber: null as number | null,
+        people: {
+            name: "",
+        },
+    })
 
-  useMount((subscription) => {
-    /* Generate random number */
-    subscription.add(of(null).pipe(
-      concatMap(() => from((async () => {
-        while (true) {
-          const numberOne = Math.floor(Math.random() * 100 + 1);
-          if (state.randomNumber !== numberOne) {
-            state.randomNumber = numberOne;
-            break;
-          }
-          await timer(0).toPromise();
-        }
-      })())),
-      repeat({ delay: 1000 }),
-    ).subscribe());
-  })
+    useMount((subscription) => {
+        /* Generate random number */
+        subscription.add(of(null).pipe(
+            concatMap(() => from((async () => {
+                while (true) {
+                    const numberOne = Math.floor(Math.random() * 100 + 1);
+                    if (state.randomNumber !== numberOne) {
+                        state.randomNumber = numberOne;
+                        break;
+                    }
+                    await timer(0).toPromise();
+                }
+            })())),
+            repeat({ delay: 1000 }),
+        ).subscribe());
+    })
 
-  return (
-    <div
-      className={css.container}
-    >
-      <header
-        className={css.header}
-      >
-        <img
-          src={logo}
-          className={css.img} alt="logo" />
-        <div className="flex">
-          <FormattedMessage id="EditSrcAppTsxAndSaveToReload" defaultMessage="Edit src/App.tsx and save to reload" />
-          {"."}
-        </div>
+    return (
         <div
-          className={css.batteryContainer}
+            className={css.container}
         >
-          {
-            state.randomNumber !== null ? (<div>
-              <div>
-                <FormattedMessage id="RandomNumber" defaultMessage="Random number" />
-                {": " + (state.randomNumber!) + "%"}
-              </div>
-            </div>) : (
-              <CircularProgress />
-            )
-          }
-          <div>
-            <Link to="/not_found">
-              <Button
-                variant="contained"
-                startIcon={<FontAwesomeIcon icon={faWater} />}
-              >
-                <FormattedMessage id="GoToTheUnknownArea" defaultMessage="Go to the unknown area" />
-              </Button>
-            </Link>
-          </div>
+            <header
+                className={css.header}
+            >
+                <img
+                    src={logo}
+                    className={css.img} alt="logo" />
+                <div className="flex">
+                    <FormattedMessage id="EditSrcAppTsxAndSaveToReload" defaultMessage="Edit src/App.tsx and save to reload" />
+                    {"."}
+                </div>
+                <div
+                    className={css.batteryContainer}
+                >
+                    {
+                        state.randomNumber !== null ? (<div>
+                            <div>
+                                <FormattedMessage id="RandomNumber" defaultMessage="Random number" />
+                                {": " + (state.randomNumber!) + "%"}
+                            </div>
+                        </div>) : (
+                            <CircularProgress />
+                        )
+                    }
+                    <div>
+                        <Link to="/not_found">
+                            <Button
+                                variant="contained"
+                                startIcon={<FontAwesomeIcon icon={faWater} />}
+                            >
+                                <FormattedMessage id="GoToTheUnknownArea" defaultMessage="Go to the unknown area" />
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            </header>
         </div>
-      </header>
-    </div>
-  );
+    );
 })

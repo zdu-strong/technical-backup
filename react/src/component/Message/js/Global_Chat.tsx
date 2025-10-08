@@ -5,102 +5,102 @@ import { ReplaySubject, Subscription, catchError, concatMap, repeat, share, tap,
 import { v7 } from "uuid";
 
 export const GlobalChatMessage = observable({
-  totalRecords: 0,
-  lastMessageId: "",
-  ready: false,
-  error: null,
-  messageMap: {
+    totalRecords: 0,
+    lastMessageId: "",
+    ready: false,
+    error: null,
+    messageMap: {
 
-  } as Record<number, UserMessageModel>
+    } as Record<number, UserMessageModel>
 })
 
 let subject = new ReplaySubject<{ pageNum: number, isCancel: boolean }>(100);
 
 const GlobalShareMessageSubject = api.UserMessage.getUserMessageWebsocket(subject)
-  .pipe(
-    tap((s) => {
-      let hasNewMessage = false;
-      if (typeof s.totalPages === "number") {
-        hasNewMessage = s.totalPages > GlobalChatMessage.totalRecords;
-        GlobalChatMessage.totalRecords = s.totalPages;
-      }
-      for (const message of s.items) {
-        GlobalChatMessage.messageMap[message.pageNum] = message;
-        if (message.pageNum === GlobalChatMessage.totalRecords) {
-          if (message.id !== GlobalChatMessage.lastMessageId) {
-            GlobalChatMessage.lastMessageId = message.id;
-            hasNewMessage = true;
-          }
-        }
-      }
-      if (hasNewMessage) {
-        scrollToLastItem();
-      }
-      GlobalChatMessage.ready = true;
-      GlobalChatMessage.error = null;
-    }),
-    repeat({ delay: 2000 }),
-    catchError((error, caught) => {
-      GlobalChatMessage.error = error;
+    .pipe(
+        tap((s) => {
+            let hasNewMessage = false;
+            if (typeof s.totalPages === "number") {
+                hasNewMessage = s.totalPages > GlobalChatMessage.totalRecords;
+                GlobalChatMessage.totalRecords = s.totalPages;
+            }
+            for (const message of s.items) {
+                GlobalChatMessage.messageMap[message.pageNum] = message;
+                if (message.pageNum === GlobalChatMessage.totalRecords) {
+                    if (message.id !== GlobalChatMessage.lastMessageId) {
+                        GlobalChatMessage.lastMessageId = message.id;
+                        hasNewMessage = true;
+                    }
+                }
+            }
+            if (hasNewMessage) {
+                scrollToLastItem();
+            }
+            GlobalChatMessage.ready = true;
+            GlobalChatMessage.error = null;
+        }),
+        repeat({ delay: 2000 }),
+        catchError((error, caught) => {
+            GlobalChatMessage.error = error;
 
-      return timer(2000).pipe(
-        concatMap(() => caught)
-      );
-    }),
-    share(),
-  );
+            return timer(2000).pipe(
+                concatMap(() => caught)
+            );
+        }),
+        share(),
+    );
 
 function loadMessage(pageNum: number) {
-  subject.next({ pageNum, isCancel: false });
+    subject.next({ pageNum, isCancel: false });
 }
 
 function unloadMessage(pageNum: number) {
-  subject.next({ pageNum, isCancel: true });
+    subject.next({ pageNum, isCancel: true });
 }
 
 export function useGlobalSingleMessage(pageNum: number) {
-  useMount((subjectSingle) => {
-    subjectSingle.add(GlobalShareMessageSubject.subscribe());
-    subjectSingle.add(new Subscription(() => {
-      unloadMessage(pageNum);
-    }));
-    loadMessage(pageNum);
-  })
+    useMount((subjectSingle) => {
+        subjectSingle.add(GlobalShareMessageSubject.subscribe());
+        subjectSingle.add(new Subscription(() => {
+            unloadMessage(pageNum);
+        }));
+        loadMessage(pageNum);
+    })
 
-  const ready = !!(GlobalChatMessage.messageMap[pageNum] && GlobalChatMessage.messageMap[pageNum].id);
-  let message = new UserMessageModel();
+    const ready = !!(GlobalChatMessage.messageMap[pageNum] && GlobalChatMessage.messageMap[pageNum].id);
+    let message = new UserMessageModel();
 
-  if (GlobalChatMessage.messageMap[pageNum]) {
-    message = GlobalChatMessage.messageMap[pageNum];
-  }
-  if (!message.id) {
-    message.pageNum = pageNum;
-    message.id = v7();
-  }
-  return { ready, message };
+    if (GlobalChatMessage.messageMap[pageNum]) {
+        message = GlobalChatMessage.messageMap[pageNum];
+    }
+    if (!message.id) {
+        message.pageNum = pageNum;
+        message.id = v7();
+    }
+    return { ready, message };
 }
 
 export function useGlobalMessageReady() {
-  useMount((subjectSingle) => {
-    subjectSingle.add(GlobalShareMessageSubject.subscribe());
-  })
+    useMount((subjectSingle) => {
+        subjectSingle.add(GlobalShareMessageSubject.subscribe());
+    })
 
-  return { ready: GlobalChatMessage.ready, error: GlobalChatMessage.error };
+    return { ready: GlobalChatMessage.ready, error: GlobalChatMessage.error };
 }
 
 export const GlobalScrollToLastItemSubject = new ReplaySubject<void>(1);
 GlobalScrollToLastItemSubject.next();
 
 export async function scrollToLastItem() {
-  GlobalScrollToLastItemSubject.next();
+    GlobalScrollToLastItemSubject.next();
 }
 
 export function reinitializeOfGlobalChat() {
-  GlobalChatMessage.totalRecords = 0;
-  GlobalChatMessage.lastMessageId = "";
-  GlobalChatMessage.ready = false;
-  GlobalChatMessage.error = null;
-  GlobalChatMessage.messageMap = {
-  };
-  subject = new ReplaySubject<{ pageNum: number, isCancel: boolean }>(100);
+    GlobalChatMessage.totalRecords = 0;
+    GlobalChatMessage.lastMessageId = "";
+    GlobalChatMessage.ready = false;
+    GlobalChatMessage.error = null;
+    GlobalChatMessage.messageMap = {
+    };
+    subject = new ReplaySubject<{ pageNum: number, isCancel: boolean }>(100);
 }

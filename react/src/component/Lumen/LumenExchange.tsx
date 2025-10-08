@@ -9,92 +9,92 @@ import { useMultipleSubmit, useQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
-  const state = useMobxState({
-    isUsd: true,
-    sourceCurrencyBalance: 0,
-    targetCurrencyBalance: 0,
-  });
+    const state = useMobxState({
+        isUsd: true,
+        sourceCurrencyBalance: 0,
+        targetCurrencyBalance: 0,
+    });
 
-  const exchangePreviewState = useQuery(async () => {
-    const exchangeResult = await api.Lumen.exchangePreview(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
-    state.targetCurrencyBalance = math.floor(exchangeResult, 2);
-  });
+    const exchangePreviewState = useQuery(async () => {
+        const exchangeResult = await api.Lumen.exchangePreview(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
+        state.targetCurrencyBalance = math.floor(exchangeResult, 2);
+    });
 
-  const exchangeState = useMultipleSubmit(async () => {
-    const exchangeResult = await api.Lumen.exchange(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
-    const targetCurrencyBalance = math.floor(exchangeResult, 2);
-    exchangePreviewState.requery();
-    MessageService.success(`exhange success! you get ${targetCurrencyBalance} ${state.isUsd ? "JAPAN" : "USD"}`);
-    state.sourceCurrencyBalance = 0;
-    exchangePreviewState.requery();
-  });
+    const exchangeState = useMultipleSubmit(async () => {
+        const exchangeResult = await api.Lumen.exchange(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
+        const targetCurrencyBalance = math.floor(exchangeResult, 2);
+        exchangePreviewState.requery();
+        MessageService.success(`exhange success! you get ${targetCurrencyBalance} ${state.isUsd ? "JAPAN" : "USD"}`);
+        state.sourceCurrencyBalance = 0;
+        exchangePreviewState.requery();
+    });
 
-  function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    const sourceValue = Number(e.target.value);
-    if (sourceValue < Number.MAX_SAFE_INTEGER) {
-      state.sourceCurrencyBalance = sourceValue;
-      exchangePreviewState.requery();
+    function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const sourceValue = Number(e.target.value);
+        if (sourceValue < Number.MAX_SAFE_INTEGER) {
+            state.sourceCurrencyBalance = sourceValue;
+            exchangePreviewState.requery();
+        }
     }
-  }
 
-  function transform() {
-    state.isUsd = !state.isUsd;
-    exchangePreviewState.requery();
-  }
+    function transform() {
+        state.isUsd = !state.isUsd;
+        exchangePreviewState.requery();
+    }
 
-  return <div className="flex flex-col flex-auto justify-center items-center">
-    <div style={{ paddingBottom: "1em" }}>
-      <TextField
-        label={state.isUsd ? "USD" : "JAPAN"}
-        type="number"
-        autoComplete="off"
-        value={`${state.sourceCurrencyBalance}`}
-        onChange={exchangePreview}
-        slotProps={{
-          input: {
-            startAdornment: <IconButton
-              color="primary"
+    return <div className="flex flex-col flex-auto justify-center items-center">
+        <div style={{ paddingBottom: "1em" }}>
+            <TextField
+                label={state.isUsd ? "USD" : "JAPAN"}
+                type="number"
+                autoComplete="off"
+                value={`${state.sourceCurrencyBalance}`}
+                onChange={exchangePreview}
+                slotProps={{
+                    input: {
+                        startAdornment: <IconButton
+                            color="primary"
+                        >
+                            <FontAwesomeIcon icon={state.isUsd ? faDollarSign : faMoneyBill1Wave} />
+                        </IconButton>
+                    }
+                }}
+            />
+        </div>
+        <div style={{ paddingBottom: "1em" }}>
+            <IconButton
+                color="primary"
+                onClick={transform}
             >
-              <FontAwesomeIcon icon={state.isUsd ? faDollarSign : faMoneyBill1Wave} />
+                <FontAwesomeIcon icon={faArrowDownShortWide} />
             </IconButton>
-          }
-        }}
-      />
-    </div>
-    <div style={{ paddingBottom: "1em" }}>
-      <IconButton
-        color="primary"
-        onClick={transform}
-      >
-        <FontAwesomeIcon icon={faArrowDownShortWide} />
-      </IconButton>
-    </div>
-    <div style={{ paddingBottom: "1em" }}>
-      <TextField
-        label={state.isUsd ? "JAPAN" : "USD"}
-        type="number"
-        autoComplete="off"
-        disabled
-        value={`${state.targetCurrencyBalance}`}
-        slotProps={{
-          input: {
-            startAdornment: <IconButton
-              color="primary"
+        </div>
+        <div style={{ paddingBottom: "1em" }}>
+            <TextField
+                label={state.isUsd ? "JAPAN" : "USD"}
+                type="number"
+                autoComplete="off"
+                disabled
+                value={`${state.targetCurrencyBalance}`}
+                slotProps={{
+                    input: {
+                        startAdornment: <IconButton
+                            color="primary"
+                        >
+                            <FontAwesomeIcon icon={state.isUsd ? faMoneyBill1Wave : faDollarSign} />
+                        </IconButton>
+                    }
+                }}
+            />
+        </div>
+        <div className="flex flex-row">
+            <Button
+                variant="contained"
+                startIcon={<FontAwesomeIcon icon={exchangeState.loading ? faSpinner : faMoneyCheckDollar} spin={exchangeState.loading} />}
+                onClick={exchangeState.resubmit}
             >
-              <FontAwesomeIcon icon={state.isUsd ? faMoneyBill1Wave : faDollarSign} />
-            </IconButton>
-          }
-        }}
-      />
+                {"exchange"}
+            </Button>
+        </div>
     </div>
-    <div className="flex flex-row">
-      <Button
-        variant="contained"
-        startIcon={<FontAwesomeIcon icon={exchangeState.loading ? faSpinner : faMoneyCheckDollar} spin={exchangeState.loading} />}
-        onClick={exchangeState.resubmit}
-      >
-        {"exchange"}
-      </Button>
-    </div>
-  </div>
 })

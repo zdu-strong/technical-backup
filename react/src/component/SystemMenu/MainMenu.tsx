@@ -6,31 +6,31 @@ import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
 
 type Props = {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 export default observer((props: Props) => {
 
-  const state = useMobxState({
+    const state = useMobxState({
 
-  }, {
-    navigation: useReactRouterAppProviderNavigation(),
-  })
+    }, {
+        navigation: useReactRouterAppProviderNavigation(),
+    })
 
-  return <ReactRouterAppProvider
-    navigation={state.navigation}
-    branding={{ title: "", logo: "" }}
-  >
-    <DashboardLayout
-      slots={{ toolbarActions: UserInfoMenu }}
+    return <ReactRouterAppProvider
+        navigation={state.navigation}
+        branding={{ title: "", logo: "" }}
     >
-      <div className="overflow-auto flex flex-auto">
-        <div className="flex flex-col min-w-full min-h-full w-max">
-          <div className='flex flex-col flex-auto'>
-            {props.children}
-          </div>
-        </div>
-      </div>
-    </DashboardLayout>
-  </ReactRouterAppProvider>
+        <DashboardLayout
+            slots={{ toolbarActions: UserInfoMenu }}
+        >
+            <div className="overflow-auto flex flex-auto">
+                <div className="flex flex-col min-w-full min-h-full w-max">
+                    <div className='flex flex-col flex-auto'>
+                        {props.children}
+                    </div>
+                </div>
+            </div>
+        </DashboardLayout>
+    </ReactRouterAppProvider>
 })

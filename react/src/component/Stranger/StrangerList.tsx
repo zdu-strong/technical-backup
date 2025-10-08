@@ -8,36 +8,36 @@ import { FormattedMessage } from "react-intl";
 
 export default observer(() => {
 
-  const state = useMobxState({
-    friendshipList: [] as FriendshipModel[],
-    ready: false,
-    error: null as any,
-  })
+    const state = useMobxState({
+        friendshipList: [] as FriendshipModel[],
+        ready: false,
+        error: null as any,
+    })
 
-  useMount(async () => {
-    try {
-      await getFriendshipList();
-      state.ready = true;
-    } catch (error) {
-      state.error = error;
+    useMount(async () => {
+        try {
+            await getFriendshipList();
+            state.ready = true;
+        } catch (error) {
+            state.error = error;
+        }
+    })
+
+    async function getFriendshipList() {
+        const { items: list } = await api.Friendship.getStrangerList();
+        state.friendshipList = list;
     }
-  })
 
-  async function getFriendshipList() {
-    const { items: list } = await api.Friendship.getStrangerList();
-    state.friendshipList = list;
-  }
-
-  return <div className="flex flex-col flex-auto">
-    <LoadingOrErrorComponent ready={state.ready} error={state.error}>
-      <div>
-        <FormattedMessage id="Stranger" defaultMessage="Stranger" />
-      </div>
-      {state.friendshipList.map(item => <StrangerChild
-        friendship={item}
-        key={item.id}
-        refreshFriendshipList={getFriendshipList}
-      />)}
-    </LoadingOrErrorComponent>
-  </div>;
+    return <div className="flex flex-col flex-auto">
+        <LoadingOrErrorComponent ready={state.ready} error={state.error}>
+            <div>
+                <FormattedMessage id="Stranger" defaultMessage="Stranger" />
+            </div>
+            {state.friendshipList.map(item => <StrangerChild
+                friendship={item}
+                key={item.id}
+                refreshFriendshipList={getFriendshipList}
+            />)}
+        </LoadingOrErrorComponent>
+    </div>;
 })

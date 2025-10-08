@@ -9,30 +9,30 @@ import { faGear, faUserGroup, faUsersBetweenLines } from "@fortawesome/free-soli
 
 export default observer(() => {
 
-  const state = useMobxState({
-    navigation: NavigationEnum.Friend,
-  })
+    const state = useMobxState({
+        navigation: NavigationEnum.Friend,
+    })
 
-  return <>
-    <div className="flex flex-col flex-auto">
-      <div className="flex flex-row flex-auto">
-        {state.navigation === NavigationEnum.Friend && <FriendList />}
-        {state.navigation === NavigationEnum.Stranger && <StrangerList />}
-        {state.navigation === NavigationEnum.Setting && <div><FormattedMessage id="Setting" defaultMessage="Setting" /></div>}
-      </div>
-      <div className="flex flex-row">
-        <BottomNavigation
-          showLabels
-          value={state.navigation}
-          onChange={(event, newValue) => {
-            state.navigation = newValue;
-          }}
-        >
-          <BottomNavigationAction value={NavigationEnum.Friend} label="Friend" icon={<FontAwesomeIcon icon={faUserGroup} style={{ fontSize: "xx-large" }} />} />
-          <BottomNavigationAction value={NavigationEnum.Stranger} label="Stranger" icon={<FontAwesomeIcon icon={faUsersBetweenLines} style={{ fontSize: "xx-large" }} />} />
-          <BottomNavigationAction value={NavigationEnum.Setting} label="Setting" icon={<FontAwesomeIcon icon={faGear} style={{ fontSize: "xx-large" }} />} />
-        </BottomNavigation>
-      </div>
-    </div>
-  </>;
+    return <>
+        <div className="flex flex-col flex-auto">
+            <div className="flex flex-row flex-auto">
+                {state.navigation === NavigationEnum.Friend && <FriendList />}
+                {state.navigation === NavigationEnum.Stranger && <StrangerList />}
+                {state.navigation === NavigationEnum.Setting && <div><FormattedMessage id="Setting" defaultMessage="Setting" /></div>}
+            </div>
+            <div className="flex flex-row">
+                <BottomNavigation
+                    showLabels
+                    value={state.navigation}
+                    onChange={(event, newValue) => {
+                        state.navigation = newValue;
+                    }}
+                >
+                    <BottomNavigationAction value={NavigationEnum.Friend} label="Friend" icon={<FontAwesomeIcon icon={faUserGroup} style={{ fontSize: "xx-large" }} />} />
+                    <BottomNavigationAction value={NavigationEnum.Stranger} label="Stranger" icon={<FontAwesomeIcon icon={faUsersBetweenLines} style={{ fontSize: "xx-large" }} />} />
+                    <BottomNavigationAction value={NavigationEnum.Setting} label="Setting" icon={<FontAwesomeIcon icon={faGear} style={{ fontSize: "xx-large" }} />} />
+                </BottomNavigation>
+            </div>
+        </div>
+    </>;
 })

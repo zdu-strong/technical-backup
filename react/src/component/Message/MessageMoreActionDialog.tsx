@@ -14,50 +14,50 @@ import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { FormattedMessage } from 'react-intl';
 
 type Props = {
-  closeDialog: () => void;
-  uploadFile: () => void;
+    closeDialog: () => void;
+    uploadFile: () => void;
 }
 
 export default observer((props: Props) => {
 
-  const state = useMobxState({
-  }, props);
+    const state = useMobxState({
+    }, props);
 
-  return (
-    <Dialog
-      fullScreen
-      open={true}
-      onClose={state.closeDialog}
-      TransitionComponent={MessageMoreActionTranslation}
-    >
-      <AppBar sx={{ position: 'relative' }}>
-        <Toolbar>
-
-          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            <FormattedMessage id="More" defaultMessage="More" />
-          </Typography>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={state.closeDialog}
-            aria-label="close"
-          >
-            <FontAwesomeIcon icon={faXmark} size="xl" />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <List>
-        <ListItem
-          onClick={() => state.uploadFile()}
-          component="button"
+    return (
+        <Dialog
+            fullScreen
+            open={true}
+            onClose={state.closeDialog}
+            TransitionComponent={MessageMoreActionTranslation}
         >
-          <ListItemText
-            primary={<FormattedMessage id="Upload" defaultMessage="Upload" />}
-            secondary={<FormattedMessage id="File" defaultMessage="File" />}
-          />
-        </ListItem>
-        <Divider />
-      </List>
-    </Dialog>
-  );
+            <AppBar sx={{ position: 'relative' }}>
+                <Toolbar>
+
+                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        <FormattedMessage id="More" defaultMessage="More" />
+                    </Typography>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={state.closeDialog}
+                        aria-label="close"
+                    >
+                        <FontAwesomeIcon icon={faXmark} size="xl" />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+            <List>
+                <ListItem
+                    onClick={() => state.uploadFile()}
+                    component="button"
+                >
+                    <ListItemText
+                        primary={<FormattedMessage id="Upload" defaultMessage="Upload" />}
+                        secondary={<FormattedMessage id="File" defaultMessage="File" />}
+                    />
+                </ListItem>
+                <Divider />
+            </List>
+        </Dialog>
+    );
 })

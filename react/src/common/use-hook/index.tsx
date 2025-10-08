@@ -5,126 +5,126 @@ import { MessageService } from "../MessageService";
 
 export function useQuery(callback: () => void) {
 
-  const subjectState = useMobxState({
-    subject: new ReplaySubject<string>(1),
-  });
+    const subjectState = useMobxState({
+        subject: new ReplaySubject<string>(1),
+    });
 
-  const state = useMobxState({
-    loading: false,
-    ready: false,
-    error: null as any,
-    requery,
-  });
+    const state = useMobxState({
+        loading: false,
+        ready: false,
+        error: null as any,
+        requery,
+    });
 
-  function requery() {
-    subjectState.subject.next("");
-  }
+    function requery() {
+        subjectState.subject.next("");
+    }
 
-  useMount(async (subscription) => {
-    state.requery();
-    subscription.add(subjectState.subject.pipe(
-      exhaustMapWithTrailing(() => of(null).pipe(
-        concatMap(() => from((async () => {
-          state.loading = true;
-          try {
-            await callback();
-            state.ready = true;
-            state.loading = false;
-            state.error = null;
-          } catch (e) {
-            state.loading = false;
-            state.error = e;
-          }
-        })())),
-      )),
-      retry(),
-    ).subscribe());
-  })
+    useMount(async (subscription) => {
+        state.requery();
+        subscription.add(subjectState.subject.pipe(
+            exhaustMapWithTrailing(() => of(null).pipe(
+                concatMap(() => from((async () => {
+                    state.loading = true;
+                    try {
+                        await callback();
+                        state.ready = true;
+                        state.loading = false;
+                        state.error = null;
+                    } catch (e) {
+                        state.loading = false;
+                        state.error = e;
+                    }
+                })())),
+            )),
+            retry(),
+        ).subscribe());
+    })
 
-  return state;
+    return state;
 }
 
 export function useMultipleSubmit(callback: () => void) {
 
-  const subjectState = useMobxState({
-    subject: new ReplaySubject<string>(1),
-  });
+    const subjectState = useMobxState({
+        subject: new ReplaySubject<string>(1),
+    });
 
-  const state = useMobxState({
-    loading: false,
-    ready: false,
-    error: null as any,
-    resubmit,
-  });
+    const state = useMobxState({
+        loading: false,
+        ready: false,
+        error: null as any,
+        resubmit,
+    });
 
-  function resubmit() {
-    subjectState.subject.next("");
-  }
+    function resubmit() {
+        subjectState.subject.next("");
+    }
 
-  useMount(async (subscription) => {
-    subscription.add(subjectState.subject.pipe(
-      exhaustMap(() => of(null).pipe(
-        concatMap(() => from((async () => {
-          state.loading = true;
-          try {
-            await callback();
-            state.ready = true;
-            state.loading = false;
-            state.error = null;
-          } catch (e) {
-            MessageService.error(e);
-            state.error = e;
-            state.loading = false;
-          }
-        })())),
-      )),
-      retry(),
-    ).subscribe());
-  })
+    useMount(async (subscription) => {
+        subscription.add(subjectState.subject.pipe(
+            exhaustMap(() => of(null).pipe(
+                concatMap(() => from((async () => {
+                    state.loading = true;
+                    try {
+                        await callback();
+                        state.ready = true;
+                        state.loading = false;
+                        state.error = null;
+                    } catch (e) {
+                        MessageService.error(e);
+                        state.error = e;
+                        state.loading = false;
+                    }
+                })())),
+            )),
+            retry(),
+        ).subscribe());
+    })
 
-  return state;
+    return state;
 }
 
 export function useOnceSubmit(callback: () => void) {
 
-  const subjectState = useMobxState({
-    subject: new ReplaySubject<string>(1),
-  });
+    const subjectState = useMobxState({
+        subject: new ReplaySubject<string>(1),
+    });
 
-  const state = useMobxState({
-    loading: false,
-    ready: false,
-    error: null as any,
-    requery,
-  });
+    const state = useMobxState({
+        loading: false,
+        ready: false,
+        error: null as any,
+        requery,
+    });
 
-  function requery() {
-    subjectState.subject.next("");
-  }
+    function requery() {
+        subjectState.subject.next("");
+    }
 
-  useMount(async (subscription) => {
-    subscription.add(subjectState.subject.pipe(
-      exhaustMapWithTrailing(() => of(null).pipe(
-        concatMap(() => from((async () => {
-          if (state.ready) {
-            return;
-          }
-          state.loading = true;
-          try {
-            await callback();
-            state.ready = true;
-            state.loading = false;
-            state.error = null;
-          } catch (e) {
-            MessageService.error(e);
-            state.error = e;
-            state.loading = false;
-          }
-        })())),
-      )),
-      retry(),
-    ).subscribe());
-  })
+    useMount(async (subscription) => {
+        subscription.add(subjectState.subject.pipe(
+            exhaustMapWithTrailing(() => of(null).pipe(
+                concatMap(() => from((async () => {
+                    if (state.ready) {
+                        return;
+                    }
+                    state.loading = true;
+                    try {
+                        await callback();
+                        state.ready = true;
+                        state.loading = false;
+                        state.error = null;
+                    } catch (e) {
+                        MessageService.error(e);
+                        state.error = e;
+                        state.loading = false;
+                    }
+                })())),
+            )),
+            retry(),
+        ).subscribe());
+    })
 
-  return state;
+    return state;
 }
