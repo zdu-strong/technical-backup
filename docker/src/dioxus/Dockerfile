@@ -21,7 +21,7 @@ RUN dnf install -y git
 RUN dnf install -y gcc
 RUN dnf install -y openssl-devel
 ENV PATH="${PATH}:/root/.cargo/bin"
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain nightly
 RUN rustup update
 RUN rustup target add wasm32-unknown-unknown
 RUN cargo install dioxus-cli --locked
