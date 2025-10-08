@@ -1,11 +1,11 @@
-import logo from './image/logo.svg';
+import logo from '@component/HomePageComponent/image/logo.svg';
 import { FormattedMessage } from "react-intl";
-import BootLoadingComponent from "./BootLoadingComponent";
+import BootLoadingComponent from "@component/HomePageComponent/BootLoadingComponent";
 import { Button } from "@mui/material";
 import { keyframes, stylesheet } from 'typestyle';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import { useRandomNumber } from './js/useRandomNumber';
-import { useReadyForApplication } from './js/useReadyForApplication';
+import { useRandomNumber } from '@component/HomePageComponent/js/useRandomNumber';
+import { useReadyForApplication } from '@component/HomePageComponent/js/useReadyForApplication';
 import CircularProgress from '@mui/material/CircularProgress';
 import GameDialog from '@component/Game/GameDialog';
 import remote from '@/remote';

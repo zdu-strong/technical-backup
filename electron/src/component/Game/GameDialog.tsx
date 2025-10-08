@@ -2,7 +2,7 @@ import ExitButton from '@component/Game/ExitButton';
 import { Dialog } from '@mui/material';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { useRef } from 'react';
-import Game from './Game';
+import Game from '@component/Game/Game';
 
 type Props = {
     closeDialog: () => void;

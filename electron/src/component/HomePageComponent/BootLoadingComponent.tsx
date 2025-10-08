@@ -1,6 +1,6 @@
 import { Divider } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import LoadingImage from './image/loading.gif';
+import LoadingImage from '@component/HomePageComponent/image/loading.gif';
 
 export default (
     <div className="flex flex-col flex-auto" style={{ backgroundColor: "#8752a2" }}>

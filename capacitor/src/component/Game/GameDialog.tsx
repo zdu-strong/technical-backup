@@ -1,6 +1,6 @@
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { Dialog } from '@mui/material';
-import Game from './Game';
+import Game from '@component/Game/Game';
 import { useMount } from "mobx-react-use-autorun";
 import { LANDSCAPE, PORTRAIT_PRIMARY } from '@common/ScreenOrentation';
 import ExitButton from '@component/Game/ExitButton';

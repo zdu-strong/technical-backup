@@ -5,7 +5,7 @@ import { CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import { I18nEnum, useI18nLocale } from './common/i18n';
+import { I18nEnum, useI18nLocale } from '@common/i18n';
 import { reportWebVitals } from '@/reportWebVitals';
 
 reportWebVitals();
