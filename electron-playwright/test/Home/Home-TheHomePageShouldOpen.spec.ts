@@ -2,14 +2,14 @@ import { electron, page, action } from '@/index';
 
 
 test('', async () => {
-  const CurrentCPUUsage = await page.Home.CurrentRandomNumber();
-  expect(await CurrentCPUUsage.isVisible()).toBeTruthy()
+    const CurrentCPUUsage = await page.Home.CurrentRandomNumber();
+    expect(await CurrentCPUUsage.isVisible()).toBeTruthy()
 })
 
 beforeEach(async () => {
-  await action.OpenProgram();
+    await action.OpenProgram();
 })
 
 afterEach(async () => {
-  await electron.application.close();
+    await electron.application.close();
 })

@@ -2,10 +2,10 @@ import page from '../../page'
 import * as action from '../../action'
 
 it('', () => {
-  page.NotFound.NotFoundText().should("exist")
+    page.NotFound.NotFoundText().should("exist")
 })
 
 before(() => {
-  action.setPhonePortraitViewport()
-  cy.visit("/404")
+    action.setPhonePortraitViewport()
+    cy.visit("/404")
 })

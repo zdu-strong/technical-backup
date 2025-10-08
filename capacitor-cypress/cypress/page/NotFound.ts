@@ -1,4 +1,4 @@
 export default {
-  NotFoundText: () => cy.xpath(`//*[text()='Not Found']`),
-  ReturnToHomeButton: () => cy.xpath(`//button[contains(., 'Back home')]`),
+    NotFoundText: () => cy.xpath(`//*[text()='Not Found']`),
+    ReturnToHomeButton: () => cy.xpath(`//button[contains(., 'Back home')]`),
 }

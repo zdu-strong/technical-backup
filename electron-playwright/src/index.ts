@@ -7,29 +7,29 @@ let GLOBAL_APPLICATION: ElectronApplication;
 let GLObAL_WINDOW: Page;
 
 export const electron = {
-  get application() {
-    if(!GLOBAL_APPLICATION){
-      throw new Error("Application does not exist");
+    get application() {
+        if (!GLOBAL_APPLICATION) {
+            throw new Error("Application does not exist");
+        }
+        return GLOBAL_APPLICATION;
+    },
+    get window() {
+        if (!GLObAL_WINDOW) {
+            throw new Error("Window does not exist");
+        }
+        return GLObAL_WINDOW;
     }
-    return GLOBAL_APPLICATION;
-  },
-  get window() {
-    if(!GLObAL_WINDOW){
-      throw new Error("Window does not exist");
-    }
-    return GLObAL_WINDOW;
-  }
 };
 
 export function setApplication(application: ElectronApplication) {
-  GLOBAL_APPLICATION = application;
+    GLOBAL_APPLICATION = application;
 }
 
 export function setWindow(window: Page) {
-  GLObAL_WINDOW = window;
+    GLObAL_WINDOW = window;
 }
 
 export {
-  action,
-  page,
+    action,
+    page,
 }
