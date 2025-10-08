@@ -2,118 +2,118 @@ const { execSync } = require("child_process")
 const path = require('path')
 
 async function main() {
-  await buildReact();
-  await buildSpringboot();
-  await runCapacitorTest();
-  await runElectronTest();
-  await buildCloud();
-  await buildRust();
-  await buildDioxus();
+    await buildReact();
+    await buildSpringboot();
+    await runCapacitorTest();
+    await runElectronTest();
+    await buildCloud();
+    await buildRust();
+    await buildDioxus();
 }
 
 async function runElectronTest() {
-  execSync(
-    [
-      "docker build",
-      "-t electron",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./electron"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t electron",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./electron"),
+        }
+    );
 }
 
 async function runCapacitorTest() {
-  execSync(
-    [
-      "docker build",
-      "-t capacitor",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./capacitor"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t capacitor",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./capacitor"),
+        }
+    );
 }
 
 async function buildReact() {
-  execSync(
-    [
-      "docker build",
-      "-t react",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./client"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t react",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./client"),
+        }
+    );
 }
 
 async function buildSpringboot() {
-  execSync(
-    [
-      "docker build",
-      "-t springboot",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./server"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t springboot",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./server"),
+        }
+    );
 }
 
 async function buildCloud() {
-  execSync(
-    [
-      "docker build",
-      "-t cloud",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./AliyunCloud"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t cloud",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./AliyunCloud"),
+        }
+    );
 }
 
 async function buildRust() {
-  execSync(
-    [
-      "docker build",
-      "-t rust",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./rust"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t rust",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./rust"),
+        }
+    );
 }
 
 async function buildDioxus() {
-  execSync(
-    [
-      "docker build",
-      "-t dioxus",
-      "-f ./Dockerfile",
-      "../../..",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, "./dioxus"),
-    }
-  );
+    execSync(
+        [
+            "docker build",
+            "-t dioxus",
+            "-f ./Dockerfile",
+            "../../..",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "./dioxus"),
+        }
+    );
 }
 
 module.exports = main()
