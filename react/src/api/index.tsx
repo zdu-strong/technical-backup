@@ -12,16 +12,16 @@ import * as SuperAdminOrganizeQuery from '@api/SuperAdminOrganizeQuery'
 import * as Lumen from '@api/Lumen'
 
 export default {
-  Authorization,
-  UserMessage,
-  Git,
-  Friendship,
-  Resource,
-  SuperAdminSystemRoleQuery,
-  SuperAdminUserQuery,
-  SuperAdminOrganizeQuery,
-  EncryptDecrypt,
-  LongTermTask,
-  User,
-  Lumen
+    Authorization,
+    UserMessage,
+    Git,
+    Friendship,
+    Resource,
+    SuperAdminSystemRoleQuery,
+    SuperAdminUserQuery,
+    SuperAdminOrganizeQuery,
+    EncryptDecrypt,
+    LongTermTask,
+    User,
+    Lumen
 }

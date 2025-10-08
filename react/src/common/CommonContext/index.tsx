@@ -4,21 +4,21 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 export function useCommonContext() {
 
-  const intl = useIntl();
+    const intl = useIntl();
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [urlSearchParams, setURLSearchParams] = useSearchParams();
+    const [urlSearchParams, setURLSearchParams] = useSearchParams();
 
-  const state = useMobxState({
+    const state = useMobxState({
 
-  }, {
-    intl,
-    navigate,
-    urlSearchParams,
-    setURLSearchParams,
-    formatMessage: intl.formatMessage
-  });
+    }, {
+        intl,
+        navigate,
+        urlSearchParams,
+        setURLSearchParams,
+        formatMessage: intl.formatMessage
+    });
 
-  return state;
+    return state;
 }

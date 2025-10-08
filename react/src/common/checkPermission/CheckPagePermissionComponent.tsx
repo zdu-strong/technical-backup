@@ -9,88 +9,88 @@ import { v7 } from "uuid";
 import { useCommonContext } from "@/common/CommonContext";
 
 type Props = {
-  children: ReactNode;
-  isAutoLogin?: boolean;
-  checkIsSignIn?: boolean;
-  checkIsNotSignIn?: boolean;
+    children: ReactNode;
+    isAutoLogin?: boolean;
+    checkIsSignIn?: boolean;
+    checkIsNotSignIn?: boolean;
 }
 
 export default observer((props: Props) => {
 
-  const context = useCommonContext();
+    const context = useCommonContext();
 
-  const state = useMobxState(() => ({
-    subject: new ReplaySubject<void>(1),
-    error: null as any,
-    hasInitAccessToken: false,
-  }), {
-    ...props
-  })
+    const state = useMobxState(() => ({
+        subject: new ReplaySubject<void>(1),
+        error: null as any,
+        hasInitAccessToken: false,
+    }), {
+        ...props
+    })
 
-  useMount(async (subscription) => {
-    subscription.add(state.subject.pipe(
-      exhaustMapWithTrailing(() => from((async () => {
-        try {
-          state.error = null;
-          await handleIsAutoSignIn();
-          handleIsSignIn();
-          handleCheckIsNotSignIn();
-        } catch (error) {
-          state.error = error;
+    useMount(async (subscription) => {
+        subscription.add(state.subject.pipe(
+            exhaustMapWithTrailing(() => from((async () => {
+                try {
+                    state.error = null;
+                    await handleIsAutoSignIn();
+                    handleIsSignIn();
+                    handleCheckIsNotSignIn();
+                } catch (error) {
+                    state.error = error;
+                }
+            })()))
+        ).subscribe());
+    })
+
+    useMobxEffect(() => {
+        state.subject.next();
+    }, [state.isAutoLogin, state.checkIsSignIn, state.checkIsNotSignIn, GlobalUserInfo.accessToken])
+
+    function handleCheckIsNotSignIn() {
+        if (state.checkIsNotSignIn && state.checkIsSignIn) {
+            throw new Error("Must check if sign in")
         }
-      })()))
-    ).subscribe());
-  })
-
-  useMobxEffect(() => {
-    state.subject.next();
-  }, [state.isAutoLogin, state.checkIsSignIn, state.checkIsNotSignIn, GlobalUserInfo.accessToken])
-
-  function handleCheckIsNotSignIn() {
-    if (state.checkIsNotSignIn && state.checkIsSignIn) {
-      throw new Error("Must check if sign in")
-    }
-    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
-      context.navigate("/");
-    }
-  }
-
-  function handleIsSignIn() {
-    if (state.checkIsSignIn && state.checkIsNotSignIn) {
-      throw new Error("Must check if sign in")
+        if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+            context.navigate("/");
+        }
     }
 
-    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
-      toSignIn();
-    }
-  }
+    function handleIsSignIn() {
+        if (state.checkIsSignIn && state.checkIsNotSignIn) {
+            throw new Error("Must check if sign in")
+        }
 
-  async function handleIsAutoSignIn() {
-    if (state.isAutoLogin && !state.checkIsSignIn) {
-      throw new Error("Must check if sign in")
+        if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
+            toSignIn();
+        }
     }
-    if (state.isAutoLogin && state.checkIsNotSignIn) {
-      throw new Error("Must check if sign in")
-    }
-    if (state.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
-      await api.Authorization.signUp(v7(), "visitor", []);
-    }
-    if (!state.hasInitAccessToken && GlobalUserInfo.accessToken) {
-      state.hasInitAccessToken = true;
-    }
-  }
 
-  function isReady() {
-    if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
-      return false;
+    async function handleIsAutoSignIn() {
+        if (state.isAutoLogin && !state.checkIsSignIn) {
+            throw new Error("Must check if sign in")
+        }
+        if (state.isAutoLogin && state.checkIsNotSignIn) {
+            throw new Error("Must check if sign in")
+        }
+        if (state.isAutoLogin && !state.hasInitAccessToken && !GlobalUserInfo.accessToken) {
+            await api.Authorization.signUp(v7(), "visitor", []);
+        }
+        if (!state.hasInitAccessToken && GlobalUserInfo.accessToken) {
+            state.hasInitAccessToken = true;
+        }
     }
-    if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
-      return false;
-    }
-    return true;
-  }
 
-  return <LoadingOrErrorComponent ready={isReady()} error={state.error} >
-    {state.children}
-  </LoadingOrErrorComponent>
+    function isReady() {
+        if (state.checkIsSignIn && !GlobalUserInfo.accessToken) {
+            return false;
+        }
+        if (state.checkIsNotSignIn && GlobalUserInfo.accessToken) {
+            return false;
+        }
+        return true;
+    }
+
+    return <LoadingOrErrorComponent ready={isReady()} error={state.error} >
+        {state.children}
+    </LoadingOrErrorComponent>
 })
