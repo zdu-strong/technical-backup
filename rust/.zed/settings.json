@@ -1,14 +1,14 @@
 {
-  "file_scan_exclusions": [
-    ".cargo",
-    "src/bin",
-    ".git",
-    "Cargo.lock",
-    "target",
-    "clippy.toml",
-    "Dioxus.toml",
-    ".zed",
-    "rustfmt.toml",
-    "rust-toolchain.toml"
-  ]
+    "file_scan_exclusions": [
+        ".cargo",
+        "src/bin",
+        ".git",
+        "Cargo.lock",
+        "target",
+        "clippy.toml",
+        "Dioxus.toml",
+        ".zed",
+        "rustfmt.toml",
+        "rust-toolchain.toml"
+    ]
 }
