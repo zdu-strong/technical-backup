@@ -12,22 +12,22 @@ reportWebVitals();
 
 export default observer(() => {
 
-  const state = useMobxState({
-  }, {
-    i18nLocale: useI18nLocale(),
-  })
+    const state = useMobxState({
+    }, {
+        i18nLocale: useI18nLocale(),
+    })
 
-  return <div className={`w-screen h-screen overflow-auto`}>
-    <div className="flex flex-row min-w-full min-h-full w-max">
-      <div className='flex flex-col flex-auto'>
-        <CssBaseline />
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={I18nEnum[state.i18nLocale].DateLocale}>
-          <I18nComponent>
-            <GlobalMessageComponent />
-            {Router}
-          </I18nComponent>
-        </LocalizationProvider>
-      </div>
-    </div>
-  </div>;
+    return <div className={`w-screen h-screen overflow-auto`}>
+        <div className="flex flex-row min-w-full min-h-full w-max">
+            <div className='flex flex-col flex-auto'>
+                <CssBaseline />
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={I18nEnum[state.i18nLocale].DateLocale}>
+                    <I18nComponent>
+                        <GlobalMessageComponent />
+                        {Router}
+                    </I18nComponent>
+                </LocalizationProvider>
+            </div>
+        </div>
+    </div>;
 })

@@ -7,36 +7,36 @@ import ExitButton from '@component/Game/ExitButton';
 import { Subscription, tap, timer } from 'rxjs';
 
 type Props = {
-  closeDialog: () => void;
+    closeDialog: () => void;
 }
 
 export default observer((props: Props) => {
-  const state = useMobxState({
-    ready: false,
-  })
+    const state = useMobxState({
+        ready: false,
+    })
 
-  useMount(async (subscription) => {
-    subscription.add(timer(0).pipe(
-      tap(() => {
-        LANDSCAPE();
-        state.ready = true;
-      })
-    ).subscribe());
+    useMount(async (subscription) => {
+        subscription.add(timer(0).pipe(
+            tap(() => {
+                LANDSCAPE();
+                state.ready = true;
+            })
+        ).subscribe());
 
-    subscription.add(new Subscription(() => {
-      PORTRAIT_PRIMARY()
-    }));
-  })
+        subscription.add(new Subscription(() => {
+            PORTRAIT_PRIMARY()
+        }));
+    })
 
-  return <>
-    <Dialog
-      fullScreen
-      open={true}
-      onClose={props.closeDialog}
-      disableRestoreFocus={true}
-    >
-      {state.ready && <ExitButton exit={props.closeDialog} />}
-      <Game />
-    </Dialog>
-  </>
+    return <>
+        <Dialog
+            fullScreen
+            open={true}
+            onClose={props.closeDialog}
+            disableRestoreFocus={true}
+        >
+            {state.ready && <ExitButton exit={props.closeDialog} />}
+            <Game />
+        </Dialog>
+    </>
 })

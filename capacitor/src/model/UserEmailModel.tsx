@@ -5,16 +5,16 @@ import { VerificationCodeEmailModel } from '@model/VerificationCodeEmailModel';
 @jsonObject
 export class UserEmailModel {
 
-  @jsonMember(String)
-  id?: string;
+    @jsonMember(String)
+    id?: string;
 
-  @jsonMember(String)
-  email!: string;
+    @jsonMember(String)
+    email!: string;
 
-  @jsonMember(VerificationCodeEmailModel)
-  verificationCodeEmail!: VerificationCodeEmailModel;
+    @jsonMember(VerificationCodeEmailModel)
+    verificationCodeEmail!: VerificationCodeEmailModel;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    constructor() {
+        makeAutoObservable(this);
+    }
 }

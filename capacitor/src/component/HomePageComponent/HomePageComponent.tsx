@@ -13,134 +13,134 @@ import { faGamepad, faRightFromBracket, faWater } from '@fortawesome/free-solid-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const css = stylesheet({
-  container: {
-    textAlign: "center",
-  },
-  header: {
-    backgroundColor: "#282c34",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "calc(10px + 2vmin)",
-    color: "white",
-  },
-  img: {
-    height: "40vmin",
-    pointerEvents: "none",
-    animationName: keyframes({
-      "from": {
-        transform: "rotate(0deg)"
-      },
-      "to": {
-        transform: "rotate(360deg)",
-      }
-    }),
-    animationDuration: "20s",
-    animationIterationCount: "infinite",
-    animationTimingFunction: "linear",
-  },
-  batteryContainer: {
-    color: "#61dafb",
-    display: "flex",
-    flexDirection: "column",
-  },
-  divContainer: {
-    display: "flex",
-    flexDirection: "column",
-  },
+    container: {
+        textAlign: "center",
+    },
+    header: {
+        backgroundColor: "#282c34",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "calc(10px + 2vmin)",
+        color: "white",
+    },
+    img: {
+        height: "40vmin",
+        pointerEvents: "none",
+        animationName: keyframes({
+            "from": {
+                transform: "rotate(0deg)"
+            },
+            "to": {
+                transform: "rotate(360deg)",
+            }
+        }),
+        animationDuration: "20s",
+        animationIterationCount: "infinite",
+        animationTimingFunction: "linear",
+    },
+    batteryContainer: {
+        color: "#61dafb",
+        display: "flex",
+        flexDirection: "column",
+    },
+    divContainer: {
+        display: "flex",
+        flexDirection: "column",
+    },
 })
 
 export default observer(() => {
 
-  const state = useMobxState({
-    gameDialog: {
-      open: false,
-    },
-  }, {
-    batteryInfo: useBatteryInfo(),
-  });
+    const state = useMobxState({
+        gameDialog: {
+            open: false,
+        },
+    }, {
+        batteryInfo: useBatteryInfo(),
+    });
 
-  async function exit() {
-    if (Capacitor.getPlatform() === "web") {
-      return;
+    async function exit() {
+        if (Capacitor.getPlatform() === "web") {
+            return;
+        }
+        await App.exitApp()
     }
-    await App.exitApp()
-  }
 
-  return (<>
-    <div
-      className={css.container}
-    >
-      <header
-        className={css.header}
-      >
-        <img
-          src={logo}
-          className={css.img} alt="logo" />
-        <div className="flex">
-          <FormattedMessage id="EditSrcAppTsxAndSaveToReload" defaultMessage="Edit src/App.tsx and save to reload" />
-          {"."}
-        </div>
+    return (<>
         <div
-          className={css.batteryContainer}
+            className={css.container}
         >
-          {
-            state.batteryInfo ? (<div>
-              <div>
-                {state.batteryInfo.isCharging ? (
-                  <FormattedMessage id="CurrentlyCharging" defaultMessage="当前正在充电" />
-                ) : (
-                  <FormattedMessage id="CurrentlyNotCharging" defaultMessage="当前没有充电" />
-                )}
-              </div>
-              <div>
-                <FormattedMessage id="CurrentBattery" defaultMessage="当前电量" />
-                {":" + Math.round(state.batteryInfo.batteryLevel! * 100) + "%"}
-              </div>
-            </div>) : (
-              <CircularProgress />
-            )
-          }
-          <div className={css.divContainer}>
-
-            <Link to="/not_found">
-              <Button
-                variant="contained"
-                startIcon={<FontAwesomeIcon icon={faWater} />}
-              >
-                <FormattedMessage id="toUnknownArea" defaultMessage="Go to the unknown area" />
-              </Button>
-            </Link>
-
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: "1em", fontSize: "large", paddingTop: "0", paddingBottom: "0" }}
-              startIcon={<FontAwesomeIcon icon={faGamepad} />}
-              onClick={() => {
-                state.gameDialog.open = true;
-              }}
+            <header
+                className={css.header}
             >
-              <FormattedMessage id="EnterTheGameRightNowWithoutDoingTheExitButton" defaultMessage="Enter the game, right now, without doing the exit button" />
-            </Button>
-            <Button
-              variant="contained"
-              style={{
-                marginTop: "1em"
-              }}
-              onClick={exit}
-              startIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
-            >
-              <FormattedMessage id="ExitTheApp" defaultMessage="Exit the app" />
-            </Button>
-          </div>
+                <img
+                    src={logo}
+                    className={css.img} alt="logo" />
+                <div className="flex">
+                    <FormattedMessage id="EditSrcAppTsxAndSaveToReload" defaultMessage="Edit src/App.tsx and save to reload" />
+                    {"."}
+                </div>
+                <div
+                    className={css.batteryContainer}
+                >
+                    {
+                        state.batteryInfo ? (<div>
+                            <div>
+                                {state.batteryInfo.isCharging ? (
+                                    <FormattedMessage id="CurrentlyCharging" defaultMessage="当前正在充电" />
+                                ) : (
+                                    <FormattedMessage id="CurrentlyNotCharging" defaultMessage="当前没有充电" />
+                                )}
+                            </div>
+                            <div>
+                                <FormattedMessage id="CurrentBattery" defaultMessage="当前电量" />
+                                {":" + Math.round(state.batteryInfo.batteryLevel! * 100) + "%"}
+                            </div>
+                        </div>) : (
+                            <CircularProgress />
+                        )
+                    }
+                    <div className={css.divContainer}>
+
+                        <Link to="/not_found">
+                            <Button
+                                variant="contained"
+                                startIcon={<FontAwesomeIcon icon={faWater} />}
+                            >
+                                <FormattedMessage id="toUnknownArea" defaultMessage="Go to the unknown area" />
+                            </Button>
+                        </Link>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ marginTop: "1em", fontSize: "large", paddingTop: "0", paddingBottom: "0" }}
+                            startIcon={<FontAwesomeIcon icon={faGamepad} />}
+                            onClick={() => {
+                                state.gameDialog.open = true;
+                            }}
+                        >
+                            <FormattedMessage id="EnterTheGameRightNowWithoutDoingTheExitButton" defaultMessage="Enter the game, right now, without doing the exit button" />
+                        </Button>
+                        <Button
+                            variant="contained"
+                            style={{
+                                marginTop: "1em"
+                            }}
+                            onClick={exit}
+                            startIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
+                        >
+                            <FormattedMessage id="ExitTheApp" defaultMessage="Exit the app" />
+                        </Button>
+                    </div>
+                </div>
+            </header>
         </div>
-      </header>
-    </div>
-    {state.gameDialog.open && <GameDialog closeDialog={() => {
-      state.gameDialog.open = false;
-    }} />}
-  </>);
+        {state.gameDialog.open && <GameDialog closeDialog={() => {
+            state.gameDialog.open = false;
+        }} />}
+    </>);
 })
