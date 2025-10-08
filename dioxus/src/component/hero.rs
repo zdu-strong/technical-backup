@@ -46,7 +46,7 @@ pub fn Hero() -> Element {
             id: "hero",
             img {
                 id: "header",
-                src: HEADER_SVG ,
+                src: HEADER_SVG,
             }
             div {
                 margin: "10px",
