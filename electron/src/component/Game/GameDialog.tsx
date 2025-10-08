@@ -5,31 +5,31 @@ import { useRef } from 'react';
 import Game from './Game';
 
 type Props = {
-  closeDialog: () => void;
+    closeDialog: () => void;
 }
 
 export default observer((props: Props) => {
 
-  const state = useMobxState({
-  }, {
-    canvasRef: useRef<HTMLCanvasElement>(null),
-  })
+    const state = useMobxState({
+    }, {
+        canvasRef: useRef<HTMLCanvasElement>(null),
+    })
 
-  return <>
-    <Dialog
-      fullScreen
-      open={true}
-      onClose={props.closeDialog}
-      disableRestoreFocus={true}
-      disableEscapeKeyDown={true}
-    >
-      <ExitButton
-        exit={props.closeDialog}
-        canvasRef={state.canvasRef}
-      />
-      <Game
-        canvasRef={state.canvasRef}
-      />
-    </Dialog>
-  </>
+    return <>
+        <Dialog
+            fullScreen
+            open={true}
+            onClose={props.closeDialog}
+            disableRestoreFocus={true}
+            disableEscapeKeyDown={true}
+        >
+            <ExitButton
+                exit={props.closeDialog}
+                canvasRef={state.canvasRef}
+            />
+            <Game
+                canvasRef={state.canvasRef}
+            />
+        </Dialog>
+    </>
 })

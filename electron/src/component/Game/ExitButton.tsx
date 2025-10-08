@@ -6,60 +6,60 @@ import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
 import { stylesheet } from "typestyle";
 
 const css = stylesheet({
-  container: {
-    width: "100%",
-    height: "0px",
-    position: "relative",
-    display: "flex",
-    flexDirection: "row",
-  },
-  exitButton: {
-    position: "absolute",
-    top: "10px"
-  }
+    container: {
+        width: "100%",
+        height: "0px",
+        position: "relative",
+        display: "flex",
+        flexDirection: "row",
+    },
+    exitButton: {
+        position: "absolute",
+        top: "10px"
+    }
 })
 
 type Props = {
-  exit: () => void;
-  canvasRef: React.RefObject<HTMLCanvasElement>;
+    exit: () => void;
+    canvasRef: React.RefObject<HTMLCanvasElement>;
 }
 
 export default observer((props: Props) => {
 
-  const state = useMobxState({
-    exitDialog: {
-      open: false,
-    },
-    ready: false,
-    leftOrRight: 10,
+    const state = useMobxState({
+        exitDialog: {
+            open: false,
+        },
+        ready: false,
+        leftOrRight: 10,
 
-  })
+    })
 
-  useMount(() => {
-    state.ready = true;
-  })
+    useMount(() => {
+        state.ready = true;
+    })
 
-  return <>
-    <div className={css.container}>
-      {state.ready && <Fab
-        size="small"
-        color="primary"
-        aria-label="add"
-        style={{ right: `${state.leftOrRight}px`, position: "absolute" }}
-        className={css.exitButton}
-        onClick={() => {
-          state.exitDialog.open = true
-        }}
-      >
-        <FontAwesomeIcon icon={faGear} size="xl" />
-      </Fab>}
-    </div>
-    {state.exitDialog.open && <ExitDialog
-      canvasRef={props.canvasRef}
-      exit={props.exit}
-      closeDialog={() => {
-        state.exitDialog.open = false
-      }}
-    />}
-  </>
+    return <>
+        <div className={css.container}>
+            {state.ready && <Fab
+                size="small"
+                color="primary"
+                aria-label="add"
+                style={{ right: `${state.leftOrRight}px`, position: "absolute" }}
+                className={css.exitButton}
+                onClick={() => {
+                    state.exitDialog.open = true
+                }}
+            >
+                <FontAwesomeIcon icon={faGear} size="xl" />
+            </Fab>}
+        </div>
+        {state.exitDialog.open && <ExitDialog
+            canvasRef={props.canvasRef}
+            exit={props.exit}
+            closeDialog={() => {
+                state.exitDialog.open = false
+            }}
+        />}
+    </>
 })

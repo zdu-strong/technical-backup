@@ -3,7 +3,7 @@ import * as Resource from '@api/Resource'
 import * as LongTermTask from '@api/LongTermTask'
 
 export default {
-  Git,
-  Resource,
-  LongTermTask,
+    Git,
+    Resource,
+    LongTermTask,
 }
