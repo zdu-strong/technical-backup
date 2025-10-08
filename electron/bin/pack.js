@@ -2,38 +2,38 @@ const execa = require('execa')
 const path = require('path')
 
 async function main() {
-  await buildReact();
-  await buildElectron();
-  process.exit();
+    await buildReact();
+    await buildElectron();
+    process.exit();
 }
 
 async function buildElectron() {
-  await execa.command(
-    [
-      "electron-builder build",
-      "--dir",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, ".."),
-      extendEnv: true,
-    }
-  );
+    await execa.command(
+        [
+            "electron-builder build",
+            "--dir",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, ".."),
+            extendEnv: true,
+        }
+    );
 }
 
 async function buildReact() {
-  await execa.command(
-    [
-      "rsbuild build",
-    ].join(" "),
-    {
-      stdio: "inherit",
-      cwd: path.join(__dirname, ".."),
-      extendEnv: true,
-      env: {
-      }
-    }
-  );
+    await execa.command(
+        [
+            "rsbuild build",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, ".."),
+            extendEnv: true,
+            env: {
+            }
+        }
+    );
 }
 
 module.exports = main()
