@@ -3,13 +3,13 @@ import { v7 } from 'uuid'
 import * as action from '../../action'
 
 it('', () => {
-  page.Chat.MessageContentInput().type(message).type("{enter}")
-  page.Chat.Message(message).should("exist")
+    page.Chat.MessageContentInput().type(message).type("{enter}")
+    page.Chat.Message(message).should("exist")
 })
 
 before(() => {
-  cy.visit("/sign-up")
-  action.signUp(email, password)
+    cy.visit("/sign-up")
+    action.signUp(email, password)
 })
 
 const message = `Hello, World! ${v7()}`

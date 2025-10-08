@@ -6,10 +6,10 @@ import GitInfo from './GitInfo'
 import SuperAdminUserManage from './SuperAdminUserManage'
 
 export default {
-  NotFound,
-  SignUp,
-  SignIn,
-  Chat,
-  GitInfo,
-  SuperAdminUserManage,
+    NotFound,
+    SignUp,
+    SignIn,
+    Chat,
+    GitInfo,
+    SuperAdminUserManage,
 }

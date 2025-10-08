@@ -1,9 +1,9 @@
 import page from '../../page'
 
 it('', () => {
-  page.NotFound.NotFoundText().should("exist")
+    page.NotFound.NotFoundText().should("exist")
 })
 
 before(() => {
-  cy.visit("/any-page")
+    cy.visit("/any-page")
 })
