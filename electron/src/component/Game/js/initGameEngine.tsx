@@ -2,7 +2,7 @@ import * as BABYLON from '@babylonjs/core';
 import { EMPTY, Subscription, concat, concatMap, delay, fromEvent, interval, of, retry, take, tap, timer } from 'rxjs';
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 
-export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElement>, subscription: Subscription) {
+export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElement | null>, subscription: Subscription) {
 
     for (let i = 100; i > 0; i--) {
         await timer(1).toPromise();
@@ -32,7 +32,7 @@ export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElemen
     return engine;
 }
 
-async function createScene(engine: BABYLON.Engine, canvasRef: React.RefObject<HTMLCanvasElement>) {
+async function createScene(engine: BABYLON.Engine, canvasRef: React.RefObject<HTMLCanvasElement | null>) {
 
     const scene = new BABYLON.Scene(engine);
     // Create a FreeCamera, and set its position to {x: 0, y: 5, z: -10}

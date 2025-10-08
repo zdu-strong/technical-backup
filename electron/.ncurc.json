@@ -12,6 +12,7 @@
     "get-port",
     "linq",
     "electron",
-    "@rsbuild/core"
+    "@rsbuild/core",
+    "typescript"
   ]
 }

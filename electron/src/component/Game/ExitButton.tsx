@@ -21,7 +21,7 @@ const css = stylesheet({
 
 type Props = {
     exit: () => void;
-    canvasRef: React.RefObject<HTMLCanvasElement>;
+    canvasRef: React.RefObject<HTMLCanvasElement | null>;
 }
 
 export default observer((props: Props) => {

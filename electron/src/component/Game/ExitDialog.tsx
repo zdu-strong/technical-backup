@@ -8,7 +8,7 @@ import { FormattedMessage } from "react-intl";
 type Props = {
     closeDialog: () => void;
     exit: () => void;
-    canvasRef: React.RefObject<HTMLCanvasElement>;
+    canvasRef: React.RefObject<HTMLCanvasElement | null>;
 }
 
 export default observer((props: Props) => {

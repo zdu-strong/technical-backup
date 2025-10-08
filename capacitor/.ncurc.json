@@ -12,6 +12,7 @@
     "get-port",
     "inquirer",
     "linq",
-    "@rsbuild/core"
+    "@rsbuild/core",
+    "typescript"
   ]
 }

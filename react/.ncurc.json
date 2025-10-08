@@ -9,6 +9,7 @@
     "react",
     "react-dom",
     "react-intl",
-    "@rsbuild/core"
+    "@rsbuild/core",
+    "typescript"
   ]
 }
