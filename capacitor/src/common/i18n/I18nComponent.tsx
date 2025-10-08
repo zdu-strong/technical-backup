@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { IntlProvider } from 'react-intl';
-import { useI18nJson, useI18nLocale } from '.';
+import { useI18nJson, useI18nLocale } from '@/common/i18n';
 import { observer, useMobxEffect, useMobxState } from 'mobx-react-use-autorun';
 
 type Props = {

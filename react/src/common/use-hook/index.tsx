@@ -1,7 +1,7 @@
 import { useMobxState, useMount } from "mobx-react-use-autorun";
 import { concatMap, exhaustMap, from, of, ReplaySubject, retry } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
-import { MessageService } from "../MessageService";
+import { MessageService } from "@/common/MessageService";
 
 export function useQuery(callback: () => void) {
 
