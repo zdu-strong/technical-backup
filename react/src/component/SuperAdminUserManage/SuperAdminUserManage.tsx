@@ -59,7 +59,7 @@ export default observer(() => {
     dataGridRef: useGridApiRef(),
   });
 
-  return <LoadingOrErrorComponent ready={userQueryState.ready} error={!userQueryState.ready && userQueryState.error}>
+  return <LoadingOrErrorComponent ready={userQueryState.ready} error={userQueryState.error}>
     <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
       <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
         <Button

@@ -62,7 +62,7 @@ export default observer(() => {
 
 
 
-  return <LoadingOrErrorComponent ready={roleQueryState.ready} error={!roleQueryState.ready && roleQueryState.error}>
+  return <LoadingOrErrorComponent ready={roleQueryState.ready} error={roleQueryState.error}>
     <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
       <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
         <Button

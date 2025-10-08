@@ -59,7 +59,7 @@ export default observer(() => {
     state.paginationModel = await api.SuperAdminOrganizeQuery.searchByPagination(state.query);
   });
 
-  return <LoadingOrErrorComponent ready={organizeQueryState.ready} error={!organizeQueryState.ready && organizeQueryState.error}>
+  return <LoadingOrErrorComponent ready={organizeQueryState.ready} error={organizeQueryState.error}>
     <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
       <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
         <Button
