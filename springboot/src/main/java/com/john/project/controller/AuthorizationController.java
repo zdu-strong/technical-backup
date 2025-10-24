@@ -50,7 +50,7 @@ public class AuthorizationController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfNickname(userModel.getUsername());
         this.validationFieldUtil.checkNotEdgesSpaceOfUsername(userModel.getUsername());
         this.validationFieldUtil.checkNotBlankOfPassword(userModel.getPassword());
-        this.userService.checkValidEmailForSignUp(userModel);
+        this.userService.checkValidEmail(userModel);
         this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
 
         var user = this.userService.create(userModel);

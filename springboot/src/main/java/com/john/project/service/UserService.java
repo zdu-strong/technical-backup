@@ -149,10 +149,17 @@ public class UserService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public void checkValidEmailForSignUp(UserModel userModel) {
+    public void checkValidEmail(UserModel userModel) {
         for (var userEmail : userModel.getUserEmailList()) {
             this.validationFieldUtil.checkNotBlankOfEmail(userEmail.getEmail());
             this.validationFieldUtil.checkCorrectFormatOfEmail(userEmail.getEmail());
+
+            if (StringUtils.isNotBlank(userModel.getId())) {
+                var user = this.getUserWithMoreInformation(userModel.getId());
+                if (user.getUserEmailList().stream().anyMatch(s -> ObjectUtil.equals(s.getEmail(), userEmail.getEmail()))) {
+                    continue;
+                }
+            }
 
             if (StringUtils.isBlank(userEmail.getVerificationCodeEmail().getVerificationCode())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -204,10 +211,14 @@ public class UserService extends BaseService {
 
     @Transactional(readOnly = true)
     public void checkRoleRelation(UserModel user, HttpServletRequest request) {
+        if (ObjectUtil.isNull(user.getRoleList())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be null");
+        }
+
         if (StringUtils.isBlank(user.getId())) {
-            checkRoleRelationForCreate(user, request);
-        } else {
-            checkRoleRelationForUpdate(user, request);
+            if (!user.getRoleList().isEmpty()) {
+                this.permissionUtil.checkAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN);
+            }
         }
     }
 
@@ -221,12 +232,4 @@ public class UserService extends BaseService {
         }
     }
 
-    private void checkRoleRelationForCreate(UserModel user, HttpServletRequest request) {
-        if (!user.getRoleList().isEmpty()) {
-            this.permissionUtil.checkAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN);
-        }
-    }
-
-    private void checkRoleRelationForUpdate(UserModel user, HttpServletRequest request) {
-    }
 }
