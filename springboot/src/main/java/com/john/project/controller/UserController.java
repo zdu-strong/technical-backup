@@ -44,7 +44,7 @@ public class UserController extends BaseController {
         return ResponseEntity.ok(userOne);
     }
 
-    @PostMapping("/user/update")
+    @PutMapping("/user/update")
     public ResponseEntity<?> update(@RequestBody UserModel user) {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfUsername(user.getUsername());
