@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.john.project.test.common.BaseTest.BaseTest;
+import tools.jackson.databind.JsonNode;
 
 public class LongTermTaskServiceUpdateLongTermTaskByErrorMessageTest extends BaseTest {
     private String longTermtaskId;

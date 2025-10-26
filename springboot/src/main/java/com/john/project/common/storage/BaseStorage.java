@@ -23,7 +23,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.john.project.common.CloudStorage.CloudStorageImplement;
 import com.john.project.properties.DatabaseJdbcProperties;

@@ -13,6 +13,7 @@ import com.john.project.model.PermissionRelationModel;
 import com.john.project.model.RoleModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.enums.SystemPermissionEnum;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PermissionRelationService extends BaseService {
 
     @Autowired
+    @Lazy
     private RoleService roleService;
 
     public void create(String roleId, OrganizeModel organize, SystemPermissionEnum permissionEnum) {

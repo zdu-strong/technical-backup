@@ -17,6 +17,7 @@ import org.jinq.orm.stream.JinqStream;
 import org.jinq.tuples.Pair;
 import org.jinq.tuples.Tuple3;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class RoleService extends BaseService {
 
     @Autowired
+    @Lazy
     private PermissionRelationService permissionRelationService;
 
     public RoleModel create(RoleModel roleModel) {

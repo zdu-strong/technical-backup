@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.constant.LongTermTaskTempWaitDurationConstant;
 import com.john.project.entity.LongTermTaskEntity;
@@ -93,15 +93,13 @@ public class LongTermTaskFormatter extends BaseService {
             longTermTaskModel.setResult(this.objectMapper
                     .readValue(this.objectMapper.writeValueAsString(result.get("body")), Object.class));
             HttpHeaders httpHeaders = new HttpHeaders();
-            result.get("headers").fields().forEachRemaining(sneaky((s) -> {
-                var headerKey = s.getKey();
-                var headerValue = s.getValue();
+            result.get("headers").forEachEntry((headerKey, headerValue) -> {
                 httpHeaders.addAll(headerKey,
                         objectMapper.readValue(
                                 objectMapper.writeValueAsString(headerValue),
                                 new TypeReference<List<String>>() {
                                 }));
-            }));
+            });
 
             if (HttpStatus.valueOf(result.get("statusCodeValue").asInt()).is2xxSuccessful()) {
                 ResponseEntity<LongTermTaskModel<?>> response = ResponseEntity

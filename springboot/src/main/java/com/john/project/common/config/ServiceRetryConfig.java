@@ -1,9 +1,9 @@
 package com.john.project.common.config;
 
-import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.resilience.annotation.EnableResilientMethods;
 import org.springframework.stereotype.Component;
 
-@EnableRetry
+@EnableResilientMethods
 @Component
 public class ServiceRetryConfig {
 

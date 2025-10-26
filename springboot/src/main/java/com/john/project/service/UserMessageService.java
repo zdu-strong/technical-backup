@@ -7,6 +7,7 @@ import com.john.project.entity.UserMessageEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserMessageService extends BaseService {
 
     @Autowired
+    @Lazy
     private UserMessageDeactivateService userMessageDeactivateService;
 
     public UserMessageModel sendMessage(UserMessageModel userMessageModel, HttpServletRequest request) {

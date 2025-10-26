@@ -18,7 +18,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.server.ResponseStatusException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.john.project.common.permission.PermissionUtil;
 import com.john.project.model.UserMessageModel;

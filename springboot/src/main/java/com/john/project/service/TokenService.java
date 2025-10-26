@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class TokenService extends BaseService {
 
     @Autowired
+    @Lazy
     private EncryptDecryptService encryptDecryptService;
 
     public String generateAccessToken(String userId) {

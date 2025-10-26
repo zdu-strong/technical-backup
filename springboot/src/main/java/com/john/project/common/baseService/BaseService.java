@@ -9,14 +9,15 @@ import org.hibernate.exception.GenericJDBCException;
 import org.jinq.jpa.JPAJinqStream;
 import org.jinq.jpa.JinqJPAStreamProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.retry.annotation.Retryable;
+import org.springframework.resilience.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.google.cloud.spanner.AbortedException;
 import com.john.project.common.TimeZoneUtil.TimeZoneUtil;
 import com.john.project.common.database.JPQLFunction;
@@ -29,7 +30,7 @@ import jakarta.persistence.PersistenceContext;
 
 @Service
 @Transactional(rollbackFor = Throwable.class)
-@Retryable(maxAttempts = 10, retryFor = {
+@Retryable(maxAttempts = 10, value = {
         GenericJDBCException.class,
         ObjectOptimisticLockingFailureException.class,
         AbortedException.class,
@@ -46,21 +47,26 @@ public abstract class BaseService {
     private EntityManager entityManager;
 
     @Autowired
+    @Lazy
     protected Storage storage;
 
     @Autowired
     protected ObjectMapper objectMapper;
 
     @Autowired
+    @Lazy
     protected PermissionUtil permissionUtil;
 
     @Autowired
+    @Lazy
     protected TimeZoneUtil timeZoneUtil;
 
     @Autowired
+    @Lazy
     protected UUIDUtil uuidUtil;
 
     @Autowired
+    @Lazy
     protected ValidationFieldUtil validationFieldUtil;
 
     @Autowired
@@ -70,48 +76,63 @@ public abstract class BaseService {
     protected DevelopmentMockModeProperties developmentMockModeProperties;
 
     @Autowired
+    @Lazy
     protected TokenFormatter tokenFormatter;
 
     @Autowired
+    @Lazy
     protected StorageSpaceFormatter storageSpaceFormatter;
 
     @Autowired
+    @Lazy
     protected UserEmailFormatter userEmailFormatter;
 
     @Autowired
+    @Lazy
     protected UserFormatter userFormatter;
 
     @Autowired
+    @Lazy
     protected LongTermTaskFormatter longTermTaskFormatter;
 
     @Autowired
+    @Lazy
     protected OrganizeFormatter organizeFormatter;
 
     @Autowired
+    @Lazy
     protected UserMessageFormatter userMessageFormatter;
 
     @Autowired
+    @Lazy
     protected FriendshipFormatter friendshipFormatter;
 
     @Autowired
+    @Lazy
     protected LoggerFormatter loggerFormatter;
 
     @Autowired
+    @Lazy
     protected NonceFormatter nonceFormatter;
 
     @Autowired
+    @Lazy
     protected VerificationCodeEmailFormatter verificationCodeEmailFormatter;
 
     @Autowired
+    @Lazy
     protected DistributedExecutionMainFormatter distributedExecutionMainFormatter;
 
     @Autowired
+    @Lazy
     protected RoleFormatter roleFormatter;
 
     @Autowired
+    @Lazy
     protected DistributedExecutionDetailFormatter distributedExecutionDetailFormatter;
 
     @Autowired
+    @Lazy
     protected PermissionRelationFormatter permissionRelationFormatter;
 
     protected void persist(Object entity) {

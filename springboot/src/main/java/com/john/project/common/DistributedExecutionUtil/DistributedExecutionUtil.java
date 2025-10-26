@@ -18,7 +18,7 @@ import org.jinq.orm.stream.JinqStream;
 import org.jinq.tuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.enums.DistributedExecutionMainStatusEnum;
 import com.john.project.enums.LongTermTaskTypeEnum;

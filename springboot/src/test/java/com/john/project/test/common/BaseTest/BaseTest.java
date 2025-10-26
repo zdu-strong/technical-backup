@@ -23,8 +23,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.boot.info.GitProperties;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.test.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -37,7 +37,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.john.project.common.DistributedExecutionUtil.DistributedExecutionUtil;
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
@@ -76,12 +75,15 @@ import com.john.project.service.UserService;
 import com.john.project.service.VerificationCodeEmailService;
 import io.reactivex.rxjava3.core.Flowable;
 import lombok.SneakyThrows;
+import tools.jackson.databind.ObjectMapper;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 
 /**
  * @author Me
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
+@AutoConfigureTestRestTemplate
 public abstract class BaseTest {
 
     @Autowired

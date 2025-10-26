@@ -8,6 +8,7 @@ import com.john.project.entity.UserRoleRelationEntity;
 import com.john.project.model.PermissionRelationModel;
 import com.john.project.model.RoleModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.enums.SystemRoleEnum;
@@ -16,9 +17,11 @@ import com.john.project.enums.SystemRoleEnum;
 public class UserRoleRelationService extends BaseService {
 
     @Autowired
+    @Lazy
     private RoleService roleService;
 
     @Autowired
+    @Lazy
     private PermissionRelationService permissionRelationService;
 
     public void create(String userId, String userRoleId) {

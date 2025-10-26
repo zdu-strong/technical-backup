@@ -2,7 +2,7 @@ package com.john.project.model;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.john.project.common.uuid.UUIDUtil;
 import lombok.Getter;
 import lombok.Setter;

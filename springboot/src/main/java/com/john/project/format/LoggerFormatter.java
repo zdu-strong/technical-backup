@@ -5,7 +5,7 @@ import java.util.List;
 import com.john.project.entity.LoggerEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.model.LoggerModel;
 import ch.qos.logback.classic.Level;

@@ -11,6 +11,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,18 +27,23 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserService extends BaseService {
 
     @Autowired
+    @Lazy
     private EncryptDecryptService encryptDecryptService;
 
     @Autowired
+    @Lazy
     private UserRoleRelationService userRoleRelationService;
 
     @Autowired
+    @Lazy
     private VerificationCodeEmailService verificationCodeEmailService;
 
     @Autowired
+    @Lazy
     private UserEmailService userEmailService;
 
     @Autowired
+    @Lazy
     private TokenService tokenService;
 
     @SneakyThrows
