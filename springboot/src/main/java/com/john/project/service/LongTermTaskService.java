@@ -114,7 +114,7 @@ public class LongTermTaskService extends BaseService {
                     .toList();
             var runningUniqueKeyJsonStringList = this.streamAll(LongTermTaskEntity.class)
                     .where(s -> uniqueKeyJsonStringList.contains(s.getUniqueKeyJsonString()))
-                    .where(s -> expiredDate.before(s.getUpdateDate()))
+                    .where(s -> !s.getUpdateDate().after(expiredDate))
                     .where(s -> !s.getIsDone())
                     .select(s -> s.getUniqueKeyJsonString())
                     .toList();
