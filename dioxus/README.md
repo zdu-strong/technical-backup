@@ -6,6 +6,12 @@ This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have
 1. From https://zed.dev install Zed.<br/>
 2. From https://www.rust-lang.org install Rust.<br/>
 3. From https://dioxuslabs.com/learn/0.6/getting_started install dioxus.<br/>
+
+    rustup toolchain install nightly
+    rustup target add wasm32-unknown-unknown
+    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+    cargo binstall dioxus-cli
+
 4. for Ubuntu: sudo apt install -y build-essential<br/>
 5. for Centos: sudo dnf install -y gcc<br/>
 
