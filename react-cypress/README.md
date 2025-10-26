@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Development environment setup
 1. From https://code.visualstudio.com install Visual Studio Code.<br/>
 2. From https://nodejs.org install nodejs v22.<br/>
-3. From https://adoptium.net install java v21, and choose Entire feature.
+3. From https://adoptium.net install java v25, and choose Entire feature.
 
 ## Available Scripts
 
