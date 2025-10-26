@@ -126,6 +126,7 @@ public class LongTermTaskUtil {
             }
 
             try {
+                this.longTermTaskService.deleteLongTermTaskOfExpired(uniqueKey);
                 idListOfLongTermTask = this.longTermTaskService.createLongTermTask(uniqueKey);
                 break;
             } catch (DataIntegrityViolationException | JpaSystemException e1) {

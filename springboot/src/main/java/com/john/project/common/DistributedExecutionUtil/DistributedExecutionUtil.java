@@ -224,6 +224,7 @@ public class DistributedExecutionUtil {
 
     private Long getPartitionNum(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution, List<Long> excludePartitionNumList) {
         var partitionNumList = Flowable.range(1, distributedExecutionMainModel.getTotalPartition().intValue())
+                .map(s -> s.longValue())
                 .filter(s -> s <= distributedExecutionMainModel.getTotalPages())
                 .filter(s -> !excludePartitionNumList.contains(s))
                 .toList()
@@ -231,15 +232,16 @@ public class DistributedExecutionUtil {
 
         while (!partitionNumList.isEmpty()) {
             var partitionNum = partitionNumList.get(RandomUtil.randomInt(0, partitionNumList.size()));
-            partitionNumList.removeIf(s -> ObjectUtil.equals(s, partitionNum));
 
             if (this.longTermTaskService.findOneNotRunning(List.of(getLongTermTaskUniqueKeyModelByPartitionNum(partitionNum, baseDistributedExecution))) == null) {
+                partitionNumList.removeIf(s -> ObjectUtil.equals(s, partitionNum));
                 continue;
             }
 
             var pageNum = this.distributedExecutionDetailService.getPageNumByPartitionNum(distributedExecutionMainModel.getId(),
                     partitionNum);
             if (pageNum == null) {
+                partitionNumList.removeIf(s -> ObjectUtil.equals(s, partitionNum));
                 if (partitionNumList.isEmpty()) {
                     if (this.distributedExecutionMainService.hasCanDone(distributedExecutionMainModel.getId())) {
                         this.distributedExecutionMainService.updateWithDone(distributedExecutionMainModel.getId());
@@ -248,7 +250,7 @@ public class DistributedExecutionUtil {
                 continue;
             }
 
-            return (long) partitionNum;
+            return partitionNum;
         }
 
         return null;

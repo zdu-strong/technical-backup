@@ -30,7 +30,7 @@ public class LongTermTaskService extends BaseService {
         return longTermTaskEntity.getId();
     }
 
-    public List<String> createLongTermTask(LongTermTaskUniqueKeyModel... longTermTaskUniqueKey) {
+    public void deleteLongTermTaskOfExpired(LongTermTaskUniqueKeyModel... longTermTaskUniqueKey) {
         var expiredDate = DateUtils.addMilliseconds(new Date(),
                 (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toMillis());
 
@@ -44,7 +44,9 @@ public class LongTermTaskService extends BaseService {
                 this.remove(longTermTask);
             }
         }
+    }
 
+    public List<String> createLongTermTask(LongTermTaskUniqueKeyModel... longTermTaskUniqueKey) {
         var idList = new ArrayList<String>();
 
         for (var longTermTaskUniqueKeyModel : longTermTaskUniqueKey) {
@@ -114,7 +116,7 @@ public class LongTermTaskService extends BaseService {
                     .toList();
             var runningUniqueKeyJsonStringList = this.streamAll(LongTermTaskEntity.class)
                     .where(s -> uniqueKeyJsonStringList.contains(s.getUniqueKeyJsonString()))
-                    .where(s -> !s.getUpdateDate().after(expiredDate))
+                    .where(s -> !expiredDate.after(s.getUpdateDate()))
                     .where(s -> !s.getIsDone())
                     .select(s -> s.getUniqueKeyJsonString())
                     .toList();
