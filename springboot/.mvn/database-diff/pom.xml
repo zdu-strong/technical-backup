@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <resource.delimiter>${}</resource.delimiter>
         <commons-io.version>2.20.0</commons-io.version>
         <gax-httpjson.version>2.71.0</gax-httpjson.version>
