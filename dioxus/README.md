@@ -7,10 +7,10 @@ This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have
 2. From https://www.rust-lang.org install Rust.<br/>
 3. From https://dioxuslabs.com/learn/0.6/getting_started install dioxus.<br/>
 
-    rustup toolchain install nightly
-    rustup target add wasm32-unknown-unknown
-    cargo install cargo-binstall
-    cargo binstall dioxus-cli
+    rustup toolchain install nightly<br/>
+    rustup target add wasm32-unknown-unknown<br/>
+    cargo install cargo-binstall<br/>
+    cargo binstall dioxus-cli<br/>
 
 4. for Ubuntu: sudo apt install -y build-essential<br/>
 5. for Centos: sudo dnf install -y gcc<br/>
