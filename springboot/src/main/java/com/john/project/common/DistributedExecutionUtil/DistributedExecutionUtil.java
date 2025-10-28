@@ -66,7 +66,14 @@ public class DistributedExecutionUtil {
             if (partitionNumList.isEmpty()) {
                 return;
             }
-            runByPartitionNumList(distributedExecutionMainModel, baseDistributedExecution, partitionNumList);
+            Flowable.fromIterable(partitionNumList)
+                    .parallel(partitionNumList.size())
+                    .runOn(Schedulers.from(applicationTaskExecutor))
+                    .doOnNext((partitionNum) -> {
+                        runByPartitionNum(distributedExecutionMainModel, baseDistributedExecution, partitionNum);
+                    })
+                    .sequential()
+                    .blockingSubscribe();
         }
     }
 
@@ -103,22 +110,6 @@ public class DistributedExecutionUtil {
                     .repeat()
                     .retry()
                     .subscribe();
-        }
-    }
-
-    private void runByPartitionNumList(DistributedExecutionMainModel distributedExecutionMainModel, BaseDistributedExecution baseDistributedExecution, List<Long> partitionNumList) {
-        if (partitionNumList.size() == 1) {
-            var partitionNum = JinqStream.from(partitionNumList).getOnlyValue();
-            runByPartitionNum(distributedExecutionMainModel, baseDistributedExecution, partitionNum);
-        } else {
-            Flowable.fromIterable(partitionNumList)
-                    .parallel(partitionNumList.size())
-                    .runOn(Schedulers.from(applicationTaskExecutor))
-                    .doOnNext((partitionNum) -> {
-                        runByPartitionNum(distributedExecutionMainModel, baseDistributedExecution, partitionNum);
-                    })
-                    .sequential()
-                    .blockingSubscribe();
         }
     }
 

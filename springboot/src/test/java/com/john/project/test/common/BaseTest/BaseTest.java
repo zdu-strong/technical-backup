@@ -21,17 +21,13 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.apache.tika.Tika;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
@@ -332,9 +328,17 @@ public abstract class BaseTest {
         var response = this.testRestTemplate.postForEntity(url, null, UserModel.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         var user = response.getBody();
-        this.testRestTemplate.getRestTemplate()
-                .setInterceptors(Lists.newArrayList(new HttpHeaderInterceptor(HttpHeaders.AUTHORIZATION,
-                        "Bearer " + user.getAccessToken())));
+        this.testRestTemplate.getRestTemplate().setInterceptors(
+                Lists.newArrayList(
+                        (HttpRequest request, byte[] body, ClientHttpRequestExecution execution) -> {
+                            HttpHeaders headers = request.getHeaders();
+                            if (!headers.containsHeader("Authorization")) {
+                                headers.setBearerAuth(user.getAccessToken());
+                            }
+                            return execution.execute(request, body);
+                        }
+                )
+        );
         var httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(user.getAccessToken());
         request.addHeader(HttpHeaders.AUTHORIZATION, httpHeaders.getFirst(HttpHeaders.AUTHORIZATION));
