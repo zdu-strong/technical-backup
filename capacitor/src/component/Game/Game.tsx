@@ -3,31 +3,29 @@ import { initGameEngine } from '@component/Game/js/initGameEngine';
 import * as BABYLON from '@babylonjs/core';
 import { observer, useMobxState, useMount } from 'mobx-react-use-autorun';
 import { useRef } from 'react';
-import { stylesheet } from 'typestyle';
+import { style } from 'typestyle';
 
-const css = stylesheet({
-    div: {
-        display: "flex",
-        flex: "1 1 auto",
-        flexDirection: "column",
-        height: "100vh",
-        $nest: {
-            "& > canvas": {
-                width: "100%",
-                height: "100%",
-            },
-            "& > div": {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                zIndex: 1000,
-                backgroundColor: "white",
-            }
+const divContainer = style({
+    display: "flex",
+    flex: "1 1 auto",
+    flexDirection: "column",
+    height: "100vh",
+    $nest: {
+        "& > canvas": {
+            width: "100%",
+            height: "100%",
+        },
+        "& > div": {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 1000,
+            backgroundColor: "white",
         }
     }
-})
+});
 
 export default observer(() => {
 
@@ -51,7 +49,7 @@ export default observer(() => {
 
 
     return <>
-        <div className={css.div} style={state.ready ? {} : { position: "relative" }}>
+        <div className={divContainer} style={state.ready ? {} : { position: "relative" }}>
             <canvas ref={state.canvasRef} style={{ outlineStyle: "none" }} />
             {!state.ready && <div
                 className='flex flex-col flex-auto'

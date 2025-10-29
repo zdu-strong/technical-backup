@@ -1,51 +1,52 @@
 import logo from '@component/Home/image/logo.svg';
 import { FormattedMessage } from "react-intl";
 import { Button, CircularProgress } from "@mui/material";
-import { keyframes, stylesheet } from 'typestyle';
+import { keyframes, style } from 'typestyle';
 import { useMobxState, observer, useMount } from 'mobx-react-use-autorun';
 import { concatMap, from, of, repeat, timer } from 'rxjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWater } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-const css = stylesheet({
-    container: {
-        textAlign: "center",
-        display: "flex",
-        flex: "1 1 auto",
-        flexDirection: "column",
-    },
-    header: {
-        backgroundColor: "#282c34",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "calc(10px + 2vmin)",
-        color: "white",
-    },
-    img: {
-        height: "40vmin",
-        pointerEvents: "none",
-        animationName: keyframes({
-            "from": {
-                transform: "rotate(0deg)"
-            },
-            "to": {
-                transform: "rotate(360deg)",
-            }
-        }),
-        animationDuration: "20s",
-        animationIterationCount: "infinite",
-        animationTimingFunction: "linear",
-    },
-    batteryContainer: {
-        color: "#61dafb",
-        display: "flex",
-        flexDirection: "column",
-    },
-})
+const container = style({
+    textAlign: "center",
+    display: "flex",
+    flex: "1 1 auto",
+    flexDirection: "column",
+});
+
+const headerCss = style({
+    backgroundColor: "#282c34",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "calc(10px + 2vmin)",
+    color: "white",
+});
+
+const imgAnimation = style({
+    height: "40vmin",
+    pointerEvents: "none",
+    animationName: keyframes({
+        "from": {
+            transform: "rotate(0deg)"
+        },
+        "to": {
+            transform: "rotate(360deg)",
+        }
+    }),
+    animationDuration: "20s",
+    animationIterationCount: "infinite",
+    animationTimingFunction: "linear",
+});
+
+const batteryContainer = style({
+    color: "#61dafb",
+    display: "flex",
+    flexDirection: "column",
+});
 
 export default observer(() => {
 
@@ -75,20 +76,20 @@ export default observer(() => {
 
     return (
         <div
-            className={css.container}
+            className={container}
         >
             <header
-                className={css.header}
+                className={headerCss}
             >
                 <img
                     src={logo}
-                    className={css.img} alt="logo" />
+                    className={imgAnimation} alt="logo" />
                 <div className="flex">
                     <FormattedMessage id="EditSrcAppTsxAndSaveToReload" defaultMessage="Edit src/App.tsx and save to reload" />
                     {"."}
                 </div>
                 <div
-                    className={css.batteryContainer}
+                    className={batteryContainer}
                 >
                     {
                         state.randomNumber !== null ? (<div>

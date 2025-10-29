@@ -2,7 +2,7 @@ import logo from '@component/HomePageComponent/image/logo.svg';
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-import { keyframes, stylesheet } from 'typestyle';
+import { keyframes, style } from 'typestyle';
 import { useBatteryInfo } from '@component/HomePageComponent/js/useBatteryInfo';
 import CircularProgress from '@mui/material/CircularProgress';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
@@ -12,45 +12,47 @@ import { Capacitor } from '@capacitor/core';
 import { faGamepad, faRightFromBracket, faWater } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const css = stylesheet({
-    container: {
-        textAlign: "center",
-    },
-    header: {
-        backgroundColor: "#282c34",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "calc(10px + 2vmin)",
-        color: "white",
-    },
-    img: {
-        height: "40vmin",
-        pointerEvents: "none",
-        animationName: keyframes({
-            "from": {
-                transform: "rotate(0deg)"
-            },
-            "to": {
-                transform: "rotate(360deg)",
-            }
-        }),
-        animationDuration: "20s",
-        animationIterationCount: "infinite",
-        animationTimingFunction: "linear",
-    },
-    batteryContainer: {
-        color: "#61dafb",
-        display: "flex",
-        flexDirection: "column",
-    },
-    divContainer: {
-        display: "flex",
-        flexDirection: "column",
-    },
-})
+const container = style({
+    textAlign: "center",
+});
+
+const headerCss = style({
+    backgroundColor: "#282c34",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "calc(10px + 2vmin)",
+    color: "white",
+});
+
+const imgAnimation = style({
+    height: "40vmin",
+    pointerEvents: "none",
+    animationName: keyframes({
+        "from": {
+            transform: "rotate(0deg)"
+        },
+        "to": {
+            transform: "rotate(360deg)",
+        }
+    }),
+    animationDuration: "20s",
+    animationIterationCount: "infinite",
+    animationTimingFunction: "linear",
+});
+
+const batteryContainer = style({
+    color: "#61dafb",
+    display: "flex",
+    flexDirection: "column",
+});
+
+const divContainer = style({
+    display: "flex",
+    flexDirection: "column",
+});
 
 export default observer(() => {
 
@@ -71,20 +73,20 @@ export default observer(() => {
 
     return (<>
         <div
-            className={css.container}
+            className={container}
         >
             <header
-                className={css.header}
+                className={headerCss}
             >
                 <img
                     src={logo}
-                    className={css.img} alt="logo" />
+                    className={imgAnimation} alt="logo" />
                 <div className="flex">
                     <FormattedMessage id="EditSrcAppTsxAndSaveToReload" defaultMessage="Edit src/App.tsx and save to reload" />
                     {"."}
                 </div>
                 <div
-                    className={css.batteryContainer}
+                    className={batteryContainer}
                 >
                     {
                         state.batteryInfo ? (<div>
@@ -103,7 +105,7 @@ export default observer(() => {
                             <CircularProgress />
                         )
                     }
-                    <div className={css.divContainer}>
+                    <div className={divContainer}>
 
                         <Link to="/not_found">
                             <Button

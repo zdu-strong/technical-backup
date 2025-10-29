@@ -2,31 +2,29 @@ import LoadingOrErrorComponent from '@common/MessageService/LoadingOrErrorCompon
 import { initGameEngine } from '@component/Game/js/initGameEngine';
 import * as BABYLON from '@babylonjs/core';
 import { observer, useMobxState, useMount } from 'mobx-react-use-autorun';
-import { stylesheet } from 'typestyle';
+import { style } from 'typestyle';
 
-const css = stylesheet({
-    div: {
-        display: "flex",
-        flex: "1 1 auto",
-        flexDirection: "column",
-        height: "100vh",
-        $nest: {
-            "& > canvas": {
-                width: "100%",
-                height: "100%",
-            },
-            "& > div": {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                zIndex: 1000,
-                backgroundColor: "white",
-            }
+const divContainer = style({
+    display: "flex",
+    flex: "1 1 auto",
+    flexDirection: "column",
+    height: "100vh",
+    $nest: {
+        "& > canvas": {
+            width: "100%",
+            height: "100%",
+        },
+        "& > div": {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 1000,
+            backgroundColor: "white",
         }
     }
-})
+});
 
 type Props = {
     canvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -51,7 +49,7 @@ export default observer((props: Props) => {
     })
 
     return <>
-        <div className={css.div} style={state.ready ? {} : { position: "relative" }}>
+        <div className={divContainer} style={state.ready ? {} : { position: "relative" }}>
             <canvas ref={props.canvasRef} style={{ outlineStyle: "none" }} />
             {!state.ready && <LoadingOrErrorComponent ready={state.ready} error={state.error} />}
         </div>

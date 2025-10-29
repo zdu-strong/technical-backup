@@ -1,6 +1,6 @@
 import { Fab } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
-import { stylesheet } from "typestyle";
+import { style } from "typestyle";
 import ExitDialog from "@component/Game/ExitDialog";
 import { useMount } from "mobx-react-use-autorun";
 import { AndroidNotch } from '@awesome-cordova-plugins/android-notch'
@@ -8,21 +8,20 @@ import { Capacitor } from '@capacitor/core'
 import { delay, distinctUntilChanged, from, of, repeat, Subscription, tap } from "rxjs";
 import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 
-const css = stylesheet({
-    container: {
-        width: "100%",
-        height: "0px",
-        position: "relative",
-        display: "flex",
-        flexDirection: "row",
-    },
-    exitButton: {
-        position: "absolute",
-        top: "10px"
-    }
-})
+const container = style({
+    width: "100%",
+    height: "0px",
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+});
+
+const exitButton = style({
+    position: "absolute",
+    top: "10px"
+});
 
 type Props = {
     exit: () => void;
@@ -86,13 +85,13 @@ export default observer((props: Props) => {
     }
 
     return <>
-        <div className={css.container}>
+        <div className={container}>
             {state.ready && <Fab
                 size="small"
                 color="primary"
                 aria-label="add"
                 style={state.isLeftAndNotIsRight ? { left: `${state.leftOrRight}px`, position: "absolute" } : { right: `${state.leftOrRight}px`, position: "absolute" }}
-                className={css.exitButton}
+                className={exitButton}
                 onClick={() => {
                     state.exitDialog.open = true
                 }}

@@ -6,18 +6,16 @@ import { CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import { stylesheet } from 'typestyle';
+import { style } from 'typestyle';
 import vhCheck from 'vh-check';
 import { reportWebVitals } from '@/reportWebVitals';
 
 reportWebVitals();
 vhCheck();
 
-const css = stylesheet({
-    appContainer: {
-        height: 'calc(100vh - var(--vh-offset, 0px))'
-    },
-})
+const appContainer = style({
+    height: 'calc(100vh - var(--vh-offset, 0px))'
+});
 
 export default observer(() => {
 
@@ -26,7 +24,7 @@ export default observer(() => {
         i18nLocale: useI18nLocale(),
     })
 
-    return <div className={`w-screen overflow-auto ${css.appContainer}`}>
+    return <div className={`w-screen overflow-auto ${appContainer}`}>
         <div className="flex flex-row min-w-full min-h-full w-max">
             <div className='flex flex-col flex-auto'>
                 <CssBaseline />

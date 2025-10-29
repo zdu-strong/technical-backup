@@ -1,7 +1,7 @@
 import { Button, Divider, Fab, IconButton, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
-import { stylesheet } from "typestyle";
+import { style } from "typestyle";
 import { v7 } from "uuid";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -14,17 +14,15 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 
-const css = stylesheet({
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        flex: "1 1 auto",
-        width: "100%",
-        paddingLeft: "5em",
-        paddingRight: "5em",
-    }
-})
+const container = style({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    flex: "1 1 auto",
+    width: "100%",
+    paddingLeft: "5em",
+    paddingRight: "5em",
+});
 
 export default observer(() => {
 
@@ -173,7 +171,7 @@ export default observer(() => {
         }
     }
 
-    return <div className={css.container}>
+    return <div className={container}>
         <div className="flex flex-col flex-auto w-full">
             <div className="flex flex-col flex-auto w-full">
                 <div className="flex justify-center" style={{ marginTop: "1em" }}>

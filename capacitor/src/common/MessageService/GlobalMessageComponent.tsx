@@ -5,25 +5,23 @@ import { observer } from 'mobx-react-use-autorun';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion, faXmark } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from '@mui/material/Tooltip';
-import { stylesheet } from "typestyle";
+import { style } from "typestyle";
 import { FormattedMessage } from "react-intl";
 
-const css = stylesheet({
-    alertMessageContent: {
-        $nest: {
-            '.MuiAlert-message': {
-                fontSize: "large",
-                fontWeight: 'bold',
-                alignItems: "center",
-                display: "flex"
-            },
-            '.MuiAlert-icon': {
-                alignItems: "center",
-                fontSize: "x-large"
-            }
+const alertMessageContent = style({
+    $nest: {
+        '.MuiAlert-message': {
+            fontSize: "large",
+            fontWeight: 'bold',
+            alignItems: "center",
+            display: "flex"
+        },
+        '.MuiAlert-icon': {
+            alignItems: "center",
+            fontSize: "x-large"
         }
     }
-})
+});
 
 export default observer(() => {
 
@@ -117,7 +115,7 @@ export default observer(() => {
             <Divider />
             <DialogContent style={{ padding: "1em" }}>
                 {GlobalMessageList.map(messsageObject =>
-                    <Alert severity={messsageObject.type} className={css.alertMessageContent} key={messsageObject.id} style={{ marginTop: "1em", color: getMessageContentTextColor(), whiteSpace: "pre-wrap", wordBreak: "break-word", wordWrap: "break-word" }}>
+                    <Alert severity={messsageObject.type} className={alertMessageContent} key={messsageObject.id} style={{ marginTop: "1em", color: getMessageContentTextColor(), whiteSpace: "pre-wrap", wordBreak: "break-word", wordWrap: "break-word" }}>
                         {messsageObject.message}
                     </Alert>
                 )}
