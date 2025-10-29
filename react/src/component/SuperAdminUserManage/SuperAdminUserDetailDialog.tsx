@@ -28,7 +28,7 @@ export default observer((props: Props) => {
         >
             <DialogTitle className="justify-between items-center flex-row flex-auto flex">
                 <div className="flex flex-row items-center" >
-                    <FormattedMessage id="UserDetail" defaultMessage={"User Detail"} />
+                    <FormattedMessage id="UserDetail" defaultMessage="User Detail" />
                 </div>
                 <Fab color="default" id="closeButton" onClick={props.closeDialog}>
                     <FontAwesomeIcon icon={faXmark} size="xl" />
@@ -36,7 +36,7 @@ export default observer((props: Props) => {
             </DialogTitle>
             <Divider />
             <DialogContent style={{ padding: "1em" }}>
-                <FormattedMessage id="UserDetail" defaultMessage={"User Detail"} />
+                <FormattedMessage id="UserDetail" defaultMessage="User Detail" />
             </DialogContent>
         </Dialog>
     </>
