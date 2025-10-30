@@ -2,7 +2,7 @@ import { electron } from "@/index"
 
 export default {
     CurrentRandomNumber: async () => {
-        const xpath = "//div[contains(@class, 'batteryContainer')]/div/div[contains(., 'Random number')]"
+        const xpath = "//div[contains(@class, 'text-center')][contains(., 'Random number')]"
         await electron.window.waitForSelector(xpath, { timeout: 36000000 })
         return electron.window.locator(xpath)
     },
