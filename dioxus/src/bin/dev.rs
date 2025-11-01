@@ -13,11 +13,15 @@ fn main() {
     let _ = Command::new("dx")
         .args([
             "serve",
-            "--hot-reload=true",
-            "--open=true",
-            "--port=3000",
-            "--platform=web",
-            "--wsl-file-poll-interval=2",
+            "--hot-reload",
+            "true",
+            "--open",
+            "true",
+            "--port",
+            "3000",
+            "--web",
+            "--wsl-file-poll-interval",
+            "2",
         ])
         .current_dir(current_dir().unwrap())
         .env("RUST_BACKTRACE", "1")

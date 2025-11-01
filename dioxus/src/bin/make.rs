@@ -6,7 +6,7 @@ use std::process::Command;
 
 fn main() {
     let _ = Command::new("dx")
-        .args(["bundle", "--release", "--platform=web"])
+        .args(["bundle", "--release", "--web"])
         .current_dir(current_dir().unwrap())
         .status()
         .unwrap()

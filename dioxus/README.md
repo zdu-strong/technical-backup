@@ -39,6 +39,11 @@ Your app is ready to be deployed!<br/>
 
 Check that a new version of the dependency is available<br/>
 
+    cargo binstall cargo-edit<br/>
+    cargo upgrade<br/>
+    rustup update<br/>
+    cargo update<br/>
+
 ## Learn More
 
 1. Rust (https://www.rust-lang.org)<br/>
