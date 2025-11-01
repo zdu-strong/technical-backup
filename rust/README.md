@@ -21,9 +21,12 @@ Then run the following command to start:<br/>
 
     ./target/release/my
 
-### `cargo update`
+### `cargo upgrade`
 
 Check that a new version of the dependency is available<br/>
+
+    cargo binstall cargo-edit<br/>
+    cargo upgrade<br/>
 
 ## Learn More
 

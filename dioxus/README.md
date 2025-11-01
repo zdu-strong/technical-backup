@@ -35,7 +35,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br/>
 Your app is ready to be deployed!<br/>
 
-### `cargo update`
+### `cargo upgrade`
 
 Check that a new version of the dependency is available<br/>
 
