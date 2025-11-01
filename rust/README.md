@@ -27,6 +27,8 @@ Check that a new version of the dependency is available<br/>
 
     cargo binstall cargo-edit<br/>
     cargo upgrade<br/>
+    rustup update<br/>
+    cargo update<br/>
 
 ## Learn More
 
