@@ -14,7 +14,7 @@
         <resource.delimiter>${}</resource.delimiter>
         <commons-io.version>2.20.0</commons-io.version>
         <gax-httpjson.version>2.71.0</gax-httpjson.version>
-        <google-cloud-spanner-jdbc.version>2.33.1</google-cloud-spanner-jdbc.version>
+        <liquibase-spanner.version>4.33.0.2</liquibase-spanner.version>
     </properties>
 
     <dependencies>
@@ -50,9 +50,9 @@
             <version>${gax-httpjson.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.cloud</groupId>
-            <artifactId>google-cloud-spanner-jdbc</artifactId>
-            <version>${google-cloud-spanner-jdbc.version}</version>
+            <groupId>com.google.cloudspannerecosystem</groupId>
+            <artifactId>liquibase-spanner</artifactId>
+            <version>${liquibase-spanner.version}</version>
         </dependency>
     </dependencies>
 

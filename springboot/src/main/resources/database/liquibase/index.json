@@ -2,7 +2,8 @@
   "databaseChangeLog": [
     {
       "includeAll": {
-        "path": "database/liquibase/changelog"
+        "path": "database/liquibase/changelog",
+        "errorIfMissingOrEmpty": false
       }
     }
   ]
