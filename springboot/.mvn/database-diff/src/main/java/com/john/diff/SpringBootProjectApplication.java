@@ -224,10 +224,7 @@ public class SpringBootProjectApplication {
         try (var input = new FileInputStream(new File(filePathOfDiffChangeLogFile))) {
             textContentOfDiffChangeLogFile = IOUtils.toString(input, StandardCharsets.UTF_8);
         }
-        var isEmptyOfDiffChangeLogFile = !textContentOfDiffChangeLogFile.contains("-- changeset ");
-        if (getDatabaseType() == SupportDatabaseTypeEnum.SPANNER) {
-            isEmptyOfDiffChangeLogFile = !textContentOfDiffChangeLogFile.contains("<changeSet ");
-        }
+        var isEmptyOfDiffChangeLogFile = !textContentOfDiffChangeLogFile.contains("\"changeSet\":");
         return isEmptyOfDiffChangeLogFile;
     }
 
