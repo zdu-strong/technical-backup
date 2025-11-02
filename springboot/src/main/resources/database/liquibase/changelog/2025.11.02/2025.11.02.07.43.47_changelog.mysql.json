@@ -1,0 +1,39 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1762069437951-1",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "money",
+                  "type": "DECIMAL(38, 6)"
+                }
+              }
+            ]
+            ,
+            "tableName": "lumen_entity"
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}
