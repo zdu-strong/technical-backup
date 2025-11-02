@@ -56,7 +56,7 @@ public class CustomH2Dialect extends H2Dialect {
                 "TO_CHAR(DATEADD(MINUTE, CAST(CONCAT( SUBSTRING(?2, 1, 1), SUBSTRING(?2, 5, 2))  AS INT), DATEADD(HOUR, CAST(SUBSTRING(?2, 1, 3) AS INT), "
                         + parseStringToDateFunction() + ")), 'YYYY')",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
-        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(?1 AS NUMERIC(65, 4))",
+        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(?1 AS NUMERIC(38, 6))",
                 basicTypeRegistry.resolve(StandardBasicTypes.BIG_DECIMAL));
         functionRegistry.registerPattern("CONVERT_TO_STRING", "CAST(?1 AS CHARACTER VARYING)",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
