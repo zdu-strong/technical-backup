@@ -18,7 +18,7 @@ public class LumenEntity {
     @Id
     private String id;
 
-    @Column(nullable = false, precision = 38, scale = 6)
+    @Column(nullable = false, precision = 38, scale = 9)
     private BigDecimal money;
 
 }

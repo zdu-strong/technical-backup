@@ -49,7 +49,7 @@ public class CustomMySQLDialect extends MySQLDialect {
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
         functionRegistry.registerPattern("FORMAT_DATE_AS_YEAR", "DATE_FORMAT(CONVERT_TZ(?1, '+00:00', ?2), '%Y')",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
-        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(?1 AS DECIMAL(38, 6))",
+        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(?1 AS DECIMAL(38, 9))",
                 basicTypeRegistry.resolve(StandardBasicTypes.BIG_DECIMAL));
         functionRegistry.registerPattern("CONVERT_TO_STRING", "CAST(?1 AS NCHAR)",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));

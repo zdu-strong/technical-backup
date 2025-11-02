@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1762069437951-1",
+      "id": "1762070399118-1",
       "author": "john (generated)",
       "changes": [
         {
@@ -23,7 +23,7 @@
                     "nullable": false
                   },
                   "name": "money",
-                  "type": "DECIMAL(38, 6)"
+                  "type": "DECIMAL(38, 9)"
                 }
               }
             ]

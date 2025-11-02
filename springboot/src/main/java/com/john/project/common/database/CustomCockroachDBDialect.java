@@ -42,7 +42,7 @@ public class CustomCockroachDBDialect extends CockroachDialect {
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
         functionRegistry.registerPattern("FORMAT_DATE_AS_YEAR", "to_char(?1 AT TIME ZONE ?2, 'YYYY')",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
-        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(CAST(?1 AS TEXT) AS NUMERIC(38, 6))",
+        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(CAST(?1 AS TEXT) AS NUMERIC(38, 9))",
                 basicTypeRegistry.resolve(StandardBasicTypes.BIG_DECIMAL));
         functionRegistry.registerPattern("CONVERT_TO_STRING", "CAST(?1 AS TEXT)",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
