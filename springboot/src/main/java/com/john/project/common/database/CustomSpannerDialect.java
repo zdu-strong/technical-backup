@@ -40,7 +40,7 @@ public class CustomSpannerDialect extends SpannerDialect {
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
         functionRegistry.registerPattern("FORMAT_DATE_AS_YEAR", "FORMAT_TIMESTAMP('%E4Y', ?1, ?2)",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
-        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(?1 AS FLOAT64)",
+        functionRegistry.registerPattern("CONVERT_TO_BIG_DECIMAL", "CAST(?1 AS NUMERIC)",
                 basicTypeRegistry.resolve(StandardBasicTypes.BIG_DECIMAL));
         functionRegistry.registerPattern("CONVERT_TO_STRING", "CAST(?1 AS STRING)",
                 basicTypeRegistry.resolve(StandardBasicTypes.STRING));
