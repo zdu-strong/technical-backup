@@ -9,8 +9,6 @@ use dioxus::prelude::*;
 use dioxus_material::Button;
 use rust_decimal::prelude::*;
 use tokio_with_wasm::alias::time::sleep;
-// use tokio_with_wasm::alias::task::spawn_blocking;
-// use tokio::runtime::Handle;
 use uuid::Uuid;
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -21,16 +19,6 @@ pub fn Hero() -> Element {
         id: Signal::new(Uuid::new_v4().to_string()),
         name: Signal::new("Tom".to_string()),
     });
-
-    // use_future(|| async {
-    //     let web_worker_execute_result = spawn_blocking(|| {
-    //         Handle::current().block_on(async {
-    //             return String::from("Hello World!");
-    //         })
-    //     })
-    //     .await
-    //     .unwrap();
-    // });
 
     use_future(|| async {
         sleep(Duration::from_millis(1)).await;
