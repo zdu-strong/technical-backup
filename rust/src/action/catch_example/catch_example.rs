@@ -6,10 +6,7 @@ pub async fn catch_example() {
     };
 
     match test_call.catch_unwind().await {
-        Err(e) => println!(
-            "task has exception = {}",
-            e.downcast_ref::<&str>().unwrap_or(&"")
-        ),
+        Err(e) => println!("task has exception = {}", e.downcast_ref::<&str>().unwrap()),
         _ => (),
     }
     println!("continue!!!")
