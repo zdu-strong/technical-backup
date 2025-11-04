@@ -25,10 +25,10 @@ Then run the following command to start:<br/>
 
 Check that a new version of the dependency is available<br/>
 
-    cargo binstall cargo-edit<br/>
-    cargo upgrade<br/>
-    rustup update<br/>
-    cargo update<br/>
+    cargo binstall cargo-edit
+    cargo upgrade
+    rustup update
+    cargo update
 
 ## Learn More
 
