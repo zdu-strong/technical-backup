@@ -4,7 +4,7 @@ use dioxus_material::*;
 
 #[component]
 pub fn GameButton(
-    name: Signal<String>,
+    name: ReadOnlySignal<Signal<String>>,
     onclick_change_name: EventHandler<Event<MouseData>>,
 ) -> Element {
     rsx! {
