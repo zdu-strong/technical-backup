@@ -11,7 +11,7 @@ export async function getStorageSpaceListByPagination(pageNum: number, pageSize:
     const db = new Database();
     let stream = linq.from(await db.StorageSpaceList.toArray());
     stream = stream.orderBy(s => s.createDate).thenBy(s => s.id);
-    return new PaginationModel(pageNum, pageSize, stream);
+    return PaginationModel.fromStream(pageNum, pageSize, stream);
 }
 
 export async function isUsed(folderName: string) {

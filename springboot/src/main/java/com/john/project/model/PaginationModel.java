@@ -29,16 +29,16 @@ public class PaginationModel<T> {
     private Long totalPages = 0L;
     private List<T> items = List.of();
 
-    public PaginationModel(PaginationModel<T> paginationModel) {
-        this(paginationModel.getPageNum(), paginationModel.getPageSize(), JinqStream.from(List.of()));
+    public PaginationModel(PaginationModel<T> query) {
+        this(query.getPageNum(), query.getPageSize(), JinqStream.from(List.of()));
     }
 
-    public PaginationModel(PaginationModel<T> paginationModel, JinqStream<T> stream) {
-        this(paginationModel.getPageNum(), paginationModel.getPageSize(), stream);
+    public PaginationModel(PaginationModel<T> query, JinqStream<T> stream) {
+        this(query.getPageNum(), query.getPageSize(), stream);
     }
 
-    public <U> PaginationModel(PaginationModel<T> paginationModel, JinqStream<U> stream, Function<U, T> formatCallback) {
-        this(paginationModel.getPageNum(), paginationModel.getPageSize(), stream, formatCallback);
+    public <U> PaginationModel(PaginationModel<T> query, JinqStream<U> stream, Function<U, T> formatCallback) {
+        this(query.getPageNum(), query.getPageSize(), stream, formatCallback);
     }
 
     public PaginationModel(long pageNum, int pageSize, JinqStream<T> stream) {
@@ -53,11 +53,11 @@ public class PaginationModel<T> {
         this((long) pageNum, (long) pageSize, stream, s -> s);
     }
 
-    public PaginationModel(Long pageNum, Long pageSize, JinqStream<T> stream) {
+    public PaginationModel(long pageNum, long pageSize, JinqStream<T> stream) {
         this(pageNum, pageSize, stream, s -> s);
     }
 
-    public <U> PaginationModel(Long pageNum, Long pageSize, JinqStream<U> stream, Function<U, T> formatCallback) {
+    public <U> PaginationModel(long pageNum, long pageSize, JinqStream<U> stream, Function<U, T> formatCallback) {
         if (pageNum < 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Page num must be greater than 1");
         }

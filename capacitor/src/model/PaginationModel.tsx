@@ -15,27 +15,20 @@ export class PaginationModel<T> {
 
     items: T[] = [];
 
-    constructor();
+    constructor() {
+        makeAutoObservable(this);
+    }
 
-    constructor(
+    static fromStream<T>(
         pageNum: number,
         pageSize: number,
         stream: linq.IEnumerable<T>
-    );
+    ): PaginationModel<T> {
 
-    constructor(
-        pageNum?: number,
-        pageSize?: number,
-        stream?: linq.IEnumerable<T>
-    ) {
-        makeAutoObservable(this);
-        if (!(typeof pageNum === "number" && typeof pageSize === "number" && typeof stream === "object")) {
-            return;
-        }
-        if (pageNum! < 1) {
+        if (pageNum < 1) {
             throw new Error("The page number cannot be less than 1");
         }
-        if (pageSize! < 1) {
+        if (pageSize < 1) {
             throw new Error("The page size cannot be less than 1");
         }
 
@@ -53,11 +46,14 @@ export class PaginationModel<T> {
             .skip(mathjs.multiply(pageNum - 1, pageSize))
             .take(pageSize)
             .toArray();
-        this.pageNum = pageNum;
-        this.pageSize = pageSize;
-        this.totalPages = totalPages;
-        this.totalRecords = totalRecords;
-        this.items = items;
+
+        const model = new PaginationModel<T>();
+        model.pageNum = pageNum;
+        model.pageSize = pageSize;
+        model.totalPages = totalPages;
+        model.totalRecords = totalRecords;
+        model.items = items;
+        return model;
     }
 
     static fromJson<U>(json: string | object, rootConstructor: Serializable<U>): PaginationModel<U> {
