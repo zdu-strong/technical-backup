@@ -40,9 +40,9 @@ export class PaginationModel<T> {
             throw new Error("The page size must be an integer");
         }
 
-        const totalRecords = (stream as linq.IEnumerable<T>).count();
+        const totalRecords = stream.count();
         const totalPages = Math.floor(mathjs.divide(totalRecords, pageSize)) + (mathjs.mod(totalRecords, pageSize) > 0 ? 1 : 0);
-        const items = (stream as linq.IEnumerable<T>)
+        const items = stream
             .skip(mathjs.multiply(pageNum - 1, pageSize))
             .take(pageSize)
             .toArray();
