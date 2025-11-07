@@ -6,7 +6,6 @@ use crate::model::user_model::UserModel;
 use chrono::Local;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
-use dioxus_material::Button;
 use rust_decimal::prelude::*;
 use tokio_with_wasm::alias::time::sleep;
 use uuid::Uuid;
@@ -51,9 +50,9 @@ pub fn Hero() -> Element {
             div {
                 margin: "10px",
                 margin_bottom: "10px",
-                Button {
+                button {
                     height: "100px",
-                    onpress: onpress_hero,
+                    onclick: onpress_hero,
                     "who are you?"
                 }
             }

@@ -13,8 +13,7 @@ fn main() {
     let _ = Command::new("dx")
         .args([
             "serve",
-            "--hot-reload",
-            "true",
+            "--hot-patch",
             "--open",
             "true",
             "--port",

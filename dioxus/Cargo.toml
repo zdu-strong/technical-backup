@@ -7,7 +7,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { version = "0.6.3", features = ["router"] }
+dioxus = { version = "0.7.1", features = ["router"] }
 futures = "0.3.31"
 serde_json = "1.0.145"
 serde = { version = "1.0.228", features = ["derive"] }
@@ -17,9 +17,7 @@ async-recursion = "1.1.1"
 strum = "0.27.2"
 strum_macros = "0.27.2"
 async-trait = "0.1"
-dioxus-sdk = { version = "0.6.0", features = ["storage"] }
-dioxus-free-icons = { version = "0.9", features = ["font-awesome-brands", "font-awesome-solid", "font-awesome-regular"] }
-dioxus-material = "0.3.0"
+dioxus-sdk = { version = "0.7.0", features = ["storage"] }
 reqwest = { version = "0.12.24", default-features = false, features = ["rustls-tls", "json"] }
 reqwest-websocket = { version = "0.5.1", features = ["json"] }
 once_cell = "1.21.3"
@@ -28,6 +26,7 @@ tokio = { version = "1.48.0", features = ["rt", "macros", "sync", "time", "io-ut
 rust_decimal = { version = "1.39.0", features = ["macros"] }
 serde_with = "3.15.1"
 dioxus-i18n = "0.4.3"
+dioxus-component-manifest = { version = "0.7.1" }
 
 [features]
 default = ["web"]
