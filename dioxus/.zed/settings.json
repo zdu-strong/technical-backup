@@ -9,6 +9,8 @@
         "Dioxus.toml",
         ".zed",
         "rustfmt.toml",
-        "rust-toolchain.toml"
+        "rust-toolchain.toml",
+        "tailwind.css",
+        "tailwind-config.js"
     ]
 }

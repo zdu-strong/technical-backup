@@ -9,6 +9,8 @@ use dioxus::prelude::*;
 use rust_decimal::prelude::*;
 use tokio_with_wasm::alias::time::sleep;
 use uuid::Uuid;
+use lumen_blocks::components::button::Button;
+use lumen_blocks::components::button::ButtonVariant;
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
 
@@ -50,9 +52,11 @@ pub fn Hero() -> Element {
             div {
                 margin: "10px",
                 margin_bottom: "10px",
-                button {
+                Button {
                     height: "100px",
-                    onclick: onpress_hero,
+                    width: "200px",
+                    variant: ButtonVariant::Primary,
+                    on_click: onpress_hero,
                     "who are you?"
                 }
             }
