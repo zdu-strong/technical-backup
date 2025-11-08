@@ -14,6 +14,7 @@ RUN npm install --location=global serve
 
 # run test
 FROM first_docker AS second_docker
+RUN dnf upgrade -y
 RUN dnf install -y git
 RUN dnf install -y java-21-openjdk-devel
 ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"

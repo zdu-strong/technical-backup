@@ -8,6 +8,7 @@ ENV LANG="en_US.UTF-8"
 
 # run test
 FROM first_docker AS second_docker
+RUN dnf upgrade -y
 RUN dnf module install -y nodejs:22
 RUN dnf install -y git
 RUN dnf install -y procps-ng
