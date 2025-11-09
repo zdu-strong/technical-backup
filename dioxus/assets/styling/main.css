@@ -1,54 +1,15 @@
 body {
-  margin: 0;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 code {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
-a.MuiButton-root {
-  text-transform: none;
-}
-
-button.MuiButton-root  {
-  text-transform: none;
-}
-
-#hero {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#links {
-    width: 400px;
-    text-align: left;
-    font-size: x-large;
-    color: white;
-    display: flex;
-    flex-direction: column;
-}
-
-#links a {
-    text-decoration: none;
-    margin-top: 20px;
-    margin: 10px 0px;
-    border: white 1px solid;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-#links a:hover {
-    background-color: #1f1f1f;
-    cursor: pointer;
-    color: green;
-}
-
-#header {
-    max-width: 1200px;
+a.MuiButton-root,
+button.MuiButton-root {
+    text-transform: none;
 }
