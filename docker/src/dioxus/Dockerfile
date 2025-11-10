@@ -30,6 +30,7 @@ RUN cargo install dioxus-cli --locked
 # cargo build
 COPY . /all_code
 WORKDIR /all_code/dioxus
+RUN rm -rf ./target
 RUN cargo make
 
 # copy build folder

@@ -9,6 +9,7 @@
         "Dioxus.toml",
         ".zed",
         "rustfmt.toml",
-        "rust-toolchain.toml"
+        "rust-toolchain.toml",
+        "public/"
     ]
 }
