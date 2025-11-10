@@ -10,6 +10,7 @@
         ".zed",
         "rustfmt.toml",
         "rust-toolchain.toml",
-        "public/"
+        "public/",
+        "index.html"
     ]
 }
