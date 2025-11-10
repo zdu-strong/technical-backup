@@ -19,7 +19,6 @@ RUN dnf upgrade -y
 RUN dnf install -y git
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
-RUN dnf install -y gtk2-devel
 RUN dnf install -y gtk3-devel
 COPY . /all_code
 WORKDIR /all_code/capacitor-cypress
