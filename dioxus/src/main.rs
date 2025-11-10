@@ -6,6 +6,7 @@ pub mod enums;
 pub mod model;
 pub mod router;
 
-fn main() {
+#[tokio_with_wasm::alias::main(flavor = "current_thread")]
+async fn main() {
     dioxus::launch(App);
 }
