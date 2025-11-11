@@ -17,4 +17,5 @@ Build the react and springboot projects to generate two docker images. The names
 
 ## Learn More
 
-1. Dockerfile (https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+1. Dockerfile (https://docs.docker.com/develop/develop-images/dockerfile_best-practices)
+2. RockyLinux Mirrors (https://mirrors.rockylinux.org/mirrormanager/mirrors)
