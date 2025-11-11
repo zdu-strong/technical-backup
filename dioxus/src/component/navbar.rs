@@ -3,8 +3,7 @@ use dioxus::prelude::*;
 use lumen_blocks::components::button::Button;
 use lumen_blocks::components::button::ButtonVariant;
 use tailwind_rs_dioxus::*;
-
-const NAVBAR_CSS: Asset = asset!("/assets/styling/navbar.css");
+use styled::style;
 
 #[component]
 pub fn Navbar() -> Element {
@@ -12,10 +11,26 @@ pub fn Navbar() -> Element {
         .margin(SpacingValue::Fractional(3.0))
         .class("flex")
         .class("flex-row")
+        .class(
+            style!(
+                & {
+                }
+                & a {
+                    margin-right: 20px;
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                & a:hover {
+                    cursor: pointer;
+                    color: green;
+                }
+            )
+            .unwrap()
+            .get_class_name(),
+        )
         .build_string();
 
     rsx! {
-        document::Link { rel: "stylesheet", href: NAVBAR_CSS }
 
         div {
             id: "navbar",

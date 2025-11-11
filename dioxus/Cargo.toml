@@ -28,6 +28,8 @@ serde_with = "3.15.1"
 dioxus-i18n = "0.4.3"
 lumen-blocks = { git = "https://github.com/Leaf-Computer/lumen-blocks.git", tag = "v0.2.0" }
 tailwind-rs-dioxus = { version = "0.15.4", features = ["web", "desktop", "mobile"] }
+styled = "0.3.2"
+stylist = "0.13.0"
 
 [features]
 default = ["web"]
