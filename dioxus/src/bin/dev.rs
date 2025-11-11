@@ -16,6 +16,36 @@ fn main() {
         eprintln!("Port {} is already in use.", port);
         process::exit(1);
     }
+    install_dioxus_cli();
+    let _ = Command::new("dx")
+        .args([
+            "serve",
+            "--hot-patch",
+            "--open",
+            "true",
+            "--port",
+            "3000",
+            "--web",
+            "--wsl-file-poll-interval",
+            "2",
+        ])
+        .current_dir(current_dir().unwrap())
+        .env("RUST_BACKTRACE", "1")
+        .status()
+        .unwrap()
+        .success();
+}
+
+fn install_dioxus_cli() -> bool {
+    if Command::new("dx")
+        .args(["--version"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success()
+    {
+        return true;
+    }
     let _ = Command::new("rustup")
         .args(["toolchain", "install", "nightly"])
         .current_dir(current_dir().unwrap())
@@ -40,23 +70,7 @@ fn main() {
         .status()
         .unwrap()
         .success();
-    let _ = Command::new("dx")
-        .args([
-            "serve",
-            "--hot-patch",
-            "--open",
-            "true",
-            "--port",
-            "3000",
-            "--web",
-            "--wsl-file-poll-interval",
-            "2",
-        ])
-        .current_dir(current_dir().unwrap())
-        .env("RUST_BACKTRACE", "1")
-        .status()
-        .unwrap()
-        .success();
+    true
 }
 
 fn is_port_in_use(port: u16) -> bool {
