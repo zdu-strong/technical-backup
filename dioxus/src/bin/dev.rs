@@ -5,6 +5,7 @@ use std::process;
 use std::process::Command;
 use std::fs;
 use std::path::Path;
+use std::process::Stdio;
 
 fn main() {
     let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target").join("dx");
@@ -40,6 +41,7 @@ fn install_dioxus_cli() -> bool {
     if Command::new("dx")
         .args(["--version"])
         .current_dir(current_dir().unwrap())
+        .stdout(Stdio::null())
         .status()
         .unwrap()
         .success()
