@@ -39,7 +39,11 @@ pub fn Hero() -> Element {
     let onpress_hero = move |_| {};
 
     let onclick_change_name = move |_| async move {
-        *cat.write().name.write() += "a";
+        if cat.read().name.read().trim().starts_with("Tom") {
+            *cat.write().name.write() = "Jerry".to_string();
+        } else {
+            *cat.write().name.write() = "Tom".to_string();
+        }
     };
 
     rsx! {
