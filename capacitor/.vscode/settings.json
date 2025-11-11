@@ -17,6 +17,7 @@
     "capacitor.config.ts": true,
     ".ncurc.json": true,
     "rsbuild.config.ts": true,
+    "capacitor.config.js": true
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
