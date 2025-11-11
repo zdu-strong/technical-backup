@@ -42,6 +42,7 @@ fn install_dioxus_cli() -> bool {
         .args(["--version"])
         .current_dir(current_dir().unwrap())
         .stdout(Stdio::null())
+        .stderr(Stdio::null())
         .status()
         .unwrap()
         .success()
