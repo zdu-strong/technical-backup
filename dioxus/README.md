@@ -5,7 +5,7 @@ This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have
 ## Development environment setup
 1. From https://zed.dev install Zed.<br/>
 2. From https://www.rust-lang.org install Rust.<br/>
-3. From https://dioxuslabs.com/learn/0.6/getting_started install dioxus.<br/>
+3. Install dioxus.<br/>
 
     rustup toolchain install nightly<br/>
     rustup target add wasm32-unknown-unknown<br/>
