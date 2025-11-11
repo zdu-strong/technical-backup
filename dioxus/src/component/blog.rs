@@ -1,5 +1,7 @@
 use crate::router::Route;
 use dioxus::prelude::*;
+use lumen_blocks::components::button::Button;
+use lumen_blocks::components::button::ButtonVariant;
 
 const BLOG_CSS: Asset = asset!("/assets/styling/blog.css");
 
@@ -18,14 +20,20 @@ pub fn Blog(id: i128) -> Element {
             }
             Link {
                 to: Route::BlogPage { id: id - 1 },
-                "Previous"
+                Button {
+                    variant: ButtonVariant::Primary,
+                    "Previous"
+                }
             }
             span {
                 " <---> "
             }
             Link {
                 to: Route::BlogPage { id: id + 1 },
-                "Next"
+                Button {
+                    variant: ButtonVariant::Primary,
+                    "Next"
+                }
             }
         }
     }

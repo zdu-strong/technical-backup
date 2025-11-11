@@ -17,6 +17,15 @@ pub fn App() -> Element {
         document::Link { rel: "stylesheet", href: APP_CSS }
         document::Script { src: TAILWIND_JS }
         document::Link { rel: "icon", href: FAVICON }
-        Router::<Route> {}
+        div {
+            class: "w-screen h-screen overflow-auto",
+            div {
+                class: "flex flex-row min-w-full min-h-full w-max",
+                div {
+                    class: "flex flex-col flex-auto",
+                    Router::<Route> {}
+                }
+            }
+        }
     }
 }

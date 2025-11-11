@@ -40,4 +40,5 @@ Check that a new version of the dependency is available<br/>
 2. Cargo (https://crates.io)<br/>
 3. Dioxus (https://dioxuslabs.com)<br/>
 4. tailwindcss (https://tailwindcss.com)<br/>
-5. Lumen Blocks(https://lumenblocks.dev)<br/>
+5. Lumen Blocks (https://lumenblocks.dev)<br/>
+6. tailwind-rs-dioxus (https://github.com/cloud-shuttle/tailwind-rs/blob/main/docs/api/API_DOCUMENTATION.md)<br/>

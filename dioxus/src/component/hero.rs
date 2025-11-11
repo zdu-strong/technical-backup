@@ -45,6 +45,7 @@ pub fn Hero() -> Element {
     rsx! {
         div {
             id: "hero",
+            class: "flex flex-col flex-full justify-center",
             img {
                 id: "header",
                 src: HEADER_SVG,
