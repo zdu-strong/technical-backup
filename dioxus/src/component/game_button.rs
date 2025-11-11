@@ -1,12 +1,11 @@
 use dioxus::prelude::*;
-use dioxus_core::Event;
 use lumen_blocks::components::button::Button;
 use lumen_blocks::components::button::ButtonVariant;
 
 #[component]
 pub fn GameButton(
     name: ReadSignal<Signal<String>>,
-    onclick_change_name: Callback<Event<MouseData>>,
+    onclick_change_name: Callback<MouseEvent>,
 ) -> Element {
     rsx! {
         div {
