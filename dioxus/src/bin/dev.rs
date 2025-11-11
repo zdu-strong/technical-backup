@@ -16,6 +16,30 @@ fn main() {
         eprintln!("Port {} is already in use.", port);
         process::exit(1);
     }
+    let _ = Command::new("rustup")
+        .args(["toolchain", "install", "nightly"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success();
+    let _ = Command::new("rustup")
+        .args(["target", "add", "wasm32-unknown-unknown"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success();
+    let _ = Command::new("cargo")
+        .args(["install", "cargo-binstall"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success();
+    let _ = Command::new("cargo")
+        .args(["binstall", "dioxus-cli"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success();
     let _ = Command::new("dx")
         .args([
             "serve",

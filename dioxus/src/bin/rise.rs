@@ -9,13 +9,7 @@ fn main() {
         fs::remove_dir_all(target_dx_folder_path).unwrap();
     }
     let _ = Command::new("rustup")
-        .args(["toolchain", "install", "nightly"])
-        .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
-    let _ = Command::new("rustup")
-        .args(["target", "add", "wasm32-unknown-unknown"])
+        .args(["update"])
         .current_dir(current_dir().unwrap())
         .status()
         .unwrap()
@@ -32,8 +26,20 @@ fn main() {
         .status()
         .unwrap()
         .success();
-    let _ = Command::new("dx")
-        .args(["bundle", "--release", "--web"])
+    let _ = Command::new("cargo")
+        .args(["binstall", "cargo-edit"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success();
+    let _ = Command::new("cargo")
+        .args(["upgrade"])
+        .current_dir(current_dir().unwrap())
+        .status()
+        .unwrap()
+        .success();
+    let _ = Command::new("cargo")
+        .args(["update"])
         .current_dir(current_dir().unwrap())
         .status()
         .unwrap()

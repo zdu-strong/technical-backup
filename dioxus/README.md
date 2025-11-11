@@ -5,15 +5,10 @@ This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have
 ## Development environment setup
 1. From https://zed.dev install Zed.<br/>
 2. From https://www.rust-lang.org install Rust.<br/>
-3. Install dioxus.<br/>
-
-    rustup toolchain install nightly<br/>
-    rustup target add wasm32-unknown-unknown<br/>
-    cargo install cargo-binstall<br/>
-    cargo binstall dioxus-cli<br/>
-
-4. for Ubuntu: sudo apt install -y build-essential<br/>
-5. for Centos: sudo dnf install -y gcc<br/>
+3. for Ubuntu:<br/>
+   sudo apt install -y build-essential<br/>
+4. for Centos:<br/>
+   sudo dnf install -y gcc<br/>
 
 ## Available Scripts
 
@@ -35,14 +30,9 @@ It correctly bundle the Dioxus app into a shippable object in production mode an
 The build is minified and the filenames include the hashes.<br/>
 Your app is ready to be deployed!<br/>
 
-### `cargo upgrade`
+### `cargo rise`
 
 Check that a new version of the dependency is available<br/>
-
-    cargo binstall cargo-edit
-    cargo upgrade
-    rustup update
-    cargo update
 
 ## Learn More
 

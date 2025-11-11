@@ -1,3 +1,4 @@
 [alias]
 dev = "run --quiet --bin dev"
 make = "run --quiet --bin make"
+rise = "run --quiet --bin rise"
