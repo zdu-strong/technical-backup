@@ -25,7 +25,7 @@ You will also see any lint errors in the console.<br/>
 ### `cargo make`
 
 Builds the app for production to the `target/dx/rust-app/release/web/public` folder.<br/>
-It correctly bundle the Dioxus app into a shippable object in production mode and optimizes the build for the best performance.<br/>
+It correctly bundles the Dioxus app into a shippable object in production mode and optimizes the build for the best performance.<br/>
 
 The build is minified and the filenames include the hashes.<br/>
 Your app is ready to be deployed!<br/>
