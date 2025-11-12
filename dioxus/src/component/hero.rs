@@ -21,6 +21,8 @@ pub fn Hero() -> Element {
         name: Signal::new("Tom".to_string()),
     });
 
+    let mut question_text = use_signal(|| "Who are you?".to_string());
+
     use_future(|| async {
         sleep(Duration::from_millis(1)).await;
         let ref mut user_list = vec![UserModel {
@@ -36,7 +38,13 @@ pub fn Hero() -> Element {
         info!("user_list: {:?}", user_list);
     });
 
-    let onpress_hero = move |_| {};
+    let onpress_hero = move |_| {
+        if *question_text.read() == "Who are you?" {
+            *question_text.write() = "What's your name?".to_string();
+        } else {
+            *question_text.write() = "Who are you?".to_string();
+        }
+    };
 
     let onclick_change_name = move |_| async move {
         if cat.read().name.read().trim().starts_with("Tom") {
@@ -62,7 +70,7 @@ pub fn Hero() -> Element {
                     width: "200px",
                     variant: ButtonVariant::Primary,
                     on_click: onpress_hero,
-                    "who are you?"
+                    "{question_text}"
                 }
             }
             GameButton {
