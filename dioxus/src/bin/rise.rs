@@ -11,37 +11,31 @@ fn main() {
     let _ = Command::new("rustup")
         .args(["update"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["install", "cargo-binstall"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["binstall", "dioxus-cli"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["binstall", "cargo-edit"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["upgrade"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["update"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
 }

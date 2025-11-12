@@ -32,9 +32,8 @@ fn main() {
         ])
         .current_dir(current_dir().unwrap())
         .env("RUST_BACKTRACE", "1")
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
 }
 
 fn install_dioxus_cli() -> bool {
@@ -43,36 +42,31 @@ fn install_dioxus_cli() -> bool {
         .current_dir(current_dir().unwrap())
         .stdout(Stdio::null())
         .stderr(Stdio::null())
-        .status()
-        .unwrap()
-        .success()
+        .output()
+        .is_ok()
     {
         return true;
     }
     let _ = Command::new("rustup")
         .args(["toolchain", "install", "nightly"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("rustup")
         .args(["target", "add", "wasm32-unknown-unknown"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["install", "cargo-binstall"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     let _ = Command::new("cargo")
         .args(["binstall", "dioxus-cli"])
         .current_dir(current_dir().unwrap())
-        .status()
-        .unwrap()
-        .success();
+        .output()
+        .is_ok();
     true
 }
 
