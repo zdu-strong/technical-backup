@@ -14,7 +14,9 @@ use lumen_blocks::components::button::ButtonVariant;
 
 const HERO_CSS: Asset = asset!(
     "/assets/styling/hero.css",
-    AssetOptions::css().with_preload(true)
+    AssetOptions::css()
+        .with_preload(true)
+        .with_static_head(true)
 );
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
 
