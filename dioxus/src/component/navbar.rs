@@ -53,7 +53,7 @@ pub fn Navbar() -> Element {
         }
 
         div {
-            class: "flex flex-col flex-full",
+            class: "flex flex-col flex-auto",
             Outlet::<Route> {}
         }
     }
