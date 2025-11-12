@@ -3,6 +3,7 @@ use std::process::Command;
 use std::fs;
 use std::path::Path;
 use std::process::Stdio;
+use std::process::exit;
 
 fn main() {
     let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target").join("dx");
@@ -10,7 +11,7 @@ fn main() {
         fs::remove_dir_all(target_dx_folder_path).unwrap();
     }
     install_dioxus_cli();
-    let _ = Command::new("dx")
+    let is_ok = Command::new("dx")
         .args(["bundle", "--release", "--web"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -18,6 +19,9 @@ fn main() {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
+    if !is_ok {
+        exit(1);
+    }
 }
 
 fn install_dioxus_cli() -> bool {
@@ -32,7 +36,7 @@ fn install_dioxus_cli() -> bool {
     {
         return true;
     }
-    let _ = Command::new("rustup")
+    let is_ok = Command::new("rustup")
         .args(["toolchain", "install", "nightly"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -40,7 +44,10 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
-    let _ = Command::new("rustup")
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("rustup")
         .args(["target", "add", "wasm32-unknown-unknown"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -48,7 +55,10 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
-    let _ = Command::new("cargo")
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
         .args(["install", "cargo-binstall"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -56,7 +66,10 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
-    let _ = Command::new("cargo")
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
         .args(["binstall", "dioxus-cli"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -64,5 +77,8 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
+    if !is_ok {
+        exit(1);
+    }
     true
 }

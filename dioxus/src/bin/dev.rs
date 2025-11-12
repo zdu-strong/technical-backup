@@ -1,11 +1,11 @@
 use std::env::current_dir;
 use std::net::SocketAddr;
 use std::net::TcpListener;
-use std::process;
 use std::process::Command;
 use std::fs;
 use std::path::Path;
 use std::process::Stdio;
+use std::process::exit;
 
 fn main() {
     let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target").join("dx");
@@ -15,10 +15,10 @@ fn main() {
     let port = 3000;
     if is_port_in_use(port) {
         eprintln!("Port {} is already in use.", port);
-        process::exit(1);
+        exit(1);
     }
     install_dioxus_cli();
-    let _ = Command::new("dx")
+    let is_ok = Command::new("dx")
         .args([
             "serve",
             "--hot-patch",
@@ -37,6 +37,9 @@ fn main() {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
+    if !is_ok {
+        exit(1);
+    }
 }
 
 fn install_dioxus_cli() -> bool {
@@ -51,7 +54,7 @@ fn install_dioxus_cli() -> bool {
     {
         return true;
     }
-    let _ = Command::new("rustup")
+    let is_ok = Command::new("rustup")
         .args(["toolchain", "install", "nightly"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -59,7 +62,10 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
-    let _ = Command::new("rustup")
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("rustup")
         .args(["target", "add", "wasm32-unknown-unknown"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -67,7 +73,10 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
-    let _ = Command::new("cargo")
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
         .args(["install", "cargo-binstall"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -75,7 +84,10 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
-    let _ = Command::new("cargo")
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
         .args(["binstall", "dioxus-cli"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -83,6 +95,9 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
+    if !is_ok {
+        exit(1);
+    }
     true
 }
 
