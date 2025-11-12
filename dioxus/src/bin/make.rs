@@ -13,6 +13,9 @@ fn main() {
     let _ = Command::new("dx")
         .args(["bundle", "--release", "--web"])
         .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .output()
         .is_ok();
 }
@@ -21,8 +24,9 @@ fn install_dioxus_cli() -> bool {
     if Command::new("dx")
         .args(["--version"])
         .current_dir(current_dir().unwrap())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
         .output()
         .is_ok()
     {
@@ -31,21 +35,33 @@ fn install_dioxus_cli() -> bool {
     let _ = Command::new("rustup")
         .args(["toolchain", "install", "nightly"])
         .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .output()
         .is_ok();
     let _ = Command::new("rustup")
         .args(["target", "add", "wasm32-unknown-unknown"])
         .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .output()
         .is_ok();
     let _ = Command::new("cargo")
         .args(["install", "cargo-binstall"])
         .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .output()
         .is_ok();
     let _ = Command::new("cargo")
         .args(["binstall", "dioxus-cli"])
         .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .output()
         .is_ok();
     true
