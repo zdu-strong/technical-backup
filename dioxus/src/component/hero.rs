@@ -12,6 +12,10 @@ use uuid::Uuid;
 use lumen_blocks::components::button::Button;
 use lumen_blocks::components::button::ButtonVariant;
 
+const HERO_CSS: Asset = asset!(
+    "/assets/styling/hero.css",
+    AssetOptions::css().with_preload(true)
+);
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
 
 #[component]
@@ -55,6 +59,7 @@ pub fn Hero() -> Element {
     };
 
     rsx! {
+        document::Link { rel: "stylesheet", href: HERO_CSS }
         div {
             id: "hero",
             class: "flex flex-col flex-full justify-center",
