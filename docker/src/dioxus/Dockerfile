@@ -29,7 +29,7 @@ RUN dnf upgrade -y
 RUN dnf install -y gcc
 RUN dnf install -y openssl-devel
 ENV PATH="${PATH}:/root/.cargo/bin"
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN rustup update
 RUN rustup toolchain install nightly
 RUN rustup target add wasm32-unknown-unknown
