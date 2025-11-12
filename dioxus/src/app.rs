@@ -3,25 +3,19 @@ use dioxus::prelude::*;
 
 const GOOGLE_ROBOT_FONT_CSS: Asset = asset!(
     "/assets/google_material/google_robot_font.css",
-    AssetOptions::css()
-        .with_preload(true)
-        .with_static_head(true)
+    AssetOptions::css().with_static_head(true)
 );
 const TAILWIND_CSS: Asset = asset!(
     "/assets/tailwind/tailwind.css",
-    AssetOptions::css()
-        .with_preload(true)
-        .with_static_head(true)
+    AssetOptions::css().with_static_head(true)
 );
 const APP_CSS: Asset = asset!(
     "/assets/styling/app.css",
-    AssetOptions::css()
-        .with_preload(true)
-        .with_static_head(true)
+    AssetOptions::css().with_static_head(true)
 );
 const TAILWIND_JS: Asset = asset!(
     "/assets/tailwind/tailwind.js",
-    AssetOptions::js().with_preload(true).with_static_head(true)
+    AssetOptions::js().with_static_head(true)
 );
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 
