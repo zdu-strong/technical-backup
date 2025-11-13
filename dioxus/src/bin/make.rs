@@ -11,6 +11,23 @@ fn main() {
         fs::remove_dir_all(target_dx_folder_path).unwrap();
     }
     install_dioxus_cli();
+    let is_ok = Command::new("stylance")
+        .args([
+            "--folder",
+            "./assets/styling",
+            "--output-file",
+            "./assets/stylance/bundled.css",
+            ".",
+        ])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
     let is_ok = Command::new("dx")
         .args(["bundle", "--release", "--web"])
         .current_dir(current_dir().unwrap())
@@ -33,6 +50,14 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::piped())
         .output()
         .is_ok()
+        && Command::new("stylance")
+            .args(["--version"])
+            .current_dir(current_dir().unwrap())
+            .stdin(Stdio::inherit())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .output()
+            .is_ok()
     {
         return true;
     }

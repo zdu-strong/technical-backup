@@ -18,7 +18,24 @@ fn main() {
         exit(1);
     }
     install_dioxus_cli();
-    let is_ok = Command::new("dx")
+    let is_ok = Command::new("stylance")
+        .args([
+            "--folder",
+            "./assets/styling",
+            "--output-file",
+            "./assets/stylance/bundled.css",
+            ".",
+        ])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::null())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
+    let dioxus_command = Command::new("dx")
         .args([
             "serve",
             "--hot-patch",
@@ -35,8 +52,24 @@ fn main() {
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
+        .spawn();
+    let stylance_command = Command::new("stylance")
+        .args([
+            "--watch",
+            "--folder",
+            "./assets/styling",
+            "--output-file",
+            "./assets/stylance/bundled.css",
+            ".",
+        ])
+        .current_dir(current_dir().unwrap())
+        .env("RUST_BACKTRACE", "1")
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::null())
+        .stderr(Stdio::inherit())
+        .spawn();
+    let is_ok = dioxus_command.unwrap().wait_with_output().is_ok()
+        && stylance_command.unwrap().wait_with_output().is_ok();
     if !is_ok {
         exit(1);
     }
@@ -51,6 +84,14 @@ fn install_dioxus_cli() -> bool {
         .stderr(Stdio::piped())
         .output()
         .is_ok()
+        && Command::new("stylance")
+            .args(["--version"])
+            .current_dir(current_dir().unwrap())
+            .stdin(Stdio::inherit())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .output()
+            .is_ok()
     {
         return true;
     }
@@ -67,6 +108,17 @@ fn install_dioxus_cli() -> bool {
     }
     let is_ok = Command::new("rustup")
         .args(["target", "add", "wasm32-unknown-unknown"])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
+        .args(["install", "stylance-cli"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())

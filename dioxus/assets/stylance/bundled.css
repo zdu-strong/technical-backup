@@ -1,0 +1,12 @@
+.navbar-3e45438 {
+    margin: 2em;
+}
+.navbar-3e45438 a {
+    margin-right: 20px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.navbar-3e45438 a:hover {
+    cursor: pointer;
+    color: green;
+}

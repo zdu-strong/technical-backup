@@ -21,6 +21,39 @@ fn main() {
     if !is_ok {
         exit(1);
     }
+    let is_ok = Command::new("rustup")
+        .args(["toolchain", "install", "nightly"])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("rustup")
+        .args(["target", "add", "wasm32-unknown-unknown"])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
+        .args(["install", "stylance-cli"])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
     let is_ok = Command::new("cargo")
         .args(["install", "cargo-binstall"])
         .current_dir(current_dir().unwrap())

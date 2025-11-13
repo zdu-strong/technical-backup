@@ -21,8 +21,11 @@ const FAVICON: Asset = asset!("/assets/favicon.ico");
 
 #[component]
 pub fn App() -> Element {
+    let STYLANCE_CSS = include_str!("../assets/stylance/bundled.css");
+
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
+        style { "{STYLANCE_CSS}" }
         div {
             class: "w-screen h-screen overflow-auto",
             div {
