@@ -2,7 +2,7 @@ use crate::router::Route;
 use dioxus::prelude::*;
 
 const _: Asset = asset!(
-    "/assets/common/google_material/google_robot_font.css",
+    "/assets/common/google-material/google-robot-font.css",
     AssetOptions::css().with_static_head(true)
 );
 const _: Asset = asset!(
