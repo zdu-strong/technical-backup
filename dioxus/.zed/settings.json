@@ -11,6 +11,8 @@
         "rustfmt.toml",
         "rust-toolchain.toml",
         "public/",
-        "index.html"
+        "index.html",
+        "tailwind.css",
+        "tailwind-config.js"
     ]
 }

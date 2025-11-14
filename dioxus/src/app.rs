@@ -6,25 +6,19 @@ const _: Asset = asset!(
     AssetOptions::css().with_static_head(true)
 );
 const _: Asset = asset!(
-    "/assets/common/tailwind/tailwind.css",
-    AssetOptions::css().with_static_head(true)
-);
-const _: Asset = asset!(
     "/assets/common/app/app.css",
     AssetOptions::css().with_static_head(true)
-);
-const _: Asset = asset!(
-    "/assets/common/tailwind/v4.1.17/tailwind.global.min.js",
-    AssetOptions::js().with_static_head(true)
 );
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
 
 #[component]
 pub fn App() -> Element {
+    let TAILWIND_CSS = include_str!("../assets/tailwind.css");
     let STYLANCE_CSS = include_str!("../assets/common/stylance/stylance.bundled.css");
 
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
+        style { "{TAILWIND_CSS}" }
         style { "{STYLANCE_CSS}" }
         div {
             class: "w-screen h-screen overflow-auto",
