@@ -12,7 +12,7 @@ use uuid::Uuid;
 use lumen_blocks::components::button::Button;
 use lumen_blocks::components::button::ButtonVariant;
 
-const HEADER_SVG: Asset = asset!("/assets/header.svg");
+const HEADER_SVG: Asset = asset!("/assets/image/header.svg");
 
 #[component]
 pub fn Hero() -> Element {

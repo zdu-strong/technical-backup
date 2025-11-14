@@ -4,9 +4,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-cyrillic-ext-400-normal.946432d9.woff2)
+        url(/static/font/google_material/roboto-cyrillic-ext-400-normal.946432d9.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-cyrillic-ext-400-normal.43de5220.woff)
+        url(/static/font/google_material/roboto-cyrillic-ext-400-normal.43de5220.woff)
             format("woff");
     unicode-range:
         U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
@@ -18,9 +18,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-cyrillic-400-normal.830ea0fe.woff2)
+        url(/static/font/google_material/roboto-cyrillic-400-normal.830ea0fe.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-cyrillic-400-normal.bb3fa042.woff)
+        url(/static/font/google_material/roboto-cyrillic-400-normal.bb3fa042.woff)
             format("woff");
     unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
 }
@@ -44,9 +44,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-greek-400-normal.89cf8ff8.woff2)
+        url(/static/font/google_material/roboto-greek-400-normal.89cf8ff8.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-greek-400-normal.1acf9bb5.woff)
+        url(/static/font/google_material/roboto-greek-400-normal.1acf9bb5.woff)
             format("woff");
     unicode-range: U+370-377, U+37A-37F, U+384-38A, U+38C, U+38E-3A1, U+3A3-3FF;
 }
@@ -57,9 +57,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-math-400-normal.3592474a.woff2)
+        url(/static/font/google_material/roboto-math-400-normal.3592474a.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-math-400-normal.6ffb8b48.woff)
+        url(/static/font/google_material/roboto-math-400-normal.6ffb8b48.woff)
             format("woff");
     unicode-range:
         U+302-303, U+305, U+307-308, U+310, U+312, U+315, U+31A, U+326-327,
@@ -82,9 +82,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-symbols-400-normal.3ef1322e.woff2)
+        url(/static/font/google_material/roboto-symbols-400-normal.3ef1322e.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-symbols-400-normal.c1dea723.woff)
+        url(/static/font/google_material/roboto-symbols-400-normal.c1dea723.woff)
             format("woff");
     unicode-range:
         U+1-C, U+E-1F, U+7F-9F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190,
@@ -117,9 +117,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-vietnamese-400-normal.a76b569a.woff2)
+        url(/static/font/google_material/roboto-vietnamese-400-normal.a76b569a.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-vietnamese-400-normal.1f30a0f4.woff)
+        url(/static/font/google_material/roboto-vietnamese-400-normal.1f30a0f4.woff)
             format("woff");
     unicode-range:
         U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0,
@@ -132,9 +132,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-latin-ext-400-normal.b0684611.woff2)
+        url(/static/font/google_material/roboto-latin-ext-400-normal.b0684611.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-latin-ext-400-normal.e3fba40b.woff)
+        url(/static/font/google_material/roboto-latin-ext-400-normal.e3fba40b.woff)
             format("woff");
     unicode-range:
         U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308,
@@ -148,9 +148,9 @@
     font-display: swap;
     font-weight: 400;
     src:
-        url(/google_material/font/roboto-latin-400-normal.4046ec9b.woff2)
+        url(/static/font/google_material/roboto-latin-400-normal.4046ec9b.woff2)
             format("woff2"),
-        url(/google_material/font/roboto-latin-400-normal.ead827ef.woff)
+        url(/static/font/google_material/roboto-latin-400-normal.ead827ef.woff)
             format("woff");
     unicode-range:
         U+??, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308,
