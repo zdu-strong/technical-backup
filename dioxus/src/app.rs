@@ -10,12 +10,11 @@ const _: Asset = asset!(
     AssetOptions::css().with_static_head(true)
 );
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
+const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
+const STYLANCE_CSS: &str = include_str!("../assets/common/stylance/stylance.bundled.css");
 
 #[component]
 pub fn App() -> Element {
-    let TAILWIND_CSS = include_str!("../assets/tailwind.css");
-    let STYLANCE_CSS = include_str!("../assets/common/stylance/stylance.bundled.css");
-
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
         style { "{TAILWIND_CSS}" }

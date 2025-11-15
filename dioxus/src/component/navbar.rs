@@ -4,10 +4,10 @@ use lumen_blocks::components::button::Button;
 use lumen_blocks::components::button::ButtonVariant;
 use stylance::import_crate_style;
 
+import_crate_style!(styles, "assets/styling/navbar.module.css");
+
 #[component]
 pub fn Navbar() -> Element {
-    import_crate_style!(styles, "assets/styling/navbar.module.css");
-
     rsx! {
         div {
             id: "navbar",
