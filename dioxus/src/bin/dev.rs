@@ -38,14 +38,12 @@ fn main() {
     let dioxus_command = Command::new("dx")
         .args([
             "serve",
-            "--hot-patch",
+            "--platform",
+            "web",
             "--open",
             "true",
             "--port",
             "3000",
-            "--web",
-            "--wsl-file-poll-interval",
-            "2",
         ])
         .current_dir(current_dir().unwrap())
         .env("RUST_BACKTRACE", "1")
