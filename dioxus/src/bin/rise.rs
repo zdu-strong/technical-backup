@@ -22,7 +22,7 @@ fn main() {
         exit(1);
     }
     let is_ok = Command::new("rustup")
-        .args(["toolchain", "install", "nightly"])
+        .args(["toolchain", "install", "stable"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())

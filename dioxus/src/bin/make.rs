@@ -62,7 +62,7 @@ fn install_dioxus_cli() -> bool {
         return true;
     }
     let is_ok = Command::new("rustup")
-        .args(["toolchain", "install", "nightly"])
+        .args(["toolchain", "install", "stable"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
