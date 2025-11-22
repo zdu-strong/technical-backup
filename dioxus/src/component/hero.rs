@@ -1,4 +1,3 @@
-use std::time::Duration;
 use crate::component::game_button::GameButton;
 use crate::component::game_input::GameInput;
 use crate::model::cat_model::CatModel;
@@ -6,11 +5,12 @@ use crate::model::user_model::UserModel;
 use chrono::Local;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
-use rust_decimal::prelude::*;
-use tokio_with_wasm::alias::time::sleep;
-use uuid::Uuid;
 use lumen_blocks::components::button::Button;
 use lumen_blocks::components::button::ButtonVariant;
+use rust_decimal::prelude::*;
+use std::time::Duration;
+use tokio_with_wasm::alias::time::sleep;
+use uuid::Uuid;
 
 const HEADER_SVG: Asset = asset!("/assets/image/header.svg");
 
