@@ -52,6 +52,10 @@ spring:
     time-zone: UTC
   lifecycle:
     timeout-per-shutdown-phase: 60s
+  web:
+    error:
+      include-message: always
+      include-stacktrace: never
 logging:
   level:
     org:
@@ -70,9 +74,6 @@ logging:
             spi:
               SqlExceptionHelper: OFF
 server:
-  error:
-    include-message: always
-    include-stacktrace: never
   tomcat:
     max-http-form-post-size: -1
   max-http-request-header-size: 1MB

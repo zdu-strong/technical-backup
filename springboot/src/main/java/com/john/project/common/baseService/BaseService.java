@@ -30,7 +30,7 @@ import jakarta.persistence.PersistenceContext;
 
 @Service
 @Transactional(rollbackFor = Throwable.class)
-@Retryable(maxAttempts = 10, includes = {
+@Retryable(maxRetries = 10, includes = {
         GenericJDBCException.class,
         ObjectOptimisticLockingFailureException.class,
         AbortedException.class,
