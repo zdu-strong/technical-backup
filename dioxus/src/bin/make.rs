@@ -21,7 +21,7 @@ fn main() {
         ])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
+        .stdout(Stdio::null())
         .stderr(Stdio::inherit())
         .output()
         .is_ok();
