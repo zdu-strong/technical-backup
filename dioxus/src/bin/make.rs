@@ -41,7 +41,7 @@ fn main() {
     }
 }
 
-fn install_dioxus_cli() -> bool {
+fn install_dioxus_cli() {
     if Command::new("dx")
         .args(["--version"])
         .current_dir(current_dir().unwrap())
@@ -59,32 +59,10 @@ fn install_dioxus_cli() -> bool {
             .output()
             .is_ok()
     {
-        return true;
-    }
-    let is_ok = Command::new("rustup")
-        .args(["toolchain", "install", "stable"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
-    let is_ok = Command::new("rustup")
-        .args(["target", "add", "wasm32-unknown-unknown"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
+        return;
     }
     let is_ok = Command::new("cargo")
-        .args(["install", "cargo-binstall"])
+        .args(["rise"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
@@ -94,16 +72,4 @@ fn install_dioxus_cli() -> bool {
     if !is_ok {
         exit(1);
     }
-    let is_ok = Command::new("cargo")
-        .args(["binstall", "dioxus-cli"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
-    true
 }
