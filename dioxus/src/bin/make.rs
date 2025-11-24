@@ -16,7 +16,7 @@ fn main() {
             "--folder",
             "./assets/styling",
             "--output-file",
-            "./assets/common/stylance/stylance.bundled.css",
+            "./assets/stylance.bundled.css",
             ".",
         ])
         .current_dir(current_dir().unwrap())

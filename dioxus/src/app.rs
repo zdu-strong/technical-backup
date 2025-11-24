@@ -11,7 +11,7 @@ const _: Asset = asset!(
 );
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
 const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
-const STYLANCE_CSS: &str = include_str!("../assets/common/stylance/stylance.bundled.css");
+const STYLANCE_CSS: &str = include_str!("../assets/stylance.bundled.css");
 
 #[component]
 pub fn App() -> Element {
