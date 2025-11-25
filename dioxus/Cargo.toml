@@ -27,7 +27,7 @@ rust_decimal = { version = "1.39.0", features = ["macros"] }
 serde_with = "3.16.0"
 dioxus-i18n = "0.4.3"
 lumen-blocks = { git = "https://github.com/Leaf-Computer/lumen-blocks.git", tag = "v0.2.0" }
-stylance = "0.7.1"
+stylance = "0.7.4"
 
 [features]
 default = ["web"]
