@@ -3,10 +3,9 @@ use crate::component::game_input::GameInput;
 use crate::model::cat_model::CatModel;
 use crate::model::user_model::UserModel;
 use chrono::Local;
+use daisy_rsx::*;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
-use lumen_blocks::components::button::Button;
-use lumen_blocks::components::button::ButtonVariant;
 use rust_decimal::prelude::*;
 use std::time::Duration;
 use tokio_with_wasm::alias::time::sleep;
@@ -63,13 +62,12 @@ pub fn Hero() -> Element {
                 src: HEADER_SVG,
             }
             div {
+                class: "flex flex-col space-y-4 w-full max-w-md",
                 margin: "10px",
-                margin_bottom: "10px",
+                margin_bottom: "10px ",
                 Button {
-                    height: "100px",
-                    width: "200px",
-                    variant: ButtonVariant::Primary,
-                    on_click: onpress_hero,
+                    button_scheme: ButtonScheme::Secondary,
+                    onclick: onpress_hero,
                     "{question_text}"
                 }
             }

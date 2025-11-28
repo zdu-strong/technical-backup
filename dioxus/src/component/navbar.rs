@@ -1,7 +1,6 @@
 use crate::router::Route;
+use daisy_rsx::*;
 use dioxus::prelude::*;
-use lumen_blocks::components::button::Button;
-use lumen_blocks::components::button::ButtonVariant;
 use stylance::import_crate_style;
 
 import_crate_style!(styles, "assets/styling/navbar.module.css");
@@ -16,14 +15,14 @@ pub fn Navbar() -> Element {
             Link {
                 to: Route::HomePage {},
                 Button {
-                    variant: ButtonVariant::Primary,
+                    button_scheme: ButtonScheme::Secondary,
                     "Home"
                 }
             }
             Link {
                 to: Route::BlogPage { id: 1 },
                 Button {
-                    variant: ButtonVariant::Primary,
+                    button_scheme: ButtonScheme::Secondary,
                     "Blog"
                 }
             }

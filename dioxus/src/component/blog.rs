@@ -1,7 +1,6 @@
 use crate::router::Route;
+use daisy_rsx::*;
 use dioxus::prelude::*;
-use lumen_blocks::components::button::Button;
-use lumen_blocks::components::button::ButtonVariant;
 
 #[component]
 pub fn Blog(id: i128) -> Element {
@@ -21,7 +20,7 @@ pub fn Blog(id: i128) -> Element {
                 Link {
                     to: Route::BlogPage { id: id - 1 },
                     Button {
-                        variant: ButtonVariant::Primary,
+                        button_scheme: ButtonScheme::Secondary,
                         "Previous"
                     }
                 }
@@ -32,7 +31,7 @@ pub fn Blog(id: i128) -> Element {
                 Link {
                     to: Route::BlogPage { id: id + 1 },
                     Button {
-                        variant: ButtonVariant::Primary,
+                        button_scheme: ButtonScheme::Secondary,
                         "Next"
                     }
                 }

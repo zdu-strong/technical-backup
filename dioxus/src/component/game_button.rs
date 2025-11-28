@@ -1,6 +1,5 @@
+use daisy_rsx::*;
 use dioxus::prelude::*;
-use lumen_blocks::components::button::Button;
-use lumen_blocks::components::button::ButtonVariant;
 
 #[component]
 pub fn GameButton(
@@ -9,12 +8,11 @@ pub fn GameButton(
 ) -> Element {
     rsx! {
         div {
+            class: "flex flex-col space-y-4 w-full max-w-md",
             margin: "10px",
             Button {
-                height: "100px",
-                width: "200px",
-                variant: ButtonVariant::Primary,
-                on_click: onclick_change_name,
+                button_scheme: ButtonScheme::Secondary,
+                onclick: onclick_change_name,
                 "{name}"
             }
         }

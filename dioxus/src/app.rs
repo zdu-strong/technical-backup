@@ -10,7 +10,7 @@ const _: Asset = asset!(
     AssetOptions::css().with_static_head(true)
 );
 const _: Asset = asset!(
-    "/assets/common/daisyui/v5.5.4/daisyui.css",
+    "/assets/common/daisyui/v4.12.24/daisyui.css",
     AssetOptions::css().with_static_head(true)
 );
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
