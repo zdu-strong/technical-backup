@@ -9,6 +9,10 @@ const _: Asset = asset!(
     "/assets/common/app/app.css",
     AssetOptions::css().with_static_head(true)
 );
+const _: Asset = asset!(
+    "/assets/common/daisyui/v5.5.4/daisyui.css",
+    AssetOptions::css().with_static_head(true)
+);
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
 const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
 const STYLANCE_CSS: &str = include_str!("../assets/stylance.bundled.css");

@@ -1,5 +1,6 @@
 @import "tailwindcss";
-/* 
+@plugin "daisyui";
+/*
 - We need to use the JS config format to be able to specify content paths with environment variables.
 - The file is named `tailwind-config.js` and not `tailwind.config.js` on purpose, because otherwise Dioxus CLI does not know whether to use Tailwind v3 or v4 and doesn't automatically generate the output `assets/tailwind.css` file for us.
 */
