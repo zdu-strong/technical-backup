@@ -26,8 +26,8 @@ pub fn Hero() -> Element {
         sleep(Duration::from_millis(1)).await;
         let ref mut user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
-            name: Signal::new("Tom".to_string()),
-            money: Signal::new(dec!(100.05123)),
+            username: Signal::new("Tom".to_string()),
+            money: Signal::new(Some(dec!(100.05123))),
             create_date: Signal::new(Local::now()),
             update_date: Signal::new(Local::now()),
         }];

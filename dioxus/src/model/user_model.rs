@@ -9,8 +9,8 @@ use serde::Serialize;
 #[serde(rename_all = "camelCase")]
 pub struct UserModel {
     pub id: Signal<String>,
-    pub name: Signal<String>,
-    pub money: Signal<Decimal>,
+    pub username: Signal<String>,
+    pub money: Signal<Option<Decimal>>,
     pub create_date: Signal<DateTime<Local>>,
     pub update_date: Signal<DateTime<Local>>,
 }
