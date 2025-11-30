@@ -25,7 +25,7 @@ RUN dnf install -y cargo
 # cargo build
 COPY . /all_code
 WORKDIR /all_code/rust
-RUN cargo build --release
+RUN cargo make
 
 # cargo run
 FROM first_docker

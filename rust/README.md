@@ -10,18 +10,18 @@ Rust is a programming language focusing on performance and safety. It emerged to
 
 In the project directory, you can run:
 
-### `cargo run`
+### `cargo dev`
 
 Let’s build and run the program. Open a command line (or terminal) and navigate to the folder where you have the project files. We can build and run the application by issuing the command.
 
-### `cargo build --release`
+### `cargo make`
 
 To generate executable program.<br/>
 Then run the following command to start:<br/>
 
     ./target/release/my
 
-### `cargo upgrade`
+### `cargo rise`
 
 Check that a new version of the dependency is available<br/>
 
