@@ -44,7 +44,8 @@ fn main() {
             "true",
             "--port",
             "3000",
-            "--hot-patch",
+            "--hot-reload",
+            "true",
         ])
         .current_dir(current_dir().unwrap())
         .env("RUST_BACKTRACE", "1")
