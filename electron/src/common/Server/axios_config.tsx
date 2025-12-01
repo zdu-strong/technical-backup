@@ -33,7 +33,7 @@ axios.interceptors.response.use(undefined, async (error) => {
 axios.interceptors.request.use((config) => {
     if (config.url?.startsWith("/") || config.url?.startsWith(ServerAddress + "/") || config.url === ServerAddress) {
         if (config.method !== "get") {
-            config.headers!["X-nonce"] = v4();
+            config.headers!["X-Nonce"] = v4();
             config.headers!["X-Timestamp"] = JSON.stringify(new Date()).replaceAll("\"", "");
         }
         const accessToken = GlobalUserInfo.accessToken;

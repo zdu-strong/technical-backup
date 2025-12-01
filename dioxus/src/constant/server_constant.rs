@@ -35,7 +35,7 @@ fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
         request_builder = request_builder.bearer_auth(SERVER_ACCESS_TOKEN.read().as_str());
     }
     if Method::GET != method {
-        request_builder = request_builder.header("X-nonce", Uuid::new_v4().to_string());
+        request_builder = request_builder.header("X-Nonce", Uuid::new_v4().to_string());
         request_builder = request_builder.header(
             "X-Timestamp",
             serde_json::to_string(&Local::now())
