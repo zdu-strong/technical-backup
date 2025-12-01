@@ -29,7 +29,7 @@ pub fn delete(url: &str) -> RequestBuilder {
 }
 
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
-    let server_address = SERVER_ADDRESS.read();
+    let server_address = SERVER_ADDRESS.read().clone();
     let server_url = get_server_url(url, server_address.as_str());
     let mut request_builder = Client::new().request(method.clone(), server_url.clone());
     if server_url.origin().ascii_serialization()
