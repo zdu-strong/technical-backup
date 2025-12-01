@@ -23,7 +23,7 @@ public class OrganizeControllerUpdateOrganizeTest extends BaseTest {
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/organize/update").build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(organizeModel), Void.class);
+        var response = this.testRestTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(organizeModel), Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         var result = this.organizeService.getById(organizeModel.getId());
         assertNotNull(result.getId());

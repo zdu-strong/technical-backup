@@ -8,11 +8,11 @@ export async function addToFriendList(friendId: string) {
 }
 
 export async function deleteFromFriendList(friendId: string) {
-    await axios.delete("/friendship/delete-from-friend-list", { params: { friendId } })
+    await axios.post("/friendship/delete-from-friend-list", null, { params: { friendId } })
 }
 
 export async function deleteFromBlacklist(friendId: string) {
-    await axios.delete("/friendship/delete-from-black-list", { params: { friendId } })
+    await axios.post("/friendship/delete-from-black-list", null, { params: { friendId } })
 }
 
 export async function getFriendList() {

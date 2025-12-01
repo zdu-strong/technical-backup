@@ -1,7 +1,6 @@
 package com.john.project.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +31,7 @@ public class UserMessageController extends BaseController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/user-message/delete")
+    @PostMapping("/user-message/delete")
     public ResponseEntity<?> deleteMessage(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
         this.userMessageService.checkExistsUserMessage(id);

@@ -7,8 +7,6 @@ import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import com.john.project.model.UserMessageModel;
 import com.john.project.test.common.BaseTest.BaseTest;
@@ -20,7 +18,7 @@ public class UserMessageControllerDeleteMessageTest extends BaseTest {
     @SneakyThrows
     public void test() {
         var url = new URIBuilder("/user-message/delete").setParameter("id", id).build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
+        var response = this.testRestTemplate.postForEntity(url, null, Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

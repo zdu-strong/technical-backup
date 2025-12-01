@@ -21,7 +21,7 @@ public class OrganizeControllerDeleteOrganizeTest extends BaseTest {
     public void test() {
         var url = new URIBuilder("/organize/delete").setParameter("id", this.organizeId)
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.DELETE, null, Throwable.class);
+        var response = this.testRestTemplate.exchange(url, HttpMethod.POST, null, Throwable.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

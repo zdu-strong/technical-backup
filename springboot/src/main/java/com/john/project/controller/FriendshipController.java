@@ -1,7 +1,6 @@
 package com.john.project.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +30,7 @@ public class FriendshipController extends BaseController {
         return ResponseEntity.ok(friendshipModel);
     }
 
-    @DeleteMapping("/friendship/delete-from-friend-list")
+    @PostMapping("/friendship/delete-from-friend-list")
     public ResponseEntity<?> deleteFromFriendList(@RequestParam String friendId) {
         this.permissionUtil.checkIsSignIn(request);
 
@@ -41,7 +40,7 @@ public class FriendshipController extends BaseController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/friendship/delete-from-black-list")
+    @PostMapping("/friendship/delete-from-black-list")
     public ResponseEntity<?> deleteFromBlacklist(@RequestParam String friendId) {
         this.permissionUtil.checkIsSignIn(request);
 

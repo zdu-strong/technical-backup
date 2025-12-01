@@ -19,7 +19,7 @@ public class OrganizeControllerDeleteOrganizeNotExistOrganizeTest extends BaseTe
     public void test() {
         var url = new URIBuilder("/organize/delete").setParameter("id", this.organizeId)
                 .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.DELETE, null, Throwable.class);
+        var response = this.testRestTemplate.exchange(url, HttpMethod.POST, null, Throwable.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("Organize does not exist", response.getBody().getMessage());
     }

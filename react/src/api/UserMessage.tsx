@@ -19,7 +19,7 @@ export async function recallMessage(id: string) {
 }
 
 export async function deleteMessage(id: string) {
-    await axios.delete<void>("/user-message/delete", { params: { id } })
+    await axios.post<void>("/user-message/delete", null, { params: { id } })
 }
 
 export function getUserMessageWebsocket(webSocketInput?: Subject<{

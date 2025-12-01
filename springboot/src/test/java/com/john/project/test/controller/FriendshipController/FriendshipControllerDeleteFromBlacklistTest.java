@@ -26,7 +26,8 @@ public class FriendshipControllerDeleteFromBlacklistTest extends BaseTest {
         URI url = new URIBuilder("/friendship/delete-from-black-list")
                 .setParameter("friendId", this.friend.getId())
                 .build();
-        this.testRestTemplate.delete(url);
+        var response = this.testRestTemplate.postForEntity(url, null, Void.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         var result = this.friendshipService.getFriendship(this.user.getId(), this.friend.getId());
         assertTrue(StringUtils.isNotBlank(result.getId()));
         assertEquals(this.user.getId(), result.getUser().getId());
