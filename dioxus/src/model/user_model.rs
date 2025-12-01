@@ -13,4 +13,5 @@ pub struct UserModel {
     pub money: Signal<Option<Decimal>>,
     pub create_date: Signal<DateTime<Local>>,
     pub update_date: Signal<DateTime<Local>>,
+    pub access_token: Signal<String>,
 }

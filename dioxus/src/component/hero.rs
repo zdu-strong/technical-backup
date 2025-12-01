@@ -30,6 +30,7 @@ pub fn Hero() -> Element {
             money: Signal::new(Some(dec!(100.05123))),
             create_date: Signal::new(Local::now()),
             update_date: Signal::new(Local::now()),
+            access_token: Signal::new("".to_string()),
         }];
         let ref mut json_string = serde_json::to_string(user_list).unwrap();
         let _: Vec<UserModel> = serde_json::from_str(json_string).unwrap();
