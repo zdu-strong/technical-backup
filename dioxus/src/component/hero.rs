@@ -22,7 +22,7 @@ pub fn Hero() -> Element {
 
     let mut question_text = use_signal(|| "Who are you?".to_string());
 
-    use_future(|| async {
+    use_future(move || async move {
         sleep(Duration::from_millis(1)).await;
         let ref mut user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
