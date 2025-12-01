@@ -4,6 +4,7 @@ This project was bootstrapped with [Dioxus](https://dioxuslabs.com). If you have
 
 ## Development environment setup
 1. From https://zed.dev install Zed.<br/>
+   Next, choose dark mode. (Zed - Select Theme - One Dark).<br/>
 2. From https://www.rust-lang.org install Rust.<br/>
 3. for Ubuntu:<br/>
    sudo apt install -y build-essential<br/>

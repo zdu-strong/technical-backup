@@ -4,6 +4,7 @@ Rust is a programming language focusing on performance and safety. It emerged to
 
 ## Development environment setup
 1. From https://zed.dev install Zed.<br/>
+   Next, choose dark mode. (Zed - Select Theme - One Dark).<br/>
 2. From https://www.rust-lang.org/learn/get-started install Rust.<br/>
 
 ## Available Scripts
