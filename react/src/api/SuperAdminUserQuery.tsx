@@ -4,6 +4,6 @@ import { UserModel } from "@model/UserModel";
 import axios from "axios";
 
 export async function searchByPagination(query: SuperAdminUserQueryPaginationModel) {
-    const { data } = await axios.get("/super-admin/user/search/pagination", { params: query });
+    const { data } = await axios.post("/super-admin/user/search/pagination", query);
     return PaginationModel.fromJson(data, UserModel);
 }

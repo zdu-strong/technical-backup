@@ -2,6 +2,7 @@ package com.john.project.test.controller.SuperAdminUserQueryController;
 
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
+import com.john.project.model.SuperAdminUserQueryPaginationModel;
 import com.john.project.model.UserModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
@@ -20,11 +21,11 @@ public class SuperAdminUserQueryControllerTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        var url = new URIBuilder("/super-admin/user/search/pagination")
-                .setParameter("pageNum", "1")
-                .setParameter("pageSize", "200")
-                .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<PaginationModel<UserModel>>() {
+        var url = new URIBuilder("/super-admin/user/search/pagination").build();
+        var body = new SuperAdminUserQueryPaginationModel();
+        body.setPageNum(1L);
+        body.setPageSize(200L);
+        var response = this.testRestTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(body), new ParameterizedTypeReference<PaginationModel<UserModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(HttpStatus.OK, response.getStatusCode());

@@ -7,6 +7,7 @@ import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.RoleModel;
+import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
@@ -28,13 +29,13 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByRoleNameTest exten
     @Test
     @SneakyThrows
     public void test() {
-        var url = new URIBuilder("/super-admin/role/search/pagination")
-                .setParameter("pageNum", "1")
-                .setParameter("pageSize", "200")
-                .setParameter("organizeId", this.organizeId)
-                .setParameter("roleName", SystemPermissionEnum.ORGANIZE_MANAGE.getValue())
-                .build();
-        var response = this.testRestTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
+        var url = new URIBuilder("/super-admin/role/search/pagination").build();
+        var body = new SuperAdminRoleQueryPaginationModel();
+        body.setPageNum(1L);
+        body.setPageSize(200L);
+        body.setOrganizeId(this.organizeId);
+        body.setRoleName(SystemPermissionEnum.ORGANIZE_MANAGE.getValue());
+        var response = this.testRestTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(body), new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
         var roleList = response.getBody().getItems();
