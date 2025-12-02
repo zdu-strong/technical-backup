@@ -2,10 +2,11 @@ use bigdecimal::ToPrimitive;
 use serde::Deserialize;
 use serde::Serialize;
 use derive_more::Display;
+use serde_json::to_string_pretty;
 
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[display("{}", serde_json::to_string_pretty(self).unwrap())]
+#[display("{}", to_string_pretty(self).unwrap())]
 pub struct PaginationModel<T>
 where
     T: 'static + Serialize,
