@@ -1,10 +1,15 @@
 use bigdecimal::ToPrimitive;
 use serde::Deserialize;
 use serde::Serialize;
+use derive_more::Display;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PaginationModel<T> {
+#[display("{}", serde_json::to_string_pretty(self).unwrap())]
+pub struct PaginationModel<T>
+where
+    T: 'static + Serialize,
+{
     pub page_num: i128,
     pub page_size: i128,
     pub total_records: i128,
@@ -12,7 +17,10 @@ pub struct PaginationModel<T> {
     pub items: Vec<T>,
 }
 
-impl<T> PaginationModel<T> {
+impl<T> PaginationModel<T>
+where
+    T: 'static + Serialize,
+{
     pub fn new(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
         if page_num < 1 {
             panic!("page_num cannot be less than 1")
