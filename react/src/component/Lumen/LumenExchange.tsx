@@ -3,36 +3,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, IconButton, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import api from '@api';
-import * as math from 'mathjs'
 import { MessageService } from "@/common/MessageService";
 import { useMultipleSubmit, useQuery } from "@/common/use-hook";
+import { Big, RoundingMode } from 'bigdecimal.js';
 
 export default observer(() => {
 
     const state = useMobxState({
         isUsd: true,
-        sourceCurrencyBalance: 0,
-        targetCurrencyBalance: 0,
+        sourceCurrencyBalance: new Big(0),
+        targetCurrencyBalance: new Big(0),
     });
 
     const exchangePreviewState = useQuery(async () => {
         const exchangeResult = await api.Lumen.exchangePreview(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
-        state.targetCurrencyBalance = math.floor(exchangeResult, 2);
+        state.targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR);
     });
 
     const exchangeState = useMultipleSubmit(async () => {
         const exchangeResult = await api.Lumen.exchange(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
-        const targetCurrencyBalance = math.floor(exchangeResult, 2);
+        const targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR);
         exchangePreviewState.requery();
         MessageService.success(`exhange success! you get ${targetCurrencyBalance} ${state.isUsd ? "JAPAN" : "USD"}`);
-        state.sourceCurrencyBalance = 0;
+        state.sourceCurrencyBalance = new Big(0);
         exchangePreviewState.requery();
     });
 
     function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const sourceValue = Number(e.target.value);
         if (sourceValue < Number.MAX_SAFE_INTEGER) {
-            state.sourceCurrencyBalance = sourceValue;
+            state.sourceCurrencyBalance = new Big(e.target.value);
             exchangePreviewState.requery();
         }
     }

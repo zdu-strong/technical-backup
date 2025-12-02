@@ -1,22 +1,22 @@
 import axios from "axios";
-import { TypedJSON } from "typedjson";
+import { Big, BigDecimal } from 'bigdecimal.js';
 
-export async function exchange(sourceCurrencyUnit: string, sourceCurrencyBalance: number) {
+export async function exchange(sourceCurrencyUnit: string, sourceCurrencyBalance: BigDecimal) {
     const { data } = await axios.post("/lumen/exchange", null, {
         params: {
             sourceCurrencyUnit,
-            sourceCurrencyBalance
+            sourceCurrencyBalance: sourceCurrencyBalance.toString()
         }
     });
-    return Number(new TypedJSON(Number).parse(data)!);
+    return new Big(data);
 }
 
-export async function exchangePreview(sourceCurrencyUnit: string, sourceCurrencyBalance: number) {
+export async function exchangePreview(sourceCurrencyUnit: string, sourceCurrencyBalance: BigDecimal) {
     const { data } = await axios.post("/lumen/exchange/preview", null, {
         params: {
             sourceCurrencyUnit,
-            sourceCurrencyBalance
+            sourceCurrencyBalance: sourceCurrencyBalance.toString()
         }
     });
-    return Number(new TypedJSON(Number).parse(data)!);
+    return new Big(data);
 }
