@@ -30,18 +30,44 @@ export default observer(() => {
     });
 
     function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        state.sourceCurrencyBalance = getNumberOrEmptyString(state.sourceCurrencyBalance, e.target.value);
+        exchangePreviewState.requery();
+    }
+
+    function getNumberOrEmptyString(originValue: string, value: string) {
+        value = value.trim();
+        if(value === ""){
+            return value;
+        }
         try {
-            if (e.target.value === "") {
-                state.sourceCurrencyBalance = "";
-            } else {
-                new Big(e.target.value);
-                state.sourceCurrencyBalance = e.target.value;
+            new Big(value);
+
+            {
+                const regExp = new RegExp("^0+(?=[1-9])", "g");
+                if (regExp.test(value)) {
+                    return value.replaceAll(regExp, "");
+                }
             }
+
+            {
+                const regExp = new RegExp("(?<=^0)0+(?=[\\.])", "g");
+                if (regExp.test(value)) {
+                    return value.replaceAll(regExp, "");
+                }
+            }
+
+            {
+                const regExp = new RegExp("^0+$", "g");
+                if (regExp.test(value)) {
+                    return "0";
+                }
+            }
+
+            return value;
         } catch (e) {
             // do nothing
-            console.log("abc", e);
         }
-        exchangePreviewState.requery();
+        return originValue;
     }
 
     function transform() {
