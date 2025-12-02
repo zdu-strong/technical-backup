@@ -1,12 +1,14 @@
 use bigdecimal::BigDecimal;
 use chrono::DateTime;
 use chrono::Local;
+use derive_more::Display;
 use dioxus::prelude::*;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Debug, Display, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[display("{}", serde_json::to_string_pretty(self).unwrap())]
 pub struct UserModel {
     pub id: Signal<String>,
     pub username: Signal<String>,
