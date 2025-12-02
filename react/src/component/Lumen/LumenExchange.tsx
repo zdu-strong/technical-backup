@@ -11,30 +11,37 @@ export default observer(() => {
 
     const state = useMobxState({
         isUsd: true,
-        sourceCurrencyBalance: new Big(0),
-        targetCurrencyBalance: new Big(0),
+        sourceCurrencyBalance: "0",
+        targetCurrencyBalance: "0",
     });
 
     const exchangePreviewState = useQuery(async () => {
         const exchangeResult = await api.Lumen.exchangePreview(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
-        state.targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR);
+        state.targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR).toPlainString();
     });
 
     const exchangeState = useMultipleSubmit(async () => {
         const exchangeResult = await api.Lumen.exchange(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
-        const targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR);
+        const targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR).toPlainString();
         exchangePreviewState.requery();
         MessageService.success(`exhange success! you get ${targetCurrencyBalance} ${state.isUsd ? "JAPAN" : "USD"}`);
-        state.sourceCurrencyBalance = new Big(0);
+        state.sourceCurrencyBalance = "0";
         exchangePreviewState.requery();
     });
 
     function exchangePreview(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        const sourceValue = Number(e.target.value);
-        if (sourceValue < Number.MAX_SAFE_INTEGER) {
-            state.sourceCurrencyBalance = new Big(e.target.value);
-            exchangePreviewState.requery();
+        try {
+            if (e.target.value === "") {
+                state.sourceCurrencyBalance = "";
+            } else {
+                new Big(e.target.value);
+                state.sourceCurrencyBalance = e.target.value;
+            }
+        } catch (e) {
+            // do nothing
+            console.log("abc", e);
         }
+        exchangePreviewState.requery();
     }
 
     function transform() {
@@ -46,9 +53,9 @@ export default observer(() => {
         <div style={{ paddingBottom: "1em" }}>
             <TextField
                 label={state.isUsd ? "USD" : "JAPAN"}
-                type="number"
+                type="text"
                 autoComplete="off"
-                value={`${state.sourceCurrencyBalance}`}
+                value={state.sourceCurrencyBalance}
                 onChange={exchangePreview}
                 slotProps={{
                     input: {
@@ -72,10 +79,10 @@ export default observer(() => {
         <div style={{ paddingBottom: "1em" }}>
             <TextField
                 label={state.isUsd ? "JAPAN" : "USD"}
-                type="number"
+                type="text"
                 autoComplete="off"
                 disabled
-                value={`${state.targetCurrencyBalance}`}
+                value={state.targetCurrencyBalance}
                 slotProps={{
                     input: {
                         startAdornment: <IconButton
