@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx-react-use-autorun";
 import { jsonMember, jsonObject } from "typedjson";
 import { LumenCurrencyModel } from "@model/LumenCurrencyModel";
-import { BigDecimal, Big } from "bigdecimal.js";
 
 @jsonObject
 export class LumenCcuBalanceModel {
@@ -12,11 +11,11 @@ export class LumenCcuBalanceModel {
     @jsonMember(LumenCurrencyModel)
     currency!: LumenCurrencyModel;
 
-    @jsonMember({ deserializer: (value: any) => value === null || value === undefined ? null :new Big(value) })
-    currencyBalance!: BigDecimal;
+    @jsonMember(String)
+    currencyBalance!: string;
 
-    @jsonMember({ deserializer: (value: any) => value === null || value === undefined ? null :new Big(value) })
-    ccuBalance!: BigDecimal;
+    @jsonMember(String)
+    ccuBalance!: string;
 
     constructor() {
         makeAutoObservable(this);
