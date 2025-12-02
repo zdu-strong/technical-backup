@@ -17,8 +17,8 @@ strum = "0.27.2"
 strum_macros = "0.27.2"
 async-trait = "0.1"
 once_cell = "1.21.3"
-rust_decimal = { version = "1.39.0", features = ["macros"] }
 serde_with = "3.16.1"
+bigdecimal = { version = "0.4.9", features = ["serde-json"] }
 
 [profile.dev]
 overflow-checks = true

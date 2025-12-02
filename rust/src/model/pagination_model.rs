@@ -1,4 +1,4 @@
-use rust_decimal::prelude::*;
+use bigdecimal::ToPrimitive;
 use serde::Deserialize;
 use serde::Serialize;
 

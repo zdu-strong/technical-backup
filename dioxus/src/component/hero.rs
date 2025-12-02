@@ -2,11 +2,12 @@ use crate::component::game_button::GameButton;
 use crate::component::game_input::GameInput;
 use crate::model::cat_model::CatModel;
 use crate::model::user_model::UserModel;
+use bigdecimal::BigDecimal;
 use chrono::Local;
 use daisy_rsx::*;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
-use rust_decimal::prelude::*;
+use std::str::FromStr;
 use std::time::Duration;
 use tokio_with_wasm::alias::time::sleep;
 use uuid::Uuid;
@@ -27,7 +28,7 @@ pub fn Hero() -> Element {
         let ref mut user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             username: Signal::new("Tom".to_string()),
-            money: Signal::new(Some(dec!(100.05123))),
+            money: Signal::new(Some(BigDecimal::from_str("124122112112222222222222222222222222222222222222222222222222222222222222222234124123431342341221423212124.1234124").unwrap())),
             create_date: Signal::new(Local::now()),
             update_date: Signal::new(Local::now()),
             access_token: Signal::new("".to_string()),

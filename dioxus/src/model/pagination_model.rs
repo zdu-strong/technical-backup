@@ -1,5 +1,5 @@
+use bigdecimal::ToPrimitive;
 use dioxus::prelude::*;
-use rust_decimal::prelude::*;
 use serde::Deserialize;
 use serde::Serialize;
 
