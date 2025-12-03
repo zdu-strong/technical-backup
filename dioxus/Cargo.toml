@@ -16,7 +16,6 @@ chrono = { version = "0.4.42", features = ["serde"] }
 async-recursion = "1.1.1"
 strum = "0.27.2"
 strum_macros = "0.27.2"
-async-trait = "0.1"
 dioxus-sdk = { version = "0.7.0", features = ["storage"] }
 reqwest = { version = "0.12.24", default-features = false, features = ["rustls-tls", "json"] }
 reqwest-websocket = { version = "0.5.1", features = ["json"] }
