@@ -28,7 +28,7 @@ dioxus-i18n = "0.4.3"
 stylance = "0.7.4"
 daisy_rsx = { git = "https://github.com/zdu-strong/temp-test-daisy-rsx.git", branch = "release-v0.1.49" }
 bigdecimal = { version = "0.4.9", features = ["serde-json"] }
-derive_more = { version = "2.0.1", features = ["display"] }
+derive_more = { version = "2.1.0", features = ["display"] }
 
 [features]
 default = ["web"]
