@@ -79,5 +79,6 @@ fn get_server_url(url: &str, server_address: &str) -> Url {
 }
 
 fn spawn_forever_global_call(fut: impl Future<Output = ()> + 'static) {
-    let _ = dioxus::core::spawn_forever(fut).poll_now().is_ready();
+    let task = dioxus::core::spawn_forever(fut).poll_now();
+    while !task.is_ready() {}
 }
