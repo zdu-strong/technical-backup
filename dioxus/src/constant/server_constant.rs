@@ -21,9 +21,9 @@ pub fn remove_server_user_info() {
 }
 
 pub fn set_server_user_info(user: Signal<UserModel>) {
+    let user_json_string = serde_json::to_string(&user).unwrap().to_string();
     let _ = dioxus::core::spawn_forever(async move {
-        let ref mut user_json_string = serde_json::to_string(&user).unwrap();
-        let user: UserModel = serde_json::from_str(user_json_string).unwrap();
+        let user: UserModel = serde_json::from_str(user_json_string.as_str()).unwrap();
         *SERVER_USER_INFO.write() = user;
     })
     .poll_now()
