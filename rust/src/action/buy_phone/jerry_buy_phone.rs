@@ -15,9 +15,11 @@ pub async fn jerry_buy_phone() {
             owner: "Jerry".to_string(),
         }),
     ];
-    iter(phone_list)
-        .for_each_concurrent(10, |phone| async {
+    let _ = iter(phone_list)
+        .map(|phone| async {
             phone.buy().await;
         })
+        .buffer_unordered(10)
+        .collect::<Vec<_>>()
         .await;
 }
