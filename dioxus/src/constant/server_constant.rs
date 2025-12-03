@@ -12,6 +12,24 @@ pub const SERVER_ADDRESS: GlobalSignal<String> =
 
 pub const SERVER_USER_INFO: GlobalSignal<UserModel> = GlobalSignal::new(|| UserModel::default());
 
+pub fn remove_server_user_info() {
+    let _ = dioxus::core::spawn_forever(async move {
+        *SERVER_USER_INFO.write() = UserModel::default();
+    })
+    .poll_now()
+    .is_ready();
+}
+
+pub fn set_server_user_info(user: Signal<UserModel>) {
+    let _ = dioxus::core::spawn_forever(async move {
+        let ref mut user_json_string = serde_json::to_string(&user).unwrap();
+        let user: UserModel = serde_json::from_str(user_json_string).unwrap();
+        *SERVER_USER_INFO.write() = user;
+    })
+    .poll_now()
+    .is_ready();
+}
+
 pub fn get(url: &str) -> RequestBuilder {
     get_request_builder(Method::GET, url)
 }
