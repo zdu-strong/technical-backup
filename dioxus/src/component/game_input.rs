@@ -17,7 +17,7 @@ pub fn GameInput(name: ReadSignal<Signal<String>>) -> Element {
                     name: "name",
                     value: "{name}",
                     label: "Please Enter Your Name:",
-                    onchange: oninput_name,
+                    oninput: oninput_name,
                 }
             }
         }
