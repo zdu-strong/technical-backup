@@ -1,7 +1,6 @@
 use crate::model::user_model::UserModel;
 use chrono::Local;
 use dioxus::prelude::*;
-use futures::Future;
 use reqwest::Client;
 use reqwest::Method;
 use reqwest::RequestBuilder;
@@ -14,14 +13,14 @@ pub const SERVER_ADDRESS: GlobalSignal<String> =
 pub const SERVER_USER_INFO: GlobalSignal<UserModel> = GlobalSignal::new(|| UserModel::default());
 
 pub fn remove_server_user_info() {
-    spawn_forever_global_call(async move {
+    spawn_forever_global_call(move || {
         *SERVER_USER_INFO.write() = UserModel::default();
     });
 }
 
 pub fn set_server_user_info(user: Signal<UserModel>) {
     let user_json_string = serde_json::to_string(&user).unwrap().to_string();
-    spawn_forever_global_call(async move {
+    spawn_forever_global_call(move || {
         let user: UserModel = serde_json::from_str(user_json_string.as_str()).unwrap();
         *SERVER_USER_INFO.write() = user;
     });
@@ -78,7 +77,13 @@ fn get_server_url(url: &str, server_address: &str) -> Url {
         .unwrap()
 }
 
-fn spawn_forever_global_call(fut: impl Future<Output = ()> + 'static) {
-    let task = dioxus::core::spawn_forever(fut).poll_now();
+fn spawn_forever_global_call<F>(fut: F)
+where
+    F: FnOnce() -> () + Send + 'static,
+{
+    let task = dioxus::core::spawn_forever(async move {
+        fut();
+    })
+    .poll_now();
     while !task.is_ready() {}
 }
