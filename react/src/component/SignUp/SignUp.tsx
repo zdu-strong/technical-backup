@@ -152,6 +152,24 @@ export default observer(() => {
         }
     }
 
+    function previousActiveStep() {
+        if (state.activeStep > 0) {
+            state.activeStep--;
+        }
+    }
+
+    function addEmailToEmailList() {
+        state.emailList.push({
+            id: v7(),
+            email: '',
+            verificationCodeEmail: {
+                id: '',
+                verificationCode: '',
+                verificationCodeLength: 6,
+            }
+        });
+    }
+
     async function sendVerificationCode(userEmailModel: UserEmailModel) {
         try {
             state.submitted = true;
@@ -334,17 +352,7 @@ export default observer(() => {
                             color="primary"
                             aria-label="add"
                             size="small"
-                            onClick={() => {
-                                state.emailList.push({
-                                    id: v7(),
-                                    email: '',
-                                    verificationCodeEmail: {
-                                        id: '',
-                                        verificationCode: '',
-                                        verificationCodeLength: 6,
-                                    }
-                                })
-                            }}
+                            onClick={addEmailToEmailList}
                         >
                             <FontAwesomeIcon icon={faPlus} style={{ fontSize: "large" }} />
                         </Fab>
@@ -368,11 +376,7 @@ export default observer(() => {
                     {state.activeStep > 0 && <Button
                         variant="contained"
                         startIcon={<FontAwesomeIcon icon={faFloppyDisk} />}
-                        onClick={() => {
-                            if (state.activeStep > 0) {
-                                state.activeStep--;
-                            }
-                        }}
+                        onClick={previousActiveStep}
                     >
                         <FormattedMessage id="Previous" defaultMessage="Previous" />
                     </Button>}

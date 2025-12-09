@@ -97,6 +97,35 @@ export default observer(() => {
         }
     }
 
+    function changeUsername(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        state.username = e.target.value;
+    };
+
+    function changePassword(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        state.password = e.target.value;
+    };
+
+
+    function showPasswordTooltip() {
+        state.passwordTooltipDialog.open = true;
+    };
+
+    function showUsernameTooltip() {
+        state.usernameTooltipDialog.open = true;
+    };
+
+    function closePasswordTooltip() {
+        state.passwordTooltipDialog.open = false;
+    };
+
+    function closeUsernameTooltip() {
+        state.usernameTooltipDialog.open = false;
+    };
+
+    function showPasswordInput() {
+        state.showPasswordInput = true;
+    };
+
     return <div className={container}>
         <div>
             <FormattedMessage id="SignIn" defaultMessage="SignIn" />
@@ -105,9 +134,7 @@ export default observer(() => {
             <TextField
                 label={<FormattedMessage id="AccountID" defaultMessage="Account ID" />}
                 variant="outlined"
-                onChange={(e) => {
-                    state.username = e.target.value;
-                }}
+                onChange={changeUsername}
                 value={state.username}
                 autoComplete="off"
                 error={!!state.errors.username()}
@@ -116,7 +143,7 @@ export default observer(() => {
                     input: {
                         endAdornment: <IconButton
                             color="primary"
-                            onClick={() => state.usernameTooltipDialog.open = true}
+                            onClick={showUsernameTooltip}
                         >
                             <FontAwesomeIcon icon={faCircleQuestion} />
                         </IconButton>
@@ -130,9 +157,7 @@ export default observer(() => {
                 label={<FormattedMessage id="Password" defaultMessage="Password" />}
                 className="flex flex-auto"
                 variant="outlined"
-                onChange={(e) => {
-                    state.password = e.target.value;
-                }}
+                onChange={changePassword}
                 value={state.password}
                 autoComplete="off"
                 multiline={true}
@@ -148,7 +173,7 @@ export default observer(() => {
                     input: {
                         endAdornment: <IconButton
                             color="primary"
-                            onClick={() => state.passwordTooltipDialog.open = true}
+                            onClick={showPasswordTooltip}
                         >
                             <FontAwesomeIcon icon={faCircleQuestion} />
                         </IconButton>
@@ -159,9 +184,7 @@ export default observer(() => {
             {!state.showPasswordInput && <Button
                 variant="outlined"
                 className="w-full normal-case"
-                onClick={() => {
-                    state.showPasswordInput = true
-                }}
+                onClick={showPasswordInput}
             >
                 <FormattedMessage id="ThePasswordHasBeenFilledInClickEdit" defaultMessage="The password has been filled in, click Edit" />
             </Button>}
@@ -195,10 +218,10 @@ export default observer(() => {
             </Link>
         </div>
         {state.usernameTooltipDialog.open && <AccountTooltipDialog
-            closeDialog={() => state.usernameTooltipDialog.open = false}
+            closeDialog={closeUsernameTooltip}
         />}
         {state.passwordTooltipDialog.open && <PasswordTooltipDialog
-            closeDialog={() => state.passwordTooltipDialog.open = false}
+            closeDialog={closePasswordTooltip}
         />}
     </div>;
 })
