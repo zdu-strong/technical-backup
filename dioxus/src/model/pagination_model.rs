@@ -24,7 +24,7 @@ where
     T: 'static + Serialize,
 {
     pub fn from(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
-        PaginationModel::new(
+        Self::new(
             page_num,
             page_size,
             items
