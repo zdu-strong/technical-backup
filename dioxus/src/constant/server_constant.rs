@@ -66,7 +66,7 @@ pub fn delete(url: &str) -> RequestBuilder {
 
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
     let server_address = SERVER_ADDRESS.read().clone();
-    let server_url = get_server_url(url, server_address.as_str());
+    let server_url = get_server_api_url(url, server_address.as_str());
     let mut request_builder = Client::new().request(method.clone(), server_url.clone());
     if server_url.origin().ascii_serialization()
         == Url::parse(server_address.as_str())
@@ -92,7 +92,7 @@ fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
     return request_builder;
 }
 
-fn get_server_url(url: &str, server_address: &str) -> Url {
+fn get_server_api_url(url: &str, server_address: &str) -> Url {
     Url::options()
         .base_url(Option::Some(&Url::parse(server_address).unwrap()))
         .parse(url)
