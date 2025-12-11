@@ -21,7 +21,9 @@ pub fn remove_server_user_info() {
         *SERVER_USER_INFO.write() = UserModel::default();
         let mut user_info_persistent =
             new_persistent(KEY_OF_SERVER_USER_INFO_OF_PERSISTENT, || "".to_string());
-        *user_info_persistent.write() = "".to_string();
+        if !user_info_persistent.read().is_empty() {
+            *user_info_persistent.write() = "".to_string();
+        }
     });
 }
 
