@@ -9,7 +9,7 @@ use serde_json::to_string_pretty;
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[display("{}", to_string_pretty(self).unwrap())]
-pub struct UserModel {
+pub struct UserReadOnlyModel {
     pub id: String,
     pub username: String,
     pub money: Option<BigDecimal>,
