@@ -1,6 +1,7 @@
 use crate::model::user_model::UserModel;
 use chrono::Local;
 use dioxus::prelude::*;
+use dioxus_sdk::storage::new_persistent;
 use reqwest::Client;
 use reqwest::Method;
 use reqwest::RequestBuilder;
@@ -12,17 +13,38 @@ pub const SERVER_ADDRESS: GlobalSignal<String> =
 
 pub const SERVER_USER_INFO: GlobalSignal<UserModel> = GlobalSignal::new(|| UserModel::default());
 
+pub const KEY_OF_SERVER_USER_INFO_OF_PERSISTENT: &str =
+    "GlobalUserInfo-5a8dcb9f-495f-4894-8dcb-9f495f489409";
+
 pub fn remove_server_user_info() {
     spawn_forever_global_call(move || {
         *SERVER_USER_INFO.write() = UserModel::default();
+        let mut user_info_persistent =
+            new_persistent(KEY_OF_SERVER_USER_INFO_OF_PERSISTENT, || "".to_string());
+        *user_info_persistent.write() = "".to_string();
     });
 }
 
-pub fn set_server_user_info(user: Signal<UserModel>) {
-    let user_json_string = serde_json::to_string(&user).unwrap().to_string();
+pub fn set_server_user_info(user: Option<Signal<UserModel>>) {
+    let mut user_json_string = serde_json::to_string(&user).unwrap().to_string();
+    let has_param = user.is_some();
+    if !has_param {
+        let user_info_persistent =
+            new_persistent(KEY_OF_SERVER_USER_INFO_OF_PERSISTENT, || "".to_string());
+        user_json_string = user_info_persistent.read().clone();
+        if user_json_string.is_empty() {
+            remove_server_user_info();
+            return;
+        }
+    }
     spawn_forever_global_call(move || {
         let user: UserModel = serde_json::from_str(user_json_string.as_str()).unwrap();
         *SERVER_USER_INFO.write() = user;
+        if has_param {
+            let mut user_info_persistent =
+                new_persistent(KEY_OF_SERVER_USER_INFO_OF_PERSISTENT, || "".to_string());
+            *user_info_persistent.write() = user_json_string;
+        }
     });
 }
 
