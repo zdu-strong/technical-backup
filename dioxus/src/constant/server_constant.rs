@@ -27,8 +27,8 @@ pub fn remove_server_user_info() {
 
 pub fn set_server_user_info(user: Option<Signal<UserModel>>) {
     let mut user_json_string = serde_json::to_string(&user).unwrap().to_string();
-    let has_param = !user.unwrap_or_default().read().access_token.is_empty();
-    if !has_param {
+    let has_params = !user.unwrap_or_default().read().access_token.is_empty();
+    if !has_params {
         user_json_string = get_server_user_info_persistent();
         if user_json_string.is_empty() {
             remove_server_user_info();
@@ -38,7 +38,7 @@ pub fn set_server_user_info(user: Option<Signal<UserModel>>) {
     spawn_forever_global_call(move || {
         let user: UserModel = serde_json::from_str(user_json_string.as_str()).unwrap();
         *SERVER_USER_INFO.write() = user;
-        if has_param {
+        if has_params {
             set_server_user_info_persistent(user_json_string);
         }
     });
