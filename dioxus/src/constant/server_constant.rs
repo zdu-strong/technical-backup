@@ -8,8 +8,7 @@ use reqwest::RequestBuilder;
 use reqwest::Url;
 use uuid::Uuid;
 
-pub const SERVER_ADDRESS: GlobalSignal<String> =
-    GlobalSignal::new(|| "http://localhost:8080".to_string());
+pub const SERVER_ADDRESS: GlobalSignal<String> = GlobalSignal::new(|| get_server_address());
 
 pub const SERVER_USER_INFO: GlobalSignal<UserModel> = GlobalSignal::new(|| UserModel::default());
 
@@ -116,4 +115,8 @@ fn set_server_user_info_persistent(user_json_string: String) {
     let mut user_info_persistent =
         new_persistent(KEY_OF_SERVER_USER_INFO_OF_PERSISTENT, || "".to_string());
     *user_info_persistent.write() = user_json_string;
+}
+
+fn get_server_address() -> String {
+    "http://localhost:8080".to_string()
 }
