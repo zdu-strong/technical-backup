@@ -25,7 +25,7 @@ pub fn Hero() -> Element {
 
     use_future(move || async move {
         sleep(Duration::from_millis(1)).await;
-        let ref mut user_list = vec![UserModel {
+        let user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             username: Signal::new("Tom".to_string()),
             money: Signal::new(Some(BigDecimal::from_str("124122112112222222222222222222222222222222222222222222222222222222222222222234124123431342341221423212124.1234124").unwrap())),
@@ -33,8 +33,8 @@ pub fn Hero() -> Element {
             update_date: Signal::new(Local::now()),
             access_token: Signal::new("".to_string()),
         }];
-        let ref mut json_string = serde_json::to_string(user_list).unwrap();
-        let _: Vec<UserModel> = serde_json::from_str(json_string).unwrap();
+        let json_string = serde_json::to_string(&user_list).unwrap();
+        let _: Vec<UserModel> = serde_json::from_str(&json_string).unwrap();
         info!("user_list_json_string: {}", json_string);
     });
 
