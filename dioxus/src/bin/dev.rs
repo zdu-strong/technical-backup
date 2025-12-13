@@ -46,6 +46,7 @@ fn main() {
             "3000",
             "--hot-reload",
             "true",
+            "--hot-patch",
         ])
         .current_dir(current_dir().unwrap())
         .env("RUST_BACKTRACE", "1")
