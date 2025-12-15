@@ -26,11 +26,6 @@ Then run the following command to start:<br/>
 
 Check that a new version of the dependency is available<br/>
 
-    cargo binstall cargo-edit
-    cargo upgrade
-    rustup update
-    cargo update
-
 ## Learn More
 
 1. Rust (https://www.rust-lang.org)
