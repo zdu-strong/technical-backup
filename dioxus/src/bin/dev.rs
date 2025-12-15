@@ -8,33 +8,10 @@ use std::process::Command;
 use std::process::Stdio;
 
 fn main() {
-    let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target").join("dx");
-    if target_dx_folder_path.exists() {
-        fs::remove_dir_all(target_dx_folder_path).unwrap();
-    }
-    let port = 3000;
-    if is_port_in_use(port) {
-        eprintln!("Port {} is already in use.", port);
-        exit(1);
-    }
+    remove_target_dir();
+    check_port_has_been_use();
     install_dioxus_cli();
-    let is_ok = Command::new("stylance")
-        .args([
-            "--folder",
-            "./assets/styling",
-            "--output-file",
-            "./assets/stylance.bundled.css",
-            ".",
-        ])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::null())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
+    generate_stylance_css_file();
     let dioxus_command = Command::new("dx")
         .args([
             "serve",
@@ -115,5 +92,55 @@ fn is_port_in_use(port: u16) -> bool {
     match TcpListener::bind(addr) {
         Ok(_) => false,
         Err(_) => true,
+    }
+}
+
+fn remove_target_dir() {
+    let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target").join("dx");
+    if target_dx_folder_path.exists() {
+        fs::remove_dir_all(target_dx_folder_path).unwrap();
+    }
+}
+
+fn check_port_has_been_use() {
+    let port = 3000;
+    if is_port_in_use(port) {
+        eprintln!("Port {} is already in use.", port);
+        exit(1);
+    }
+}
+
+fn generate_stylance_css_file() {
+    let stylance_css_file_path = Path::new(&current_dir().unwrap())
+        .join("assets")
+        .join("stylance.bundled.css");
+    let stylance_css_file_one_content = fs::read_to_string(&stylance_css_file_path).unwrap();
+    let is_ok = Command::new("stylance")
+        .args([
+            "--folder",
+            "./assets/styling",
+            "--output-file",
+            "./assets/stylance.bundled.css",
+            ".",
+        ])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::null())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
+    let stylance_css_file_two_content = fs::read_to_string(stylance_css_file_path).unwrap();
+    if stylance_css_file_one_content == stylance_css_file_two_content {
+        let _ = Command::new("git")
+            .args(["add", "./assets/stylance.bundled.css"])
+            .current_dir(current_dir().unwrap())
+            .stdin(Stdio::inherit())
+            .stdout(Stdio::null())
+            .stderr(Stdio::inherit())
+            .output()
+            .is_ok();
     }
 }
