@@ -98,10 +98,10 @@ export function useOnceSubmit(callback: () => void) {
         loading: false,
         ready: false,
         error: null as any,
-        requery,
+        resubmit,
     });
 
-    function requery() {
+    function resubmit() {
         subjectState.subject.next("");
     }
 
@@ -119,7 +119,7 @@ export function useOnceSubmit(callback: () => void) {
                     try {
                         await callback();
                         state.ready = true;
-                        state.loading = false;
+                        state.loading = true;
                         state.error = null;
                     } catch (e) {
                         MessageService.error(e);

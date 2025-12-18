@@ -5,10 +5,10 @@ import { style } from "typestyle";
 import AccountTooltipDialog from "@component/SignIn/AccountTooltipDialog";
 import PasswordTooltipDialog from "@component/SignIn/PasswordTooltipDialog";
 import api from "@api";
-import { MessageService } from "@common/MessageService";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion, faArrowRightToBracket, faSpinner, faHome, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { useMultipleSubmit } from "@/common/use-hook";
 
 const container = style({
     display: "flex",
@@ -30,9 +30,6 @@ export default observer(() => {
         },
         passwordTooltipDialog: {
             open: false,
-        },
-        loading: {
-            signIn: false,
         },
         showPasswordInput: false,
         errors: {
@@ -76,26 +73,20 @@ export default observer(() => {
         },
     })
 
-    async function signIn() {
+    const signIn = useMultipleSubmit(async function () {
+        if (signIn.ready) {
+            return;
+        }
         if (!state.errors.hasError()) {
             state.showPasswordInput = false;
         }
 
-        if (state.loading.signIn) {
-            return;
-        }
         state.submitted = true;
         if (state.errors.hasError()) {
             return;
         }
-        try {
-            state.loading.signIn = true;
-            await api.Authorization.signIn(state.username, state.password);
-        } catch (e) {
-            state.loading.signIn = false;
-            MessageService.error(e);
-        }
-    }
+        await api.Authorization.signIn(state.username, state.password);
+    })
 
     function changeUsername(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         state.username = e.target.value;
@@ -193,8 +184,8 @@ export default observer(() => {
             <Button
                 variant="contained"
                 className="normal-case"
-                startIcon={<FontAwesomeIcon icon={state.loading.signIn ? faSpinner : faArrowRightToBracket} spin={state.loading.signIn} />}
-                onClick={signIn}
+                startIcon={<FontAwesomeIcon icon={signIn.loading ? faSpinner : faArrowRightToBracket} spin={signIn.loading} />}
+                onClick={signIn.resubmit}
             >
                 <FormattedMessage id="SignIn" defaultMessage="SignIn" />
             </Button>

@@ -13,6 +13,7 @@ import { UserEmailModel } from "@model/UserEmailModel";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useOnceSubmit } from "@/common/use-hook";
 
 const container = style({
     display: "flex",
@@ -51,7 +52,6 @@ export default observer(() => {
         activeStep: 0,
         submitted: false,
         loading: {
-            signUp: false,
             sendVerificationCode: {} as Record<string, boolean>,
         },
         errors: {
@@ -113,23 +113,13 @@ export default observer(() => {
         },
     })
 
-    async function signUp() {
-        if (state.loading.signUp) {
-            return;
-        }
-
-        try {
-            state.loading.signUp = true
-            const userEmailList: UserEmailModel[] = state.emailList.map(s => ({
-                email: s.email,
-                verificationCodeEmail: s.verificationCodeEmail
-            }));
-            await api.Authorization.signUp(state.password, state.nickname, userEmailList);
-        } catch (e) {
-            state.loading.signUp = false;
-            MessageService.error(e);
-        }
-    }
+    const signUp = useOnceSubmit(async function () {
+        const userEmailList: UserEmailModel[] = state.emailList.map(s => ({
+            email: s.email,
+            verificationCodeEmail: s.verificationCodeEmail
+        }));
+        await api.Authorization.signUp(state.password, state.nickname, userEmailList);
+    });
 
     function nextStep() {
         state.submitted = true;
@@ -397,8 +387,8 @@ export default observer(() => {
                     </Button>}
                     {state.activeStep >= state.steps.length - 1 && <Button
                         variant="contained"
-                        startIcon={<FontAwesomeIcon icon={state.loading.signUp ? faSpinner : faFloppyDisk} spin={state.loading.signUp} />}
-                        onClick={signUp}
+                        startIcon={<FontAwesomeIcon icon={signUp.loading ? faSpinner : faFloppyDisk} spin={signUp.loading} />}
+                        onClick={signUp.resubmit}
                     >
                         <FormattedMessage id="SignUp" defaultMessage="SignUp" />
                     </Button>}

@@ -77,17 +77,17 @@ where
         let fut = future();
         dioxus_core::spawn(async move {
             {
-                hook_status.write().loading = true;
+                *hook_status.write().loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().ready = true;
-                    hook_status.write().loading = false;
-                    hook_status.write().error = None;
+                    *hook_status.write().ready.write() = true;
+                    *hook_status.write().loading.write() = false;
+                    *hook_status.write().error.write() = None;
                 }
                 Err(_) => {
-                    hook_status.write().loading = false;
-                    hook_status.write().error = Some("Problem".to_string());
+                    *hook_status.write().loading.write() = false;
+                    *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
         })
@@ -130,22 +130,22 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status.read().loading {
+            if *hook_status.read().loading.read() {
                 return;
             }
             {
-                hook_status.write().loading = true;
+                *hook_status.write().loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().ready = true;
-                    hook_status.write().loading = false;
-                    hook_status.write().error = None;
+                    *hook_status.write().ready.write() = true;
+                    *hook_status.write().loading.write() = false;
+                    *hook_status.write().error.write() = None;
                 }
                 Err(_) => {
                     *SERVER_ERROR.write() = Some("Problem".to_string());
-                    hook_status.write().loading = false;
-                    hook_status.write().error = Some("Problem".to_string());
+                    *hook_status.write().loading.write() = false;
+                    *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
         })
@@ -172,25 +172,25 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status.read().ready {
+            if *hook_status.read().ready.read() {
                 return;
             }
-            if hook_status.read().loading {
+            if *hook_status.read().loading.read() {
                 return;
             }
             {
-                hook_status.write().loading = true;
+                *hook_status.write().loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().ready = true;
-                    hook_status.write().loading = false;
-                    hook_status.write().error = None;
+                    *hook_status.write().ready.write() = true;
+                    *hook_status.write().loading.write() = true;
+                    *hook_status.write().error.write() = None;
                 }
                 Err(_) => {
                     *SERVER_ERROR.write() = Some("Problem".to_string());
-                    hook_status.write().loading = false;
-                    hook_status.write().error = Some("Problem".to_string());
+                    *hook_status.write().loading.write() = false;
+                    *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
         })
@@ -272,9 +272,9 @@ fn get_server_address() -> String {
 
 #[derive(Debug, Clone, Default)]
 pub struct HookStatusModel {
-    pub loading: bool,
-    pub ready: bool,
-    pub error: Option<String>,
+    pub loading: Signal<bool>,
+    pub ready: Signal<bool>,
+    pub error: Signal<Option<String>>,
     pub hook_callback: Option<Callback<(), Task>>,
 }
 
