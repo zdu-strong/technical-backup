@@ -172,9 +172,6 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if *hook_status.read().ready.read() {
-                return;
-            }
             if *hook_status.read().loading.read() {
                 return;
             }
@@ -212,16 +209,13 @@ pub fn use_once_submit_while_true<F>(
     mut future: impl FnMut() -> F + UnwindSafe + 'static,
 ) -> HookStatusModel
 where
-    F: Future + UnwindSafe + 'static,
+    F: Future<Output = bool> + UnwindSafe + 'static,
 {
     let mut hook_status = use_signal(|| HookStatusModel::default());
 
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if *hook_status.read().ready.read() {
-                return;
-            }
             if *hook_status.read().loading.read() {
                 return;
             }
@@ -229,10 +223,16 @@ where
                 *hook_status.write().loading.write() = true;
             }
             match fut.catch_unwind().await {
-                Ok(_) => {
-                    *hook_status.write().ready.write() = true;
-                    *hook_status.write().loading.write() = true;
-                    *hook_status.write().error.write() = None;
+                Ok(result) => {
+                    if result {
+                        *hook_status.write().ready.write() = true;
+                        *hook_status.write().loading.write() = true;
+                        *hook_status.write().error.write() = None;
+                    } else {
+                        *hook_status.write().ready.write() = false;
+                        *hook_status.write().loading.write() = false;
+                        *hook_status.write().error.write() = None;
+                    }
                 }
                 Err(_) => {
                     *SERVER_ERROR.write() = Some("Problem".to_string());

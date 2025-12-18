@@ -164,7 +164,7 @@ export function useOnceSubmitWhileTrue(callback: () => Promise<boolean>) {
                             state.loading = true;
                             state.error = null;
                         } else {
-                            state.ready = true;
+                            state.ready = false;
                             state.loading = false;
                             state.error = null;
                         }
