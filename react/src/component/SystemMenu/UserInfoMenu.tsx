@@ -10,8 +10,8 @@ import { useOnceSubmit } from '@/common/use-hook';
 
 export default observer(() => {
 
-    const signOut = useOnceSubmit(async function(){
-            await api.Authorization.signOut();
+    const signOut = useOnceSubmit(async function () {
+        await api.Authorization.signOut();
     });
 
     return <div className='flex flex-row items-center'>

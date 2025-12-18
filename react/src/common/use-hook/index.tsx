@@ -109,22 +109,63 @@ export function useOnceSubmit(callback: () => void) {
         subscription.add(subjectState.subject.pipe(
             exhaustMapWithTrailing(() => of(null).pipe(
                 concatMap(() => from((async () => {
-                    if (state.ready) {
+                    if (state.loading) {
                         return;
                     }
+                    state.loading = true;
+                    try {
+                        await callback();
+                        state.ready = true;
+                        state.loading = true;
+                        state.error = null;
+                    } catch (e) {
+                        MessageService.error(e);
+                        state.error = e;
+                        state.loading = false;
+                    }
+                })())),
+            )),
+            retry(),
+        ).subscribe());
+    })
+
+    return state;
+}
+
+export function useOnceSubmitWhileTrue(callback: () => Promise<boolean>) {
+
+    const subjectState = useMobxState({
+        subject: new ReplaySubject<string>(1),
+    });
+
+    const state = useMobxState({
+        loading: false,
+        ready: false,
+        error: null as any,
+        resubmit,
+    });
+
+    function resubmit() {
+        subjectState.subject.next("");
+    }
+
+    useMount(async (subscription) => {
+        subscription.add(subjectState.subject.pipe(
+            exhaustMapWithTrailing(() => of(null).pipe(
+                concatMap(() => from((async () => {
                     if (state.loading) {
                         return;
                     }
                     state.loading = true;
                     try {
                         const result = await callback();
-                        if (result as any === false) {
-                            state.ready = false;
-                            state.loading = false;
+                        if (result === true) {
+                            state.ready = true;
+                            state.loading = true;
                             state.error = null;
                         } else {
                             state.ready = true;
-                            state.loading = true;
+                            state.loading = false;
                             state.error = null;
                         }
                     } catch (e) {

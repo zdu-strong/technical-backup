@@ -8,7 +8,7 @@ import api from "@api";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion, faArrowRightToBracket, faSpinner, faHome, faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import { useOnceSubmit } from "@/common/use-hook";
+import { useOnceSubmitWhileTrue } from "@/common/use-hook";
 
 const container = style({
     display: "flex",
@@ -73,7 +73,7 @@ export default observer(() => {
         },
     })
 
-    const signIn = useOnceSubmit(async function () {
+    const signIn = useOnceSubmitWhileTrue(async function () {
         if (!state.errors.hasError()) {
             state.showPasswordInput = false;
         }
@@ -83,6 +83,7 @@ export default observer(() => {
             return false;
         }
         await api.Authorization.signIn(state.username, state.password);
+        return true;
     })
 
     function changeUsername(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
