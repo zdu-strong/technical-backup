@@ -77,16 +77,16 @@ where
         let fut = future();
         dioxus_core::spawn(async move {
             {
-                *hook_status.write().loading.write() = true;
+                hook_status.write().loading = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    *hook_status.write().ready.write() = true;
-                    *hook_status.write().loading.write() = false;
+                    hook_status.write().ready = true;
+                    hook_status.write().loading = false;
                     *hook_status.write().error.write() = None;
                 }
                 Err(_) => {
-                    *hook_status.write().loading.write() = false;
+                    hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
@@ -107,9 +107,9 @@ where
         false => task.peek().pause(),
     });
 
-    let ready = hook_status.read().ready.clone();
-    let loading = hook_status.read().loading.clone();
-    let error = hook_status.read().error.clone();
+    let ready = hook_status.read().ready;
+    let loading = hook_status.read().loading;
+    let error = hook_status.read().error;
 
     HookStatusModel {
         ready: ready,
@@ -130,30 +130,30 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if *hook_status.read().loading.read() {
+            if hook_status.read().loading {
                 return;
             }
             {
-                *hook_status.write().loading.write() = true;
+                hook_status.write().loading = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    *hook_status.write().ready.write() = true;
-                    *hook_status.write().loading.write() = false;
+                    hook_status.write().ready = true;
+                    hook_status.write().loading = false;
                     *hook_status.write().error.write() = None;
                 }
                 Err(_) => {
                     *SERVER_ERROR.write() = Some("Problem".to_string());
-                    *hook_status.write().loading.write() = false;
+                    hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let ready = hook_status.read().ready.clone();
-    let loading = hook_status.read().loading.clone();
-    let error = hook_status.read().error.clone();
+    let ready = hook_status.read().ready;
+    let loading = hook_status.read().loading;
+    let error = hook_status.read().error;
 
     HookStatusModel {
         ready: ready,
@@ -172,30 +172,30 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if *hook_status.read().loading.read() {
+            if hook_status.read().loading {
                 return;
             }
             {
-                *hook_status.write().loading.write() = true;
+                hook_status.write().loading = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    *hook_status.write().ready.write() = true;
-                    *hook_status.write().loading.write() = true;
+                    hook_status.write().ready = true;
+                    hook_status.write().loading = true;
                     *hook_status.write().error.write() = None;
                 }
                 Err(_) => {
                     *SERVER_ERROR.write() = Some("Problem".to_string());
-                    *hook_status.write().loading.write() = false;
+                    hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let ready = hook_status.read().ready.clone();
-    let loading = hook_status.read().loading.clone();
-    let error = hook_status.read().error.clone();
+    let ready = hook_status.read().ready;
+    let loading = hook_status.read().loading;
+    let error = hook_status.read().error;
 
     HookStatusModel {
         ready: ready,
@@ -216,36 +216,36 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if *hook_status.read().loading.read() {
+            if hook_status.read().loading {
                 return;
             }
             {
-                *hook_status.write().loading.write() = true;
+                hook_status.write().loading = true;
             }
             match fut.catch_unwind().await {
                 Ok(result) => {
                     if result {
-                        *hook_status.write().ready.write() = true;
-                        *hook_status.write().loading.write() = true;
+                        hook_status.write().ready = true;
+                        hook_status.write().loading = true;
                         *hook_status.write().error.write() = None;
                     } else {
-                        *hook_status.write().ready.write() = false;
-                        *hook_status.write().loading.write() = false;
+                        hook_status.write().ready = false;
+                        hook_status.write().loading = false;
                         *hook_status.write().error.write() = None;
                     }
                 }
                 Err(_) => {
                     *SERVER_ERROR.write() = Some("Problem".to_string());
-                    *hook_status.write().loading.write() = false;
+                    hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let ready = hook_status.read().ready.clone();
-    let loading = hook_status.read().loading.clone();
-    let error = hook_status.read().error.clone();
+    let ready = hook_status.read().ready;
+    let loading = hook_status.read().loading;
+    let error = hook_status.read().error;
 
     HookStatusModel {
         ready: ready,
@@ -319,9 +319,10 @@ fn get_server_address() -> String {
 
 #[derive(Debug, Clone, Default)]
 pub struct HookStatusModel {
-    pub loading: Signal<bool>,
-    pub ready: Signal<bool>,
+    pub loading: bool,
+    pub ready: bool,
     pub error: Signal<Option<String>>,
+    // pub onclick_callback: Callback<MouseEvent>,
     pub hook_callback: Option<Callback<(), Task>>,
 }
 
