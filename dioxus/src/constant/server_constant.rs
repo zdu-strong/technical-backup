@@ -1,6 +1,7 @@
 use crate::model::user_model::UserModel;
 use chrono::Local;
 use dioxus::prelude::*;
+use dioxus_core::Task;
 use dioxus_sdk::storage::new_persistent;
 use futures::Future;
 use futures::FutureExt;
@@ -66,7 +67,7 @@ pub fn delete(url: &str) -> RequestBuilder {
 
 pub fn use_multiple_query<F>(
     mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> Signal<HookStatusModel>
+) -> HookStatusModel
 where
     F: Future + UnwindSafe + 'static,
 {
@@ -106,18 +107,27 @@ where
         false => task.peek().pause(),
     });
 
-    hook_status
+    let ready = hook_status.read().ready.clone();
+    let loading = hook_status.read().loading.clone();
+    let error = hook_status.read().error.clone();
+
+    HookStatusModel {
+        ready: ready,
+        loading: loading,
+        error: error,
+        hook_callback: Some(callback),
+    }
 }
 
 pub fn use_multiple_submit<F>(
     mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> Signal<HookStatusModel>
+) -> HookStatusModel
 where
     F: Future + UnwindSafe + 'static,
 {
     let mut hook_status = use_signal(|| HookStatusModel::default());
 
-    let callback = use_callback(move |_| {
+    let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
             if hook_status.read().loading {
@@ -141,32 +151,25 @@ where
         })
     });
 
-    // Create the task inside a CopyValue so we can reset it in-place later
-    let task = use_hook(|| CopyValue::new(callback(())));
+    let ready = hook_status.read().ready.clone();
+    let loading = hook_status.read().loading.clone();
+    let error = hook_status.read().error.clone();
 
-    // Early returns in dioxus have consequences for use_memo, use_resource, and use_future, etc
-    // We *don't* want futures to be running if the component early returns. It's a rather weird behavior to have
-    // use_memo running in the background even if the component isn't hitting those hooks anymore.
-    //
-    // React solves this by simply not having early returns interleave with hooks.
-    // However, since dioxus allows early returns (since we use them for suspense), we need to solve this problem
-    use_hook_did_run(move |did_run| match did_run {
-        true => task.peek().resume(),
-        false => task.peek().pause(),
-    });
-
-    hook_status
+    HookStatusModel {
+        ready: ready,
+        loading: loading,
+        error: error,
+        hook_callback: Some(callback),
+    }
 }
 
-pub fn use_once_submit<F>(
-    mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> Signal<HookStatusModel>
+pub fn use_once_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatusModel
 where
     F: Future + UnwindSafe + 'static,
 {
     let mut hook_status = use_signal(|| HookStatusModel::default());
 
-    let callback = use_callback(move |_| {
+    let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
             if hook_status.read().ready {
@@ -193,21 +196,16 @@ where
         })
     });
 
-    // Create the task inside a CopyValue so we can reset it in-place later
-    let task = use_hook(|| CopyValue::new(callback(())));
+    let ready = hook_status.read().ready.clone();
+    let loading = hook_status.read().loading.clone();
+    let error = hook_status.read().error.clone();
 
-    // Early returns in dioxus have consequences for use_memo, use_resource, and use_future, etc
-    // We *don't* want futures to be running if the component early returns. It's a rather weird behavior to have
-    // use_memo running in the background even if the component isn't hitting those hooks anymore.
-    //
-    // React solves this by simply not having early returns interleave with hooks.
-    // However, since dioxus allows early returns (since we use them for suspense), we need to solve this problem
-    use_hook_did_run(move |did_run| match did_run {
-        true => task.peek().resume(),
-        false => task.peek().pause(),
-    });
-
-    hook_status
+    HookStatusModel {
+        ready: ready,
+        loading: loading,
+        error: error,
+        hook_callback: Some(callback),
+    }
 }
 
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
@@ -277,9 +275,13 @@ pub struct HookStatusModel {
     pub loading: bool,
     pub ready: bool,
     pub error: Option<String>,
-    pub hook_callback: Option<Signal<Callback<()>>>,
+    pub hook_callback: Option<Callback<(), Task>>,
 }
 
 impl HookStatusModel {
-    pub fn restart() {}
+    pub fn restart(self) {
+        if self.hook_callback.is_some() {
+            self.hook_callback.unwrap().call(());
+        }
+    }
 }
