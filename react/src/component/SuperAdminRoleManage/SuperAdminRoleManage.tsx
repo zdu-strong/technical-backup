@@ -12,11 +12,11 @@ import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
 import SuperAdminRoleDetailButton from "@/component/SuperAdminRoleManage/SuperAdminRoleDetailButton";
 import { SuperAdminRoleQueryPaginationModel } from "@model/SuperAdminRoleQueryPaginationModel";
-import { useQuery } from "@/common/use-hook";
+import { useMultipleQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
-    const roleQueryState = useQuery(async () => {
+    const roleQueryState = useMultipleQuery(async () => {
         state.paginationModel = await api.SuperAdminSystemRoleQuery.searchByPagination(state.query);
     });
 

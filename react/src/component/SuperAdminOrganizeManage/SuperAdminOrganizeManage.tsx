@@ -12,7 +12,7 @@ import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
 import { OrganizeModel } from "@model/OrganizeModel";
 import { SuperAdminOrganizeQueryPaginationModel } from "@model/SuperAdminOrganizeQueryPaginationModel";
-import { useQuery } from "@/common/use-hook";
+import { useMultipleQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
@@ -55,7 +55,7 @@ export default observer(() => {
         dataGridRef: useGridApiRef(),
     });
 
-    const organizeQueryState = useQuery(async () => {
+    const organizeQueryState = useMultipleQuery(async () => {
         state.paginationModel = await api.SuperAdminOrganizeQuery.searchByPagination(state.query);
     });
 

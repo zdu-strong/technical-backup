@@ -3,7 +3,7 @@ import { concatMap, exhaustMap, from, of, ReplaySubject, retry } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 import { MessageService } from "@/common/MessageService";
 
-export function useQuery(callback: () => void) {
+export function useMultipleQuery(callback: () => void) {
 
     const subjectState = useMobxState({
         subject: new ReplaySubject<string>(1),

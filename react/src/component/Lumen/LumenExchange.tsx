@@ -4,7 +4,7 @@ import { Button, IconButton, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import api from '@api';
 import { MessageService } from "@/common/MessageService";
-import { useMultipleSubmit, useQuery } from "@/common/use-hook";
+import { useMultipleSubmit, useMultipleQuery } from "@/common/use-hook";
 import { Big, RoundingMode } from 'bigdecimal.js';
 
 export default observer(() => {
@@ -15,7 +15,7 @@ export default observer(() => {
         targetCurrencyBalance: "0",
     });
 
-    const exchangePreviewState = useQuery(async () => {
+    const exchangePreviewState = useMultipleQuery(async () => {
         const exchangeResult = await api.Lumen.exchangePreview(state.isUsd ? "USD" : "JAPAN", state.sourceCurrencyBalance);
         state.targetCurrencyBalance = exchangeResult.setScale(2, RoundingMode.FLOOR).toPlainString();
     });

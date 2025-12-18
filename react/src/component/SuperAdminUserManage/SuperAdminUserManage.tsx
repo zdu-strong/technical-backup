@@ -12,11 +12,11 @@ import SuperAdminUserDetailButton from "@component/SuperAdminUserManage/SuperAdm
 import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
 import { SuperAdminUserQueryPaginationModel } from "@model/SuperAdminUserQueryPaginationModel";
-import { useQuery } from "@/common/use-hook";
+import { useMultipleQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
-    const userQueryState = useQuery(async () => {
+    const userQueryState = useMultipleQuery(async () => {
         state.paginationModel = await api.SuperAdminUserQuery.searchByPagination(state.query);
     });
 

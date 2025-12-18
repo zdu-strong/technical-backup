@@ -59,6 +59,18 @@ pub fn delete(url: &str) -> RequestBuilder {
     get_request_builder(Method::DELETE, url)
 }
 
+pub fn use_multiple_query() -> HookStatusModel {
+    return HookStatusModel::default();
+}
+
+pub fn use_multiple_submit() -> HookStatusModel {
+    return HookStatusModel::default();
+}
+
+pub fn use_once_submit() -> HookStatusModel {
+    return HookStatusModel::default();
+}
+
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
     let server_address = SERVER_ADDRESS.read().clone();
     let server_url = get_server_api_url(url, server_address.as_str());
@@ -119,4 +131,16 @@ fn set_server_user_info_persistent(user_json_string: String) {
 
 fn get_server_address() -> String {
     "http://localhost:8080".to_string()
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct HookStatusModel {
+    pub loading: Signal<bool>,
+    pub ready: Signal<bool>,
+    pub error: Option<Signal<String>>,
+    pub hook_callback: Option<Signal<Callback<()>>>,
+}
+
+impl HookStatusModel {
+    pub fn restart() {}
 }

@@ -5,7 +5,7 @@ import api from "@api";
 import { GitPropertiesModel } from "@model/GitPropertiesModel";
 import { FormattedMessage } from "react-intl";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
-import { useQuery } from "@/common/use-hook";
+import { useMultipleQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
@@ -14,7 +14,7 @@ export default observer(() => {
         serverGitInfo: null as any as GitPropertiesModel,
     })
 
-    const serverGitState = useQuery(async () => {
+    const serverGitState = useMultipleQuery(async () => {
         state.serverGitInfo = await api.Git.getServerGitInfo();
     });
 
