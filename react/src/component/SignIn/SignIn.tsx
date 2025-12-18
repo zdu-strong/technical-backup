@@ -74,13 +74,12 @@ export default observer(() => {
     })
 
     const signIn = useOnceSubmitWhileTrue(async function () {
-        if (!state.errors.hasError()) {
-            state.showPasswordInput = false;
-        }
-
         state.submitted = true;
         if (state.errors.hasError()) {
             return false;
+        }
+        if (!state.errors.hasError()) {
+            state.showPasswordInput = false;
         }
         await api.Authorization.signIn(state.username, state.password);
         return true;
