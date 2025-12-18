@@ -8,7 +8,7 @@ import api from "@api";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion, faArrowRightToBracket, faSpinner, faHome, faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import { useMultipleSubmit } from "@/common/use-hook";
+import { useOnceSubmit } from "@/common/use-hook";
 
 const container = style({
     display: "flex",
@@ -30,9 +30,6 @@ export default observer(() => {
         },
         passwordTooltipDialog: {
             open: false,
-        },
-        signIn: {
-            ready: false,
         },
         showPasswordInput: false,
         errors: {
@@ -76,20 +73,16 @@ export default observer(() => {
         },
     })
 
-    const signIn = useMultipleSubmit(async function () {
-        if (state.signIn.ready) {
-            return;
-        }
+    const signIn = useOnceSubmit(async function () {
         if (!state.errors.hasError()) {
             state.showPasswordInput = false;
         }
 
         state.submitted = true;
         if (state.errors.hasError()) {
-            return;
+            return false;
         }
         await api.Authorization.signIn(state.username, state.password);
-        state.signIn.ready = true;
     })
 
     function changeUsername(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -188,7 +181,7 @@ export default observer(() => {
             <Button
                 variant="contained"
                 className="normal-case"
-                startIcon={<FontAwesomeIcon icon={signIn.loading || state.signIn.ready ? faSpinner : faArrowRightToBracket} spin={signIn.loading || state.signIn.ready} />}
+                startIcon={<FontAwesomeIcon icon={signIn.loading ? faSpinner : faArrowRightToBracket} spin={signIn.loading} />}
                 onClick={signIn.resubmit}
             >
                 <FormattedMessage id="SignIn" defaultMessage="SignIn" />

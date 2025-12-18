@@ -117,10 +117,16 @@ export function useOnceSubmit(callback: () => void) {
                     }
                     state.loading = true;
                     try {
-                        await callback();
-                        state.ready = true;
-                        state.loading = true;
-                        state.error = null;
+                        const result = await callback();
+                        if (result as any === false) {
+                            state.ready = false;
+                            state.loading = false;
+                            state.error = null;
+                        } else {
+                            state.ready = true;
+                            state.loading = true;
+                            state.error = null;
+                        }
                     } catch (e) {
                         MessageService.error(e);
                         state.error = e;
