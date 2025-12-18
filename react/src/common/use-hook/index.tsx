@@ -3,7 +3,7 @@ import { concatMap, exhaustMap, from, of, ReplaySubject, retry } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 import { MessageService } from "@/common/MessageService";
 
-export function useMultipleQuery(callback: () => void) {
+export function useMultipleQuery(callback: () => Promise<void>) {
 
     const subjectState = useMobxState({
         subject: new ReplaySubject<string>(1),
@@ -44,7 +44,7 @@ export function useMultipleQuery(callback: () => void) {
     return state;
 }
 
-export function useMultipleSubmit(callback: () => void) {
+export function useMultipleSubmit(callback: () => Promise<void>) {
 
     const subjectState = useMobxState({
         subject: new ReplaySubject<string>(1),
@@ -88,7 +88,7 @@ export function useMultipleSubmit(callback: () => void) {
     return state;
 }
 
-export function useOnceSubmit(callback: () => void) {
+export function useOnceSubmit(callback: () => Promise<void>) {
 
     const subjectState = useMobxState({
         subject: new ReplaySubject<string>(1),
