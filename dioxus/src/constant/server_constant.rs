@@ -120,6 +120,9 @@ where
     let callback = use_callback(move |_| {
         let fut = future();
         dioxus_core::spawn(async move {
+            if hook_status.read().loading {
+                return;
+            }
             {
                 hook_status.write().loading = true;
             }
@@ -167,6 +170,9 @@ where
         let fut = future();
         dioxus_core::spawn(async move {
             if hook_status.read().ready {
+                return;
+            }
+            if hook_status.read().loading {
                 return;
             }
             {

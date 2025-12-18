@@ -65,6 +65,9 @@ export function useMultipleSubmit(callback: () => void) {
         subscription.add(subjectState.subject.pipe(
             exhaustMap(() => of(null).pipe(
                 concatMap(() => from((async () => {
+                    if (state.loading) {
+                        return;
+                    }
                     state.loading = true;
                     try {
                         await callback();
@@ -107,6 +110,9 @@ export function useOnceSubmit(callback: () => void) {
             exhaustMapWithTrailing(() => of(null).pipe(
                 concatMap(() => from((async () => {
                     if (state.ready) {
+                        return;
+                    }
+                    if (state.loading) {
                         return;
                     }
                     state.loading = true;
