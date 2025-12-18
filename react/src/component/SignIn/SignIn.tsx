@@ -31,6 +31,9 @@ export default observer(() => {
         passwordTooltipDialog: {
             open: false,
         },
+        signIn: {
+            ready: false,
+        },
         showPasswordInput: false,
         errors: {
             username() {
@@ -74,7 +77,7 @@ export default observer(() => {
     })
 
     const signIn = useMultipleSubmit(async function () {
-        if (signIn.ready) {
+        if (state.signIn.ready) {
             return;
         }
         if (!state.errors.hasError()) {
@@ -86,6 +89,7 @@ export default observer(() => {
             return;
         }
         await api.Authorization.signIn(state.username, state.password);
+        state.signIn.ready = true;
     })
 
     function changeUsername(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -184,7 +188,7 @@ export default observer(() => {
             <Button
                 variant="contained"
                 className="normal-case"
-                startIcon={<FontAwesomeIcon icon={signIn.loading ? faSpinner : faArrowRightToBracket} spin={signIn.loading} />}
+                startIcon={<FontAwesomeIcon icon={signIn.loading || state.signIn.ready ? faSpinner : faArrowRightToBracket} spin={signIn.loading || state.signIn.ready} />}
                 onClick={signIn.resubmit}
             >
                 <FormattedMessage id="SignIn" defaultMessage="SignIn" />
