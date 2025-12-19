@@ -55,7 +55,7 @@
         <org-tukaani-xz.version>1.11</org-tukaani-xz.version>
         <sneakyfun.version>1.0.0</sneakyfun.version>
         <commons-exec.version>1.6.0</commons-exec.version>
-        <chicory.version>1.6.0</chicory.version>
+        <chicory.version>1.6.1</chicory.version>
     </properties>
 
     <dependencies>
