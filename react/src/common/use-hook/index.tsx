@@ -28,9 +28,9 @@ export function useMultipleQuery(callback: () => Promise<void>) {
                     state.loading = true;
                     try {
                         await callback();
-                        state.ready = true;
                         state.loading = false;
                         state.error = null;
+                        state.ready = true;
                     } catch (e) {
                         state.loading = false;
                         state.error = e;
@@ -65,19 +65,16 @@ export function useMultipleSubmit(callback: () => Promise<void>) {
         subscription.add(subjectState.subject.pipe(
             exhaustMap(() => of(null).pipe(
                 concatMap(() => from((async () => {
-                    if (state.loading) {
-                        return;
-                    }
                     state.loading = true;
                     try {
                         await callback();
-                        state.ready = true;
                         state.loading = false;
                         state.error = null;
+                        state.ready = true;
                     } catch (e) {
-                        MessageService.error(e);
-                        state.error = e;
                         state.loading = false;
+                        state.error = e;
+                        MessageService.error(e);
                     }
                 })())),
             )),
@@ -109,19 +106,19 @@ export function useOnceSubmit(callback: () => Promise<void>) {
         subscription.add(subjectState.subject.pipe(
             exhaustMapWithTrailing(() => of(null).pipe(
                 concatMap(() => from((async () => {
-                    if (state.loading) {
+                    if (state.ready) {
                         return;
                     }
                     state.loading = true;
                     try {
                         await callback();
-                        state.ready = true;
                         state.loading = true;
                         state.error = null;
+                        state.ready = true;
                     } catch (e) {
-                        MessageService.error(e);
-                        state.error = e;
                         state.loading = false;
+                        state.error = e;
+                        MessageService.error(e);
                     }
                 })())),
             )),
@@ -153,25 +150,24 @@ export function useOnceSubmitWhileTrue(callback: () => Promise<boolean>) {
         subscription.add(subjectState.subject.pipe(
             exhaustMapWithTrailing(() => of(null).pipe(
                 concatMap(() => from((async () => {
-                    if (state.loading) {
+                    if (state.ready) {
                         return;
                     }
                     state.loading = true;
                     try {
                         const result = await callback();
                         if (result === true) {
-                            state.ready = true;
                             state.loading = true;
                             state.error = null;
+                            state.ready = true;
                         } else {
-                            state.ready = false;
                             state.loading = false;
                             state.error = null;
                         }
                     } catch (e) {
-                        MessageService.error(e);
-                        state.error = e;
                         state.loading = false;
+                        state.error = e;
+                        MessageService.error(e);
                     }
                 })())),
             )),

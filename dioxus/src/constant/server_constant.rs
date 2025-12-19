@@ -81,9 +81,9 @@ where
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().ready = true;
                     hook_status.write().loading = false;
                     *hook_status.write().error.write() = None;
+                    hook_status.write().ready = true;
                 }
                 Err(_) => {
                     hook_status.write().loading = false;
@@ -107,15 +107,17 @@ where
         false => task.peek().pause(),
     });
 
-    let ready = hook_status.read().ready;
     let loading = hook_status.read().loading;
     let error = hook_status.read().error;
+    let ready = hook_status.read().ready;
 
     HookStatusModel {
         ready: ready,
         loading: loading,
         error: error,
-        hook_callback: Some(callback),
+        onclick_restart: Callback::new(move |_: MouseEvent| {
+            callback(());
+        }),
     }
 }
 
@@ -138,28 +140,30 @@ where
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().ready = true;
                     hook_status.write().loading = false;
                     *hook_status.write().error.write() = None;
+                    hook_status.write().ready = true;
                 }
                 Err(_) => {
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
                     hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
+                    *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let ready = hook_status.read().ready;
     let loading = hook_status.read().loading;
     let error = hook_status.read().error;
+    let ready = hook_status.read().ready;
 
     HookStatusModel {
         ready: ready,
         loading: loading,
         error: error,
-        hook_callback: Some(callback),
+        onclick_restart: Callback::new(move |_: MouseEvent| {
+            callback(());
+        }),
     }
 }
 
@@ -180,28 +184,30 @@ where
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().ready = true;
                     hook_status.write().loading = true;
                     *hook_status.write().error.write() = None;
+                    hook_status.write().ready = true;
                 }
                 Err(_) => {
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
                     hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
+                    *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let ready = hook_status.read().ready;
     let loading = hook_status.read().loading;
     let error = hook_status.read().error;
+    let ready = hook_status.read().ready;
 
     HookStatusModel {
         ready: ready,
         loading: loading,
         error: error,
-        hook_callback: Some(callback),
+        onclick_restart: Callback::new(move |_: MouseEvent| {
+            callback(());
+        }),
     }
 }
 
@@ -226,32 +232,33 @@ where
                 Ok(result) => {
                     if result {
                         hook_status.write().ready = true;
-                        hook_status.write().loading = true;
                         *hook_status.write().error.write() = None;
+                        hook_status.write().loading = true;
                     } else {
-                        hook_status.write().ready = false;
                         hook_status.write().loading = false;
                         *hook_status.write().error.write() = None;
                     }
                 }
                 Err(_) => {
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
                     hook_status.write().loading = false;
                     *hook_status.write().error.write() = Some("Problem".to_string());
+                    *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let ready = hook_status.read().ready;
     let loading = hook_status.read().loading;
     let error = hook_status.read().error;
+    let ready = hook_status.read().ready;
 
     HookStatusModel {
         ready: ready,
         loading: loading,
         error: error,
-        hook_callback: Some(callback),
+        onclick_restart: Callback::new(move |_: MouseEvent| {
+            callback(());
+        }),
     }
 }
 
@@ -322,14 +329,5 @@ pub struct HookStatusModel {
     pub loading: bool,
     pub ready: bool,
     pub error: Signal<Option<String>>,
-    // pub onclick_callback: Callback<MouseEvent>,
-    pub hook_callback: Option<Callback<(), Task>>,
-}
-
-impl HookStatusModel {
-    pub fn restart(self) {
-        if self.hook_callback.is_some() {
-            self.hook_callback.unwrap().call(());
-        }
-    }
+    pub onclick_restart: Callback<MouseEvent>,
 }
