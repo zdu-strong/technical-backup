@@ -19,7 +19,7 @@ pub async fn sign_in(username: Signal<String>, password: Signal<String>) {
 }
 
 pub async fn sign_out() {
-    if !SERVER_USER_INFO.read().access_token.is_empty() {
+    if !SERVER_USER_INFO().access_token.is_empty() {
         post("/sign-out").send().await.unwrap();
         remove_server_user_info();
     }

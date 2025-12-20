@@ -106,9 +106,9 @@ where
         false => task.peek().pause(),
     });
 
-    let loading = hook_status.read().loading;
-    let error = hook_status.read().error;
-    let ready = hook_status.read().ready;
+    let loading = hook_status().loading;
+    let error = hook_status().error;
+    let ready = hook_status().ready;
 
     HookStatusModel {
         ready: ready,
@@ -131,7 +131,7 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status.read().loading {
+            if hook_status().loading {
                 return;
             }
             {
@@ -152,9 +152,9 @@ where
         })
     });
 
-    let loading = hook_status.read().loading;
-    let error = hook_status.read().error;
-    let ready = hook_status.read().ready;
+    let loading = hook_status().loading;
+    let error = hook_status().error;
+    let ready = hook_status().ready;
 
     HookStatusModel {
         ready: ready,
@@ -175,7 +175,7 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status.read().loading {
+            if hook_status().loading {
                 return;
             }
             {
@@ -196,9 +196,9 @@ where
         })
     });
 
-    let loading = hook_status.read().loading;
-    let error = hook_status.read().error;
-    let ready = hook_status.read().ready;
+    let loading = hook_status().loading;
+    let error = hook_status().error;
+    let ready = hook_status().ready;
 
     HookStatusModel {
         ready: ready,
@@ -221,7 +221,7 @@ where
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status.read().loading {
+            if hook_status().loading {
                 return;
             }
             {
@@ -247,9 +247,9 @@ where
         })
     });
 
-    let loading = hook_status.read().loading;
-    let error = hook_status.read().error;
-    let ready = hook_status.read().ready;
+    let loading = hook_status().loading;
+    let error = hook_status().error;
+    let ready = hook_status().ready;
 
     HookStatusModel {
         ready: ready,
@@ -262,7 +262,7 @@ where
 }
 
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
-    let server_address = SERVER_ADDRESS.read().clone();
+    let server_address = SERVER_ADDRESS();
     let server_url = get_server_api_url(url, server_address.as_str());
     let mut request_builder = Client::new().request(method.clone(), server_url.clone());
     if server_url.origin().ascii_serialization()
@@ -271,7 +271,7 @@ fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
             .origin()
             .ascii_serialization()
     {
-        let access_token = SERVER_USER_INFO.read().access_token.read().clone();
+        let access_token = SERVER_USER_INFO().access_token.read().clone();
         if !access_token.is_empty() {
             request_builder = request_builder.bearer_auth(access_token);
         }
@@ -310,7 +310,7 @@ where
 fn get_server_user_info_persistent() -> String {
     let user_info_persistent =
         new_persistent(KEY_OF_SERVER_USER_INFO_OF_PERSISTENT, || "".to_string());
-    return user_info_persistent.read().clone();
+    return user_info_persistent();
 }
 
 fn set_server_user_info_persistent(user_json_string: String) {

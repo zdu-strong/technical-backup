@@ -3,7 +3,7 @@ use daisy_rsx::*;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Blog(id: i128) -> Element {
+pub fn Blog(id: ReadSignal<i128>) -> Element {
     rsx! {
 
         div {
@@ -18,7 +18,7 @@ pub fn Blog(id: i128) -> Element {
             div {
                 class: "flex flex-row mt-3",
                 Link {
-                    to: Route::BlogPage { id: id - 1 },
+                    to: Route::BlogPage { id: id() - 1 },
                     Button {
                         button_scheme: ButtonScheme::Secondary,
                         "Previous"
@@ -29,7 +29,7 @@ pub fn Blog(id: i128) -> Element {
                     " <---> "
                 }
                 Link {
-                    to: Route::BlogPage { id: id + 1 },
+                    to: Route::BlogPage { id: id() + 1 },
                     Button {
                         button_scheme: ButtonScheme::Secondary,
                         "Next"

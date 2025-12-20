@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn GameInput(name: ReadSignal<Signal<String>>) -> Element {
     let oninput_name = move |e: FormEvent| {
-        *name.read().clone().write() = e.value();
+        *name().write() = e.value();
     };
 
     rsx! {

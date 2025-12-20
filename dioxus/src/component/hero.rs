@@ -16,7 +16,7 @@ const HEADER_SVG: Asset = asset!("/assets/image/header.svg");
 
 #[component]
 pub fn Hero() -> Element {
-    let mut cat = use_signal(|| CatModel {
+    let cat = use_signal(|| CatModel {
         id: Signal::new(Uuid::new_v4().to_string()),
         name: Signal::new("Tom".to_string()),
     });
@@ -39,7 +39,7 @@ pub fn Hero() -> Element {
     });
 
     let onpress_hero = move |_| {
-        if *question_text.read() == "Who are you?" {
+        if question_text() == "Who are you?" {
             *question_text.write() = "What's your name?".to_string();
         } else {
             *question_text.write() = "Who are you?".to_string();
@@ -47,10 +47,10 @@ pub fn Hero() -> Element {
     };
 
     let onclick_change_name = move |_| async move {
-        if cat.read().name.read().trim().starts_with("Tom") {
-            *cat.write().name.write() = "Jerry".to_string();
+        if cat().name.read().trim().starts_with("Tom") {
+            *cat().name.write() = "Jerry".to_string();
         } else {
-            *cat.write().name.write() = "Tom".to_string();
+            *cat().name.write() = "Tom".to_string();
         }
     };
 
@@ -74,11 +74,11 @@ pub fn Hero() -> Element {
                 }
             }
             GameButton {
-                name: cat.read().name,
+                name: cat().name,
                 onclick_change_name,
             }
             GameInput {
-                name: cat.read().name,
+                name: cat().name,
             }
         }
     }
