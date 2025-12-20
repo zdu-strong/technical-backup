@@ -70,23 +70,26 @@ pub fn use_multiple_query<F>(
 where
     F: Future + UnwindSafe + 'static,
 {
-    let mut hook_status = use_signal(|| HookStatusModel::default());
+    let mut loading = use_signal(|| true);
+    let mut ready = use_signal(|| false);
+    let mut error: Signal<Option<String>> = use_signal(|| None);
 
     let callback = use_callback(move |_| {
         let fut = future();
         dioxus_core::spawn(async move {
             {
-                hook_status.write().loading = true;
+                *loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().loading = false;
-                    *hook_status.write().error.write() = None;
-                    hook_status.write().ready = true;
+                    *loading.write() = false;
+                    *error.write() = None;
+                    *ready.write() = true;
                 }
                 Err(_) => {
-                    hook_status.write().loading = false;
-                    *hook_status.write().error.write() = Some("Problem".to_string());
+                    *loading.write() = false;
+                    *error.write() = Some("Problem".to_string());
+                    *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
@@ -106,13 +109,9 @@ where
         false => task.peek().pause(),
     });
 
-    let loading = hook_status().loading;
-    let error = hook_status().error;
-    let ready = hook_status().ready;
-
     HookStatusModel {
-        ready: ready,
-        loading: loading,
+        ready: ready(),
+        loading: loading(),
         error: error,
         onclick_restart: Callback::new(move |_: MouseEvent| {
             callback(());
@@ -126,39 +125,37 @@ pub fn use_multiple_submit<F>(
 where
     F: Future + UnwindSafe + 'static,
 {
-    let mut hook_status = use_signal(|| HookStatusModel::default());
+    let mut loading = use_signal(|| false);
+    let mut ready = use_signal(|| false);
+    let mut error: Signal<Option<String>> = use_signal(|| None);
 
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status().loading {
+            if loading() {
                 return;
             }
             {
-                hook_status.write().loading = true;
+                *loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().loading = false;
-                    *hook_status.write().error.write() = None;
-                    hook_status.write().ready = true;
+                    *loading.write() = false;
+                    *error.write() = None;
+                    *ready.write() = true;
                 }
                 Err(_) => {
-                    hook_status.write().loading = false;
-                    *hook_status.write().error.write() = Some("Problem".to_string());
+                    *loading.write() = false;
+                    *error.write() = Some("Problem".to_string());
                     *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let loading = hook_status().loading;
-    let error = hook_status().error;
-    let ready = hook_status().ready;
-
     HookStatusModel {
-        ready: ready,
-        loading: loading,
+        ready: ready(),
+        loading: loading(),
         error: error,
         onclick_restart: Callback::new(move |_: MouseEvent| {
             callback(());
@@ -170,39 +167,37 @@ pub fn use_once_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) 
 where
     F: Future + UnwindSafe + 'static,
 {
-    let mut hook_status = use_signal(|| HookStatusModel::default());
+    let mut loading = use_signal(|| false);
+    let mut ready = use_signal(|| false);
+    let mut error: Signal<Option<String>> = use_signal(|| None);
 
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status().loading {
+            if loading() {
                 return;
             }
             {
-                hook_status.write().loading = true;
+                *loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(_) => {
-                    hook_status.write().loading = true;
-                    *hook_status.write().error.write() = None;
-                    hook_status.write().ready = true;
+                    *loading.write() = true;
+                    *error.write() = None;
+                    *ready.write() = true;
                 }
                 Err(_) => {
-                    hook_status.write().loading = false;
-                    *hook_status.write().error.write() = Some("Problem".to_string());
+                    *loading.write() = false;
+                    *error.write() = Some("Problem".to_string());
                     *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let loading = hook_status().loading;
-    let error = hook_status().error;
-    let ready = hook_status().ready;
-
     HookStatusModel {
-        ready: ready,
-        loading: loading,
+        ready: ready(),
+        loading: loading(),
         error: error,
         onclick_restart: Callback::new(move |_: MouseEvent| {
             callback(());
@@ -216,44 +211,42 @@ pub fn use_once_submit_while_true<F>(
 where
     F: Future<Output = bool> + UnwindSafe + 'static,
 {
-    let mut hook_status = use_signal(|| HookStatusModel::default());
+    let mut loading = use_signal(|| false);
+    let mut ready = use_signal(|| false);
+    let mut error: Signal<Option<String>> = use_signal(|| None);
 
     let callback = use_callback(move |_: ()| {
         let fut = future();
         dioxus_core::spawn(async move {
-            if hook_status().loading {
+            if loading() {
                 return;
             }
             {
-                hook_status.write().loading = true;
+                *loading.write() = true;
             }
             match fut.catch_unwind().await {
                 Ok(result) => {
                     if result {
-                        hook_status.write().ready = true;
-                        *hook_status.write().error.write() = None;
-                        hook_status.write().loading = true;
+                        *loading.write() = true;
+                        *error.write() = None;
+                        *ready.write() = true;
                     } else {
-                        hook_status.write().loading = false;
-                        *hook_status.write().error.write() = None;
+                        *loading.write() = false;
+                        *error.write() = None;
                     }
                 }
                 Err(_) => {
-                    hook_status.write().loading = false;
-                    *hook_status.write().error.write() = Some("Problem".to_string());
+                    *loading.write() = false;
+                    *error.write() = Some("Problem".to_string());
                     *SERVER_ERROR.write() = Some("Problem".to_string());
                 }
             }
         })
     });
 
-    let loading = hook_status().loading;
-    let error = hook_status().error;
-    let ready = hook_status().ready;
-
     HookStatusModel {
-        ready: ready,
-        loading: loading,
+        ready: ready(),
+        loading: loading(),
         error: error,
         onclick_restart: Callback::new(move |_: MouseEvent| {
             callback(());
