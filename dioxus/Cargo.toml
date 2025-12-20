@@ -28,6 +28,7 @@ stylance = "0.7.4"
 daisy_rsx = { git = "https://github.com/zdu-strong/temp-test-daisy-rsx.git", branch = "release-v0.1.50" }
 bigdecimal = { version = "0.4.9", features = ["serde-json"] }
 derive_more = { version = "2.1.0", features = ["display"] }
+async-trait = "0.1"
 
 [features]
 default = ["web"]
