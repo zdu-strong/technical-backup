@@ -3,6 +3,7 @@ use derive_more::Display;
 use dioxus::prelude::*;
 use serde::Deserialize;
 use serde::Serialize;
+use serde_aux::prelude::*;
 use serde_json::to_string_pretty;
 
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
@@ -12,10 +13,23 @@ pub struct PaginationModel<T>
 where
     T: 'static + Serialize,
 {
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub page_num: Signal<i128>,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub page_size: Signal<i128>,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub total_records: Signal<i128>,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub total_pages: Signal<i128>,
+
+    #[serde[default]]
     pub items: Signal<Vec<Signal<T>>>,
 }
 
