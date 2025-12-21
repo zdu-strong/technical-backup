@@ -28,7 +28,7 @@ pub fn Hero() -> Element {
         let user_list = vec![UserModel {
             id: Signal::new(Uuid::new_v4().to_string()),
             username: Signal::new("Tom".to_string()),
-            money: Some(Signal::new(BigDecimal::from_str("124122112112222222222222222222222222222222222222222222222222222222222222222234124123431342341221423212124.1234124").unwrap())),
+            money: Signal::new(Some(BigDecimal::from_str("124122112112222222222222222222222222222222222222222222222222222222222222222234124123431342341221423212124.1234124").unwrap())),
             create_date: Signal::new(Local::now()),
             update_date: Signal::new(Local::now()),
             access_token: Signal::new("".to_string()),
