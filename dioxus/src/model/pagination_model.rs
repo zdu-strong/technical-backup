@@ -1,6 +1,6 @@
 use bigdecimal::ToPrimitive;
 use derive_more::Display;
-use dioxus::prelude::*;
+use dioxus::signals::Signal;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_aux::prelude::*;
@@ -11,7 +11,7 @@ use serde_json::to_string_pretty;
 #[display("{}", to_string_pretty(self).unwrap())]
 pub struct PaginationModel<T>
 where
-    T: 'static + Serialize,
+    T: 'static + Serialize + Default,
 {
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
@@ -35,7 +35,7 @@ where
 
 impl<T> PaginationModel<T>
 where
-    T: 'static + Serialize,
+    T: 'static + Serialize + Default,
 {
     pub fn from(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
         Self::new(
