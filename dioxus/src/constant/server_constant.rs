@@ -29,9 +29,9 @@ pub fn remove_server_user_info() {
     });
 }
 
-pub fn set_server_user_info(user: Option<Signal<UserModel>>) {
+pub fn set_server_user_info(user: Signal<Option<UserModel>>) {
     let mut user_json_string = serde_json::to_string(&user).unwrap().to_string();
-    let has_params = !user.unwrap_or_default().read().access_token.is_empty();
+    let has_params = !user().unwrap_or_default().access_token.is_empty();
     if !has_params {
         user_json_string = get_server_user_info_persistent();
         if user_json_string.is_empty() {
