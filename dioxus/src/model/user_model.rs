@@ -1,3 +1,4 @@
+use crate::model::user_email_model::UserEmailModel;
 use bigdecimal::BigDecimal;
 use chrono::DateTime;
 use chrono::Local;
@@ -17,4 +18,6 @@ pub struct UserModel {
     pub create_date: Signal<DateTime<Local>>,
     pub update_date: Signal<DateTime<Local>>,
     pub access_token: Signal<String>,
+    pub passowrd: Signal<Option<String>>,
+    pub user_email_list: Signal<Vec<Signal<UserEmailModel>>>,
 }
