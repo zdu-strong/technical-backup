@@ -12,7 +12,7 @@ pub async fn sign_in(username: Signal<String>, password: Signal<String>) {
         .send()
         .await
         .unwrap()
-        .json::<Signal<Option<UserModel>>>()
+        .json::<Option<Signal<UserModel>>>()
         .await
         .unwrap();
     set_server_user_info(user);
