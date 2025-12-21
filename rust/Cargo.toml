@@ -20,6 +20,7 @@ serde_with = "3.16.1"
 bigdecimal = { version = "0.4.9", features = ["serde-json"] }
 derive_more = { version = "2.1.0", features = ["display"] }
 async-trait = "0.1"
+serde-aux = "4.7.0"
 
 [profile.dev]
 overflow-checks = true
