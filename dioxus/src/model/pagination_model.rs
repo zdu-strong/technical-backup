@@ -1,6 +1,7 @@
 use bigdecimal::ToPrimitive;
 use derive_more::Display;
 use dioxus::signals::Signal;
+use serde::de::DeserializeOwned;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_aux::prelude::*;
@@ -11,9 +12,10 @@ use std::fmt::Display;
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[display("{}", to_string_pretty(self).unwrap())]
+#[serde(bound = "T: Serialize + DeserializeOwned")]
 pub struct PaginationModel<T>
 where
-    T: 'static + Serialize + Default + Clone + Display + Debug,
+    T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
 {
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
@@ -32,12 +34,13 @@ where
     pub total_pages: Signal<i128>,
 
     #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub items: Signal<Vec<Signal<T>>>,
 }
 
 impl<T> PaginationModel<T>
 where
-    T: 'static + Serialize + Default + Clone + Display + Debug,
+    T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
 {
     pub fn from(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
         Self::new(
