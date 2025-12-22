@@ -1,26 +1,44 @@
 use bigdecimal::ToPrimitive;
+use derive_more::Display;
+use serde::de::DeserializeOwned;
 use serde::Deserialize;
 use serde::Serialize;
-use derive_more::Display;
+use serde_aux::prelude::*;
 use serde_json::to_string_pretty;
+use std::fmt::Debug;
+use std::fmt::Display;
 
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[display("{}", to_string_pretty(self).unwrap())]
 pub struct PaginationModel<T>
 where
-    T: 'static + Serialize,
+    T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
 {
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub page_num: i128,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub page_size: i128,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub total_records: i128,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub total_pages: i128,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
     pub items: Vec<T>,
 }
 
 impl<T> PaginationModel<T>
 where
-    T: 'static + Serialize,
+    T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
 {
     pub fn new(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
         if page_num < 1 {
