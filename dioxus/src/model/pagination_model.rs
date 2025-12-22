@@ -12,7 +12,6 @@ use std::fmt::Display;
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[display("{}", to_string_pretty(self).unwrap())]
-#[serde(bound = "T: Serialize + DeserializeOwned")]
 pub struct PaginationModel<T>
 where
     T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
