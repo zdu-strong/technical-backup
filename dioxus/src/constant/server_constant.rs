@@ -64,9 +64,7 @@ pub fn delete(url: &str) -> RequestBuilder {
     get_request_builder(Method::DELETE, url)
 }
 
-pub fn use_multiple_query<F>(
-    mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> HookStatusModel
+pub fn use_multiple_query<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
 where
     F: Future + UnwindSafe + 'static,
 {
@@ -109,7 +107,7 @@ where
         false => task.peek().pause(),
     });
 
-    HookStatusModel {
+    HookStatus {
         ready: ready(),
         loading: loading(),
         error: error,
@@ -119,9 +117,7 @@ where
     }
 }
 
-pub fn use_multiple_submit<F>(
-    mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> HookStatusModel
+pub fn use_multiple_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
 where
     F: Future + UnwindSafe + 'static,
 {
@@ -153,7 +149,7 @@ where
         })
     });
 
-    HookStatusModel {
+    HookStatus {
         ready: ready(),
         loading: loading(),
         error: error,
@@ -163,7 +159,7 @@ where
     }
 }
 
-pub fn use_once_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatusModel
+pub fn use_once_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
 where
     F: Future + UnwindSafe + 'static,
 {
@@ -195,7 +191,7 @@ where
         })
     });
 
-    HookStatusModel {
+    HookStatus {
         ready: ready(),
         loading: loading(),
         error: error,
@@ -207,7 +203,7 @@ where
 
 pub fn use_once_submit_while_true<F>(
     mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> HookStatusModel
+) -> HookStatus
 where
     F: Future<Output = bool> + UnwindSafe + 'static,
 {
@@ -244,7 +240,7 @@ where
         })
     });
 
-    HookStatusModel {
+    HookStatus {
         ready: ready(),
         loading: loading(),
         error: error,
@@ -316,8 +312,8 @@ fn get_server_address() -> String {
     "http://localhost:8080".to_string()
 }
 
-#[derive(Debug, Clone, Default)]
-pub struct HookStatusModel {
+#[derive(Debug, Clone, Copy, Default)]
+pub struct HookStatus {
     pub loading: bool,
     pub ready: bool,
     pub error: Signal<Option<String>>,
