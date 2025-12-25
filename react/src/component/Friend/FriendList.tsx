@@ -5,38 +5,32 @@ import FriendChildComponent from "@component/Friend/FriendChild";
 import api from '@api'
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { FormattedMessage } from "react-intl";
+import { useMultipleQuery } from "@/common/use-hook";
 
 export default observer(() => {
 
     const state = useMobxState({
         friendshipList: [] as FriendshipModel[],
-        ready: false,
-        error: null as any,
     })
 
-    useMount(async () => {
-        try {
-            await getFriendList();
-            state.ready = true;
-        } catch (error) {
-            state.error = error;
-        }
-    })
+    const getFriendList = useMultipleQuery(async () => {
+        await refreshFriendList();
+    });
 
-    async function getFriendList() {
+    async function refreshFriendList() {
         const { items: list } = await api.Friendship.getFriendList();
         state.friendshipList = list;
     }
 
     return <div className="flex flex-col flex-auto">
-        <LoadingOrErrorComponent ready={state.ready} error={state.error}>
+        <LoadingOrErrorComponent ready={getFriendList.ready} error={getFriendList.error}>
             <div>
                 <FormattedMessage id="Friends" defaultMessage="Friends" />
             </div>
             {state.friendshipList.map(item => <FriendChildComponent
                 friendship={item}
                 key={item.id}
-                refreshFriendList={getFriendList}
+                refreshFriendList={refreshFriendList}
             />)}
         </LoadingOrErrorComponent>
     </div>;

@@ -1,13 +1,13 @@
-import { observer, useMobxState } from "mobx-react-use-autorun";
+import { observer } from "mobx-react-use-autorun";
 import { Button, Chip } from "@mui/material";
 import api from "@api";
-import { MessageService } from "@common/MessageService";
 import { FormattedMessage } from "react-intl";
 import { faSpinner, faDownload, faTrashCan, faArrowRotateLeft, faFaceGrin, faFaceFlushed } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserMessageModel } from "@model/UserMessageModel";
 import path from "path";
 import { GlobalUserInfo } from "@common/Server";
+import { useOnceSubmit } from "@/common/use-hook";
 
 type Props = {
     message: UserMessageModel
@@ -15,35 +15,13 @@ type Props = {
 
 export default observer((props: Props) => {
 
-    const state = useMobxState({
-        loading: false,
-    })
+    const withdrawn = useOnceSubmit(async function () {
+        await api.UserMessage.recallMessage(props.message.id);
+    });
 
-    async function withdrawn() {
-        if (state.loading) {
-            return;
-        }
-        try {
-            state.loading = true;
-            await api.UserMessage.recallMessage(props.message.id);
-        } catch (error) {
-            MessageService.error(error);
-            state.loading = false;
-        }
-    }
-
-    async function deleteMessage() {
-        if (state.loading) {
-            return;
-        }
-        try {
-            state.loading = true;
-            await api.UserMessage.deleteMessage(props.message.id);
-        } catch (error) {
-            MessageService.error(error);
-            state.loading = false;
-        }
-    }
+    const deleteMessage = useOnceSubmit(async function () {
+        await api.UserMessage.deleteMessage(props.message.id);
+    });
 
     return <div
         className="flex flex-col h-full"
@@ -68,19 +46,19 @@ export default observer((props: Props) => {
             </div>
             {props.message.user.id === GlobalUserInfo.id && <Button
                 variant="outlined"
-                onClick={withdrawn}
+                onClick={withdrawn.resubmit}
                 style={{ marginRight: "1em" }}
                 size="small"
-                startIcon={<FontAwesomeIcon icon={state.loading ? faSpinner : faArrowRotateLeft} spin={state.loading} style={{ fontSize: "small" }} />}
+                startIcon={<FontAwesomeIcon icon={withdrawn.loading ? faSpinner : faArrowRotateLeft} spin={withdrawn.loading} style={{ fontSize: "small" }} />}
             >
                 <FormattedMessage id="Withdrawn" defaultMessage="Withdrawn" />
             </Button>}
             {props.message.user.id !== GlobalUserInfo.id && <Button
                 variant="outlined"
-                onClick={deleteMessage}
+                onClick={deleteMessage.resubmit}
                 style={{ marginRight: "1em" }}
                 size="small"
-                startIcon={<FontAwesomeIcon icon={state.loading ? faSpinner : faTrashCan} spin={state.loading} style={{ fontSize: "small" }} />}
+                startIcon={<FontAwesomeIcon icon={deleteMessage.loading ? faSpinner : faTrashCan} spin={deleteMessage.loading} style={{ fontSize: "small" }} />}
             >
                 <FormattedMessage id="Delete" defaultMessage="Delete" />
             </Button>}
