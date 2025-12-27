@@ -41,7 +41,7 @@ pub struct OrganizeModel {
 
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
-    pub parent: Signal<Option<OrganizeModel>>,
+    pub parent: Signal<Option<Signal<OrganizeModel>>>,
 
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]

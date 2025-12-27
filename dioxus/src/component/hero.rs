@@ -28,7 +28,7 @@ pub fn Hero() -> Element {
         let mut user = UserModel::default();
         *user.id.write() = Uuid::new_v4().to_string();
         *user.username.write() = "Tom".to_string();
-        *user.money.write() = Some(BigDecimal::from_str("124122112112222222222222222222222222222222222222222222222222222222222222222234124123431342341221423212124.1234124").unwrap());
+        *user.money.write() = BigDecimal::from_str("124122112112222222222222222222222222222222222222222222222222222222222222222234124123431342341221423212124.1234124").unwrap();
         *user.create_date.write() = Local::now();
         *user.update_date.write() = Local::now();
         let user_list = vec![user];

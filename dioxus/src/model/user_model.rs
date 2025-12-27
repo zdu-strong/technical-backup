@@ -23,7 +23,7 @@ pub struct UserModel {
 
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
-    pub money: Signal<Option<BigDecimal>>,
+    pub money: Signal<BigDecimal>,
 
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
