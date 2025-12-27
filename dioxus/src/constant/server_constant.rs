@@ -1,6 +1,7 @@
 use crate::model::user_model::UserModel;
 use chrono::Local;
 use dioxus::prelude::*;
+use dioxus_core::Task;
 use dioxus_sdk::storage::new_persistent;
 use futures::Future;
 use futures::FutureExt;
@@ -107,14 +108,7 @@ where
         false => task.peek().pause(),
     });
 
-    HookStatus {
-        ready: ready(),
-        loading: loading(),
-        error: error,
-        onclick_restart: Callback::new(move |_: MouseEvent| {
-            callback(());
-        }),
-    }
+    HookStatus::new(ready(), loading(), error, callback)
 }
 
 pub fn use_multiple_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
@@ -149,14 +143,7 @@ where
         })
     });
 
-    HookStatus {
-        ready: ready(),
-        loading: loading(),
-        error: error,
-        onclick_restart: Callback::new(move |_: MouseEvent| {
-            callback(());
-        }),
-    }
+    HookStatus::new(ready(), loading(), error, callback)
 }
 
 pub fn use_once_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
@@ -191,14 +178,7 @@ where
         })
     });
 
-    HookStatus {
-        ready: ready(),
-        loading: loading(),
-        error: error,
-        onclick_restart: Callback::new(move |_: MouseEvent| {
-            callback(());
-        }),
-    }
+    HookStatus::new(ready(), loading(), error, callback)
 }
 
 pub fn use_once_submit_while_true<F>(
@@ -240,14 +220,7 @@ where
         })
     });
 
-    HookStatus {
-        ready: ready(),
-        loading: loading(),
-        error: error,
-        onclick_restart: Callback::new(move |_: MouseEvent| {
-            callback(());
-        }),
-    }
+    HookStatus::new(ready(), loading(), error, callback)
 }
 
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
@@ -318,4 +291,29 @@ pub struct HookStatus {
     pub ready: bool,
     pub error: Signal<Option<String>>,
     pub onclick_restart: Callback<MouseEvent>,
+    callback_restart: Callback<()>,
+}
+
+impl HookStatus {
+    pub fn restart(&self) {
+        self.callback_restart.call(());
+    }
+    pub fn new(
+        ready: bool,
+        loading: bool,
+        error: Signal<Option<String>>,
+        callback_function: Callback<(), Task>,
+    ) -> HookStatus {
+        HookStatus {
+            ready: ready,
+            loading: loading,
+            error: error,
+            onclick_restart: Callback::new(move |_: MouseEvent| {
+                callback_function(());
+            }),
+            callback_restart: Callback::new(move |_: ()| {
+                callback_function(());
+            }),
+        }
+    }
 }
