@@ -5,6 +5,8 @@ use std::process::exit;
 use std::process::Command;
 use std::process::Stdio;
 
+const DO_NOT_CARGO_UPGRADE: &str = "--do-not-cargo-upgrade";
+
 fn main() {
     remove_target_dir();
     install_dioxus_cli();
@@ -43,7 +45,7 @@ fn install_dioxus_cli() {
         return;
     }
     let is_ok = Command::new("cargo")
-        .args(["rise"])
+        .args(["rise", DO_NOT_CARGO_UPGRADE])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
