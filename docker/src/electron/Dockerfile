@@ -30,13 +30,13 @@ WORKDIR /all_code/electron-playwright
 RUN rm -rf ../electron/node_modules
 RUN rm -rf ./node_modules
 RUN xvfb-run npm test
-RUN rm -rf ./node_modules
-RUN rm -rf ../electron/node_modules
+WORKDIR /all_code/electron
+RUN npm run make
+RUN mv output/*.AppImage output/my-app.AppImage
 
-# copy all_code folder
+# copy appImage
 FROM first_docker
-COPY --from=second_docker /all_code/electron /electron
-WORKDIR /electron
+COPY --from=second_docker /all_code/electron/output/my-app.AppImage /my-app.AppImage
 
 # start server
 ENTRYPOINT ["/bin/bash"]

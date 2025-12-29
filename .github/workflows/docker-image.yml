@@ -14,8 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@main
-    - name: Build the AliyunCloud
-      run: docker build . --file docker/src/AliyunCloud/Dockerfile --tag my-image-name:$(date +%s) && docker system prune --all --force
+    - name: Build the cloud
+      run: docker build . --file docker/src/cloud/Dockerfile --tag my-image-name:$(date +%s) && docker system prune --all --force
 
     - uses: actions/checkout@main
     - name: Build the capacitor

@@ -81,7 +81,7 @@ async function buildCloud() {
         ].join(" "),
         {
             stdio: "inherit",
-            cwd: path.join(__dirname, "./AliyunCloud"),
+            cwd: path.join(__dirname, "./cloud"),
         }
     );
 }
