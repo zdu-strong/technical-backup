@@ -9,6 +9,7 @@ use reqwest::Client;
 use reqwest::Method;
 use reqwest::RequestBuilder;
 use reqwest::Url;
+use std::any::Any;
 use std::panic::AssertUnwindSafe;
 use uuid::Uuid;
 
@@ -84,10 +85,9 @@ where
                     *error.write() = None;
                     *ready.write() = true;
                 }
-                Err(_) => {
+                Err(e) => {
                     *loading.write() = false;
-                    *error.write() = Some("Problem".to_string());
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
+                    *error.write() = Some(get_error_message_text(e));
                 }
             }
         })
@@ -131,10 +131,10 @@ where
                     *error.write() = None;
                     *ready.write() = true;
                 }
-                Err(_) => {
+                Err(e) => {
                     *loading.write() = false;
-                    *error.write() = Some("Problem".to_string());
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
+                    *error.write() = Some(get_error_message_text(e));
+                    *SERVER_ERROR.write() = error();
                 }
             }
         })
@@ -164,10 +164,10 @@ where
                     *error.write() = None;
                     *ready.write() = true;
                 }
-                Err(_) => {
+                Err(e) => {
                     *loading.write() = false;
-                    *error.write() = Some("Problem".to_string());
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
+                    *error.write() = Some(get_error_message_text(e));
+                    *SERVER_ERROR.write() = error();
                 }
             }
         })
@@ -202,10 +202,10 @@ where
                         *error.write() = None;
                     }
                 }
-                Err(_) => {
+                Err(e) => {
                     *loading.write() = false;
-                    *error.write() = Some("Problem".to_string());
-                    *SERVER_ERROR.write() = Some("Problem".to_string());
+                    *error.write() = Some(get_error_message_text(e));
+                    *SERVER_ERROR.write() = error();
                 }
             }
         })
@@ -274,6 +274,13 @@ fn set_server_user_info_persistent(user_json_string: String) {
 
 fn get_server_address() -> String {
     "http://localhost:8080".to_string()
+}
+
+fn get_error_message_text(error: Box<dyn Any + Send + 'static>) -> String {
+    error
+        .downcast_ref::<String>()
+        .unwrap_or(&"Problem".to_string())
+        .clone()
 }
 
 #[derive(Debug, Clone, Copy, Default)]
