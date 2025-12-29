@@ -9,7 +9,7 @@ use reqwest::Client;
 use reqwest::Method;
 use reqwest::RequestBuilder;
 use reqwest::Url;
-use std::panic::UnwindSafe;
+use std::panic::AssertUnwindSafe;
 use uuid::Uuid;
 
 pub const SERVER_ADDRESS: GlobalSignal<String> = GlobalSignal::new(|| get_server_address());
@@ -65,9 +65,9 @@ pub fn delete(url: &str) -> RequestBuilder {
     get_request_builder(Method::DELETE, url)
 }
 
-pub fn use_multiple_query<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
+pub fn use_multiple_query<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
 where
-    F: Future + UnwindSafe + 'static,
+    F: Future + 'static,
 {
     let mut loading = use_signal(|| true);
     let mut ready = use_signal(|| false);
@@ -75,11 +75,10 @@ where
 
     let callback = use_callback(move |_| {
         let fut = future();
+
         dioxus_core::spawn(async move {
-            {
-                *loading.write() = true;
-            }
-            match fut.catch_unwind().await {
+            *loading.write() = true;
+            match AssertUnwindSafe(fut).catch_unwind().await {
                 Ok(_) => {
                     *loading.write() = false;
                     *error.write() = None;
@@ -111,9 +110,9 @@ where
     HookStatus::new(ready(), loading(), error, callback)
 }
 
-pub fn use_multiple_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
+pub fn use_multiple_submit<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
 where
-    F: Future + UnwindSafe + 'static,
+    F: Future + 'static,
 {
     let mut loading = use_signal(|| false);
     let mut ready = use_signal(|| false);
@@ -125,10 +124,8 @@ where
             if loading() {
                 return;
             }
-            {
-                *loading.write() = true;
-            }
-            match fut.catch_unwind().await {
+            *loading.write() = true;
+            match AssertUnwindSafe(fut).catch_unwind().await {
                 Ok(_) => {
                     *loading.write() = false;
                     *error.write() = None;
@@ -146,9 +143,9 @@ where
     HookStatus::new(ready(), loading(), error, callback)
 }
 
-pub fn use_once_submit<F>(mut future: impl FnMut() -> F + UnwindSafe + 'static) -> HookStatus
+pub fn use_once_submit<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
 where
-    F: Future + UnwindSafe + 'static,
+    F: Future + 'static,
 {
     let mut loading = use_signal(|| false);
     let mut ready = use_signal(|| false);
@@ -160,10 +157,8 @@ where
             if loading() {
                 return;
             }
-            {
-                *loading.write() = true;
-            }
-            match fut.catch_unwind().await {
+            *loading.write() = true;
+            match AssertUnwindSafe(fut).catch_unwind().await {
                 Ok(_) => {
                     *loading.write() = true;
                     *error.write() = None;
@@ -181,11 +176,9 @@ where
     HookStatus::new(ready(), loading(), error, callback)
 }
 
-pub fn use_once_submit_while_true<F>(
-    mut future: impl FnMut() -> F + UnwindSafe + 'static,
-) -> HookStatus
+pub fn use_once_submit_while_true<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
 where
-    F: Future<Output = bool> + UnwindSafe + 'static,
+    F: Future<Output = bool> + 'static,
 {
     let mut loading = use_signal(|| false);
     let mut ready = use_signal(|| false);
@@ -197,10 +190,8 @@ where
             if loading() {
                 return;
             }
-            {
-                *loading.write() = true;
-            }
-            match fut.catch_unwind().await {
+            *loading.write() = true;
+            match AssertUnwindSafe(fut).catch_unwind().await {
                 Ok(result) => {
                     if result {
                         *loading.write() = true;
