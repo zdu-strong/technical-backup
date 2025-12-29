@@ -44,24 +44,14 @@
         ]
     },
     "build": {
-        "extends": null,
-        "files": [
-            "dist",
-            "public",
-            "build"
-        ],
-        "directories": {
-            "output": "output"
-        },
-        "appId": "com.electron.electron",
         "win": {
             "target": "nsis"
         },
         "linux": {
             "target": "appImage"
         },
-        "appImage": {
-
+        "mac": {
+            "target": "dmg"
         },
         "nsis": {
             "oneClick": false,
@@ -70,6 +60,18 @@
             "guid": "b5a96e2b-5f4f-4a67-b77a-2c9d7c947242",
             "runAfterFinish": true,
             "allowToChangeInstallationDirectory": true
+        },
+        "appImage": {},
+        "dmg": {},
+        "appId": "com.electron.electron",
+        "extends": null,
+        "files": [
+            "dist",
+            "public",
+            "build"
+        ],
+        "directories": {
+            "output": "output"
         },
         "asar": {
             "smartUnpack": true
