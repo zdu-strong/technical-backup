@@ -98,7 +98,7 @@ fn is_port_in_use(port: u16) -> bool {
 }
 
 fn remove_target_dir() {
-    let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target").join("dx");
+    let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target");
     if target_dx_folder_path.exists() {
         fs::remove_dir_all(target_dx_folder_path).unwrap();
     }
