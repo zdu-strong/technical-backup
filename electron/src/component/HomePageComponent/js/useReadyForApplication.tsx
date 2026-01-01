@@ -11,7 +11,7 @@ export function useReadyForApplication() {
 
     useMount(async () => {
         if (!GlobalState.ready) {
-            const isLoaded = await remote.getIsLoaded();
+            const isLoaded = remote.getIsLoaded();
             if (!isLoaded) {
                 const display = remote.screen.getDisplayNearestPoint(remote.screen.getCursorScreenPoint());
                 const defaultWidth = display.workArea.width / 2;
@@ -40,7 +40,7 @@ export function useReadyForApplication() {
                 for (let i = 10; i > 0; i--) {
                     await timer(1).toPromise();
                 }
-                await remote.setIsLoadedToTrue();
+                remote.setIsLoadedToTrue();
             }
         }
         GlobalState.ready = true

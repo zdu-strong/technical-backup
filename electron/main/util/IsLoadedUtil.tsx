@@ -1,9 +1,9 @@
 let isLoaded = false;
 
-export async function getIsLoaded() {
+export function getIsLoaded() {
     return isLoaded;
 }
 
-export async function setIsLoadedToTrue() {
+export function setIsLoadedToTrue() {
     isLoaded = true;
 }
