@@ -1,4 +1,4 @@
-export const isPackaged = (() => {
+export const isPackaged = (() : boolean => {
     try {
         const { app } = require("electron");
         return app.isPackaged;
