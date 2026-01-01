@@ -6,12 +6,7 @@ use std::process::Command;
 use std::process::Stdio;
 
 fn main() {
-    let target_release_folder_path = Path::new(&current_dir().unwrap())
-        .join("target")
-        .join("release");
-    if target_release_folder_path.exists() {
-        fs::remove_dir_all(target_release_folder_path).unwrap();
-    }
+    remove_target_dir();
     let is_ok = Command::new("cargo")
         .args(["build", "--release"])
         .current_dir(current_dir().unwrap())
@@ -22,5 +17,12 @@ fn main() {
         .is_ok();
     if !is_ok {
         exit(1);
+    }
+}
+
+fn remove_target_dir() {
+    let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target");
+    if target_dx_folder_path.exists() {
+        fs::remove_dir_all(target_dx_folder_path).unwrap();
     }
 }
