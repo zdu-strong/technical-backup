@@ -1,4 +1,4 @@
-import { electron, page, action } from '@/index';
+import { page, action } from '@/index';
 
 
 test('', async () => {
@@ -7,9 +7,9 @@ test('', async () => {
 })
 
 beforeEach(async () => {
-    await action.OpenProgram();
+    await action.openProgram();
 })
 
 afterEach(async () => {
-    await electron.application.close();
+    await action.closeProgram();
 })

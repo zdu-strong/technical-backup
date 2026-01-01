@@ -2,6 +2,7 @@
   "reject": [
     "eslint",
     "execa",
-    "get-port"
+    "get-port",
+    "linq"
   ]
 }

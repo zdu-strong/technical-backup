@@ -6,13 +6,13 @@ test('', async () => {
     await GameRenderer.hover({ position: { x: 0, y: 0 } })
     await electron.window.mouse.move(200, 200)
     await electron.window.mouse.down({ button: 'left' })
-    await electron.window.mouse.move(220, 200);
+    await electron.window.mouse.move(160, 200);
     await electron.window.mouse.up({ button: "left" })
     await timer(2000).toPromise();
 })
 
 beforeEach(async () => {
-    await action.OpenProgram();
+    await action.openProgram();
     const EnterTheGame = await page.Home.EnterTheGame();
     await EnterTheGame.click()
     const GameRenderer = await page.Game.GameRenderer();
@@ -20,5 +20,5 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
-    await electron.application.close();
+    await action.closeProgram();
 })

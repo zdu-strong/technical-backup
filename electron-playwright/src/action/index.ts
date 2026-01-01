@@ -1,12 +1,15 @@
 import path from 'path';
 import { _electron } from 'playwright'
 import os from 'os'
-import { page, setApplication, setWindow } from '@/index'
+import { page, setApplication, setWindow } from '@/index';
+import fs from 'fs';
+import linq from 'linq';
+import { electron } from '@/index';
 
-export async function OpenProgram(): Promise<void> {
+export async function openProgram(): Promise<void> {
     const electronOfThis = await _electron.launch({
-        args: [path.join(__dirname, "../../..", "electron", "dist/index.js")],
-        executablePath: getExecutablePath(),
+        args: [],
+        executablePath: await getExecutablePath(),
         cwd: path.join(__dirname, "../../..", "electron"),
         locale: "en-US",
     });
@@ -17,12 +20,22 @@ export async function OpenProgram(): Promise<void> {
     expect(await CPUUsageText.isVisible()).toBeTruthy()
 }
 
-function getExecutablePath() {
-    let executablePath = path.join(__dirname, "../../..", "electron");
-    if (os.platform() === "win32") {
-        executablePath = path.join(executablePath, "node_modules/.bin/electron.cmd");
-    } else {
-        executablePath = path.join(executablePath, "node_modules/.bin/electron");
-    }
+export async function closeProgram(): Promise<void> {
+    await electron.application.close();
+}
+
+async function getExecutablePath() {
+    let executablePath = path.join(__dirname, "../../..", "electron", "output");
+    executablePath = linq.from((await fs.promises.readdir(executablePath)))
+        .where(s => s.includes("-unpacked"))
+        .select(s => path.join(executablePath, s))
+        .select(s => {
+            if (os.platform() === "win32") {
+                return path.join(s, "my-app.exe");
+            } else {
+                return path.join(s, "my-app");
+            }
+        })
+        .single();
     return executablePath;
 }

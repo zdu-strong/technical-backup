@@ -1,5 +1,5 @@
 import { timer } from 'rxjs';
-import { electron, page, action } from '@/index';
+import { page, action } from '@/index';
 
 test('', async () => {
     const GameRenderer = await page.Game.GameRenderer();
@@ -8,11 +8,11 @@ test('', async () => {
 })
 
 beforeEach(async () => {
-    await action.OpenProgram();
+    await action.openProgram();
     const EnterTheGame = await page.Home.EnterTheGame();
     await EnterTheGame.click()
 })
 
 afterEach(async () => {
-    await electron.application.close();
+    await action.closeProgram();
 })
