@@ -17,5 +17,6 @@
     "ExitTheProgram": "Exit",
     "AreYouSure": "Are you sure?",
     "NetworkError": "Network Error",
-    "PageNotFound": "Not Found"
+    "PageNotFound": "Not Found",
+    "toUnknownArea": "To unkonwn area"
 }

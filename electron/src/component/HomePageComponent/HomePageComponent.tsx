@@ -10,7 +10,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import GameDialog from '@component/Game/GameDialog';
 import remote from '@/remote';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGamepad } from '@fortawesome/free-solid-svg-icons';
+import { faGamepad, faWater } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 const container = style({
     textAlign: "center",
@@ -100,6 +101,16 @@ export default observer(() => {
                             </div>
                         )
                     }
+                    <div>
+                        <Link to="/not_found">
+                            <Button
+                                variant="contained"
+                                startIcon={<FontAwesomeIcon icon={faWater} />}
+                            >
+                                <FormattedMessage id="toUnknownArea" defaultMessage="Go to the unknown area" />
+                            </Button>
+                        </Link>
+                    </div>
                     <div>
                         <Button
                             variant="contained"
