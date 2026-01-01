@@ -46,12 +46,7 @@ async function waitApplicationLoaded() {
         electronRemote.getCurrentWindow().setAlwaysOnTop(false);
         electronRemote.getCurrentWindow().setMenuBarVisibility(true);
         electronRemote.getCurrentWindow().setTitle("React App");
-        for (let i = 10; i > 0; i--) {
-            await timer(1).toPromise();
-        }
-        for (let i = 10; i > 0; i--) {
-            await timer(1).toPromise();
-        }
+        await timer(1).toPromise();
         setIsLoadedToTrue();
     }
 }
