@@ -65,7 +65,7 @@ export default observer(() => {
         subscription.add(concat(timer(5 * 1000), interval(1 * 1000)).pipe(
             tap((i) => {
                 if (!state.sourceBuffer?.updating) {
-                    let now = new Date();
+                    const now = new Date();
                     state.sourceBuffer!.appendWindowStart = Math.floor((now.getTime() - startDate.getTime() - 2000) / 1000);
                     console.log(`time ${Math.floor((now.getTime() - startDate.getTime()) / 1000)}`)
                 }

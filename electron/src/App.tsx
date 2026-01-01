@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { reportWebVitals } from '@/reportWebVitals';
+import { useReadyForApplication } from '@/component/HomePageComponent/js/useReadyForApplication';
 
 reportWebVitals();
 
@@ -15,6 +16,7 @@ export default observer(() => {
     const state = useMobxState({
     }, {
         i18nLocale: useI18nLocale(),
+        readyForApplication: useReadyForApplication(),
     })
 
     return <div className={`w-screen h-screen overflow-auto`}>
