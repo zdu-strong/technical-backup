@@ -61,17 +61,13 @@ export default observer(() => {
     })
 
     function closeDialog() {
-        remote.getCurrentWindow().setFullScreen(false)
-        remote.getCurrentWindow().setMenuBarVisibility(true)
+        remote.exitFullScreen();
         state.gameDialog.open = false;
     }
 
     function openDialog() {
         state.gameDialog.open = true;
-        if (!remote.isNotShowForTest) {
-            remote.getCurrentWindow().setMenuBarVisibility(false)
-            remote.getCurrentWindow().setFullScreen(true)
-        }
+        remote.enterFullScreen();
     }
 
     return (<>

@@ -58,7 +58,7 @@ export default observer((props: Props) => {
                 variant="contained"
                 style={{ marginRight: "1em" }}
                 onClick={() => {
-                    remote.app.exit()
+                    remote.exitApp();
                 }}
                 startIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
                 color="primary"
