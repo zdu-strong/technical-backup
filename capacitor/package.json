@@ -53,7 +53,7 @@
         "@awesome-cordova-plugins/android-full-screen": "8.1.0",
         "@awesome-cordova-plugins/android-notch": "8.1.0",
         "@awesome-cordova-plugins/screen-orientation": "8.1.0",
-        "@babylonjs/core": "8.43.0",
+        "@babylonjs/core": "8.44.0",
         "@capacitor/action-sheet": "8.0.0",
         "@capacitor/android": "8.0.0",
         "@capacitor/app": "8.0.0",
