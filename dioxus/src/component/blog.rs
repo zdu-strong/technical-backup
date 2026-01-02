@@ -1,6 +1,7 @@
 use crate::router::Route;
 use daisy_rsx::*;
 use dioxus::prelude::*;
+use dioxus_i18n::t;
 
 #[component]
 pub fn Blog(id: ReadSignal<i128>) -> Element {
@@ -21,7 +22,7 @@ pub fn Blog(id: ReadSignal<i128>) -> Element {
                     to: Route::BlogPage { id: id() - 1 },
                     Button {
                         button_scheme: ButtonScheme::Secondary,
-                        "Previous"
+                        { t!("Previous") }
                     }
                 }
                 div {
@@ -32,7 +33,7 @@ pub fn Blog(id: ReadSignal<i128>) -> Element {
                     to: Route::BlogPage { id: id() + 1 },
                     Button {
                         button_scheme: ButtonScheme::Secondary,
-                        "Next"
+                        { t!("Next") }
                     }
                 }
             }
