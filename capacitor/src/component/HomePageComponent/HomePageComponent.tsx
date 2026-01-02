@@ -112,7 +112,7 @@ export default observer(() => {
                                 variant="contained"
                                 startIcon={<FontAwesomeIcon icon={faWater} />}
                             >
-                                <FormattedMessage id="toUnknownArea" defaultMessage="Go to the unknown area" />
+                                <FormattedMessage id="ToUnknownArea" defaultMessage="Go to the unknown area" />
                             </Button>
                         </Link>
 

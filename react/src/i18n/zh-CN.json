@@ -27,7 +27,7 @@
     "LineFirstMeSpeaking": "第{lineNumber}行, 我:",
     "PleaseEnterWhichItemYouWantToJumpTo": "请输入你想跳转到哪一项. 最大值({maxValue})",
     "ReturnToHomePage": "返回主页",
-    "SignOfNotFound": "404",
+    "PageNotFound": "Not Found",
     "Upload": "上传",
     "PreviousPage": "上一页",
     "NextPage": "下一页",

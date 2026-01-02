@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default (<div className="flex flex-col flex-auto justify-center items-center">
     <Paper className="flex flex-col justify-center" variant="outlined" style={{ padding: "1em", marginBottom: "1em" }}>
         <div className="flex justify-center" style={{ paddingBottom: "1em" }}>
-            <FormattedMessage id="notFound" defaultMessage="404" />
+            <FormattedMessage id="PageNotFound" defaultMessage="Not Found" />
         </div>
         <div>
             <Link to="/" >

@@ -27,7 +27,7 @@
     "LineFirstMeSpeaking": "Line {lineNumber}, Me:",
     "PleaseEnterWhichItemYouWantToJumpTo": "Please enter which item you want to jump to. max({maxValue})",
     "ReturnToHomePage": "To home",
-    "SignOfNotFound": "404",
+    "PageNotFound": "Not Found",
     "Upload": "Upload",
     "PreviousPage": "Previous",
     "NextPage": "Next",
