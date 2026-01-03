@@ -45,6 +45,7 @@ mobile = ["dioxus/mobile"]
 [profile.dev]
 overflow-checks = true
 incremental = false
+panic = "unwind"
 
 [profile.wasm-dev]
 inherits = "dev"
