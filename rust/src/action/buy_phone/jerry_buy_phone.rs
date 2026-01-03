@@ -6,11 +6,11 @@ use tokio::runtime::Handle;
 use tokio::task::spawn_blocking;
 
 pub async fn jerry_buy_phone() {
-    let phone_list = vec![
+    let phone_list: Vec<Box<dyn Buy>> = vec![
         Box::new(PixelModel {
             price: "10,000".to_string(),
             owner: "Jerry".to_string(),
-        }) as Box<dyn Buy>,
+        }),
         Box::new(PixelModel {
             price: "3,000".to_string(),
             owner: "Jerry".to_string(),
