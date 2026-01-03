@@ -66,7 +66,7 @@ pub fn delete(url: &str) -> RequestBuilder {
     get_request_builder(Method::DELETE, url)
 }
 
-pub fn use_multiple_query<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
+pub fn use_multiple_query<F>(mut future: impl FnMut() -> F + 'static) -> DioxusHookStatus
 where
     F: Future + 'static,
 {
@@ -107,10 +107,10 @@ where
         false => task.peek().pause(),
     });
 
-    HookStatus::new(ready(), loading(), error, callback)
+    DioxusHookStatus::new(ready(), loading(), error, callback)
 }
 
-pub fn use_multiple_submit<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
+pub fn use_multiple_submit<F>(mut future: impl FnMut() -> F + 'static) -> DioxusHookStatus
 where
     F: Future + 'static,
 {
@@ -140,10 +140,10 @@ where
         })
     });
 
-    HookStatus::new(ready(), loading(), error, callback)
+    DioxusHookStatus::new(ready(), loading(), error, callback)
 }
 
-pub fn use_once_submit<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
+pub fn use_once_submit<F>(mut future: impl FnMut() -> F + 'static) -> DioxusHookStatus
 where
     F: Future + 'static,
 {
@@ -173,10 +173,10 @@ where
         })
     });
 
-    HookStatus::new(ready(), loading(), error, callback)
+    DioxusHookStatus::new(ready(), loading(), error, callback)
 }
 
-pub fn use_once_submit_while_true<F>(mut future: impl FnMut() -> F + 'static) -> HookStatus
+pub fn use_once_submit_while_true<F>(mut future: impl FnMut() -> F + 'static) -> DioxusHookStatus
 where
     F: Future<Output = bool> + 'static,
 {
@@ -211,7 +211,7 @@ where
         })
     });
 
-    HookStatus::new(ready(), loading(), error, callback)
+    DioxusHookStatus::new(ready(), loading(), error, callback)
 }
 
 fn get_request_builder(method: Method, url: &str) -> RequestBuilder {
@@ -284,7 +284,7 @@ fn get_error_message_text(error: Box<dyn Any + Send + 'static>) -> String {
 }
 
 #[derive(Debug, Clone, Copy, Default)]
-pub struct HookStatus {
+pub struct DioxusHookStatus {
     pub loading: bool,
     pub ready: bool,
     pub error: Signal<Option<String>>,
@@ -292,7 +292,7 @@ pub struct HookStatus {
     pub callback_restart: Callback<()>,
 }
 
-impl HookStatus {
+impl DioxusHookStatus {
     pub fn restart(&self) {
         self.callback_restart.call(());
     }
@@ -301,8 +301,8 @@ impl HookStatus {
         loading: bool,
         error: Signal<Option<String>>,
         callback_function: Callback<(), Task>,
-    ) -> HookStatus {
-        HookStatus {
+    ) -> DioxusHookStatus {
+        DioxusHookStatus {
             ready: ready,
             loading: loading,
             error: error,
