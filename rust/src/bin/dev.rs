@@ -10,7 +10,7 @@ fn main() {
     let is_ok = Command::new("cargo")
         .args(["run", "--bin", "my", "--quiet"])
         .current_dir(current_dir().unwrap())
-        .env("RUST_BACKTRACE", "full")
+        .env("RUST_BACKTRACE", "1")
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
