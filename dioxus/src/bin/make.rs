@@ -58,9 +58,24 @@ fn install_dioxus_cli() {
 }
 
 fn remove_target_dir() {
-    let target_dx_folder_path = Path::new(&current_dir().unwrap()).join("target");
-    if target_dx_folder_path.exists() {
-        fs::remove_dir_all(target_dx_folder_path).unwrap();
+    let target_folder_path = Path::new(&current_dir().unwrap()).join("target");
+    if target_folder_path.exists() && target_folder_path.is_dir() {
+        for dx_folder_path in target_folder_path.read_dir().unwrap() {
+            if dx_folder_path
+                .as_ref()
+                .unwrap()
+                .file_name()
+                .to_str()
+                .unwrap()
+                != "debug"
+            {
+                if dx_folder_path.as_ref().unwrap().path().is_dir() {
+                    fs::remove_dir_all(dx_folder_path.unwrap().path()).unwrap();
+                } else if dx_folder_path.as_ref().unwrap().path().is_file() {
+                    fs::remove_file(dx_folder_path.unwrap().path()).unwrap();
+                }
+            }
+        }
     }
 }
 
