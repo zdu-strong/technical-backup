@@ -289,7 +289,7 @@ pub struct HookStatus {
     pub ready: bool,
     pub error: Signal<Option<String>>,
     pub onclick_restart: Callback<MouseEvent>,
-    callback_restart: Callback<()>,
+    pub callback_restart: Callback<()>,
 }
 
 impl HookStatus {
