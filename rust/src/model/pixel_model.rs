@@ -4,6 +4,7 @@ use serde::Deserialize;
 use serde::Serialize;
 use serde_aux::prelude::*;
 use serde_json::to_string_pretty;
+use std::fmt::Debug;
 
 #[derive(Debug, Display, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -19,7 +20,7 @@ pub struct PixelModel {
 }
 
 #[async_trait]
-pub trait Buy: Send + Sync + 'static {
+pub trait Buy: 'static + Debug + Send + Sync {
     async fn buy(&mut self);
 }
 
