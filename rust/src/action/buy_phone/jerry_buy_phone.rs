@@ -1,21 +1,22 @@
+use crate::model::pixel_model::Buy;
 use crate::model::pixel_model::PixelModel;
-use futures::stream::iter;
 use futures::prelude::*;
-use tokio::task::spawn_blocking;
-use tokio::runtime::Handle;
+use futures::stream::iter;
 use std::sync::Arc;
+use tokio::runtime::Handle;
 use tokio::sync::RwLock;
+use tokio::task::spawn_blocking;
 
 pub async fn jerry_buy_phone() {
     let phone_list = vec![
-        Arc::new(RwLock::new(PixelModel {
+        Arc::new(RwLock::new(Box::new(PixelModel {
             price: "10,000".to_string(),
             owner: "Jerry".to_string(),
-        })),
-        Arc::new(RwLock::new(PixelModel {
+        }) as Box<dyn Buy>)),
+        Arc::new(RwLock::new(Box::new(PixelModel {
             price: "3,000".to_string(),
             owner: "Jerry".to_string(),
-        })),
+        }))),
     ];
     let _ = iter(phone_list)
         .map(move |phone| async move {

@@ -1,3 +1,4 @@
+use crate::model::pixel_model::Buy;
 use crate::model::pixel_model::PixelModel;
 
 pub async fn tom_buy_phone() {

@@ -1,3 +1,4 @@
+use async_trait::async_trait;
 use derive_more::Display;
 use serde::Deserialize;
 use serde::Serialize;
@@ -17,8 +18,14 @@ pub struct PixelModel {
     pub owner: String,
 }
 
-impl PixelModel {
-    pub async fn buy(&mut self) {
+#[async_trait]
+pub trait Buy: Send + Sync + 'static {
+    async fn buy(&mut self);
+}
+
+#[async_trait]
+impl Buy for PixelModel {
+    async fn buy(&mut self) {
         println!("{} cost {} buy pixel", self.owner, self.price);
     }
 }
