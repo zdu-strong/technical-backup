@@ -67,6 +67,7 @@ pub fn Hero() -> Element {
                 margin: "10px",
                 margin_bottom: "10px ",
                 Button {
+                    id: "question",
                     button_scheme: ButtonScheme::Secondary,
                     onclick: onpress_hero,
                     "{question_text}"

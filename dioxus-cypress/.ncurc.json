@@ -1,0 +1,8 @@
+{
+  "reject": [
+    "eslint",
+    "eslint-plugin-cypress",
+    "execa",
+    "get-port"
+  ]
+}

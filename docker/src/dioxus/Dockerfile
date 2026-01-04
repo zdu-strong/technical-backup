@@ -39,6 +39,9 @@ RUN cargo install dioxus-cli --locked
 COPY . /all_code
 WORKDIR /all_code/dioxus
 RUN rm -rf ./target
+WORKDIR /all_code/dioxus-cypress
+RUN npm test
+WORKDIR /all_code/dioxus
 RUN cargo make
 
 # copy build folder
