@@ -1,6 +1,5 @@
 use crate::action::buy_phone::jerry_buy_phone::jerry_buy_phone;
 use crate::action::buy_phone::tom_buy_phone::tom_buy_phone;
-use crate::action::catch_example::catch_example::catch_example;
 use crate::action::eat_food::tom_eat_apple::tom_eat_apple;
 use crate::action::json_example::user_json::json_to_string;
 use crate::action::json_example::user_json::string_to_json;
@@ -26,5 +25,4 @@ async fn main() {
     print_all_animal().await;
     pagination_example().await;
     spawn_blocking_async_task().await;
-    catch_example().await;
 }
