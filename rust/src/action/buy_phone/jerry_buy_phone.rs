@@ -1,5 +1,5 @@
-use crate::model::pixel_model::Buy;
 use crate::model::pixel_model::PixelModel;
+use crate::traits::buy::Buy;
 use futures::prelude::*;
 use futures::stream::iter;
 use tokio::runtime::Handle;

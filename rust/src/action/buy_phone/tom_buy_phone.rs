@@ -1,5 +1,5 @@
-use crate::model::pixel_model::Buy;
 use crate::model::pixel_model::PixelModel;
+use crate::traits::buy::Buy;
 
 pub async fn tom_buy_phone() {
     let ref mut phone_list = vec![

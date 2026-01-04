@@ -4,14 +4,15 @@ use crate::action::catch_example::catch_example::catch_example;
 use crate::action::eat_food::tom_eat_apple::tom_eat_apple;
 use crate::action::json_example::user_json::json_to_string;
 use crate::action::json_example::user_json::string_to_json;
-use crate::action::spawn_blocking_async_task::spawn_blocking_async_task::spawn_blocking_async_task;
 use crate::action::pagination::pagination::pagination_example;
 use crate::action::print_global_username::print_username::print_username;
 use crate::action::show_animal::print_all_animal::print_all_animal;
+use crate::action::spawn_blocking_async_task::spawn_blocking_async_task::spawn_blocking_async_task;
 pub mod action;
 pub mod constant;
 pub mod enums;
 pub mod model;
+pub mod traits;
 
 #[tokio::main(flavor = "multi_thread")]
 async fn main() {
