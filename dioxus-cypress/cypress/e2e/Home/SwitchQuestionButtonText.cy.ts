@@ -8,5 +8,5 @@ it('', () => {
 })
 
 before(() => {
-    cy.visit("/git")
+    cy.visit("/")
 })
