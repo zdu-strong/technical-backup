@@ -28,6 +28,9 @@ RUN dnf install -y git
 RUN dnf upgrade -y
 RUN dnf install -y gcc
 RUN dnf install -y openssl-devel
+RUN dnf install -y procps-ng
+RUN dnf install -y xorg-x11-server-Xvfb
+RUN dnf install -y gtk3-devel
 ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN rustup update
