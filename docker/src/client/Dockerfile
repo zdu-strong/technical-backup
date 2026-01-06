@@ -14,7 +14,7 @@ RUN dnf install -y langpacks-en glibc-langpack-en
 ENV LANG="en_US.UTF-8"
 
 # install nodejs
-RUN dnf module install -y nodejs:22
+RUN dnf module install -y nodejs:24
 
 # install serve
 RUN npm install --location=global serve
@@ -23,8 +23,8 @@ RUN npm install --location=global serve
 FROM first_docker AS second_docker
 RUN dnf upgrade -y
 RUN dnf install -y git
-RUN dnf install -y java-21-openjdk-devel
-ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
+RUN dnf install -y java-25-openjdk-devel
+ENV JAVA_HOME="/usr/lib/jvm/java-25-openjdk"
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
 RUN dnf install -y gtk3-devel

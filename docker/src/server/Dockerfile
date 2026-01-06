@@ -14,8 +14,8 @@ RUN dnf install -y langpacks-en glibc-langpack-en
 ENV LANG="en_US.UTF-8"
 
 # Install java
-RUN dnf install -y java-21-openjdk-devel
-ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
+RUN dnf install -y java-25-openjdk-devel
+ENV JAVA_HOME="/usr/lib/jvm/java-25-openjdk"
 
 # compile code
 FROM first_docker AS second_docker

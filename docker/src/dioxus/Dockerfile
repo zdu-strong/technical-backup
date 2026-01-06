@@ -14,7 +14,7 @@ RUN dnf install -y langpacks-en glibc-langpack-en
 ENV LANG="en_US.UTF-8"
 
 # install nodejs
-RUN dnf module install -y nodejs:22
+RUN dnf module install -y nodejs:24
 
 # install serve
 RUN npm install --location=global serve
