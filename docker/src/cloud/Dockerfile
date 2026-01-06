@@ -36,9 +36,7 @@ RUN ./mvn clean package
 RUN mv target/*.jar target/server.jar
 
 # compile client code
-FROM first_docker AS three_docker
-RUN dnf upgrade -y
-RUN dnf install -y git
+FROM second_docker AS three_docker
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
 RUN dnf install -y gtk3-devel
