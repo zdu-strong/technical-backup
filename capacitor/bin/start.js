@@ -28,6 +28,7 @@ async function startReact(avaliablePort) {
             extendEnv: true,
             env: {
                 "RSBUILD_PORT": String(avaliablePort),
+                "RSBUILD_OPEN": true,
             },
         }
     );
