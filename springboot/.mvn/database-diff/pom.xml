@@ -89,14 +89,14 @@
     <repositories>
         <repository>
             <id>central</id>
-            <url>https://repo1.maven.org/maven3</url>
+            <url>https://repo1.maven.org/maven2</url>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
             <id>central</id>
-            <url>https://repo1.maven.org/maven3</url>
+            <url>https://repo1.maven.org/maven2</url>
         </pluginRepository>
     </pluginRepositories>
 
