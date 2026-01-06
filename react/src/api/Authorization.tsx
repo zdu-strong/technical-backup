@@ -10,7 +10,7 @@ import { sha3_512 } from 'js-sha3';
 
 export async function signUp(password: string, nickname: string, userEmailList: UserEmailModel[]): Promise<void> {
     await signOut();
-    const { data } = await axios.post(`/sign-up`, {
+    const { data } = await axios.post(`/sign-up/rsa/one-time`, {
         username: nickname,
         password: await getEncryptedPassword(password),
         userEmailList: userEmailList,

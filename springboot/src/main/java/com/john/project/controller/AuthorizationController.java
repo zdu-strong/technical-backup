@@ -45,6 +45,19 @@ public class AuthorizationController extends BaseController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/sign-up/rsa/one-time")
+    public ResponseEntity<?> signUpByRsaOneTime(@RequestBody UserModel userModel) {
+        this.validationFieldUtil.checkNotBlankOfNickname(userModel.getUsername());
+        this.validationFieldUtil.checkNotEdgesSpaceOfUsername(userModel.getUsername());
+        this.validationFieldUtil.checkNotBlankOfPassword(userModel.getPassword());
+        this.userService.checkValidEmail(userModel);
+        this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
+
+        var user = this.userService.create(userModel);
+        user.setAccessToken(this.tokenService.generateAccessToken(user.getId()));
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody UserModel userModel) {
         this.validationFieldUtil.checkNotBlankOfNickname(userModel.getUsername());
@@ -53,6 +66,7 @@ public class AuthorizationController extends BaseController {
         this.userService.checkValidEmail(userModel);
         this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
 
+        userModel.setPassword(this.tokenService.getEncryptedPassword(userModel.getPassword()));
         var user = this.userService.create(userModel);
         user.setAccessToken(this.tokenService.generateAccessToken(user.getId()));
         return ResponseEntity.ok(user);

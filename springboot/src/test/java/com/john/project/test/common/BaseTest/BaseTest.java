@@ -304,7 +304,7 @@ public abstract class BaseTest {
                         new UserEmailModel()
                                 .setEmail(email)
                                 .setVerificationCodeEmail(verificationCodeEmail)));
-        var url = new URIBuilder("/sign-up").build();
+        var url = new URIBuilder("/sign-up/rsa/one-time").build();
         var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(userModelOfSignUp),
                 Object.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
