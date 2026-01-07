@@ -6,7 +6,7 @@ export function useRandomNumber() {
 
     const state = useMobxState({
         randomNumber: 16,
-    })
+    });
 
     useMount((subscription) => {
         loadRandomNumber(subscription)

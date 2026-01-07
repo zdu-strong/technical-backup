@@ -51,9 +51,9 @@ export default observer(() => {
                 width: 150,
             },
         ] as GridColDef<OrganizeModel>[],
-    }, {
-        dataGridRef: useGridApiRef(),
     });
+
+    const dataGridRef = useGridApiRef();
 
     const organizeQueryState = useMultipleQuery(async () => {
         state.paginationModel = await api.SuperAdminOrganizeQuery.searchByPagination(state.query);
@@ -81,7 +81,7 @@ export default observer(() => {
                                 state.query.pageSize = Math.max(s.pageSize, 1);
                                 organizeQueryState.requery();
                             }}
-                            apiRef={state.dataGridRef}
+                            apiRef={dataGridRef}
                             sortingMode="server"
                             paginationMode="server"
                             getRowId={(s) => s.id}

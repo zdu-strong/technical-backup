@@ -1,4 +1,4 @@
-import { observer, useMobxState } from "mobx-react-use-autorun";
+import { observer } from "mobx-react-use-autorun";
 import { useGlobalSingleMessage } from "@component/Message/js/Global_Chat";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import SingleMessage from "@/component/Message/SingleMessage";
@@ -9,12 +9,9 @@ type Props = {
 
 export default observer((props: Props) => {
 
-    const state = useMobxState({
-    }, {
-        ...useGlobalSingleMessage(props.pageNum)
-    })
+    const { ready, message } = useGlobalSingleMessage(props.pageNum);
 
-    return <LoadingOrErrorComponent ready={state.ready} error={null}>
-        <SingleMessage message={state.message} key={state.message.id} />
+    return <LoadingOrErrorComponent ready={ready} error={null}>
+        <SingleMessage message={message} key={message.id} />
     </LoadingOrErrorComponent>
 })

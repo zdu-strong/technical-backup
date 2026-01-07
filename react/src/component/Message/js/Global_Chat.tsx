@@ -1,6 +1,6 @@
 import api from "@api";
 import { UserMessageModel } from "@model/UserMessageModel";
-import { observable, useMount } from "mobx-react-use-autorun";
+import { observable, useMobxState, useMount } from "mobx-react-use-autorun";
 import { ReplaySubject, Subscription, catchError, concatMap, repeat, share, tap, timer } from "rxjs"
 import { v7 } from "uuid";
 
@@ -77,7 +77,13 @@ export function useGlobalSingleMessage(pageNum: number) {
         message.pageNum = pageNum;
         message.id = v7();
     }
-    return { ready, message };
+
+    const state = useMobxState({
+    }, {
+        ready,
+        message
+    });
+    return state;
 }
 
 export function useGlobalMessageReady() {
@@ -85,7 +91,14 @@ export function useGlobalMessageReady() {
         subjectSingle.add(GlobalShareMessageSubject.subscribe());
     })
 
-    return { ready: GlobalChatMessage.ready, error: GlobalChatMessage.error };
+    const state = useMobxState({
+
+    }, {
+        ready: GlobalChatMessage.ready,
+        error: GlobalChatMessage.error
+    });
+
+    return state;
 }
 
 export const GlobalScrollToLastItemSubject = new ReplaySubject<void>(1);

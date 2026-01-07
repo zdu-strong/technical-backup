@@ -55,9 +55,9 @@ export default observer(() => {
                 width: 150,
             },
         ] as GridColDef<UserModel>[],
-    }, {
-        dataGridRef: useGridApiRef(),
     });
+
+    const dataGridRef = useGridApiRef();
 
     return <LoadingOrErrorComponent ready={userQueryState.ready} error={userQueryState.error}>
         <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
@@ -81,7 +81,7 @@ export default observer(() => {
                                 state.query.pageSize = Math.max(s.pageSize, 1);
                                 userQueryState.requery();
                             }}
-                            apiRef={state.dataGridRef}
+                            apiRef={dataGridRef}
                             sortingMode="server"
                             paginationMode="server"
                             getRowId={(s) => s.id}

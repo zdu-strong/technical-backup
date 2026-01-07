@@ -1,4 +1,4 @@
-import { observer, useMobxState } from "mobx-react-use-autorun";
+import { observer } from "mobx-react-use-autorun";
 import { style } from "typestyle";
 import { AutoSizer } from 'react-virtualized';
 import MessageUnlimitedList from '@component/Message/MessageUnlimitedList';
@@ -14,13 +14,10 @@ const containerAutoSizer = style({
 
 export default observer(() => {
 
-    const state = useMobxState({
-    }, {
-        ...useGlobalMessageReady()
-    })
+    const { ready, error } = useGlobalMessageReady();
 
     return <div className={containerAutoSizer}>
-        <LoadingOrErrorComponent ready={state.ready} error={!state.ready && state.error}>
+        <LoadingOrErrorComponent ready={ready} error={!ready && error}>
             <AutoSizer>
                 {(size) => <MessageUnlimitedList {...size} />}
             </AutoSizer>

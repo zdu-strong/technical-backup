@@ -1,4 +1,4 @@
-import { observer, useMobxState } from 'mobx-react-use-autorun';
+import { observer } from 'mobx-react-use-autorun';
 import { type ReactNode } from "react";
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
@@ -21,14 +21,10 @@ type Props = {
 
 export default observer((props: Props) => {
 
-    const state = useMobxState({
-
-    }, {
-        navigation: useReactRouterAppProviderNavigation(),
-    })
+    const navigation = useReactRouterAppProviderNavigation();
 
     return <ReactRouterAppProvider
-        navigation={state.navigation}
+        navigation={navigation}
         branding={{ title: "", logo: "" }}
     >
         <div className={`flex flex-col flex-auto ${dashboardLayoutContainer}`}>

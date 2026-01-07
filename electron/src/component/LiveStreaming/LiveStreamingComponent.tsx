@@ -9,7 +9,6 @@ export default observer(() => {
         mediaStream: null as MediaStream | null,
         mediaSource: null as MediaSource | null,
         videoUrl: "" as string,
-    }, {
     });
 
     useMount(async (subscription) => {

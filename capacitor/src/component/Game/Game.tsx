@@ -33,14 +33,14 @@ export default observer(() => {
         engine: null as BABYLON.Engine | null,
         ready: false,
         error: null as any,
-    }, {
-        canvasRef: useRef<HTMLCanvasElement>(null),
     })
+
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useMount(async (subscription) => {
         try {
-            state.engine = await initGameEngine(state.canvasRef, subscription);
-            state.canvasRef.current!.focus();
+            state.engine = await initGameEngine(canvasRef, subscription);
+            canvasRef.current!.focus();
             state.ready = true;
         } catch (error) {
             state.error = error
@@ -50,7 +50,7 @@ export default observer(() => {
 
     return <>
         <div className={divContainer} style={state.ready ? {} : { position: "relative" }}>
-            <canvas ref={state.canvasRef} style={{ outlineStyle: "none" }} />
+            <canvas ref={canvasRef} style={{ outlineStyle: "none" }} />
             {!state.ready && <div
                 className='flex flex-col flex-auto'
                 style={{

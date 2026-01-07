@@ -1,4 +1,4 @@
-import { observer, useMobxState, useMount } from "mobx-react-use-autorun";
+import { observer, useMount } from "mobx-react-use-autorun";
 import { GlobalChatMessage, GlobalScrollToLastItemSubject } from '@component/Message/js/Global_Chat';
 import { List } from 'react-virtualized';
 import SingleMessageLoaded from "@/component/Message/SingleMessageLoaded";
@@ -13,10 +13,7 @@ type Props = {
 
 export default observer((props: Props) => {
 
-    const state = useMobxState({
-    }, {
-        listRef: useRef<List>(null),
-    })
+    const listRef = useRef<List>(null);
 
     useMount(sub => {
         GlobalScrollToLastItemSubject.next();
@@ -27,16 +24,16 @@ export default observer((props: Props) => {
                         if (GlobalChatMessage.totalRecords === 0) {
                             return of(null);
                         }
-                        if (!state.listRef.current) {
+                        if (!listRef.current) {
                             return EMPTY;
                         }
                         return of(null).pipe(
                             tap(() => {
-                                state.listRef.current?.scrollToRow(GlobalChatMessage.totalRecords - 1);
+                                listRef.current?.scrollToRow(GlobalChatMessage.totalRecords - 1);
                             }),
                             delay(1),
                             tap(() => {
-                                state.listRef.current?.scrollToRow(GlobalChatMessage.totalRecords - 1);
+                                listRef.current?.scrollToRow(GlobalChatMessage.totalRecords - 1);
                             }),
                         );
                     }),
@@ -47,7 +44,7 @@ export default observer((props: Props) => {
     })
 
     return <List
-        ref={state.listRef}
+        ref={listRef}
         width={props.width}
         height={props.height}
         rowCount={GlobalChatMessage.totalRecords}

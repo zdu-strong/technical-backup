@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { MessageMoreActionTranslation } from '@component/Message/MessageMoreActionTranslation'
-import { observer, useMobxState } from 'mobx-react-use-autorun';
+import { observer } from 'mobx-react-use-autorun';
 import { FormattedMessage } from 'react-intl';
 
 type Props = {
@@ -20,14 +20,11 @@ type Props = {
 
 export default observer((props: Props) => {
 
-    const state = useMobxState({
-    }, props);
-
     return (
         <Dialog
             fullScreen
             open={true}
-            onClose={state.closeDialog}
+            onClose={props.closeDialog}
             TransitionComponent={MessageMoreActionTranslation}
         >
             <AppBar sx={{ position: 'relative' }}>
@@ -39,7 +36,7 @@ export default observer((props: Props) => {
                     <IconButton
                         edge="start"
                         color="inherit"
-                        onClick={state.closeDialog}
+                        onClick={props.closeDialog}
                         aria-label="close"
                     >
                         <FontAwesomeIcon icon={faXmark} size="xl" />
@@ -48,7 +45,7 @@ export default observer((props: Props) => {
             </AppBar>
             <List>
                 <ListItem
-                    onClick={() => state.uploadFile()}
+                    onClick={() => props.uploadFile()}
                     component="button"
                 >
                     <ListItemText

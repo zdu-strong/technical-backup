@@ -23,15 +23,15 @@ export default observer(() => {
         moreActionDialog: {
             open: false,
         },
-    }, {
-        inputFileRef: useRef<HTMLInputElement>(null),
-        variableSizeListRef: useRef<{
-            scrollToItemByLast: () => Promise<void>,
-        }>(null),
     })
 
+    const inputFileRef = useRef<HTMLInputElement>(null);
+    const variableSizeListRef = useRef<{
+        scrollToItemByLast: () => Promise<void>,
+    }>(null);
+
     async function sendMessage() {
-        await state.variableSizeListRef.current?.scrollToItemByLast();
+        await variableSizeListRef.current?.scrollToItemByLast();
         if (!state.messageContent) {
             return MessageService.error("Please fill in the message content");
         }
@@ -52,7 +52,7 @@ export default observer(() => {
     }
 
     async function sendMessageForFileList(fileList: FileList) {
-        await state.variableSizeListRef.current?.scrollToItemByLast();
+        await variableSizeListRef.current?.scrollToItemByLast();
         if (isMobilePhone) {
             state.moreActionDialog.open = false;
             await timer(1).toPromise();
@@ -144,7 +144,7 @@ export default observer(() => {
                 if (state.messageContent.trim()) {
                     sendMessage();
                 } else {
-                    state.inputFileRef.current!.click();
+                    inputFileRef.current!.click();
                 }
             }}
         >
@@ -187,7 +187,7 @@ export default observer(() => {
     const chooseFileInput = <input
         type="file"
         hidden={true}
-        ref={state.inputFileRef}
+        ref={inputFileRef}
         key={state.inputFileId}
         onChange={async (e) => {
             sendMessageForFileList(e.target.files!);
@@ -201,7 +201,7 @@ export default observer(() => {
                 state.textareaRef.current?.focus();
             }
         }}
-        uploadFile={() => state.inputFileRef.current!.click()}
+        uploadFile={() => inputFileRef.current!.click()}
     />;
 
     return <>
