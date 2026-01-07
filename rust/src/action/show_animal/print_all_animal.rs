@@ -1,5 +1,5 @@
-use std::str::FromStr;
 use crate::enums::animal_enum::AnimalEnum;
+use std::str::FromStr;
 use strum::IntoEnumIterator;
 
 pub async fn print_all_animal() {
@@ -9,8 +9,5 @@ pub async fn print_all_animal() {
         "Parse string to animal: {:?}",
         AnimalEnum::from_str("DOG").unwrap()
     );
-    println!(
-        "Print animal value: {:?}",
-        AnimalEnum::TIGER.as_ref()
-    );
+    println!("Print animal value: {:?}", AnimalEnum::TIGER.as_ref());
 }

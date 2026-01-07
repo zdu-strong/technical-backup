@@ -1,9 +1,9 @@
 use std::env::current_dir;
 use std::fs;
 use std::path::Path;
-use std::process::exit;
 use std::process::Command;
 use std::process::Stdio;
+use std::process::exit;
 
 fn main() {
     remove_target_dir();
