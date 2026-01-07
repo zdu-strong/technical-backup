@@ -86,7 +86,7 @@
         "jsencrypt": "3.5.4",
         "linq": "4.0.3",
         "mathjs": "15.1.0",
-        "mobx-react-use-autorun": "4.0.68",
+        "mobx-react-use-autorun": "4.0.70",
         "node-rsa": "1.1.1",
         "qs": "6.14.1",
         "react": "19.0.0",
