@@ -13,7 +13,6 @@
         "public/",
         "index.html",
         "tailwind.css",
-        "tailwind-config.js",
-        "assets/stylance.bundled.css"
+        "tailwind-config.js"
     ]
 }
