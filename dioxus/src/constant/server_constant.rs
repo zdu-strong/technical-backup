@@ -58,14 +58,6 @@ pub fn post(url: &str) -> RequestBuilder {
     get_request_builder(Method::POST, url)
 }
 
-pub fn put(url: &str) -> RequestBuilder {
-    get_request_builder(Method::PUT, url)
-}
-
-pub fn delete(url: &str) -> RequestBuilder {
-    get_request_builder(Method::DELETE, url)
-}
-
 pub fn use_multiple_query<F>(mut future: impl FnMut() -> F + 'static) -> DioxusHookStatus
 where
     F: Future + 'static,
