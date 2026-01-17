@@ -35,7 +35,6 @@ ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN rustup update
 RUN rustup toolchain install stable
-RUN cargo install stylance-cli
 RUN cargo install dioxus-cli --locked
 
 # cargo build

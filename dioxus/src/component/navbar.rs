@@ -1,16 +1,16 @@
 use crate::router::Route;
 use daisy_rsx::*;
 use dioxus::prelude::*;
-use stylance::import_crate_style;
-
-import_crate_style!(styles, "assets/styling/navbar.module.css");
 
 #[component]
 pub fn Navbar() -> Element {
+    #[css_module("/assets/styling/navbar.module.css")]
+    struct Styles;
+
     rsx! {
         div {
             id: "navbar",
-            class: format!("{} {} {}", "flex", "flex-row", styles::navbar),
+            class: format!("{} {} {}", "flex", "flex-row", Styles::navbar),
 
             Link {
                 to: Route::HomePage {},

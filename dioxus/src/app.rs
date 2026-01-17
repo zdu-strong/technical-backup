@@ -17,7 +17,6 @@ const _: Asset = asset!(
 );
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
 const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
-const STYLANCE_CSS: &str = include_str!("../assets/stylance.bundled.css");
 const EN_US_JSON: &str = include_str!("../assets/i18n/en-US.ftl");
 
 #[component]
@@ -35,7 +34,6 @@ pub fn App() -> Element {
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
         style { "{TAILWIND_CSS}" }
-        style { "{STYLANCE_CSS}" }
         div {
             class: "w-screen h-screen overflow-auto",
             div {
