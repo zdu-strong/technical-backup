@@ -74,7 +74,7 @@ After upgrading the dependencies, please make sure that the dependent versions i
 2. mobx-react-use-autorun (https://www.npmjs.com/package/mobx-react-use-autorun)
 3. typestyle (https://www.npmjs.com/package/typestyle)<br/>
 4. Material UI Components (https://material-ui.com)<br/>
-5. Icons (https://fontawesome.com/search?o=r&ic=free)<br/>
+5. Icons (https://fontawesome.com/v6/search?ic=free-collection)<br/>
 6. Capacitor Plugins (https://capacitorjs.com/docs/apis)<br/>
 7. axios (https://axios-http.com)
 8. typedjson (https://www.npmjs.com/package/typedjson)
