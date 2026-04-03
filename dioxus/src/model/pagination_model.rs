@@ -41,7 +41,7 @@ impl<T> PaginationModel<T>
 where
     T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
 {
-    pub fn from(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
+    pub fn new(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
         Self::new(
             page_num,
             page_size,
@@ -52,7 +52,7 @@ where
         )
     }
 
-    pub fn new(page_num: i128, page_size: i128, items: Vec<Signal<T>>) -> PaginationModel<T> {
+    pub fn from(page_num: i128, page_size: i128, items: Vec<Signal<T>>) -> PaginationModel<T> {
         if page_num < 1 {
             panic!("page_num cannot be less than 1")
         }
