@@ -42,7 +42,7 @@ where
     T: 'static + Debug + Display + Clone + Default + Serialize + DeserializeOwned,
 {
     pub fn new(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
-        Self::new(
+        Self::from(
             page_num,
             page_size,
             items
