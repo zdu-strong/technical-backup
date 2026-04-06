@@ -1,18 +1,25 @@
-body {
+html > body {
     margin: 0;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: "JetBrains Mono", "Helvetica", "Arial", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: "JetBrains Mono", "Helvetica", "Arial", sans-serif;
 }
 
 a.MuiButton-root {
     text-transform: none;
+    font-family: "JetBrains Mono", "Helvetica", "Arial", sans-serif;
 }
 
 button.MuiButton-root {
     text-transform: none;
+}
+input.MuiInputBase-input {
+    font-family: "JetBrains Mono", "Helvetica", "Arial", sans-serif;
+}
+textarea.MuiInputBase-input {
+    font-family: "JetBrains Mono", "Helvetica", "Arial", sans-serif;
 }

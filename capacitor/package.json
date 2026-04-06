@@ -82,6 +82,7 @@
         "@capacitor/toast": "8.0.0",
         "@emotion/react": "11.14.0",
         "@emotion/styled": "11.14.1",
+        "@fontsource/jetbrains-mono": "5.2.8",
         "@fontsource/roboto": "5.2.9",
         "@fortawesome/free-brands-svg-icons": "6.7.2",
         "@fortawesome/free-solid-svg-icons": "6.7.2",
