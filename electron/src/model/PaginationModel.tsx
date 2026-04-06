@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx-react-use-autorun';
 import linq from "linq";
-import * as mathjs from 'mathjs';
+import { Big, RoundingMode } from "bigdecimal.js";
 import { jsonArrayMember, jsonMember, jsonObject, type Serializable, TypedJSON } from 'typedjson';
 
 export class PaginationModel<T> {
@@ -41,9 +41,10 @@ export class PaginationModel<T> {
         }
 
         const totalRecords = stream.count();
-        const totalPages = Math.floor(mathjs.divide(totalRecords, pageSize)) + (mathjs.mod(totalRecords, pageSize) > 0 ? 1 : 0);
+
+        const totalPages = Big(totalRecords).divide(pageSize, 0, RoundingMode.FLOOR).add(Big(totalRecords).remainder(pageSize).equals(0) ? 0 : 1).numberValue();
         const items = stream
-            .skip(mathjs.multiply(pageNum - 1, pageSize))
+            .skip(Big(pageNum - 1).multiply(pageSize).numberValue())
             .take(pageSize)
             .toArray();
 
