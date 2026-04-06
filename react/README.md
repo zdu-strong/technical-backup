@@ -63,4 +63,4 @@ After upgrading the dependencies, please make sure that the dependent versions i
 11. tailwindcss (https://tailwindcss.com)<br/>
 12. Animate.css (https://animate.style)<br/>
 13. react-git-info (https://www.npmjs.com/package/react-git-info)
-14. mathjs (https://www.npmjs.com/package/mathjs)
+14. bigdecimal.js (https://www.npmjs.com/package/bigdecimal.js)

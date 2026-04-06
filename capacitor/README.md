@@ -84,5 +84,5 @@ After upgrading the dependencies, please make sure that the dependent versions i
 12. Animate.css (https://animate.style)<br/>
 13. react-git-info (https://www.npmjs.com/package/react-git-info)
 14. Game Engine (https://www.babylonjs.com)
-15. mathjs (https://www.npmjs.com/package/mathjs)
+15. bigdecimal.js (https://www.npmjs.com/package/bigdecimal.js)
 16. public test certificate (https://ask.dcloud.net.cn/article/36522)
