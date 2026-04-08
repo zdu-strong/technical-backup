@@ -11,7 +11,7 @@ public abstract class ValidationFieldUtilNotEmpty extends ValidationFieldUtilNot
 
     public void checkNotEmptyOfPermissionList(RoleModel roleModel) {
         if (ObjectUtil.isEmpty(roleModel.getPermissionList())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "permissionList cannot be empty");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "permission list cannot be empty");
         }
     }
 

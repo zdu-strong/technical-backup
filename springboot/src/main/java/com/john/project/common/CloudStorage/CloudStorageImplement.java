@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.Optional;
 import cn.hutool.extra.spring.SpringUtil;
 import org.jinq.orm.stream.JinqStream;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import com.john.project.common.StorageResource.SequenceResource;
 
 @Component
+@Primary
 public class CloudStorageImplement implements CloudStorageInterface {
 
     @Override

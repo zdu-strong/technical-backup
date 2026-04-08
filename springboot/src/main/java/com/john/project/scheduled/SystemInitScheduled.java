@@ -1,7 +1,6 @@
 package com.john.project.scheduled;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import com.john.project.properties.DevelopmentMockModeProperties;
@@ -47,9 +46,6 @@ public class SystemInitScheduled {
     private VerificationCodeEmailService verificationCodeEmailService;
 
     @Autowired
-    private LongTermTaskService longTermTaskService;
-
-    @Autowired
     private DistributedExecutionUtil distributedExecutionUtil;
 
     @Autowired
@@ -66,9 +62,6 @@ public class SystemInitScheduled {
 
     @Getter
     private Boolean hasInit = false;
-
-    @Autowired
-    private Executor applicationTaskExecutor;
 
     @Scheduled(initialDelay = 0, fixedDelay = 24 * 60 * 60 * 1000)
     public void scheduled() {

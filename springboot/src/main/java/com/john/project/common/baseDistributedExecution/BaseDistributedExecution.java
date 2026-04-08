@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.concurrent.Executor;
 
 @Component
 public abstract class BaseDistributedExecution {
@@ -30,9 +29,6 @@ public abstract class BaseDistributedExecution {
 
     @Autowired
     protected Storage storage;
-
-    @Autowired
-    protected Executor applicationTaskExecutor;
 
     public abstract PaginationModel<?> searchByPagination();
 

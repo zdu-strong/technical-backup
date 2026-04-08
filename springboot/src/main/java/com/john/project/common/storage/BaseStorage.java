@@ -8,6 +8,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import com.john.project.common.CloudStorage.CloudStorageInterface;
 import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import io.reactivex.rxjava3.core.Flowable;
@@ -25,13 +26,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import tools.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.john.project.common.CloudStorage.CloudStorageImplement;
 import com.john.project.properties.DatabaseJdbcProperties;
 import com.john.project.properties.StorageRootPathProperties;
 import com.john.project.model.ResourceAccessLegalModel;
 import com.john.project.service.EncryptDecryptService;
 import com.john.project.service.StorageSpaceService;
-import cn.hutool.core.util.HexUtil;
 
 @Component
 public abstract class BaseStorage {
@@ -52,7 +51,7 @@ public abstract class BaseStorage {
     protected StorageSpaceService storageSpaceService;
 
     @Autowired
-    protected CloudStorageImplement cloud;
+    protected CloudStorageInterface cloud;
 
     @Autowired
     protected ObjectMapper objectMapper;
