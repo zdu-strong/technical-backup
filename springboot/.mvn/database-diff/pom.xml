@@ -77,7 +77,7 @@
                         <ignoreVersions>
                             <ignoreVersion>
                                 <type>regex</type>
-                                <version>.+-(alpha|beta|BETA)</version>
+                                <version>.+-(alpha.*|beta.*|BETA.*|M\d+.*)</version>
                             </ignoreVersion>
                         </ignoreVersions>
                     </ruleSet>
