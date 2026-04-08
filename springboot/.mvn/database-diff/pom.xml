@@ -13,8 +13,8 @@
         <java.version>21</java.version>
         <resource.delimiter>${}</resource.delimiter>
         <commons-io.version>2.21.0</commons-io.version>
-        <gax-httpjson.version>2.73.0-rc1</gax-httpjson.version>
-        <liquibase-spanner.version>4.33.0.2</liquibase-spanner.version>
+        <gax-httpjson.version>2.76.0</gax-httpjson.version>
+        <liquibase-spanner.version>4.33.0.3</liquibase-spanner.version>
     </properties>
 
     <dependencies>
@@ -59,7 +59,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.1</version>
+        <version>4.0.5</version>
     </parent>
 
     <build>
