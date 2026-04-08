@@ -42,10 +42,10 @@ where
 {
     pub fn new(page_num: i128, page_size: i128, items: Vec<T>) -> PaginationModel<T> {
         if page_num < 1 {
-            panic!("page_num cannot be less than 1")
+            panic!("page_num cannot be less than 1");
         }
         if page_size < 1 {
-            panic!("page_size cannot be less than 1")
+            panic!("page_size cannot be less than 1");
         }
         let total_records = items.len().to_i128().unwrap();
         let total_pages =
