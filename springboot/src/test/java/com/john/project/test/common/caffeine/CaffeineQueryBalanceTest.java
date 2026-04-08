@@ -31,7 +31,7 @@ public class CaffeineQueryBalanceTest extends BaseTest {
         var timer = new TimeInterval();
         Flowable.range(1, 1000 * 10)
                 .parallel(1000 * 10)
-                .runOn(Schedulers.from(applicationTaskExecutor))
+                .runOn(Schedulers.from(executor))
                 .doOnNext((s) -> queryBalance())
                 .sequential()
                 .blockingSubscribe();
