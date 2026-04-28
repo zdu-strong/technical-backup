@@ -11,17 +11,6 @@ const DO_NOT_CARGO_UPGRADE: &str = "--do-not-cargo-upgrade";
 fn main() {
     remove_target_dir();
     let is_ok = Command::new("rustup")
-        .args(["update"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
-    let is_ok = Command::new("rustup")
         .args(["toolchain", "install", "stable"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
@@ -77,17 +66,6 @@ fn main() {
         exit(1);
     }
     cargo_upgrade();
-    let is_ok = Command::new("cargo")
-        .args(["update"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
 }
 
 fn cargo_upgrade() {
@@ -98,6 +76,28 @@ fn cargo_upgrade() {
     {
         let is_ok = Command::new("cargo")
             .args(["upgrade"])
+            .current_dir(current_dir().unwrap())
+            .stdin(Stdio::inherit())
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .output()
+            .is_ok();
+        if !is_ok {
+            exit(1);
+        }
+        let is_ok = Command::new("cargo")
+            .args(["update"])
+            .current_dir(current_dir().unwrap())
+            .stdin(Stdio::inherit())
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .output()
+            .is_ok();
+        if !is_ok {
+            exit(1);
+        }
+        let is_ok = Command::new("rustup")
+            .args(["update"])
             .current_dir(current_dir().unwrap())
             .stdin(Stdio::inherit())
             .stdout(Stdio::inherit())
