@@ -22,7 +22,7 @@ Then run the following command to start:<br/>
 
     ./target/release/my
 
-### `cargo rise`
+### `cargo up`
 
 Check that a new version of the dependency is available<br/>
 

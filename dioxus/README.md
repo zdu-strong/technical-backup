@@ -31,7 +31,7 @@ It correctly bundles the Dioxus app into a shippable object in production mode a
 The build is minified and the filenames include the hashes.<br/>
 Your app is ready to be deployed!<br/>
 
-### `cargo rise`
+### `cargo up`
 
 Check that a new version of the dependency is available<br/>
 

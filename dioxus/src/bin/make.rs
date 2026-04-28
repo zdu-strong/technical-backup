@@ -36,7 +36,7 @@ fn install_dioxus_cli() {
         return;
     }
     let is_ok = Command::new("cargo")
-        .args(["rise", "--", DO_NOT_CARGO_UPGRADE])
+        .args(["up", "--", DO_NOT_CARGO_UPGRADE])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
