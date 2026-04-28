@@ -12,7 +12,10 @@ pub async fn tom_buy_phone() {
             owner: "Tom".to_string(),
         },
     ];
-    println!("phone_service {:?}", phone_list);
+    println!(
+        "phone_service {}",
+        serde_json::to_string(phone_list).unwrap()
+    );
     for phone in phone_list {
         phone.buy().await;
     }

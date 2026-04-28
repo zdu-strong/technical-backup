@@ -33,7 +33,7 @@ pub fn Hero() -> Element {
         *user.update_date.write() = Local::now();
         let user_list = vec![user];
         let json_string = serde_json::to_string(&user_list).unwrap();
-        let _: Vec<UserModel> = serde_json::from_str(&json_string).unwrap();
+        let _ = serde_json::from_str::<Vec<UserModel>>(&json_string).unwrap();
         info!("user_list_json_string: {}", json_string);
     });
 

@@ -47,7 +47,7 @@ pub fn set_server_user_info(user: Option<Signal<UserModel>>) {
         }
     }
     spawn_forever_global_call(move || {
-        let user: UserModel = serde_json::from_str(user_json_string.as_str()).unwrap();
+        let user = serde_json::from_str::<UserModel>(user_json_string.as_str()).unwrap();
         *SERVER_USER_INFO.write() = user;
         if has_params {
             set_server_user_info_persistent(user_json_string);
