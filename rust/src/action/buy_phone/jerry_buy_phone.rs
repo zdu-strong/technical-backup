@@ -2,8 +2,6 @@ use crate::model::pixel_model::PixelModel;
 use crate::traits::buy::Buy;
 use futures::prelude::*;
 use futures::stream::iter;
-use tokio::runtime::Handle;
-use tokio::task::spawn_blocking;
 
 pub async fn jerry_buy_phone() {
     let phone_list: Vec<Box<dyn Buy>> = vec![
@@ -19,11 +17,6 @@ pub async fn jerry_buy_phone() {
     let _ = iter(phone_list)
         .map(move |mut phone| async move {
             phone.buy().await;
-        })
-        .map(|s| async {
-            spawn_blocking(|| Handle::current().block_on(s))
-                .await
-                .unwrap()
         })
         .buffer_unordered(10)
         .collect::<Vec<_>>()
