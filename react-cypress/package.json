@@ -12,6 +12,9 @@
             "plugin:@typescript-eslint/recommended",
             "plugin:cypress/recommended"
         ],
+        "plugins": [
+            "unused-imports"
+        ],
         "rules": {
             "no-undef": "error",
             "import/no-anonymous-default-export": [
@@ -20,7 +23,10 @@
                     "allowArrowFunction": true
                 }
             ],
-            "prefer-const": "off"
+            "prefer-const": "off",
+            "@typescript-eslint/no-unused-vars": "off",
+            "unused-imports/no-unused-imports": "warn",
+            "unused-imports/no-unused-vars": "off"
         }
     },
     "browserslist": {
@@ -47,6 +53,7 @@
         "cypress": "15.8.1",
         "eslint": "8.57.0",
         "eslint-plugin-cypress": "3.6.0",
+        "eslint-plugin-unused-imports": "4.3.0",
         "execa": "5.1.1",
         "get-port": "5.1.1",
         "linq": "4.0.3",
