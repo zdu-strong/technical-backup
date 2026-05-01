@@ -7,7 +7,7 @@ edition = "2024"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { version = "0.7.6", features = ["router"] }
+dioxus = { version = "0.7.7", features = ["router"] }
 futures = "0.3.32"
 serde_json = "1.0.149"
 serde = { version = "1.0.228", features = ["derive"] }
