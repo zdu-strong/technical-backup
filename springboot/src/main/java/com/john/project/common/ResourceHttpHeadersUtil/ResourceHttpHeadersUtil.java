@@ -61,20 +61,18 @@ public class ResourceHttpHeadersUtil {
     }
 
     @SneakyThrows
-    public void setContentType(HttpHeaders httpHeaders, Resource resource, HttpServletRequest request) {
+    public void setContentType(HttpHeaders httpHeaders, HttpServletRequest request) {
         var rangeList = this.getRangeList(request);
         if (rangeList.size() > 1) {
             httpHeaders.setContentType(MediaType.parseMediaType("multipart/byteranges; boundary=" + this.boundary));
             return;
         }
 
+        var resource = this.storage.getResourceFromRequest(request);
         if (resource instanceof ByteArrayResource) {
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         } else {
-            ArrayList<String> pathSegments = Lists
-                    .newArrayList(new URIBuilder(request.getRequestURI()).getPathSegments());
-            Collections.reverse(pathSegments);
-            String fileName = pathSegments.stream().findFirst().get();
+            String fileName = this.storage.getFileNameFromRequest(request);
             httpHeaders.setContentType(MediaType.parseMediaType(this.tika.detect(fileName)));
         }
     }
@@ -97,11 +95,8 @@ public class ResourceHttpHeadersUtil {
 
     @SneakyThrows
     public void setContentDisposition(HttpHeaders httpHeaders, Builder contentDispositionBuilder,
-                                      Resource resource,
                                       HttpServletRequest request) {
-        var pathSegments = Lists.newArrayList(new URIBuilder(request.getRequestURI()).getPathSegments());
-        Collections.reverse(pathSegments);
-        String fileName = pathSegments.stream().findFirst().get();
+        String fileName = this.storage.getFileNameFromRequest(request);
         ContentDisposition contentDisposition = contentDispositionBuilder.filename(fileName, StandardCharsets.UTF_8)
                 .build();
         httpHeaders.setContentDisposition(contentDisposition);
@@ -117,10 +112,7 @@ public class ResourceHttpHeadersUtil {
     public Resource getResourceFromRequest(long totalContentLength, HttpServletRequest request) {
         var rangeList = this.getRangeList(request);
         if (rangeList.size() > 1) {
-            ArrayList<String> pathSegments = Lists
-                    .newArrayList(new URIBuilder(request.getRequestURI()).getPathSegments());
-            Collections.reverse(pathSegments);
-            String fileName = pathSegments.stream().findFirst().get();
+            String fileName = this.storage.getFileNameFromRequest(request);
             MediaType mediaType = MediaType.parseMediaType(this.tika.detect(fileName));
             var resourceListOne = JinqStream.from(rangeList).selectAllList(range -> {
                 var start = range.getRangeStart(totalContentLength);

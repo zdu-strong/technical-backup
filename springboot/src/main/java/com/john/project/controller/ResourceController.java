@@ -31,16 +31,16 @@ public class ResourceController extends BaseController {
         HttpHeaders httpHeaders = new HttpHeaders();
         this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
         this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, resource, request);
+        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
         this.resourceHttpHeadersUtil.setContentLength(httpHeaders, totalContentLength, request);
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(), resource, request);
+        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(), request);
         this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, totalContentLength, request);
 
         if (httpHeaders.getETag().equals(this.request.getHeader(HttpHeaders.IF_NONE_MATCH))) {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).headers(httpHeaders).build();
         }
 
-        if (this.resourceHttpHeadersUtil.getRangeList(request).size() > 0) {
+        if (!this.resourceHttpHeadersUtil.getRangeList(request).isEmpty()) {
             return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).headers(httpHeaders)
                     .body(this.resourceHttpHeadersUtil.getResourceFromRequest(totalContentLength, request));
         } else {
@@ -59,9 +59,9 @@ public class ResourceController extends BaseController {
         HttpHeaders httpHeaders = new HttpHeaders();
         this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
         this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, resource, request);
+        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
         this.resourceHttpHeadersUtil.setContentLength(httpHeaders, totalContentLength, request);
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.attachment(), resource,
+        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.attachment(),
                 request);
         this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, totalContentLength, request);
 
@@ -69,7 +69,7 @@ public class ResourceController extends BaseController {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).headers(httpHeaders).build();
         }
 
-        if (this.resourceHttpHeadersUtil.getRangeList(request).size() > 0) {
+        if (!this.resourceHttpHeadersUtil.getRangeList(request).isEmpty()) {
             return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).headers(httpHeaders)
                     .body(this.resourceHttpHeadersUtil.getResourceFromRequest(totalContentLength, request));
         } else {
@@ -87,15 +87,25 @@ public class ResourceController extends BaseController {
     public ResponseEntity<?> mergeResource(@RequestBody String[] urlList) {
         return this.longTermTaskUtil.run(() -> {
             var resourceList = JinqStream.from(Lists.newArrayList(urlList)).select(url -> {
-                var mockHttpServletRequest = new MockHttpServletRequest();
-                mockHttpServletRequest.setRequestURI(url);
-                return mockHttpServletRequest;
-            }).select(mockHttpServletRequest -> this.storage.getResourceFromRequest(mockHttpServletRequest)).toList();
+                        var mockHttpServletRequest = new MockHttpServletRequest();
+                        mockHttpServletRequest.setRequestURI(url);
+                        return mockHttpServletRequest;
+                    })
+                    .select(mockHttpServletRequest -> this.storage.getResourceFromRequest(mockHttpServletRequest))
+                    .toList();
             if (resourceList.size() == 1) {
                 return ResponseEntity.ok(JinqStream.from(Lists.newArrayList(urlList)).getOnlyValue());
             }
 
-            String fileName = this.storage.getFileNameFromResource(resourceList.stream().findFirst().get());
+            String fileName = Lists.newArrayList(urlList)
+                    .stream()
+                    .findFirst()
+                    .map(url -> {
+                        var mockHttpServletRequest = new MockHttpServletRequest();
+                        mockHttpServletRequest.setRequestURI(url);
+                        return this.storage.getFileNameFromRequest(mockHttpServletRequest);
+                    })
+                    .get();
 
             var storageFileModel = this.storage.storageResource(new SequenceResource(fileName, resourceList));
             return ResponseEntity.ok(storageFileModel.getRelativeUrl());

@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -148,15 +149,24 @@ public abstract class BaseStorage {
     }
 
     @SneakyThrows
+    public String getFileNameFromRequest(HttpServletRequest request) {
+        ArrayList<String> pathSegments = Lists
+                .newArrayList(new URIBuilder(request.getRequestURI()).getPathSegments());
+        Collections.reverse(pathSegments);
+        String fileName = pathSegments.stream().findFirst().filter(StringUtils::isNotBlank).get();
+        return fileName;
+    }
+
+    @SneakyThrows
     public String getFileNameFromResource(Resource resource) {
         if (resource instanceof UrlResource) {
-            var pathSegments = Lists
-                    .newArrayList(new URIBuilder(((UrlResource) resource).getURI()).getPathSegments());
+            ArrayList<String> pathSegments = Lists
+                    .newArrayList(new URIBuilder(resource.getURI()).getPathSegments());
             Collections.reverse(pathSegments);
-            String fileName = pathSegments.stream().findFirst().get();
-            return this.getRelativePathFromResourcePath(fileName);
+            String fileName = pathSegments.stream().findFirst().filter(StringUtils::isNotBlank).get();
+            return fileName;
         }
-        return this.getRelativePathFromResourcePath(resource.getFilename());
+        return Optional.ofNullable(resource.getFilename()).filter(StringUtils::isNotBlank).get();
     }
 
     protected String getRelativePathFromResourcePath(String relativePathOfResource) {
@@ -167,8 +177,7 @@ public abstract class BaseStorage {
             path = relativePathOfResource;
         }
 
-        path = Paths.get(this.getRootPath(), path.replaceAll(Pattern.quote("\\"), "/")).toString();
-        path = Paths.get(path).normalize().toString().replaceAll(Pattern.quote("\\"), "/");
+        path = Paths.get(this.getRootPath(), path).normalize().toString().replaceAll(Pattern.quote("\\"), "/");
         if (!path.startsWith(this.getRootPath())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported path");
         }
