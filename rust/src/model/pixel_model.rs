@@ -1,5 +1,6 @@
 use crate::traits::buy::Buy;
 use async_trait::async_trait;
+use bigdecimal::BigDecimal;
 use derive_more::Display;
 use serde::Deserialize;
 use serde::Serialize;
@@ -13,7 +14,7 @@ use std::fmt::Debug;
 pub struct PixelModel {
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
-    pub price: String,
+    pub price: BigDecimal,
 
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
@@ -23,6 +24,10 @@ pub struct PixelModel {
 #[async_trait]
 impl Buy for PixelModel {
     async fn buy(&mut self) {
-        println!("{} cost {} buy pixel", self.owner, self.price);
+        println!(
+            "{} cost {} buy pixel",
+            self.owner,
+            self.price.to_plain_string()
+        );
     }
 }

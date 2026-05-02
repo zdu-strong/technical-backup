@@ -1,16 +1,18 @@
 use crate::model::pixel_model::PixelModel;
 use crate::traits::buy::Buy;
+use bigdecimal::BigDecimal;
 use futures::prelude::*;
 use futures::stream::iter;
+use std::str::FromStr;
 
 pub async fn jerry_buy_phone() {
     let phone_list: Vec<Box<dyn Buy>> = vec![
         Box::new(PixelModel {
-            price: "10,000".to_string(),
+            price: BigDecimal::from_str("10000").unwrap(),
             owner: "Jerry".to_string(),
         }),
         Box::new(PixelModel {
-            price: "3,000".to_string(),
+            price: BigDecimal::from_str("3000").unwrap(),
             owner: "Jerry".to_string(),
         }),
     ];
