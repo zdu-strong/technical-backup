@@ -31,9 +31,9 @@ public class ResourceController extends BaseController {
         HttpHeaders httpHeaders = new HttpHeaders();
         this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
         this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, resource, request);
+        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
         this.resourceHttpHeadersUtil.setContentLength(httpHeaders, totalContentLength, request);
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(), resource, request);
+        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(), request);
         this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, totalContentLength, request);
 
         if (httpHeaders.getETag().equals(this.request.getHeader(HttpHeaders.IF_NONE_MATCH))) {
@@ -59,9 +59,9 @@ public class ResourceController extends BaseController {
         HttpHeaders httpHeaders = new HttpHeaders();
         this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
         this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, resource, request);
+        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
         this.resourceHttpHeadersUtil.setContentLength(httpHeaders, totalContentLength, request);
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.attachment(), resource,
+        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.attachment(),
                 request);
         this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, totalContentLength, request);
 
