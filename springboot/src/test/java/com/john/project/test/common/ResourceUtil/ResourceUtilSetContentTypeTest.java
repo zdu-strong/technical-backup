@@ -14,7 +14,7 @@ public class ResourceUtilSetContentTypeTest extends BaseTest {
 
     @Test
     public void test() {
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
+        this.resourceHttpHeadersUtil.setContentType(httpHeaders, this.storage.getResourceFromRequest(request), request);
         assertEquals(MediaType.IMAGE_JPEG, this.httpHeaders.getContentType());
     }
 

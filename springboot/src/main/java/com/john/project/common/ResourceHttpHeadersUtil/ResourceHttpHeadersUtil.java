@@ -61,8 +61,7 @@ public class ResourceHttpHeadersUtil {
     }
 
     @SneakyThrows
-    public void setContentType(HttpHeaders httpHeaders, HttpServletRequest request) {
-        var resource = this.storage.getResourceFromRequest(request);
+    public void setContentType(HttpHeaders httpHeaders, Resource resource, HttpServletRequest request) {
         var rangeList = this.getRangeList(request);
         if (rangeList.size() > 1) {
             httpHeaders.setContentType(MediaType.parseMediaType("multipart/byteranges; boundary=" + this.boundary));
@@ -98,9 +97,11 @@ public class ResourceHttpHeadersUtil {
 
     @SneakyThrows
     public void setContentDisposition(HttpHeaders httpHeaders, Builder contentDispositionBuilder,
+                                      Resource resource,
                                       HttpServletRequest request) {
-        var resource = this.storage.getResourceFromRequest(request);
-        String fileName = this.storage.getFileNameFromResource(resource);
+        var pathSegments = Lists.newArrayList(new URIBuilder(request.getRequestURI()).getPathSegments());
+        Collections.reverse(pathSegments);
+        String fileName = pathSegments.stream().findFirst().get();
         ContentDisposition contentDisposition = contentDispositionBuilder.filename(fileName, StandardCharsets.UTF_8)
                 .build();
         httpHeaders.setContentDisposition(contentDisposition);
