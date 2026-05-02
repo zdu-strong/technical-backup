@@ -12,9 +12,9 @@
     <properties>
         <java.version>21</java.version>
         <resource.delimiter>${}</resource.delimiter>
-        <commons-io.version>2.21.0</commons-io.version>
-        <gax-httpjson.version>2.76.0</gax-httpjson.version>
-        <liquibase-spanner.version>4.33.0.3</liquibase-spanner.version>
+        <commons-io.version>2.22.0</commons-io.version>
+        <gax-httpjson.version>2.79.0</gax-httpjson.version>
+        <liquibase-spanner.version>4.33.0.4</liquibase-spanner.version>
     </properties>
 
     <dependencies>
@@ -59,7 +59,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
     </parent>
 
     <build>
@@ -77,7 +77,7 @@
                         <ignoreVersions>
                             <ignoreVersion>
                                 <type>regex</type>
-                                <version>.+-(alpha.*|beta.*|BETA.*|M\d+.*)</version>
+                                <version>.+-(alpha.*|beta.*|BETA.*|M\d+.*|RC\d+.*)</version>
                             </ignoreVersion>
                         </ignoreVersions>
                     </ruleSet>
