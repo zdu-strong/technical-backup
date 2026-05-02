@@ -18,8 +18,7 @@ public class ResourceUtilSetContentDispositionTest extends BaseTest {
 
     @Test
     public void test() {
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(),
-                this.storage.getResourceFromRequest(request), request);
+        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(), request);
         assertEquals("inline; filename=\"default.jpg\"; filename*=UTF-8''default.jpg",
                 this.httpHeaders.getContentDisposition().toString());
         assertTrue(this.httpHeaders.getContentDisposition().toString().contains(" filename*=UTF-8''default.jpg"));
