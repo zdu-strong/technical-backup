@@ -4,7 +4,7 @@ use dioxus_i18n::prelude::*;
 use dioxus_i18n::unic_langid::langid;
 
 const _: Asset = asset!(
-    "/assets/common/google-material/google-robot-font.css",
+    "/assets/common/jetbrains-mono-font/jetbrains-mono.css",
     AssetOptions::css().with_static_head(true)
 );
 const _: Asset = asset!(
