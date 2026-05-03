@@ -15,7 +15,7 @@ public class DatabaseJdbcProperties {
 
     public boolean getIsSpannerEmulator() {
         if (this.hibernateDialectProperties.getIsSpanner()) {
-            if (this.jdbcUrl.contains("autoConfigEmulator=true")) {
+            if (this.jdbcUrl.toLowerCase().contains("autoconfigemulator=true")) {
                 return true;
             }
         }

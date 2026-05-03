@@ -56,10 +56,6 @@ spring:
     error:
       include-message: always
       include-stacktrace: never
-  cloud:
-    gcp:
-      spanner:
-        emulator-host: 127.0.0.1:9010
 logging:
   level:
     org:
