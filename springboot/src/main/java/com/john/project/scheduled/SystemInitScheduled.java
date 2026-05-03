@@ -65,7 +65,7 @@ public class SystemInitScheduled {
 
     @Scheduled(initialDelay = 0, fixedDelay = 24 * 60 * 60 * 1000)
     public void scheduled() {
-        synchronized (this) {
+        synchronized (getClass()) {
             if (hasInit) {
                 return;
             }

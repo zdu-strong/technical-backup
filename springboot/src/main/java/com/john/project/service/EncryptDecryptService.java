@@ -199,26 +199,28 @@ public class EncryptDecryptService extends BaseService {
         if (this.ready) {
             return;
         }
-        while (!this.ready) {
-            var name = getClass().getSimpleName();
-            if (this.streamAll(EncryptDecryptEntity.class)
-                    .where(s -> s.getName().equals(name))
-                    .exists()) {
-                EncryptDecryptEntity encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
+        synchronized (getClass()) {
+            while (!this.ready) {
+                var name = getClass().getSimpleName();
+                if (this.streamAll(EncryptDecryptEntity.class)
                         .where(s -> s.getName().equals(name))
-                        .getOnlyValue();
-                this.keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
-                        .generatePublic(new X509EncodedKeySpec(
-                                HexUtil.decodeHex(encryptDecryptEntity.getPublicKeyOfRSA())));
-                this.keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
-                        .generatePrivate(new PKCS8EncodedKeySpec(
-                                HexUtil.decodeHex(encryptDecryptEntity.getPrivateKeyOfRSA())));
-                this.keyOfAESSecretKey = new SecretKeySpec(
-                        HexUtil.decodeHex(encryptDecryptEntity.getSecretKeyOfAES()), "AES");
-                this.ready = true;
-                break;
+                        .exists()) {
+                    EncryptDecryptEntity encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
+                            .where(s -> s.getName().equals(name))
+                            .getOnlyValue();
+                    this.keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
+                            .generatePublic(new X509EncodedKeySpec(
+                                    HexUtil.decodeHex(encryptDecryptEntity.getPublicKeyOfRSA())));
+                    this.keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
+                            .generatePrivate(new PKCS8EncodedKeySpec(
+                                    HexUtil.decodeHex(encryptDecryptEntity.getPrivateKeyOfRSA())));
+                    this.keyOfAESSecretKey = new SecretKeySpec(
+                            HexUtil.decodeHex(encryptDecryptEntity.getSecretKeyOfAES()), "AES");
+                    this.ready = true;
+                    break;
+                }
+                ThreadUtils.sleepQuietly(Duration.ofMillis(100));
             }
-            ThreadUtils.sleepQuietly(Duration.ofMillis(100));
         }
     }
 
@@ -253,8 +255,6 @@ public class EncryptDecryptService extends BaseService {
         encryptDecryptEntity.setPrivateKeyOfRSA(keyPairOfRSA.getPrivateKeyOfRSA());
 
         this.persist(encryptDecryptEntity);
-
-        this.initKey();
     }
 
 }
