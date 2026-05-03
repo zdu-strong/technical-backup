@@ -199,7 +199,7 @@ public class EncryptDecryptService extends BaseService {
         if (this.ready) {
             return;
         }
-        Flowable.interval(100, TimeUnit.MILLISECONDS)
+        Flowable.interval(0, 100, TimeUnit.MILLISECONDS)
                 .filter(m -> {
                     if (!this.ready) {
                         var name = getClass().getSimpleName();
