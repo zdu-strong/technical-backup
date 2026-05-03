@@ -7,8 +7,8 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.Duration;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -20,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import cn.hutool.core.util.HexUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ThreadUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.john.project.common.baseService.BaseService;
@@ -27,7 +28,6 @@ import com.john.project.entity.EncryptDecryptEntity;
 import com.john.project.model.EncryptDecryptModel;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import io.reactivex.rxjava3.core.Flowable;
 import lombok.SneakyThrows;
 
 @Service
@@ -199,32 +199,27 @@ public class EncryptDecryptService extends BaseService {
         if (this.ready) {
             return;
         }
-        Flowable.interval(0, 100, TimeUnit.MILLISECONDS)
-                .filter(m -> {
-                    if (!this.ready) {
-                        var name = getClass().getSimpleName();
-                        if (this.streamAll(EncryptDecryptEntity.class)
-                                .where(s -> s.getName().equals(name))
-                                .exists()) {
-                            EncryptDecryptEntity encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
-                                    .where(s -> s.getName().equals(name))
-                                    .getOnlyValue();
-                            this.keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
-                                    .generatePublic(new X509EncodedKeySpec(
-                                            HexUtil.decodeHex(encryptDecryptEntity.getPublicKeyOfRSA())));
-                            this.keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
-                                    .generatePrivate(new PKCS8EncodedKeySpec(
-                                            HexUtil.decodeHex(encryptDecryptEntity.getPrivateKeyOfRSA())));
-                            this.keyOfAESSecretKey = new SecretKeySpec(
-                                    HexUtil.decodeHex(encryptDecryptEntity.getSecretKeyOfAES()), "AES");
-                            this.ready = true;
-                        }
-                    }
-                    return this.ready;
-                })
-                .take(1)
-                .timeout(1, TimeUnit.DAYS)
-                .blockingSubscribe();
+        while (!this.ready) {
+            var name = getClass().getSimpleName();
+            if (this.streamAll(EncryptDecryptEntity.class)
+                    .where(s -> s.getName().equals(name))
+                    .exists()) {
+                EncryptDecryptEntity encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
+                        .where(s -> s.getName().equals(name))
+                        .getOnlyValue();
+                this.keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
+                        .generatePublic(new X509EncodedKeySpec(
+                                HexUtil.decodeHex(encryptDecryptEntity.getPublicKeyOfRSA())));
+                this.keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
+                        .generatePrivate(new PKCS8EncodedKeySpec(
+                                HexUtil.decodeHex(encryptDecryptEntity.getPrivateKeyOfRSA())));
+                this.keyOfAESSecretKey = new SecretKeySpec(
+                        HexUtil.decodeHex(encryptDecryptEntity.getSecretKeyOfAES()), "AES");
+                this.ready = true;
+                break;
+            }
+            ThreadUtils.sleepQuietly(Duration.ofMillis(100));
+        }
     }
 
     @SneakyThrows
@@ -258,6 +253,8 @@ public class EncryptDecryptService extends BaseService {
         encryptDecryptEntity.setPrivateKeyOfRSA(keyPairOfRSA.getPrivateKeyOfRSA());
 
         this.persist(encryptDecryptEntity);
+
+        this.initKey();
     }
 
 }
