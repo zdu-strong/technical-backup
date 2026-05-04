@@ -56,6 +56,7 @@
         <sneakyfun.version>1.0.0</sneakyfun.version>
         <commons-exec.version>1.6.0</commons-exec.version>
         <chicory.version>1.7.5</chicory.version>
+        <gax-httpjson.version>2.79.0</gax-httpjson.version>
     </properties>
 
     <dependencies>
@@ -223,6 +224,11 @@
             <groupId>com.dylibso.chicory</groupId>
             <artifactId>runtime</artifactId>
             <version>${chicory.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api</groupId>
+            <artifactId>gax-httpjson</artifactId>
+            <version>${gax-httpjson.version}</version>
         </dependency>
     </dependencies>
 
