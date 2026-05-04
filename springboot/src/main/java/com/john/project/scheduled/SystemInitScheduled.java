@@ -1,11 +1,14 @@
 package com.john.project.scheduled;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.service.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ThreadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -69,18 +72,14 @@ public class SystemInitScheduled {
             if (hasInit) {
                 return;
             }
+            this.initEncryptDecryptKey();
             this.longTermTaskUtil.runSkipWhenExists(() -> {
-                this.init();
+                this.initUserRole();
+                this.initSuperAdminUser();
             }, getLongTermTaskUniqueKeyModelForInitSystemData());
             this.distributedExecutionUtil.initializeInSystemInitScheduled();
             this.hasInit = true;
         }
-    }
-
-    private void init() {
-        this.initEncryptDecryptKey();
-        this.initUserRole();
-        this.initSuperAdminUser();
     }
 
     private void initSuperAdminUser() {
@@ -116,7 +115,16 @@ public class SystemInitScheduled {
     }
 
     private void initEncryptDecryptKey() {
-        this.encryptDecryptService.init();
+        Flowable.just("")
+                .doOnNext(s -> {
+                    this.encryptDecryptService.init();
+                })
+                .retry((s) -> {
+                    ThreadUtils.sleepQuietly(Duration.ofSeconds(1));
+                    return true;
+                })
+                .timeout(1, TimeUnit.DAYS)
+                .blockingSubscribe();
         this.encryptDecryptService.getKeyOfAESSecretKey();
         this.encryptDecryptService.getKeyOfRSAPrivateKey();
         this.encryptDecryptService.getKeyOfRSAPublicKey();
