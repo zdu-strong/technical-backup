@@ -77,6 +77,8 @@ server:
   tomcat:
     max-http-form-post-size: -1
   max-http-request-header-size: 1MB
+spanner:
+  disable-builtin-metrics: true
 properties:
   storage:
     root:
