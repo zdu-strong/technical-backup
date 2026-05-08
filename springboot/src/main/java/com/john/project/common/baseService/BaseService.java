@@ -27,7 +27,6 @@ import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.common.storage.Storage;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import com.google.api.gax.rpc.UnauthenticatedException;
 
 @Service
 @Transactional(rollbackFor = Throwable.class)
@@ -41,7 +40,6 @@ import com.google.api.gax.rpc.UnauthenticatedException;
         IllegalStateException.class,
         StatusRuntimeException.class,
         AbortedDueToConcurrentModificationException.class,
-        UnauthenticatedException.class
 })
 public abstract class BaseService {
 
