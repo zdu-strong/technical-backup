@@ -8,7 +8,7 @@ pub async fn pagination_example() {
     let ref mut pagination_one_model =
         serde_json::from_str::<PaginationModel<String>>(pagination_json_string).unwrap();
     println!(
-        "parse pagination_model from json string:{}",
+        "parse pagination_model from json string:\n {}",
         pagination_one_model
     );
 }

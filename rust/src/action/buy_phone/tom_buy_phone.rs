@@ -15,7 +15,10 @@ pub async fn tom_buy_phone() {
             owner: "Tom".to_string(),
         },
     ];
-    println!("phone_service {}", to_string_pretty(phone_list).unwrap());
+    println!(
+        "phone_service_list: {}",
+        to_string_pretty(phone_list).unwrap()
+    );
     for phone in phone_list {
         phone.buy().await;
     }
