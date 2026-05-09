@@ -7,17 +7,6 @@ use std::process::exit;
 
 fn main() {
     remove_target_dir();
-    let is_ok = Command::new("cargo")
-        .args(["binstall", "cargo-edit"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
     cargo_upgrade();
 }
 
@@ -44,6 +33,28 @@ fn remove_target_dir() {
 }
 
 fn cargo_upgrade() {
+    let is_ok = Command::new("cargo")
+        .args(["install", "cargo-binstall"])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
+    let is_ok = Command::new("cargo")
+        .args(["binstall", "-y", "cargo-edit"])
+        .current_dir(current_dir().unwrap())
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .is_ok();
+    if !is_ok {
+        exit(1);
+    }
     let is_ok = Command::new("cargo")
         .args(["upgrade"])
         .current_dir(current_dir().unwrap())
