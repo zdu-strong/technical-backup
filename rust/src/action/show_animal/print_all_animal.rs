@@ -10,5 +10,5 @@ pub async fn print_all_animal() {
         "Parse string to animal: {}",
         AnimalEnum::from_str("DOG").unwrap()
     );
-    println!("Print animal value: {}", AnimalEnum::TIGER.as_ref());
+    println!("Print animal value: {}", AnimalEnum::TIGER);
 }
