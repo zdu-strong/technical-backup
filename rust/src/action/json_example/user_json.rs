@@ -1,5 +1,6 @@
 use crate::model::user_model::UserModel;
 use chrono::Local;
+use serde_json::to_string_pretty;
 use uuid::Uuid;
 
 pub async fn json_to_string() -> String {
@@ -23,5 +24,5 @@ pub async fn string_to_json() {
     }];
     let ref mut json_string = serde_json::to_string(user_list).unwrap();
     let ref mut user_list = serde_json::from_str::<Vec<UserModel>>(json_string).unwrap();
-    println!("{:?}", user_list);
+    println!("{}", to_string_pretty(user_list).unwrap());
 }

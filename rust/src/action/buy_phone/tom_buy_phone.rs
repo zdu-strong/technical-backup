@@ -1,6 +1,7 @@
 use crate::model::pixel_model::PixelModel;
 use crate::traits::buy::Buy;
 use bigdecimal::BigDecimal;
+use serde_json::to_string_pretty;
 use std::str::FromStr;
 
 pub async fn tom_buy_phone() {
@@ -14,7 +15,7 @@ pub async fn tom_buy_phone() {
             owner: "Tom".to_string(),
         },
     ];
-    println!("phone_service {:?}", phone_list);
+    println!("phone_service {}", to_string_pretty(phone_list).unwrap());
     for phone in phone_list {
         phone.buy().await;
     }
