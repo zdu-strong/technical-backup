@@ -5,7 +5,7 @@ use strum::IntoEnumIterator;
 
 pub async fn print_all_animal() {
     let ref mut animal_list = AnimalEnum::iter().collect::<Vec<_>>();
-    println!("All animal is {}", to_string_pretty(animal_list).unwrap());
+    println!("All animal is \n{}", to_string_pretty(animal_list).unwrap());
     println!(
         "Parse string to animal: {}",
         AnimalEnum::from_str("DOG").unwrap()

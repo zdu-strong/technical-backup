@@ -16,7 +16,7 @@ pub async fn tom_buy_phone() {
         },
     ];
     println!(
-        "phone_service_list: {}",
+        "phone_service_list: \n{}",
         to_string_pretty(phone_list).unwrap()
     );
     for phone in phone_list {
