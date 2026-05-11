@@ -16,7 +16,7 @@ async-recursion = "1.1.1"
 strum = "0.27.2"
 strum_macros = "0.27.2"
 once_cell = "1.21.4"
-serde_with = "3.19.0"
+serde_with = "3.20.0"
 bigdecimal = { version = "0.4.10", features = ["serde-json"] }
 derive_more = { version = "2.1.1", features = ["display"] }
 async-trait = "0.1"
