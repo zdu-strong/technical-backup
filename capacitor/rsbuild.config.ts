@@ -44,7 +44,7 @@ export default defineConfig({
     distPath: {
       root: 'build'
     },
-    assetPrefix: "/"
+    assetPrefix: "auto"
   },
   server: {
     open: process.env.RSBUILD_OPEN === 'true',
