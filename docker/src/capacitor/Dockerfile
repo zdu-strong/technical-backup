@@ -18,7 +18,6 @@ RUN dnf module install -y nodejs:24
 
 # run test
 FROM first_docker AS second_docker
-RUN dnf upgrade -y
 RUN dnf install -y git
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb

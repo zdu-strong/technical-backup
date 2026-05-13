@@ -19,7 +19,6 @@ FROM first_docker AS second_docker
 RUN dnf install -y git
 
 # install cargo
-RUN dnf upgrade -y
 RUN dnf install -y cargo
 
 # cargo build
