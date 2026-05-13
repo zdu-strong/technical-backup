@@ -44,7 +44,7 @@ export default defineConfig({
     distPath: {
       root: 'build'
     },
-    assetPrefix: "auto"
+    assetPrefix: "/"
   },
   server: {
     port: Number(process.env.RSBUILD_PORT) || undefined,
