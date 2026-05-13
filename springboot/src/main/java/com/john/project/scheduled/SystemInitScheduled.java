@@ -117,7 +117,8 @@ public class SystemInitScheduled {
     private void initEncryptDecryptKey() {
         Flowable.just("")
                 .doOnNext(s -> {
-                    this.encryptDecryptService.init();
+                    while (!this.encryptDecryptService.init()) {
+                    }
                 })
                 .retry((s) -> {
                     ThreadUtils.sleepQuietly(Duration.ofSeconds(1));
