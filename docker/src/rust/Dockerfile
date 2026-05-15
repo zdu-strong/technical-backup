@@ -20,6 +20,7 @@ RUN dnf install -y git
 
 # install cargo
 RUN dnf install -y cargo
+ENV PATH="${PATH}:/root/.cargo/bin"
 
 # cargo build
 COPY . /all_code

@@ -13,6 +13,13 @@ RUN dnf makecache
 RUN dnf install -y langpacks-en glibc-langpack-en
 ENV LANG="en_US.UTF-8"
 
+# install cargo
+RUN dnf install -y cargo
+ENV PATH="${PATH}:/root/.cargo/bin"
+
+# install static-web-server
+RUN cargo install static-web-server
+
 FROM first_docker AS second_docker
 
 # install nodejs
@@ -27,10 +34,7 @@ RUN dnf install -y openssl-devel
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
 RUN dnf install -y gtk3-devel
-ENV PATH="${PATH}:/root/.cargo/bin"
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN cargo install dioxus-cli --locked
-RUN cargo install static-web-server --locked
 
 # cargo build
 COPY . /all_code
@@ -44,9 +48,8 @@ RUN cargo make
 # copy build folder
 FROM first_docker
 COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
-COPY --from=second_docker /root/.cargo/bin/static-web-server /static-web-server
 
 EXPOSE 443
 
 # start server
-ENTRYPOINT ["/bin/bash", "-c", "./static-web-server --root build --port 443 --page-fallback build/index.html --cors-allow-origins * --cors-allow-headers *  --cors-expose-headers * --grace-period 180 --config-file build/sws.toml --redirect-trailing-slash false --compression false --host 0.0.0.0"]
+ENTRYPOINT ["/bin/bash", "-c", "static-web-server --root build --port 443 --page-fallback build/index.html --cors-allow-origins * --cors-allow-headers *  --cors-expose-headers * --grace-period 180 --config-file build/sws.toml --redirect-trailing-slash false --compression false --host 0.0.0.0"]
