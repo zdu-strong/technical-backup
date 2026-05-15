@@ -14,6 +14,7 @@ RUN dnf install -y langpacks-en glibc-langpack-en
 ENV LANG="en_US.UTF-8"
 
 # install cargo
+RUN dnf install -y gcc
 ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
@@ -29,7 +30,6 @@ RUN dnf module install -y nodejs:24
 RUN dnf install -y git
 
 # install dioxus-cli
-RUN dnf install -y gcc
 RUN dnf install -y openssl-devel
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb

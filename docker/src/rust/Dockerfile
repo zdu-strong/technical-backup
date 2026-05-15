@@ -16,6 +16,7 @@ ENV LANG="en_US.UTF-8"
 FROM first_docker AS second_docker
 
 # install cargo
+RUN dnf install -y gcc
 ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
