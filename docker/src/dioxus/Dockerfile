@@ -19,6 +19,9 @@ RUN dnf module install -y nodejs:24
 # install serve
 RUN npm install --location=global serve
 
+# install pm2
+RUN npm install --location=global pm2
+
 FROM first_docker AS second_docker
 
 # install cargo
@@ -45,8 +48,9 @@ RUN cargo make
 # copy build folder
 FROM first_docker
 COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
+COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public/pm2-serve.js /pm2-serve.js
 
 EXPOSE 443
 
 # start server
-ENTRYPOINT ["/bin/bash", "-c", "serve --single --cors --no-clipboard --no-port-switching --no-request-logging --no-compression --listen=443 build"]
+ENTRYPOINT ["/bin/bash", "-c", "pm2 --no-daemon --instances max start pm2-serve.js"]
