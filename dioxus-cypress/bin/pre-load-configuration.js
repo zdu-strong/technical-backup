@@ -6,6 +6,7 @@ async function main() {
     await deletePackageLockFile();
     await deleteBuildFolder();
     await installDependencies();
+    await build_dioxus();
     process.exit();
 }
 
@@ -33,6 +34,21 @@ async function deletePackageLockFile() {
 async function deleteBuildFolder() {
     const folderPath = path.join(__dirname, "..", "build");
     await fs.promises.rm(folderPath, { recursive: true, force: true });
+}
+
+async function build_dioxus(){
+    execSync(
+        [
+            "cargo make",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, "../../dioxus"),
+            env: {
+                ...process.env,
+            },
+        }
+    );
 }
 
 module.exports = main()

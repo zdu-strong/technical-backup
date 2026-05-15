@@ -1,23 +1,21 @@
-const execa = require('execa')
 const path = require('path')
+const { execSync } = require('child_process')
 
 async function main() {
     packElectron();
     startPlaywright();
-
-    process.exit();
 }
 
 function startPlaywright() {
-    execa.commandSync(
+    execSync(
         [
             "jest --runInBand --config ./test/jest.json",
         ].join(' '),
         {
             stdio: 'inherit',
             cwd: path.join(__dirname, '..'),
-            extendEnv: true,
             env: {
+                ...process.env,
                 "ELECTRON_DISABLE_SECURITY_WARNINGS": "true",
                 "ELECTRON_IS_TEST": "true",
                 "ELECTRON_IS_TEST_AND_NOT_SHOW": "true",
@@ -27,15 +25,15 @@ function startPlaywright() {
 }
 
 function packElectron() {
-    execa.commandSync(
+    execSync(
         [
             'npm run pack',
         ].join(' '),
         {
             stdio: 'inherit',
             cwd: path.join(__dirname, '../..', "electron"),
-            extendEnv: true,
             env: {
+                ...process.env,
                 "ELECTRON_IS_TEST": "true",
                 "ELECTRON_IS_TEST_AND_NOT_SHOW": "true",
             }

@@ -21,16 +21,6 @@ async function main() {
 }
 
 async function startClient() {
-    execa.commandSync(
-        [
-            'cargo make',
-        ].join(' '),
-        {
-            stdio: 'inherit',
-            cwd: path.join(__dirname, '../../dioxus'),
-            extendEnv: true,
-        }
-    );
     const avaliableClientPort = await getPort();
     const childProcessOfReact = execa.command(
         [
