@@ -28,7 +28,7 @@ RUN dnf module install -y nodejs:24
 # install git
 RUN dnf install -y git
 
-# install cargo
+# install dioxus-cli
 RUN dnf install -y gcc
 RUN dnf install -y openssl-devel
 RUN dnf install -y procps-ng

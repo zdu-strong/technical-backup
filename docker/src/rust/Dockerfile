@@ -15,12 +15,12 @@ ENV LANG="en_US.UTF-8"
 
 FROM first_docker AS second_docker
 
-# install git
-RUN dnf install -y git
-
 # install cargo
 RUN dnf install -y cargo
 ENV PATH="${PATH}:/root/.cargo/bin"
+
+# install git
+RUN dnf install -y git
 
 # cargo build
 COPY . /all_code
