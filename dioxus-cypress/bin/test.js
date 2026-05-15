@@ -51,7 +51,7 @@ async function startClient() {
     const avaliableClientPort = await getPort();
     const childProcessOfReact = execa.command(
         [
-            `serve --single --cors --no-clipboard --no-port-switching --no-request-logging --listen=${avaliableClientPort} ../dioxus/target/dx/rust-app/release/web/public`,
+            `serve --single --cors --no-clipboard --no-port-switching --no-request-logging --no-compression --listen=${avaliableClientPort} ../dioxus/target/dx/rust-app/release/web/public`,
         ].join(' '),
         {
             stdio: 'inherit',
