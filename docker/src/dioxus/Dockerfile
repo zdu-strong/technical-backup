@@ -13,13 +13,10 @@ RUN dnf makecache
 RUN dnf install -y langpacks-en glibc-langpack-en
 ENV LANG="en_US.UTF-8"
 
+FROM first_docker AS second_docker
+
 # install nodejs
 RUN dnf module install -y nodejs:24
-
-# install serve
-RUN npm install --location=global serve
-
-FROM first_docker AS second_docker
 
 # install git
 RUN dnf install -y git
@@ -33,6 +30,7 @@ RUN dnf install -y gtk3-devel
 ENV PATH="${PATH}:/root/.cargo/bin"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN cargo install dioxus-cli --locked
+RUN cargo install static-web-server --locked
 
 # cargo build
 COPY . /all_code
@@ -46,8 +44,9 @@ RUN cargo make
 # copy build folder
 FROM first_docker
 COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
+COPY --from=second_docker /root/.cargo/bin/static-web-server /static-web-server
 
 EXPOSE 443
 
 # start server
-ENTRYPOINT ["/bin/bash", "-c", "serve --single --cors --no-clipboard --no-port-switching --no-request-logging --listen=443 build"]
+ENTRYPOINT ["/bin/bash", "-c", "./static-web-server --root build --port 443 --page-fallback build/index.html --cors-allow-origins * --cors-allow-headers *  --cors-expose-headers * --grace-period 180 --config-file build/sws.toml --redirect-trailing-slash false"]
