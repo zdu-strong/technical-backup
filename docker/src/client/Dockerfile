@@ -46,4 +46,4 @@ COPY --from=second_docker /all_code/react/build /build
 EXPOSE 443
 
 # start server
-ENTRYPOINT ["/bin/bash", "-c", "node build/support_react_app_environment_variables.js && serve --single --cors --no-clipboard --no-port-switching --no-request-logging --listen=443 build"]
+ENTRYPOINT ["/bin/bash", "-c", "node build/support_react_app_environment_variables.js && serve --single --cors --no-clipboard --no-port-switching --no-request-logging --no-compression --listen=443 build"]

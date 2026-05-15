@@ -49,4 +49,4 @@ COPY --from=second_docker /root/.cargo/bin/static-web-server /static-web-server
 EXPOSE 443
 
 # start server
-ENTRYPOINT ["/bin/bash", "-c", "./static-web-server --root build --port 443 --page-fallback build/index.html --cors-allow-origins * --cors-allow-headers *  --cors-expose-headers * --grace-period 180 --config-file build/sws.toml --redirect-trailing-slash false"]
+ENTRYPOINT ["/bin/bash", "-c", "./static-web-server --root build --port 443 --page-fallback build/index.html --cors-allow-origins * --cors-allow-headers *  --cors-expose-headers * --grace-period 180 --config-file build/sws.toml --redirect-trailing-slash false --compression false"]
