@@ -1,5 +1,0 @@
-[advanced]
-
-[[advanced.headers]]
-source = "/**"
-headers = { Cache-Control = "no-cache, must-revalidate, no-transform, private" }
