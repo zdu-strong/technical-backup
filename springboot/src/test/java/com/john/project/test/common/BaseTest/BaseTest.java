@@ -86,6 +86,9 @@ public abstract class BaseTest {
     @Autowired
     protected TestRestTemplate testRestTemplate;
 
+    @Autowired
+    protected RestTemplate restTemplate;
+
     protected final Executor executor = Executors.newVirtualThreadPerTaskExecutor();
 
     protected MockHttpServletRequest request = new MockHttpServletRequest();
@@ -358,7 +361,7 @@ public abstract class BaseTest {
                                 .setPath("/long-term-task/is-done")
                                 .setParameter("encryptedId", encryptedId)
                                 .build();
-                        var isDone = new RestTemplate().getForObject(url, Boolean.class);
+                        var isDone = restTemplate.getForObject(url, Boolean.class);
                         if (isDone) {
                             break;
                         }
@@ -370,7 +373,7 @@ public abstract class BaseTest {
                             .setPath("/long-term-task")
                             .setParameter("encryptedId", encryptedId)
                             .build();
-                    var response = new RestTemplate().exchange(url, HttpMethod.GET, null,
+                    var response = restTemplate.exchange(url, HttpMethod.GET, null,
                             responseType);
                     return response;
                 })
