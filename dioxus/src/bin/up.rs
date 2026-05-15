@@ -33,18 +33,7 @@ fn main() {
         exit(1);
     }
     let is_ok = Command::new("cargo")
-        .args(["install", "cargo-binstall"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .is_ok();
-    if !is_ok {
-        exit(1);
-    }
-    let is_ok = Command::new("cargo")
-        .args(["binstall", "-y", "dioxus-cli"])
+        .args(["install", "dioxus-cli", "--locked"])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
@@ -63,6 +52,17 @@ fn cargo_upgrade() {
         .into_iter()
         .any(|arg| arg == DO_NOT_CARGO_UPGRADE)
     {
+        let is_ok = Command::new("cargo")
+            .args(["install", "cargo-binstall"])
+            .current_dir(current_dir().unwrap())
+            .stdin(Stdio::inherit())
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .output()
+            .is_ok();
+        if !is_ok {
+            exit(1);
+        }
         let is_ok = Command::new("cargo")
             .args(["binstall", "-y", "cargo-edit"])
             .current_dir(current_dir().unwrap())
