@@ -54,3 +54,8 @@ inherits = "dev"
 
 [profile.server-dev]
 inherits = "dev"
+
+[profile.wasm-release]
+inherits = "dev"
+opt-level = "z"
+lto = true
