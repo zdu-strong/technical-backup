@@ -1,0 +1,10 @@
+[advanced]
+
+[[advanced.headers]]
+source = "/**"
+
+[advanced.headers.headers]
+Cache-Control = "no-cache, must-revalidate, no-transform, private"
+Access-Control-Allow-Origin = "*"
+Access-Control-Allow-Headers = "*"
+Access-Control-Allow-Methods = "*"
