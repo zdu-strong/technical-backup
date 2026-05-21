@@ -3,10 +3,10 @@ const path = require('path')
 const { execSync } = require('child_process')
 
 async function main() {
+    await build_dioxus();
     await deletePackageLockFile();
     await deleteBuildFolder();
     await installDependencies();
-    await build_dioxus();
     process.exit();
 }
 
