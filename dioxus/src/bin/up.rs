@@ -60,7 +60,9 @@ fn install_dioxus_cli() {
             return version_text;
         })
         .collect::<String>();
-
+    if version_of_dioxus_cli.chars().count() == 0 {
+        panic!("The version info for dioxus-cli does not exist");
+    }
     let is_ok = Command::new("cargo")
         .args([
             "install",
