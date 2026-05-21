@@ -24,17 +24,6 @@ fn main() {
 }
 
 fn install_dioxus_cli() {
-    if Command::new("dx")
-        .args(["--version"])
-        .current_dir(current_dir().unwrap())
-        .stdin(Stdio::inherit())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .output()
-        .is_ok()
-    {
-        return;
-    }
     let is_ok = Command::new("cargo")
         .args(["up", "--", DO_NOT_CARGO_UPGRADE])
         .current_dir(current_dir().unwrap())
