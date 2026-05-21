@@ -50,7 +50,7 @@
         "axios": "1.13.2",
         "chokidar": "5.0.0",
         "cli-color": "2.0.4",
-        "cypress": "15.8.1",
+        "cypress": "15.15.0",
         "eslint": "8.57.0",
         "eslint-plugin-cypress": "3.6.0",
         "eslint-plugin-unused-imports": "4.3.0",
