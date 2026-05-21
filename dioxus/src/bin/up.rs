@@ -10,10 +10,10 @@ use std::str::from_utf8;
 const DO_NOT_CARGO_UPGRADE: &str = "--do-not-cargo-upgrade";
 
 fn main() {
+    remove_target_dir();
     if is_do_not_cargo_upgrade_and_exit() {
         return;
     }
-    remove_target_dir();
     let is_ok = Command::new("rustup")
         .args(["toolchain", "install", "stable"])
         .current_dir(current_dir().unwrap())
@@ -36,8 +36,8 @@ fn main() {
     if !is_ok {
         exit(1);
     }
-    install_dioxus_cli();
     cargo_upgrade();
+    install_dioxus_cli();
 }
 
 fn is_do_not_cargo_upgrade_and_exit() -> bool {
