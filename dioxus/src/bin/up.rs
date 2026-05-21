@@ -32,8 +32,43 @@ fn main() {
     if !is_ok {
         exit(1);
     }
+    install_dioxus_cli();
+    cargo_upgrade();
+}
+
+fn install_dioxus_cli() {
+    let cargo_toml_path = String::from(
+        Path::new(&current_dir().unwrap())
+            .join("Cargo.toml")
+            .to_str()
+            .unwrap(),
+    );
+    let text_of_cargo_toml = fs::read_to_string(cargo_toml_path).unwrap();
+    let start_content = "dioxus = { version = \"";
+    let end_content = "\", features";
+    let version_of_dioxus_cli = text_of_cargo_toml
+        .lines()
+        .filter(|s| s.starts_with(start_content))
+        .map(|s| {
+            let start_index = s.find(start_content).unwrap() + start_content.chars().count();
+            let end_index = s.find(end_content).unwrap();
+            let version_text = s
+                .chars()
+                .skip(start_index)
+                .take(end_index - start_index)
+                .collect::<String>();
+            return version_text;
+        })
+        .collect::<String>();
+
     let is_ok = Command::new("cargo")
-        .args(["install", "dioxus-cli", "--locked"])
+        .args([
+            "install",
+            "--locked",
+            "--version",
+            version_of_dioxus_cli.as_str(),
+            "dioxus-cli",
+        ])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
@@ -43,7 +78,6 @@ fn main() {
     if !is_ok {
         exit(1);
     }
-    cargo_upgrade();
 }
 
 fn cargo_upgrade() {
