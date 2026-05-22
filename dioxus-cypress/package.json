@@ -54,7 +54,7 @@
         "rxjs-exhaustmap-with-trailing": "2.1.1",
         "serve": "14.2.6",
         "tree-kill": "1.2.2",
-        "typescript": "6.0.3",
+        "typescript": "5.9.3",
         "uuid": "14.0.0",
         "wait-on": "9.0.10"
     }
