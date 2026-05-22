@@ -112,7 +112,7 @@ public class SpringBootProjectApplication {
             command.add("/bin/bash");
             command.add("-c");
         }
-        command.add("mvn clean compile spring-boot:run --define database.name="
+        command.add("mvn clean spring-boot:run --define database.name="
                 + newDatabaseName);
         var processBuilder = new ProcessBuilder(command)
                 .inheritIO()

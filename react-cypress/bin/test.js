@@ -75,7 +75,7 @@ async function startServer() {
     const availableServerPort = await getPort();
     const childProcessOfServer = execa.command(
         [
-            './mvn clean compile spring-boot:run',
+            './mvn clean spring-boot:run',
         ].join(' '),
         {
             stdio: 'inherit',
