@@ -24,18 +24,18 @@ RUN dnf install -y gtk3-devel
 # RUN dnf install -y libnotify-devel nss libXScrnSaver alsa-lib
 # RUN dnf install -y gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib
 # RUN dnf install -y mesa-dri-drivers Xvfb libXi-devel libXinerama-devel libX11-devel
-COPY . /all_code
-WORKDIR /all_code/electron-playwright
-RUN rm -rf ../electron/node_modules
-RUN rm -rf ./node_modules
+COPY . /all-code
+RUN rm -rf /all-code/electron/node_modules
+RUN rm -rf /all-code/electron-playwright/node_modules
+WORKDIR /all-code/electron-playwright
 RUN xvfb-run npm test
-WORKDIR /all_code/electron
+WORKDIR /all-code/electron
 RUN npm run make
 RUN mv output/*.AppImage output/my-app.AppImage
 
 # copy appImage
 FROM first_docker
-COPY --from=second_docker /all_code/electron/output/my-app.AppImage /my-app.AppImage
+COPY --from=second_docker /all-code/electron/output/my-app.AppImage /my-app.AppImage
 
 # start server
 ENTRYPOINT ["/bin/bash"]

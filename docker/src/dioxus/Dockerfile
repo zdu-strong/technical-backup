@@ -34,17 +34,17 @@ RUN dnf install -y openssl-devel
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
 RUN dnf install -y gtk3-devel
-COPY . /all_code
-WORKDIR /all_code/dioxus
-RUN rm -rf ./target
-WORKDIR /all_code/dioxus-cypress
+COPY . /all-code
+RUN rm -rf /all-code/dioxus-cypress/node_modules
+RUN rm -rf /all-code/dioxus/target
+WORKDIR /all-code/dioxus-cypress
 RUN npm test
-WORKDIR /all_code/dioxus
+WORKDIR /all-code/dioxus
 RUN cargo make
 
 # copy build folder
 FROM first_docker
-COPY --from=second_docker /all_code/dioxus/target/dx/rust-app/release/web/public /build
+COPY --from=second_docker /all-code/dioxus/target/dx/rust-app/release/web/public /build
 
 EXPOSE 443
 

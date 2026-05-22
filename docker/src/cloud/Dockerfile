@@ -29,8 +29,8 @@ ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
 # compile server code
 FROM first_docker AS second_docker
 RUN dnf install -y git
-COPY . /all_code
-WORKDIR /all_code/springboot
+COPY . /all-code
+WORKDIR /all-code/springboot
 RUN chmod +x mvn
 RUN ./mvn clean package
 RUN mv target/*.jar target/server.jar
@@ -40,21 +40,21 @@ FROM second_docker AS three_docker
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
 RUN dnf install -y gtk3-devel
-COPY . /all_code
-WORKDIR /all_code/springboot
+COPY . /all-code
+RUN rm -rf /all-code/react/node_modules
+RUN rm -rf /all-code/react-cypress/node_modules
+WORKDIR /all-code/springboot
 RUN chmod +x mvn
-WORKDIR /all_code/react-cypress
-RUN rm -rf ../react/node_modules
-RUN rm -rf ./node_modules
+WORKDIR /all-code/react-cypress
 RUN npm test
-WORKDIR /all_code/react
+WORKDIR /all-code/react
 RUN npm run build
 
 FROM first_docker
 # copy jar
-COPY --from=second_docker /all_code/springboot/target/server.jar /server.jar
+COPY --from=second_docker /all-code/springboot/target/server.jar /server.jar
 # copy build folder
-COPY --from=three_docker /all_code/react/build /build
+COPY --from=three_docker /all-code/react/build /build
 
 # set env
 ENV SERVER_SHUTDOWN="GRACEFUL"

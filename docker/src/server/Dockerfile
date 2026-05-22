@@ -20,15 +20,15 @@ ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
 # compile code
 FROM first_docker AS second_docker
 RUN dnf install -y git
-COPY . /all_code
-WORKDIR /all_code/springboot
+COPY . /all-code
+WORKDIR /all-code/springboot
 RUN chmod +x mvn
 RUN ./mvn clean package --define is.development.mock.mode=false
 RUN mv target/*.jar target/server.jar
 
 # copy jar
 FROM first_docker
-COPY --from=second_docker /all_code/springboot/target/server.jar /server.jar
+COPY --from=second_docker /all-code/springboot/target/server.jar /server.jar
 
 ENV SERVER_SHUTDOWN="GRACEFUL"
 

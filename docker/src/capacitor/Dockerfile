@@ -22,19 +22,16 @@ RUN dnf install -y git
 RUN dnf install -y procps-ng
 RUN dnf install -y xorg-x11-server-Xvfb
 RUN dnf install -y gtk3-devel
-COPY . /all_code
-WORKDIR /all_code/capacitor-cypress
-RUN rm -rf ../capacitor/node_modules
-RUN rm -rf ./node_modules
+COPY . /all-code
+RUN rm -rf /all-code/capacitor/node_modules
+RUN rm -rf /all-code/capacitor-cypress/node_modules
+WORKDIR /all-code/capacitor-cypress
 RUN npm test
-WORKDIR /all_code/capacitor
-WORKDIR /all_code
-RUN rm -rf ./capacitor-cypress/node_modules
-RUN rm -rf ./capacitor/node_modules
+RUN rm -rf /all-code/capacitor/node_modules
 
-# copy all_code folder
+# copy all-code folder
 FROM first_docker
-COPY --from=second_docker /all_code/capacitor /capacitor
+COPY --from=second_docker /all-code/capacitor /capacitor
 WORKDIR /capacitor
 
 # start server

@@ -24,13 +24,14 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN dnf install -y git
 
 # cargo build
-COPY . /all_code
-WORKDIR /all_code/rust
+COPY . /all-code
+RUN rm -rf /all-code/rust/target
+WORKDIR /all-code/rust
 RUN cargo make
 
 # cargo run
 FROM first_docker
-COPY --from=second_docker /all_code/rust/target/release/my /my
+COPY --from=second_docker /all-code/rust/target/release/my /my
 RUN /my
 
 # start server
