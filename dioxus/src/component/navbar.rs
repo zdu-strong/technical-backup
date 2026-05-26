@@ -2,15 +2,15 @@ use crate::router::Route;
 use daisy_rsx::*;
 use dioxus::prelude::*;
 
+#[css_module("/assets/styling/navbar.module.css")]
+struct Css;
+
 #[component]
 pub fn Navbar() -> Element {
-    #[css_module("/assets/styling/navbar.module.css")]
-    struct Styles;
-
     rsx! {
         div {
             id: "navbar",
-            class: format!("{} {} {}", "flex", "flex-row", Styles::navbar),
+            class: format!("{} {} {}", "flex", "flex-row", Css::navbar),
 
             Link {
                 to: Route::HomePage {},
