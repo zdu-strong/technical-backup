@@ -3,14 +3,14 @@ use daisy_rsx::*;
 use dioxus::prelude::*;
 
 #[css_module("/assets/styling/navbar.module.css")]
-struct Css;
+struct CSS;
 
 #[component]
 pub fn Navbar() -> Element {
     rsx! {
         div {
             id: "navbar",
-            class: format!("flex flex-row {}", Css::navbar),
+            class: format!("flex flex-row {}", CSS::navbar),
 
             Link {
                 to: Route::HomePage {},
