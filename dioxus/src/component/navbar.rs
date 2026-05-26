@@ -10,7 +10,7 @@ pub fn Navbar() -> Element {
     rsx! {
         div {
             id: "navbar",
-            class: format!("{} {} {}", "flex", "flex-row", Css::navbar),
+            class: format!("flex flex-row {}", Css::navbar),
 
             Link {
                 to: Route::HomePage {},
