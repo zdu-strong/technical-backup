@@ -30,6 +30,7 @@
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
     "baseUrl": ".",
+    "types": ["node"],
     "paths": {
       "@/*": [
         "./src/*"
