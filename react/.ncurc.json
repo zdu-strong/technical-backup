@@ -1,15 +1,24 @@
 {
-  "reject": [
-    "execa",
-    "@fortawesome/free-brands-svg-icons",
-    "@fortawesome/free-solid-svg-icons",
-    "@fortawesome/react-fontawesome",
-    "@types/react",
-    "@types/react-dom",
-    "react",
-    "react-dom",
-    "react-intl",
-    "@rsbuild/core",
-    "typescript"
-  ]
+    "reject": [
+        "execa",
+        "@fortawesome/free-brands-svg-icons",
+        "@fortawesome/free-solid-svg-icons",
+        "@fortawesome/react-fontawesome",
+        "@types/react",
+        "@types/react-dom",
+        "react",
+        "react-dom",
+        "react-intl",
+        "@rsbuild/core",
+        "typescript",
+        "@mui/icons-material",
+        "@mui/lab",
+        "@mui/material",
+        "@mui/x-charts",
+        "@mui/x-data-grid",
+        "@mui/x-data-grid-pro",
+        "@mui/x-date-pickers",
+        "@rsbuild/plugin-eslint",
+        "@rsbuild/plugin-react"
+    ]
 }
