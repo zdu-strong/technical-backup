@@ -8,4 +8,5 @@ export default defineConfig({
     },
   },
   defaultCommandTimeout: 10000,
+  allowCypressEnv: false,
 });
