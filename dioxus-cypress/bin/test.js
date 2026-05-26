@@ -5,16 +5,17 @@ const util = require('util')
 const path = require('path')
 const waitOn = require('wait-on')
 const { timer } = require('rxjs')
-const { default: axios } = require("axios")
 
 async function main() {
     await eslint();
     const { avaliableClientPort, childProcessOfReact } = await startClient();
     const { childProcessOfCypress } = await startCypress(avaliableClientPort);
-    await Promise.race([childProcessOfReact, childProcessOfCypress]);
-    await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
-    await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
-
+    try {
+        await Promise.race([childProcessOfReact, childProcessOfCypress]);
+    } finally {
+        await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
+    }
     process.exit();
 }
 

@@ -12,10 +12,13 @@ async function main() {
     const { availableServerPort, childProcessOfServer } = await startServer();
     const { avaliableClientPort, childProcessOfReact } = await startClient(availableServerPort);
     const { childProcessOfCypress } = await startCypress(avaliableClientPort);
-    await Promise.race([childProcessOfReact, childProcessOfCypress, childProcessOfServer]);
-    await util.promisify(treeKill)(childProcessOfServer.pid).catch(async () => null);
-    await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
-    await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
+    try {
+        await Promise.race([childProcessOfReact, childProcessOfCypress, childProcessOfServer]);
+    } finally {
+        await util.promisify(treeKill)(childProcessOfServer.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
+    }
 
     process.exit();
 }

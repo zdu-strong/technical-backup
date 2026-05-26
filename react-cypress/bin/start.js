@@ -13,11 +13,14 @@ async function main() {
     const { childProcessOfCypress } = await startCypress(avaliableClientPort);
     const { childProcessOfEslint } = await startEslint();
 
-    await Promise.race([childProcessOfServer, childProcessOfReact, childProcessOfCypress, childProcessOfEslint]);
-    await util.promisify(treeKill)(childProcessOfServer.pid).catch(async () => null);
-    await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
-    await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
-    await util.promisify(treeKill)(childProcessOfEslint.pid).catch(async () => null);
+    try {
+        await Promise.race([childProcessOfServer, childProcessOfReact, childProcessOfCypress, childProcessOfEslint]);
+    } finally {
+        await util.promisify(treeKill)(childProcessOfServer.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfEslint.pid).catch(async () => null);
+    }
 
     process.exit();
 }
