@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "useDefineForClassFields": true,
     /* modules */
-    "module": "nodenext",
+    "module": "esnext",
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
