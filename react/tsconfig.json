@@ -6,7 +6,7 @@
       "ESNext"
     ],
     "jsx": "react-jsx",
-    "target": "ES5",
+    "target": "es6",
     "noEmit": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
@@ -29,7 +29,6 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
-    "baseUrl": ".",
     "types": ["node"],
     "paths": {
       "@/*": [
