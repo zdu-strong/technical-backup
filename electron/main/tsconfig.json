@@ -1,20 +1,24 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../dist",
-    "noEmit": false,
-    "module": "CommonJS",
-    "pretty": true,
-    "verbatimModuleSyntax": false,
-    "moduleResolution": "node",
-    "allowImportingTsExtensions": false,
-    "paths": {
-      "@/*": [
-        "./main/*"
-      ]
+    "extends": "../tsconfig.json",
+    "exclude": [
+        "test",
+        "dist",
+    ],
+    "compilerOptions": {
+        "outDir": "../dist",
+        "noEmit": false,
+        "module": "CommonJS",
+        "pretty": true,
+        "verbatimModuleSyntax": false,
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": false,
+        "paths": {
+            "@/*": [
+                "./main/*"
+            ]
+        }
     },
-  },
-  "include": [
-    "./"
-  ],
+    "include": [
+        "./"
+    ]
 }

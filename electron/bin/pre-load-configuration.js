@@ -78,7 +78,7 @@ async function compileCode() {
     );
     execSync(
         [
-            "nest build --path tsconfig.electron.main.json",
+            "nest build --path main/tsconfig.json",
         ].join(" "),
         {
             stdio: "inherit",

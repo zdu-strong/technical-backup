@@ -24,7 +24,7 @@ module.exports = defineConfig([{
     sourceType: "module",
 
     parserOptions: {
-      project: "tsconfig.electron.main.json",
+      project: "main/tsconfig.json",
       tsconfigRootDir: __dirname,
     },
 

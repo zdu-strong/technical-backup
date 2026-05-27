@@ -15,8 +15,6 @@
     "src/react-app-env.d.ts": true,
     "electron.eslint.js": true,
     "nest-cli.json": true,
-    "tsconfig.build.json": true,
-    "tsconfig.electron.main.json": true,
     ".ncurc.json": true,
     "rsbuild.config.ts": true,
   },

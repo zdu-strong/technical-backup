@@ -17,7 +17,6 @@
     ".eslintrc.js": true,
     ".prettierrc": true,
     "nest-cli.json": true,
-    "tsconfig.build.json": true,
     "dist": true,
     "test/jest.json": true,
     ".ncurc.json": true,
