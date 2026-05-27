@@ -78,11 +78,11 @@ async function compileCode() {
     );
     execSync(
         [
-            "nest build --path main/tsconfig.json",
+            "nest build --path tsconfig.json",
         ].join(" "),
         {
             stdio: "inherit",
-            cwd: path.join(__dirname, ".."),
+            cwd: path.join(__dirname, "../main"),
         }
     );
 }
