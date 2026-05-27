@@ -11,4 +11,5 @@ export default defineConfig({
     viewportWidth: 1180,
     defaultCommandTimeout: 10000,
     video: true,
+    allowCypressEnv: false,
 });
