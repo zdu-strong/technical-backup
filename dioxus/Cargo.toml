@@ -29,6 +29,7 @@ bigdecimal = { version = "0.4.10", features = ["serde-json"] }
 derive_more = { version = "2.1.1", features = ["display"] }
 async-trait = "0.1"
 serde-aux = "4.7.0"
+base64 = "0.22.1"
 
 [features]
 default = ["web"]

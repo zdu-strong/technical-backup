@@ -1,5 +1,6 @@
 use crate::component::game_button::GameButton;
 use crate::component::game_input::GameInput;
+use crate::constant::image_constant::HEADER_SVG_IMAGE;
 use crate::model::cat_model::CatModel;
 use crate::model::user_model::UserModel;
 use bigdecimal::BigDecimal;
@@ -11,8 +12,6 @@ use std::str::FromStr;
 use std::time::Duration;
 use tokio_with_wasm::alias::time::sleep;
 use uuid::Uuid;
-
-const HEADER_SVG: Asset = asset!("/assets/image/header.svg");
 
 #[component]
 pub fn Hero() -> Element {
@@ -60,7 +59,7 @@ pub fn Hero() -> Element {
             img {
                 id: "header",
                 style: "max-width: 1200px",
-                src: HEADER_SVG,
+                src: "{HEADER_SVG_IMAGE}",
             }
             div {
                 class: "flex flex-col space-y-4 w-full max-w-md",
