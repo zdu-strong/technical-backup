@@ -9,7 +9,7 @@
         "target": "es6",
         "outDir": "../dist",
         "noEmit": false,
-        "module": "NodeNext",
+        "module": "nodenext",
         "pretty": true,
         "verbatimModuleSyntax": false,
         "moduleResolution": "nodenext",

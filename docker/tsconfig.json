@@ -6,6 +6,7 @@
       "DOM.Iterable",
       "ESNext"
     ],
+    "types": ["node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

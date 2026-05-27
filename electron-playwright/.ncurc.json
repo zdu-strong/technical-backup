@@ -3,7 +3,6 @@
     "eslint",
     "execa",
     "get-port",
-    "linq",
-    "typescript"
+    "linq"
   ]
 }
