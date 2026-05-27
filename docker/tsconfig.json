@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "es6",
     "lib": [
       "DOM",
       "DOM.Iterable",
@@ -13,8 +13,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,

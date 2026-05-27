@@ -3,7 +3,6 @@
     "eslint",
     "eslint-plugin-cypress",
     "execa",
-    "get-port",
-    "typescript"
+    "get-port"
   ]
 }
