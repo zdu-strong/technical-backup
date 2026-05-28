@@ -28,7 +28,7 @@
       "isolatedModules": true,
       "paths": {
         "@/*": [
-          "src/*"
+          "./src/*"
         ]
       }
     },
