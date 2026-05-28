@@ -128,7 +128,7 @@
         "js-sha3": "0.9.3",
         "jsencrypt": "3.5.4",
         "linq": "3.2.4",
-        "mobx-react-use-autorun": "4.0.83",
+        "mobx-react-use-autorun": "4.0.85",
         "node-rsa": "2.0.0",
         "qs": "6.15.2",
         "react": "19.0.6",
