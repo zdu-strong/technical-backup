@@ -4,9 +4,7 @@ import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 
 export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElement | null>, subscription: Subscription) {
 
-    for (let i = 16; i > 0; i--) {
-        await timer(1).toPromise();
-    }
+    await waitReadyForLoadingAnimation();
 
     const engine = new BABYLON.Engine(canvasRef.current, true, { preserveDrawingBuffer: true, stencil: true });
     engine.resize();
@@ -28,6 +26,12 @@ export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElemen
     await scene.whenReadyAsync(true);
 
     return engine;
+}
+
+async function waitReadyForLoadingAnimation() {
+    for (let i = 16; i > 0; i--) {
+        await timer(1).toPromise();
+    }
 }
 
 async function createScene(engine: BABYLON.Engine, canvasRef: React.RefObject<HTMLCanvasElement | null>) {
