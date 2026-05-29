@@ -25,9 +25,7 @@ export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElemen
 
     resizeGameCanvas(engine, subscription);
 
-    for (let i = 10; i > 0; i--) {
-        await timer(16).toPromise();
-    }
+    await scene.whenReadyAsync(true);
 
     return engine;
 }
