@@ -4,7 +4,7 @@ import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 
 export async function initGameEngine(canvasRef: React.RefObject<HTMLCanvasElement | null>, subscription: Subscription) {
 
-    for (let i = 100; i > 0; i--) {
+    for (let i = 16; i > 0; i--) {
         await timer(1).toPromise();
     }
 
