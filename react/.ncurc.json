@@ -14,9 +14,6 @@
         "@mui/x-charts",
         "@mui/x-data-grid",
         "@mui/x-data-grid-pro",
-        "@mui/x-date-pickers",
-        "@rsbuild/core",
-        "@rsbuild/plugin-eslint",
-        "@rsbuild/plugin-react"
+        "@mui/x-date-pickers"
     ]
 }

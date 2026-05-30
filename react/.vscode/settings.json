@@ -12,7 +12,8 @@
     "src/reportWebVitals.ts": true,
     "src/react-app-env.d.ts": true,
     ".ncurc.json": true,
-    "rsbuild.config.ts": true,
+    "rsbuild.config.mjs": true,
+    "eslint.config.mjs": true
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
