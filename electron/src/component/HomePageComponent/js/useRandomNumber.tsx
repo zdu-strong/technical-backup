@@ -8,10 +8,6 @@ export function useRandomNumber() {
         randomNumber: 16,
     });
 
-    useMount((subscription) => {
-        loadRandomNumber(subscription)
-    })
-
     function loadRandomNumber(subscription: Subscription) {
         subscription.add(of(null).pipe(
             concatMap(() => interval(1).pipe(
@@ -31,6 +27,10 @@ export function useRandomNumber() {
             repeat({ delay: 1000 }),
         ).subscribe());
     }
+
+    useMount((subscription) => {
+        loadRandomNumber(subscription)
+    })
 
     return state.randomNumber;
 }

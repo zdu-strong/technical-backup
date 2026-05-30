@@ -5,10 +5,23 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import unusedImports from "eslint-plugin-unused-imports";
+import path from "path";
 
 export default defineConfig([
-    globalIgnores(['build']),
+    globalIgnores(['build', "dist", "output"]),
     {
+        languageOptions: {
+
+            parserOptions: {
+                project: "main/tsconfig.json",
+                tsconfigRootDir: import.meta.dirname,
+            },
+
+            globals: {
+                ...globals.node,
+                ...globals.jest,
+            },
+        },
         files: ['**/*.{ts,tsx}'],
         extends: [
             js.configs.recommended,
@@ -38,7 +51,8 @@ export default defineConfig([
             "@typescript-eslint/no-unused-vars": "off",
             "react-refresh/only-export-components": "off",
             "unused-imports/no-unused-imports": "warn",
-            "unused-imports/no-unused-vars": "off"
+            "unused-imports/no-unused-vars": "off",
+            "@typescript-eslint/no-require-imports": "off",
         },
     },
 ]);

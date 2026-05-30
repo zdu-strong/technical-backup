@@ -69,7 +69,7 @@ async function rebuildDependenciesOfElectron() {
 async function compileCode() {
     execSync(
         [
-            `eslint main/**/*.tsx --config electron-eslint.config.js`
+            `eslint main/**/*.tsx --config electron-eslint.config.mjs`
         ].join(" "),
         {
             stdio: "inherit",

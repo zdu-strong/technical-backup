@@ -13,10 +13,11 @@
     "postcss.config.mjs": true,
     "src/reportWebVitals.ts": true,
     "src/react-app-env.d.ts": true,
-    "electron-eslint.config.js": true,
+    "electron-eslint.config.mjs": true,
     "nest-cli.json": true,
     ".ncurc.json": true,
-    "rsbuild.config.ts": true,
+    "rsbuild.config.mjs": true,
+    "eslint.config.mjs": true
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
