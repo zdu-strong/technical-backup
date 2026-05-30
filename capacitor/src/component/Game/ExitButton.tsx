@@ -3,12 +3,12 @@ import { observer, useMobxState } from "mobx-react-use-autorun";
 import { style } from "typestyle";
 import ExitDialog from "@component/Game/ExitDialog";
 import { useMount } from "mobx-react-use-autorun";
-import { AndroidNotch } from '@awesome-cordova-plugins/android-notch'
 import { Capacitor } from '@capacitor/core'
-import { delay, distinctUntilChanged, from, of, repeat, Subscription, tap } from "rxjs";
+import { delay, from, of, repeat, Subscription } from "rxjs";
 import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { SafeArea } from '@aashu-dubey/capacitor-statusbar-safe-area';
 
 const container = style({
     width: "100%",
@@ -34,8 +34,9 @@ export default observer((props: Props) => {
             open: false,
         },
         ready: false,
-        isLeftAndNotIsRight: false,
-        leftOrRight: 10,
+        isLeftAndNotIsRightOfSafeArea: false,
+        leftOrRightOfSafeArea: 10,
+        topOfSafeArea: 10,
     })
 
     useMount(async (subscription) => {
@@ -49,13 +50,10 @@ export default observer((props: Props) => {
             return;
         }
 
-        if (Capacitor.getPlatform() === "android") {
-            const insetLeftPromise = AndroidNotch.getInsetLeft();
-            const insetRightPromise = AndroidNotch.getInsetRight();
-            const insetLeft = await insetLeftPromise;
-            const insetRight = await insetRightPromise;
-            state.isLeftAndNotIsRight = insetRight >= insetLeft;
-        }
+        const safeArea = await SafeArea.getSafeAreaInsets();
+        state.isLeftAndNotIsRightOfSafeArea = safeArea.right >= safeArea.left;
+        state.topOfSafeArea = safeArea.top + 10;
+        state.leftOrRightOfSafeArea = Math.min(safeArea.left, safeArea.right) + 10;
     }
 
     async function refreshSafeAreaInsets(subscription: Subscription) {
@@ -65,20 +63,9 @@ export default observer((props: Props) => {
 
         subscription.add(of(null).pipe(
             exhaustMapWithTrailing(() => from((async () => {
-                if (Capacitor.getPlatform() === "android") {
-                    const insetLeftPromise = AndroidNotch.getInsetLeft();
-                    const insetRightPromise = AndroidNotch.getInsetRight();
-                    const insetLeft = await insetLeftPromise;
-                    const insetRight = await insetRightPromise;
-                    const isLeftAndNotIsRight = insetRight >= insetLeft;
-                    return isLeftAndNotIsRight;
-                }
-                return false;
+                await loadSafeAreaInsets();
+                return true;
             })())),
-            distinctUntilChanged(),
-            tap((isLeftAndNotIsRight) => {
-                state.isLeftAndNotIsRight = isLeftAndNotIsRight;
-            }),
             delay(100),
             repeat(),
         ).subscribe());
@@ -90,7 +77,7 @@ export default observer((props: Props) => {
                 size="small"
                 color="primary"
                 aria-label="add"
-                style={state.isLeftAndNotIsRight ? { left: `${state.leftOrRight}px`, position: "absolute" } : { right: `${state.leftOrRight}px`, position: "absolute" }}
+                style={state.isLeftAndNotIsRightOfSafeArea ? { left: `${state.leftOrRightOfSafeArea}px`, position: "absolute", top: `${state.topOfSafeArea}px` } : { right: `${state.leftOrRightOfSafeArea}px`, position: "absolute", top: `${state.topOfSafeArea}px` }}
                 className={exitButton}
                 onClick={() => {
                     state.exitDialog.open = true
