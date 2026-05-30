@@ -10,10 +10,6 @@ export function useBatteryInfo() {
         batteryInfo: null as BatteryInfo | null,
     })
 
-    useMount((subscription) => {
-        loadBatteryInfo(subscription);
-    })
-
     function loadBatteryInfo(subscription: Subscription) {
         subscription.add(of(null).pipe(
             concatMap(() => {
@@ -33,6 +29,10 @@ export function useBatteryInfo() {
             repeat(),
         ).subscribe());
     }
+
+    useMount((subscription) => {
+        loadBatteryInfo(subscription);
+    })
 
     return state.batteryInfo;
 }

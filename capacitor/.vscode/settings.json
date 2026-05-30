@@ -16,8 +16,9 @@
     "src/react-app-env.d.ts": true,
     "capacitor.config.ts": true,
     ".ncurc.json": true,
-    "rsbuild.config.ts": true,
-    "capacitor.config.js": true
+    "rsbuild.config.mjs": true,
+    "capacitor.config.mjs": true,
+    "eslint.config.mjs": true
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
