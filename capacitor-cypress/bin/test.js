@@ -7,6 +7,7 @@ const waitOn = require('wait-on')
 const { timer } = require('rxjs')
 
 async function main() {
+    await eslint();
     const { avaliablePort, childProcessOfReact } = await startReact();
     const { childProcessOfCypress } = await startCypress(avaliablePort);
 
@@ -60,6 +61,14 @@ async function startReact() {
         await timer(1).toPromise();
     }
     return { avaliablePort, childProcessOfReact };
+}
+
+async function eslint() {
+    await execa.command("eslint cypress", {
+        stdio: "inherit",
+        cwd: path.join(__dirname, ".."),
+        extendEnv: true,
+    })
 }
 
 module.exports = main()

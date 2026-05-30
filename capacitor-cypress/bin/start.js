@@ -9,12 +9,14 @@ const { timer } = require('rxjs')
 async function main() {
     const { avaliablePort, childProcessOfReact } = await startReact();
     const { childProcessOfCypress } = await startCypress(avaliablePort);
+    const { childProcessOfEslint } = await startEslint();
 
     try {
-        await Promise.race([childProcessOfReact, childProcessOfCypress]);
+        await Promise.race([childProcessOfReact, childProcessOfCypress, childProcessOfEslint]);
     } finally {
         await util.promisify(treeKill)(childProcessOfReact.pid).catch(async () => null);
         await util.promisify(treeKill)(childProcessOfCypress.pid).catch(async () => null);
+        await util.promisify(treeKill)(childProcessOfEslint.pid).catch(async () => null);
     }
     process.exit();
 }
@@ -60,6 +62,20 @@ async function startReact() {
         await timer(1).toPromise();
     }
     return { avaliablePort, childProcessOfReact };
+}
+
+async function startEslint() {
+    const childProcessOfEslint = execa.command(
+        [
+            "node bin/eslint.js",
+        ].join(" "),
+        {
+            stdio: "inherit",
+            cwd: path.join(__dirname, '..'),
+            extendEnv: true,
+        }
+    )
+    return { childProcessOfEslint };
 }
 
 module.exports = main()

@@ -13,7 +13,7 @@
     "postcss.config.mjs": true,
     "src/reportWebVitals.ts": true,
     "src/react-app-env.d.ts": true,
-    "electron.eslint.js": true,
+    "electron-eslint.config.js": true,
     "nest-cli.json": true,
     ".ncurc.json": true,
     "rsbuild.config.ts": true,
