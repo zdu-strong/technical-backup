@@ -48,7 +48,8 @@ export default defineConfig({
     },
     server: {
         port: Number(process.env.RSBUILD_PORT) || undefined,
-        cors: true
+        cors: true,
+        host: true,
     },
     dev: {
         lazyCompilation: false,
