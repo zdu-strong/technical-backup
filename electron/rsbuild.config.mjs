@@ -50,6 +50,7 @@ export default defineConfig({
         port: Number(process.env.RSBUILD_PORT) || undefined,
         cors: true,
         host: true,
+        strictPort: true,
     },
     dev: {
         lazyCompilation: false,
