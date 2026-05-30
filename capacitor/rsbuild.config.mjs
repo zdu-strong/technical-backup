@@ -56,7 +56,7 @@ export default defineConfig({
         lazyCompilation: false,
         performance: {
             chunkSplit: {
-                strategy: 'split-by-experience',
+                strategy: "single-vendor",
             },
         },
     },
