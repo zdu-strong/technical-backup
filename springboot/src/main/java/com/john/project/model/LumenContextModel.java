@@ -257,7 +257,6 @@ public class LumenContextModel {
 
     public BigDecimal exchange(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
         checkBalanceGreaterThanZero();
-        var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
         var targetCurrency = JinqStream.from(
                         List.of(
                                 usd,
@@ -266,23 +265,9 @@ public class LumenContextModel {
                 )
                 .where(s -> ObjectUtil.notEqual(sourceCurrency.getId(), s.getId()))
                 .getOnlyValue();
-        var sourceCurrencyBalance = combineBalance(sourceCurrency).getCurrencyBalance();
-        var sourceCcuBalance = combineBalance(sourceCurrency).getCcuBalance();
-        var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
-        var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
-        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR);
-        var obtainTargetBalance = obtainSourceCcu.multiply(targetCurrencyBalance).divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR);
-        tempBalanceList.add(new LumenCcuBalanceModel()
-                .setId(uuidUtil.v4())
-                .setCurrency(sourceCurrency)
-                .setCurrencyBalance(sourceBalance)
-                .setCcuBalance(obtainSourceCcu.multiply(new BigDecimal(-1))));
-        tempBalanceList.add(new LumenCcuBalanceModel()
-                .setId(uuidUtil.v4())
-                .setCurrency(targetCurrency)
-                .setCurrencyBalance(obtainTargetBalance.multiply(new BigDecimal(-1)))
-                .setCcuBalance(obtainSourceCcu));
-        return obtainTargetBalance;
+        var obtainCCUOfSourceCurrency = inject(sourceCurrency, sourceBalance);
+        var targetBalance = withdrawal(targetCurrency, obtainCCUOfSourceCurrency);
+        return targetBalance;
     }
 
     public BigDecimal getUsdCurrency() {
