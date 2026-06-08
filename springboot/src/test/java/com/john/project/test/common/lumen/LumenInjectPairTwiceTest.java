@@ -16,9 +16,10 @@ public class LumenInjectPairTwiceTest extends BaseTest {
 
     @Test
     public void test() {
-        var resultOfFirst = this.lumenContext.injectPair(new BigDecimal(50), new BigDecimal(100));
-        var resultOfSecond = this.lumenContext.inject(this.lumenContext.getUsd(), new BigDecimal("150"));
-        var totalCCU = resultOfFirst.add(resultOfSecond);
+        var obtainCCUOfFirst = this.lumenContext.injectPair(new BigDecimal(50), new BigDecimal(100));
+        var obtainCCUOfSecond = this.lumenContext.inject(this.lumenContext.getUsd(), new BigDecimal("150"));
+        var totalCCU = obtainCCUOfFirst.add(obtainCCUOfSecond);
+        assertTrue(ObjectUtil.equals(new BigDecimal("200"), obtainCCUOfFirst));
         assertTrue(ObjectUtil.equals(new BigDecimal("399.999984"), totalCCU));
     }
 
