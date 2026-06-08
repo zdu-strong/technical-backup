@@ -233,16 +233,16 @@ public class LumenContextModel {
     }
 
     public void checkBalanceGreaterThanZero() {
-        if (getUsdCurrency().compareTo(BigDecimal.ZERO) <= 0) {
+        if (NumberUtil.isLessOrEqual(getUsdCurrency(), BigDecimal.ZERO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
-        if (getUsdCcu().compareTo(BigDecimal.ZERO) <= 0) {
+        if (NumberUtil.isLessOrEqual(getUsdCcu(), BigDecimal.ZERO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
-        if (getJapanCurrency().compareTo(BigDecimal.ZERO) <= 0) {
+        if (NumberUtil.isLessOrEqual(getJapanCurrency(), BigDecimal.ZERO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
-        if (getJapanCcu().compareTo(BigDecimal.ZERO) <= 0) {
+        if (NumberUtil.isLessOrEqual(getJapanCcu(), BigDecimal.ZERO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
     }
