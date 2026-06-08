@@ -36,6 +36,7 @@ public class LumenContextModel {
         checkBalanceGreaterThanZero();
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
+
 //        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
 //
 //        if (ObjectUtil.equals(remainingTimes, 0) || ObjectUtil.equals(obtainOneCcuBalance, obtainTwoCcuBalance)) {
@@ -74,7 +75,7 @@ public class LumenContextModel {
 
     private BigDecimal injectPairByZeroBalance(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance) {
         var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
-        var obtainCcuBalanceEachSide = sourceUsdCurrencyBalance.max(sourceJapanCurrencyBalance);
+        var obtainCcuBalanceEachSide = sourceUsdCurrencyBalance.min(sourceJapanCurrencyBalance);
         var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
         tempBalanceList.add(new LumenCcuBalanceModel()
                 .setId(uuidUtil.v4())
