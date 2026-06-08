@@ -248,7 +248,6 @@ public class LumenContextModel {
     }
 
     public void checkBalanceGreaterThanOrEqualToZero() {
-
         if (NumberUtil.isLess(getUsdCurrency(), BigDecimal.ZERO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance cannot less than 0");
         }
