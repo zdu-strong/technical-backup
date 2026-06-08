@@ -226,7 +226,7 @@ public class LumenContextModel {
         }
     }
 
-    public void checkSourceCurrencyBalanceLessThanOrEqualZero(BigDecimal sourceCurrencyBalance) {
+    public void checkSourceCurrencyBalanceGreaterZero(BigDecimal sourceCurrencyBalance) {
         if (NumberUtil.isLessOrEqual(sourceCurrencyBalance, BigDecimal.ZERO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance must greater than 0");
         }
@@ -264,7 +264,7 @@ public class LumenContextModel {
 
     public boolean hasEqualToZero() {
         this.checkBalanceGreaterThanOrEqualToZero();
-        if (getUsdCurrency().add(getUsdCcu()).add(getJapanCurrency()).add(getJapanCcu()).compareTo(BigDecimal.ZERO) > 0) {
+        if (NumberUtil.isGreater(getUsdCurrency().add(getUsdCcu()).add(getJapanCurrency()).add(getJapanCcu()), BigDecimal.ZERO)) {
             this.checkBalanceGreaterThanZero();
             return false;
         } else {
