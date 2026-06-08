@@ -256,7 +256,6 @@ public class LumenContextModel {
     }
 
     public BigDecimal exchange(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
-        checkBalanceGreaterThanZero();
         var targetCurrency = JinqStream.from(
                         List.of(
                                 usd,
