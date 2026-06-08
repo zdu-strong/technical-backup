@@ -34,15 +34,15 @@ public class LumenContextModel {
         checkBalanceGreaterThanZero();
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
-        if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
-            var beforeCCU = getUsdCcu().add(getJapanCcu());
-            var afterCCU = getUsdCurrency().add(sourceUsdCurrencyBalance).min(getJapanCurrency()).multiply(new BigDecimal("2"));
-        }
-        if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
-            var beforeCCU = getUsdCcu().add(getJapanCcu());
-
-
-        }
+//        if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
+//            var beforeCCU = getUsdCcu().add(getJapanCcu());
+//            var afterCCU = getUsdCurrency().add(sourceUsdCurrencyBalance).min(getJapanCurrency()).multiply(new BigDecimal("2"));
+//        }
+//        if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
+//            var beforeCCU = getUsdCcu().add(getJapanCcu());
+//
+//
+//        }
 
 
 //        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
