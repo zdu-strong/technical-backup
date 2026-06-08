@@ -221,7 +221,7 @@ public class LumenContextModel {
     }
 
     public void checkCcuBalanceGreaterThanOrEqualZero(BigDecimal withdrawalCcuBalance) {
-        if (getUsdCcu().add(getJapanCcu()).compareTo(withdrawalCcuBalance) < 0) {
+        if (NumberUtil.isLess(getUsdCcu().add(getJapanCcu()), withdrawalCcuBalance)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "balance cannot less than 0");
         }
     }
