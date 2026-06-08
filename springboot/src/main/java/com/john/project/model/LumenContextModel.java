@@ -81,7 +81,7 @@ public class LumenContextModel {
 
     private BigDecimal injectPairByZeroBalance(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance) {
         var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
-        var obtainCcuBalanceEachSide = sourceUsdCurrencyBalance.min(sourceJapanCurrencyBalance);
+        var obtainCcuBalanceEachSide = sourceUsdCurrencyBalance.max(sourceJapanCurrencyBalance);
         var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
         tempBalanceList.add(new LumenCcuBalanceModel()
                 .setId(uuidUtil.v4())
