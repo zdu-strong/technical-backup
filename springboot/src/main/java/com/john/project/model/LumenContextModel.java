@@ -68,8 +68,8 @@ public class LumenContextModel {
     }
 
     public BigDecimal injectPair(BigDecimal sourceUsdCurrencyBalance, BigDecimal sourceJapanCurrencyBalance) {
-        checkSourceCurrencyBalanceLessThanOrEqualZero(sourceUsdCurrencyBalance);
-        checkSourceCurrencyBalanceLessThanOrEqualZero(sourceJapanCurrencyBalance);
+        checkSourceCurrencyBalanceGreaterZero(sourceUsdCurrencyBalance);
+        checkSourceCurrencyBalanceGreaterZero(sourceJapanCurrencyBalance);
         if (hasEqualToZero()) {
             return injectPairByZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
         }
