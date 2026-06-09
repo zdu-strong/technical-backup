@@ -194,7 +194,7 @@ public class LumenContextCoreModel {
                     .setCurrency(japan)
                     .setCurrencyBalance(sourceJapanCurrencyBalance)
                     .setCcuBalance(obtainCcuBalance.multiply(new BigDecimal(-1))));
-            return obtainCcuBalance;
+            return targetUsdCurrencyBalance;
         }
         return BigDecimal.ZERO;
     }
