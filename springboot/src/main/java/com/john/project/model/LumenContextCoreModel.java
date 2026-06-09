@@ -107,27 +107,26 @@ public class LumenContextCoreModel {
     }
 
     public BigDecimal withdrawal(LumenCurrencyModel targetCurrency, BigDecimal ccuBalance) {
-//        var balanceList = withdrawalPair(ccuBalance);
-//        checkBalanceGreaterThanZero();
-//        var sourceCurrency = JinqStream.from(
-//                        List.of(usd, japan)
-//                )
-//                .where(s -> ObjectUtil.notEqual(s.getId(), targetCurrency.getId()))
-//                .getOnlyValue();
-//        var sourceCurrencyBalance = Optional.ofNullable(JinqStream.from(balanceList)
-//                        .where(s -> ObjectUtil.equals(s.getCurrency().getId(), sourceCurrency.getId()))
-//                        .sumBigDecimal(s -> s.getCurrencyBalance()))
-//                .orElse(BigDecimal.ZERO);
-//        var obtainExchangeBalance = exchange(sourceCurrency, sourceCurrencyBalance);
-//        var obtainTargetCurrencyBalance = obtainExchangeBalance.add(
-//                Optional.ofNullable(
-//                        JinqStream.from(balanceList)
-//                                .where(s -> ObjectUtil.equals(s.getCurrency().getId(), targetCurrency.getId()))
-//                                .sumBigDecimal(s -> s.getCurrencyBalance())
-//                ).orElse(BigDecimal.ZERO)
-//        );
-//        return obtainTargetCurrencyBalance;
-        return BigDecimal.ZERO;
+        var balanceList = withdrawalPair(ccuBalance);
+        checkBalanceGreaterThanZero();
+        var sourceCurrency = JinqStream.from(
+                        List.of(usd, japan)
+                )
+                .where(s -> ObjectUtil.notEqual(s.getId(), targetCurrency.getId()))
+                .getOnlyValue();
+        var sourceCurrencyBalance = Optional.ofNullable(JinqStream.from(balanceList)
+                        .where(s -> ObjectUtil.equals(s.getCurrency().getId(), sourceCurrency.getId()))
+                        .sumBigDecimal(s -> s.getCurrencyBalance()))
+                .orElse(BigDecimal.ZERO);
+        var obtainExchangeBalance = exchange(sourceCurrency, sourceCurrencyBalance);
+        var obtainTargetCurrencyBalance = obtainExchangeBalance.add(
+                Optional.ofNullable(
+                        JinqStream.from(balanceList)
+                                .where(s -> ObjectUtil.equals(s.getCurrency().getId(), targetCurrency.getId()))
+                                .sumBigDecimal(s -> s.getCurrencyBalance())
+                ).orElse(BigDecimal.ZERO)
+        );
+        return obtainTargetCurrencyBalance;
     }
 
     @SneakyThrows
@@ -169,6 +168,14 @@ public class LumenContextCoreModel {
     }
 
     public BigDecimal exchange(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
+        // 100 美元 100ccu 100 japan ccu 取出100ccu
+        var targetCurrency = getTargetCurrency(sourceCurrency);
+        var obtainCCUOfSourceCurrency = inject(sourceCurrency, sourceBalance);
+        var targetBalance = withdrawal(targetCurrency, obtainCCUOfSourceCurrency);
+        return targetBalance;
+    }
+
+    private LumenCurrencyModel getTargetCurrency(LumenCurrencyModel sourceCurrency) {
         var targetCurrency = JinqStream.from(
                         List.of(
                                 usd,
@@ -177,9 +184,7 @@ public class LumenContextCoreModel {
                 )
                 .where(s -> ObjectUtil.notEqual(sourceCurrency.getId(), s.getId()))
                 .getOnlyValue();
-        var obtainCCUOfSourceCurrency = inject(sourceCurrency, sourceBalance);
-        var targetBalance = withdrawal(targetCurrency, obtainCCUOfSourceCurrency);
-        return targetBalance;
+        return targetCurrency;
     }
 
     public BigDecimal getUsdCurrency() {
