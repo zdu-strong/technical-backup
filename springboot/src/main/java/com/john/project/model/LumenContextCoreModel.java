@@ -228,10 +228,7 @@ public class LumenContextCoreModel {
 
     public LumenCcuBalanceModel combineBalance(LumenCurrencyModel currency) {
         var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
-        var list = JinqStream.from(List.of(
-                        ccuBalanceList
-                ))
-                .selectAllList(s -> s)
+        var list = JinqStream.from(ccuBalanceList)
                 .where(s -> s.getCurrency().getId().equals(currency.getId()))
                 .toList();
         var balance = new LumenCcuBalanceModel()
