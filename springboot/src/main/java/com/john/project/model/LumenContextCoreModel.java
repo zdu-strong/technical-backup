@@ -200,7 +200,7 @@ public class LumenContextCoreModel {
         return BigDecimal.ZERO;
     }
 
-    private BigDecimal getTargetCcu(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
+    private LumenCurrencyModel getTargetCurrency(LumenCurrencyModel sourceCurrency){
         var targetCurrency = JinqStream.from(
                         List.of(
                                 usd,
@@ -209,11 +209,15 @@ public class LumenContextCoreModel {
                 )
                 .where(s -> ObjectUtil.notEqual(sourceCurrency.getId(), s.getId()))
                 .getOnlyValue();
+        return targetCurrency;
+    }
+
+    private BigDecimal getTargetCcu(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
+        var targetCurrency = getTargetCurrency(sourceCurrency);
         var sourceCurrencyBalance = combineBalance(sourceCurrency).getCurrencyBalance();
         var sourceCcuBalance = combineBalance(sourceCurrency).getCcuBalance();
         var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
         var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
-//        var
 
 //        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR);
 //        var obtainTargetBalance = obtainSourceCcu.multiply(targetCurrencyBalance).divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR);
