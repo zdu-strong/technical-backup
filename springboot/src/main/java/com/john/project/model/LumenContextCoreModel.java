@@ -35,7 +35,8 @@ public class LumenContextCoreModel {
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
-            var obtainCcuBalance = sourceUsdCurrencyBalance.multiply(getUsdCcu().multiply(new BigDecimal("2"))).divide(sourceUsdCurrencyBalance.add(getUsdCurrency().multiply(new BigDecimal("2"))), 6, RoundingMode.FLOOR);
+            // (x美元 * 300ccu * 300ccu * 2 / 300 japan ccu) / (x 美元 + 150 美元 * 2) = y ccu
+            var obtainCcuBalance = sourceUsdCurrencyBalance.multiply(getUsdCcu()).multiply(getUsdCcu()).multiply(BigDecimal.TWO).divide(getJapanCcu(), 6, RoundingMode.FLOOR).divide(sourceUsdCurrencyBalance.add(getUsdCurrency().multiply(BigDecimal.TWO)), 6, RoundingMode.FLOOR);
             var obtainOneCcuBalanceOfLast = BigDecimal.ZERO;
             var obtainTwoCcuBalanceOfLast = obtainCcuBalance;
             var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
@@ -53,7 +54,7 @@ public class LumenContextCoreModel {
         }
 
         if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
-            var obtainCcuBalance = sourceJapanCurrencyBalance.multiply(getJapanCcu().multiply(new BigDecimal("2"))).divide(sourceJapanCurrencyBalance.add(getJapanCurrency().multiply(new BigDecimal("2"))), 6, RoundingMode.FLOOR);
+            var obtainCcuBalance = sourceJapanCurrencyBalance.multiply(getJapanCcu()).multiply(getJapanCcu()).multiply(BigDecimal.TWO).divide(getUsdCcu(), 6, RoundingMode.FLOOR).divide(sourceJapanCurrencyBalance.add(getJapanCurrency().multiply(BigDecimal.TWO)), 6, RoundingMode.FLOOR);
             var obtainOneCcuBalanceOfLast = obtainCcuBalance;
             var obtainTwoCcuBalanceOfLast = BigDecimal.ZERO;
             var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
@@ -74,8 +75,9 @@ public class LumenContextCoreModel {
         // x美元 / (x 美元 * 2 + 150 美元 * 2) = 0.25
         // 200ccu / (200ccu + 300ccu * 300ccu * 2 * / 300 japan ccu) = 0.25
         // y ccu / (y ccu + 300ccu * 300ccu * 2 * / 300 japan ccu) = 0.25
-        // 200ccu / (200ccu + 300ccu * 300ccu * 2 * / 300 japan ccu) = y ccu / (y ccu + 300ccu * 300ccu * 2 * / 300 japan ccu)
-        //
+        // x美元 / (x 美元 * 2 + 150 美元 * 2) = y ccu / (y ccu + 300ccu * 300ccu * 2 * / 300 japan ccu)
+        // x 美元 * (y ccu + 300ccu * 300ccu * 2 / 300 japan ccu) = y ccu * (x 美元 * 2 + 150 美元 * 2)
+        // (x美元 * 300ccu * 300ccu * 2 / 300 japan ccu) / (x 美元 + 150 美元 * 2) = y ccu
         return BigDecimal.ZERO;
     }
 
