@@ -43,7 +43,13 @@ public class LumenContextModel {
 //
 //
 //        }
-
+        // 150美元 / (150 美元) = 0.5
+        // 150美元 = 200ccu
+        // 300 ccu = 300 ccu
+        // 150美元 = 300ccu
+        // x = 150美元
+        // y = 200ccu
+        // x /
 
 //        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
 //
