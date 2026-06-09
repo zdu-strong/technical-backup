@@ -197,18 +197,6 @@ public class LumenContextCoreModel {
         return obtainTargetBalance;
     }
 
-    private LumenCurrencyModel getTargetCurrency(LumenCurrencyModel sourceCurrency) {
-        var targetCurrency = JinqStream.from(
-                        List.of(
-                                usd,
-                                japan
-                        )
-                )
-                .where(s -> ObjectUtil.notEqual(sourceCurrency.getId(), s.getId()))
-                .getOnlyValue();
-        return targetCurrency;
-    }
-
     public BigDecimal getUsdCurrency() {
         var balance = this.combineBalance(usd);
         return balance.getCurrencyBalance();
