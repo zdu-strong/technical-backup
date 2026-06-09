@@ -224,7 +224,12 @@ public class LumenContextCoreModel {
 
         // 150美元 / (150 美元 * 2 + 150 美元 * 2) = 0.25
         // x美元 / (x 美元 * 2 + 150 美元 * 2) = 0.25
-        // 100ccu * 2 / (100ccu * 2 + 300ccu + 300 japan ccu) = 0.25
+        // 100ccu / (100ccu + 300ccu) = 0.25
+        // y ccu / (y ccu + 300 ccu) = 0.25
+        // x美元 / (x 美元 * 2 + 150 美元 * 2) = y ccu / (y ccu + 300 ccu)
+        // x美元 * (y ccu + 300 ccu) = 2y ccu * (x 美元 + 150 美元 )
+        // (x美元 * 300 ccu) / (x美元 + 150美元 * 2) = y ccu
+        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance.multiply(BigDecimal.TWO)),6, RoundingMode.FLOOR);
 
         return BigDecimal.ZERO;
 
