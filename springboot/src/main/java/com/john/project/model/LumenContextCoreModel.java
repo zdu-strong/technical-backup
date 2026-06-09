@@ -69,7 +69,6 @@ public class LumenContextCoreModel {
         }
 
 
-
         return BigDecimal.ZERO;
     }
 
@@ -200,7 +199,7 @@ public class LumenContextCoreModel {
         return BigDecimal.ZERO;
     }
 
-    private LumenCurrencyModel getTargetCurrency(LumenCurrencyModel sourceCurrency){
+    private LumenCurrencyModel getTargetCurrency(LumenCurrencyModel sourceCurrency) {
         var targetCurrency = JinqStream.from(
                         List.of(
                                 usd,
@@ -216,22 +215,11 @@ public class LumenContextCoreModel {
         var targetCurrency = getTargetCurrency(sourceCurrency);
         var sourceCurrencyBalance = combineBalance(sourceCurrency).getCurrencyBalance();
         var sourceCcuBalance = combineBalance(sourceCurrency).getCcuBalance();
-        var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
-        var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
-
-//        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR);
-//        var obtainTargetBalance = obtainSourceCcu.multiply(targetCurrencyBalance).divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR);
-
-        // 150美元 / (150 美元 * 2 + 150 美元 * 2) = 0.25
-        // x美元 / (x 美元 * 2 + 150 美元 * 2) = 0.25
-        // 100ccu / (100ccu + 300ccu) = 0.25
-        // y ccu / (y ccu + 300 ccu) = 0.25
-        // x美元 / (x 美元 * 2 + 150 美元 * 2) = y ccu / (y ccu + 300 ccu)
-        // x美元 * (y ccu + 300 ccu) = 2y ccu * (x 美元 + 150 美元 )
-        // (x美元 * 300 ccu) / (x美元 + 150美元 * 2) = y ccu
-        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance.multiply(BigDecimal.TWO)),6, RoundingMode.FLOOR);
-
-        return BigDecimal.ZERO;
+//        var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
+//        var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
+        // 300ccu * 150美元 / (150美元 + 150美元) = y ccu
+        var obtainSourceCcu = sourceCcuBalance.multiply(sourceBalance).divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR);
+        return obtainSourceCcu;
 
     }
 
