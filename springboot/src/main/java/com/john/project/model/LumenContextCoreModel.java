@@ -35,7 +35,6 @@ public class LumenContextCoreModel {
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
-            // (x美元 * 300ccu * 300ccu * 2 / 300 japan ccu) / (x 美元 + 150 美元 * 2) = y ccu
             var obtainCcuBalance = sourceUsdCurrencyBalance.multiply(getUsdCcu()).multiply(getUsdCcu()).multiply(BigDecimal.TWO).divide(getJapanCcu(), 6, RoundingMode.FLOOR).divide(sourceUsdCurrencyBalance.add(getUsdCurrency().multiply(BigDecimal.TWO)), 6, RoundingMode.FLOOR);
             var obtainOneCcuBalanceOfLast = BigDecimal.ZERO;
             var obtainTwoCcuBalanceOfLast = obtainCcuBalance;
