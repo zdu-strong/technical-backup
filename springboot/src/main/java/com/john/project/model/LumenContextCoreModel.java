@@ -168,11 +168,33 @@ public class LumenContextCoreModel {
     }
 
     public BigDecimal exchange(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
-        // 100 美元 100ccu 100 japan ccu 取出100ccu
-        var targetCurrency = getTargetCurrency(sourceCurrency);
-        var obtainCCUOfSourceCurrency = inject(sourceCurrency, sourceBalance);
-        var targetBalance = withdrawal(targetCurrency, obtainCCUOfSourceCurrency);
-        return targetBalance;
+        checkBalanceGreaterThanZero();
+        var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
+        var targetCurrency = JinqStream.from(
+                        List.of(
+                                usd,
+                                japan
+                        )
+                )
+                .where(s -> ObjectUtil.notEqual(sourceCurrency.getId(), s.getId()))
+                .getOnlyValue();
+        var sourceCurrencyBalance = combineBalance(sourceCurrency).getCurrencyBalance();
+        var sourceCcuBalance = combineBalance(sourceCurrency).getCcuBalance();
+        var targetCurrencyBalance = combineBalance(targetCurrency).getCurrencyBalance();
+        var targetCcuBalance = combineBalance(targetCurrency).getCcuBalance();
+        var obtainSourceCcu = sourceBalance.multiply(sourceCcuBalance).divide(sourceBalance.add(sourceCurrencyBalance), 6, RoundingMode.FLOOR);
+        var obtainTargetBalance = obtainSourceCcu.multiply(targetCurrencyBalance).divide(obtainSourceCcu.add(targetCcuBalance), 6, RoundingMode.FLOOR);
+        tempBalanceList.add(new LumenCcuBalanceModel()
+                .setId(uuidUtil.v4())
+                .setCurrency(sourceCurrency)
+                .setCurrencyBalance(sourceBalance)
+                .setCcuBalance(obtainSourceCcu.multiply(new BigDecimal(-1))));
+        tempBalanceList.add(new LumenCcuBalanceModel()
+                .setId(uuidUtil.v4())
+                .setCurrency(targetCurrency)
+                .setCurrencyBalance(obtainTargetBalance.multiply(new BigDecimal(-1)))
+                .setCcuBalance(obtainSourceCcu));
+        return obtainTargetBalance;
     }
 
     private LumenCurrencyModel getTargetCurrency(LumenCurrencyModel sourceCurrency) {
