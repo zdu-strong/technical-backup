@@ -32,24 +32,55 @@ public class LumenContextModel {
 
     public BigDecimal inject(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
         checkBalanceGreaterThanZero();
+        checkSourceCurrencyBalanceGreaterZero(sourceBalance);
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
-//        if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
-//            var beforeCCU = getUsdCcu().add(getJapanCcu());
-//            var afterCCU = getUsdCurrency().add(sourceUsdCurrencyBalance).min(getJapanCurrency()).multiply(new BigDecimal("2"));
-//        }
-//        if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
-//            var beforeCCU = getUsdCcu().add(getJapanCcu());
-//
-//
-//        }
-        // 150美元 / (150 美元) = 0.5
+        if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
+            //            var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
+//            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
+//            var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(oneCcuBalance).divide(totalCcu, 6, RoundingMode.FLOOR);
+//            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
+//            tempBalanceList.add(new LumenCcuBalanceModel()
+//                    .setId(uuidUtil.v4())
+//                    .setCurrency(injectOneCurrency)
+//                    .setCurrencyBalance(injectOneCurrencyBalance)
+//                    .setCcuBalance(obtainOneCcuBalanceOfLast));
+//            tempBalanceList.add(new LumenCcuBalanceModel()
+//                    .setId(uuidUtil.v4())
+//                    .setCurrency(injectTwoCurrency)
+//                    .setCurrencyBalance(injectTwoCurrencyBalance)
+//                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
+//            return obtainCcuBalance;
+        }
+
+        if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
+            //            var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
+//            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
+//            var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(oneCcuBalance).divide(totalCcu, 6, RoundingMode.FLOOR);
+//            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
+//            tempBalanceList.add(new LumenCcuBalanceModel()
+//                    .setId(uuidUtil.v4())
+//                    .setCurrency(injectOneCurrency)
+//                    .setCurrencyBalance(injectOneCurrencyBalance)
+//                    .setCcuBalance(obtainOneCcuBalanceOfLast));
+//            tempBalanceList.add(new LumenCcuBalanceModel()
+//                    .setId(uuidUtil.v4())
+//                    .setCurrency(injectTwoCurrency)
+//                    .setCurrencyBalance(injectTwoCurrencyBalance)
+//                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
+//            return obtainCcuBalance;
+        }
+
+        return BigDecimal.ZERO;
+
+        // 150美元 / (150 美元 + 150 美元) = 0.5
         // 150美元 = 200ccu
         // 300 ccu = 300 ccu
         // 150美元 = 300ccu
         // x = 150美元
         // y = 200ccu
-        // x /
+        // x美元 / (x美元 + 150美元) = 0.5
+        // y / (2y ccu + 300ccu + 300ccu) = 0.125
 
 //        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
 //
