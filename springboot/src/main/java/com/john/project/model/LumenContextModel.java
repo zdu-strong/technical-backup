@@ -32,7 +32,6 @@ public class LumenContextModel {
 
     public BigDecimal inject(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
         checkBalanceGreaterThanZero();
-        checkSourceCurrencyBalanceGreaterZero(sourceBalance);
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
