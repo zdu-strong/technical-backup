@@ -21,7 +21,7 @@ import java.util.Optional;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class LumenContextModel {
+public class LumenContextCoreModel {
 
     private List<LumenCcuBalanceModel> ccuBalanceList;
 
@@ -239,7 +239,7 @@ public class LumenContextModel {
         return balance;
     }
 
-    public LumenContextModel() {
+    public LumenContextCoreModel() {
         var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
         usd = new LumenCurrencyModel()
                 .setId(uuidUtil.v4())
