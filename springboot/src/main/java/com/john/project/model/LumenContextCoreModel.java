@@ -35,37 +35,34 @@ public class LumenContextCoreModel {
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
             var obtainCcuBalance = getTargetCcu(sourceCurrency, sourceBalance);
-            var obtainOneCcuBalanceOfLast = BigDecimal.ZERO;
-            var obtainTwoCcuBalanceOfLast = obtainCcuBalance;
             var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
             ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
                     .setCurrencyBalance(sourceUsdCurrencyBalance)
-                    .setCcuBalance(obtainOneCcuBalanceOfLast));
+                    .setCcuBalance(obtainCcuBalance));
             ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(japan)
                     .setCurrencyBalance(sourceJapanCurrencyBalance)
-                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
+                    .setCcuBalance(obtainCcuBalance));
             return obtainCcuBalance;
         }
 
         if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
-            var obtainOneCcuBalanceOfLast = getTargetCcu(sourceCurrency, sourceBalance);
-            var obtainTwoCcuBalanceOfLast = BigDecimal.ZERO;
+            var obtainCcuBalance = getTargetCcu(sourceCurrency, sourceBalance);
             var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
             ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
                     .setCurrencyBalance(sourceUsdCurrencyBalance)
-                    .setCcuBalance(obtainOneCcuBalanceOfLast));
+                    .setCcuBalance(obtainCcuBalance));
             ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(japan)
                     .setCurrencyBalance(sourceJapanCurrencyBalance)
-                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
-            return obtainOneCcuBalanceOfLast;
+                    .setCcuBalance(obtainCcuBalance));
+            return obtainCcuBalance;
         }
 
 
