@@ -72,12 +72,10 @@ public class LumenContextCoreModel {
 
         // 150美元 / (150 美元 * 2 + 150 美元 * 2) = 0.25
         // x美元 / (x 美元 * 2 + 150 美元 * 2) = 0.25
-        // 200ccu / (200ccu + (300ccu * 2 *  (300ccu / (300ccu + 300 japan ccu))  )) = 0.25
-        // y ccu / (y ccu + 300ccu *2) = 0.25
-        // x美元 / (x 美元 * 2 + 150 美元 * 2) = y ccu / (y ccu + 300ccu *2)
-        // x美元 * (y ccu + 300ccu *2) = y ccu * (x 美元 * 2 + 150 美元 * 2)
-        // x美元 * 300ccu * 2 = y ccu * (x美元 + 150 美元 * 2)
-        // (x美元 * 300ccu * 2) / (x美元 + 150 美元 * 2) = y ccu
+        // 200ccu / (200ccu + 300ccu * 300ccu * 2 * / 300 japan ccu) = 0.25
+        // y ccu / (y ccu + 300ccu * 300ccu * 2 * / 300 japan ccu) = 0.25
+        // 200ccu / (200ccu + 300ccu * 300ccu * 2 * / 300 japan ccu) = y ccu / (y ccu + 300ccu * 300ccu * 2 * / 300 japan ccu)
+        //
         return BigDecimal.ZERO;
     }
 
