@@ -35,39 +35,39 @@ public class LumenContextCoreModel {
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
-            //            var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
-//            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
-//            var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(oneCcuBalance).divide(totalCcu, 6, RoundingMode.FLOOR);
-//            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
-//            tempBalanceList.add(new LumenCcuBalanceModel()
-//                    .setId(uuidUtil.v4())
-//                    .setCurrency(injectOneCurrency)
-//                    .setCurrencyBalance(injectOneCurrencyBalance)
-//                    .setCcuBalance(obtainOneCcuBalanceOfLast));
-//            tempBalanceList.add(new LumenCcuBalanceModel()
-//                    .setId(uuidUtil.v4())
-//                    .setCurrency(injectTwoCurrency)
-//                    .setCurrencyBalance(injectTwoCurrencyBalance)
-//                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
-//            return obtainCcuBalance;
+            var obtainCcuBalance = sourceUsdCurrencyBalance.multiply(getUsdCcu().add(getJapanCcu())).divide(sourceUsdCurrencyBalance.add(getUsdCurrency().multiply(new BigDecimal(2))), 6, RoundingMode.FLOOR);
+            var obtainOneCcuBalanceOfLast = obtainCcuBalance.divide(new BigDecimal(2), 6, RoundingMode.FLOOR);
+            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
+            var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
+            tempBalanceList.add(new LumenCcuBalanceModel()
+                    .setId(uuidUtil.v4())
+                    .setCurrency(usd)
+                    .setCurrencyBalance(sourceUsdCurrencyBalance)
+                    .setCcuBalance(obtainOneCcuBalanceOfLast));
+            tempBalanceList.add(new LumenCcuBalanceModel()
+                    .setId(uuidUtil.v4())
+                    .setCurrency(japan)
+                    .setCurrencyBalance(sourceJapanCurrencyBalance)
+                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
+            return obtainCcuBalance;
         }
 
         if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
-            //            var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
-//            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
-//            var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(oneCcuBalance).divide(totalCcu, 6, RoundingMode.FLOOR);
-//            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
-//            tempBalanceList.add(new LumenCcuBalanceModel()
-//                    .setId(uuidUtil.v4())
-//                    .setCurrency(injectOneCurrency)
-//                    .setCurrencyBalance(injectOneCurrencyBalance)
-//                    .setCcuBalance(obtainOneCcuBalanceOfLast));
-//            tempBalanceList.add(new LumenCcuBalanceModel()
-//                    .setId(uuidUtil.v4())
-//                    .setCurrency(injectTwoCurrency)
-//                    .setCurrencyBalance(injectTwoCurrencyBalance)
-//                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
-//            return obtainCcuBalance;
+            var obtainCcuBalance = sourceJapanCurrencyBalance.multiply(getUsdCcu().add(getJapanCcu())).divide(sourceJapanCurrencyBalance.add(getJapanCurrency().multiply(new BigDecimal(2))), 6, RoundingMode.FLOOR);
+            var obtainOneCcuBalanceOfLast = obtainCcuBalance.divide(new BigDecimal(2), 6, RoundingMode.FLOOR);
+            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
+            var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
+            tempBalanceList.add(new LumenCcuBalanceModel()
+                    .setId(uuidUtil.v4())
+                    .setCurrency(usd)
+                    .setCurrencyBalance(sourceUsdCurrencyBalance)
+                    .setCcuBalance(obtainOneCcuBalanceOfLast));
+            tempBalanceList.add(new LumenCcuBalanceModel()
+                    .setId(uuidUtil.v4())
+                    .setCurrency(japan)
+                    .setCurrencyBalance(sourceJapanCurrencyBalance)
+                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
+            return obtainCcuBalance;
         }
 
         // 150美元 / (150 美元 * 2 + 150 美元 * 2) = 0.25
@@ -78,7 +78,7 @@ public class LumenContextCoreModel {
         // x美元 / (x 美元 * 2 + 150 美元 * 2) = y ccu / (y ccu + 300ccu + 300ccu)
         // x美元 * (y ccu + 300ccu + 300ccu) = y ccu * (x 美元 * 2 + 150 美元 * 2)
         // x美元 * y ccu + x美元 * 300ccu + x美元 * 300ccu = y ccu * x美元 * 2 + y ccu * 150美元 * 2
-        // x美元 * y ccu + x美元 * 300ccu + x美元 * 300ccu = y ccu * x美元 * 2 + y ccu * 150美元 * 2
+        // (x美元 * 300ccu + x美元 * 300ccu)/(x美元 + 150美元 * 2) = y ccu
         return BigDecimal.ZERO;
     }
 
