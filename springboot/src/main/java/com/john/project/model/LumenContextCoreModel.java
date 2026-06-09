@@ -170,13 +170,13 @@ public class LumenContextCoreModel {
 
     public BigDecimal exchange(LumenCurrencyModel sourceCurrency, BigDecimal sourceBalance) {
         checkBalanceGreaterThanZero();
-        var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
         var sourceUsdCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(usd.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
             var obtainCcuBalance = sourceUsdCurrencyBalance.multiply(getUsdCcu()).multiply(getUsdCcu()).multiply(BigDecimal.TWO).divide(getJapanCcu(), 6, RoundingMode.FLOOR).divide(sourceUsdCurrencyBalance.add(getUsdCurrency().multiply(BigDecimal.TWO).multiply(BigDecimal.TWO)), 6, RoundingMode.FLOOR);
             var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(new BigDecimal(-1));
             var obtainTwoCcuBalanceOfLast = obtainCcuBalance;
+            var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
             tempBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
@@ -194,6 +194,7 @@ public class LumenContextCoreModel {
             var obtainCcuBalance = sourceJapanCurrencyBalance.multiply(getJapanCcu()).multiply(getJapanCcu()).multiply(BigDecimal.TWO).divide(getUsdCcu(), 6, RoundingMode.FLOOR).divide(sourceJapanCurrencyBalance.add(getJapanCurrency().multiply(BigDecimal.TWO).multiply(new BigDecimal(BigInteger.TWO))), 6, RoundingMode.FLOOR);
             var obtainOneCcuBalanceOfLast = obtainCcuBalance;
             var obtainTwoCcuBalanceOfLast = obtainCcuBalance.multiply(new BigDecimal(-1));
+            var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
             tempBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
