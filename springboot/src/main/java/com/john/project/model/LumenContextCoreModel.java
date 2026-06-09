@@ -80,25 +80,6 @@ public class LumenContextCoreModel {
         // x美元 / (x美元 + 150美元) = 0.5
         // y / (2y ccu + 300ccu + 300ccu) = 0.125
 
-//        return injectPairByGreaterZeroBalance(sourceUsdCurrencyBalance, sourceJapanCurrencyBalance);
-//
-//        if (ObjectUtil.equals(remainingTimes, 0) || ObjectUtil.equals(obtainOneCcuBalance, obtainTwoCcuBalance)) {
-//            var obtainCcuBalanceEachSide = obtainOneCcuBalance.min(obtainTwoCcuBalance);
-//            var obtainCcuBalance = obtainCcuBalanceEachSide.multiply(new BigDecimal(2));
-//            var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(oneCcuBalance).divide(totalCcu, 6, RoundingMode.FLOOR);
-//            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.subtract(obtainOneCcuBalanceOfLast);
-//            tempBalanceList.add(new LumenCcuBalanceModel()
-//                    .setId(uuidUtil.v4())
-//                    .setCurrency(injectOneCurrency)
-//                    .setCurrencyBalance(injectOneCurrencyBalance)
-//                    .setCcuBalance(obtainOneCcuBalanceOfLast));
-//            tempBalanceList.add(new LumenCcuBalanceModel()
-//                    .setId(uuidUtil.v4())
-//                    .setCurrency(injectTwoCurrency)
-//                    .setCurrencyBalance(injectTwoCurrencyBalance)
-//                    .setCcuBalance(obtainTwoCcuBalanceOfLast));
-//            return obtainCcuBalance;
-//        }
         return BigDecimal.ZERO;
     }
 
