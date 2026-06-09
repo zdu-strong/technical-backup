@@ -71,6 +71,7 @@ public class LumenContextCoreModel {
         }
 
         // 150美元 / (150 美元 + 150 美元) = 0.5
+        // 200ccu / (200ccu + 300ccu) = 200ccu / (200ccu + 300ccu + 300ccu)
         // 150美元 = 200ccu
         // 300 ccu = 300 ccu
         // 150美元 = 300ccu
