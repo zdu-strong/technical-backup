@@ -74,6 +74,11 @@ public class LumenContextCoreModel {
         // x美元 / (x 美元 * 2 + 150 美元 * 2) = 0.25
         // 200ccu / (200ccu + 300ccu + 300ccu) = 0.25
         // y ccu / (y ccu + 300ccu + 300ccu) = 0.25
+
+        // x美元 / (x 美元 * 2 + 150 美元 * 2) = y ccu / (y ccu + 300ccu + 300ccu)
+        // x美元 * (y ccu + 300ccu + 300ccu) = y ccu * (x 美元 * 2 + 150 美元 * 2)
+        // x美元 * y ccu + x美元 * 300ccu + x美元 * 300ccu = y ccu * x美元 * 2 + y ccu * 150美元 * 2
+        // x美元 * y ccu + x美元 * 300ccu + x美元 * 300ccu = y ccu * x美元 * 2 + y ccu * 150美元 * 2
         return BigDecimal.ZERO;
     }
 
