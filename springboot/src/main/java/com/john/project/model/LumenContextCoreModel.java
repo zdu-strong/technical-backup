@@ -175,7 +175,7 @@ public class LumenContextCoreModel {
         var sourceJapanCurrencyBalance = Optional.of(sourceBalance).filter(s -> ObjectUtil.equals(japan.getId(), sourceCurrency.getId())).orElse(BigDecimal.ZERO);
         if (NumberUtil.isGreater(sourceUsdCurrencyBalance, BigDecimal.ZERO)) {
             var obtainCcuBalance = sourceUsdCurrencyBalance.multiply(getUsdCcu()).multiply(getUsdCcu()).multiply(BigDecimal.TWO).divide(getJapanCcu(), 6, RoundingMode.FLOOR).divide(sourceUsdCurrencyBalance.add(getUsdCurrency().multiply(BigDecimal.TWO).multiply(BigDecimal.TWO)), 6, RoundingMode.FLOOR);
-            var obtainOneCcuBalanceOfLast = BigDecimal.ZERO;
+            var obtainOneCcuBalanceOfLast = obtainCcuBalance.multiply(new BigDecimal(-1));
             var obtainTwoCcuBalanceOfLast = obtainCcuBalance;
             tempBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
@@ -193,7 +193,7 @@ public class LumenContextCoreModel {
         if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
             var obtainCcuBalance = sourceJapanCurrencyBalance.multiply(getJapanCcu()).multiply(getJapanCcu()).multiply(BigDecimal.TWO).divide(getUsdCcu(), 6, RoundingMode.FLOOR).divide(sourceJapanCurrencyBalance.add(getJapanCurrency().multiply(BigDecimal.TWO).multiply(new BigDecimal(BigInteger.TWO))), 6, RoundingMode.FLOOR);
             var obtainOneCcuBalanceOfLast = obtainCcuBalance;
-            var obtainTwoCcuBalanceOfLast = BigDecimal.ZERO;
+            var obtainTwoCcuBalanceOfLast = obtainCcuBalance.multiply(new BigDecimal(-1));
             tempBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
