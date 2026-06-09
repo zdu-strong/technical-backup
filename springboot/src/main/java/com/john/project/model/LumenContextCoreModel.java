@@ -191,12 +191,12 @@ public class LumenContextCoreModel {
             var obtainCcuBalance = sourceJapanCurrencyBalance.multiply(getJapanCcu()).multiply(getJapanCcu()).multiply(BigDecimal.TWO).divide(getUsdCcu(), 6, RoundingMode.FLOOR).divide(sourceJapanCurrencyBalance.add(getJapanCurrency().multiply(BigDecimal.TWO).multiply(new BigDecimal(BigInteger.TWO))), 6, RoundingMode.FLOOR);
             var targetUsdCurrencyBalance = getUsdCurrency().multiply(obtainCcuBalance).divide(getUsdCcu().add(obtainCcuBalance), 6, RoundingMode.FLOOR);
             var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
-            tempBalanceList.add(new LumenCcuBalanceModel()
+            ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
                     .setCurrencyBalance(targetUsdCurrencyBalance.multiply(new BigDecimal(-1)))
                     .setCcuBalance(obtainCcuBalance));
-            tempBalanceList.add(new LumenCcuBalanceModel()
+            ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(japan)
                     .setCurrencyBalance(sourceJapanCurrencyBalance)
@@ -229,8 +229,7 @@ public class LumenContextCoreModel {
     public LumenCcuBalanceModel combineBalance(LumenCurrencyModel currency) {
         var uuidUtil = SpringUtil.getBean(UUIDUtil.class);
         var list = JinqStream.from(List.of(
-                        ccuBalanceList,
-                        tempBalanceList
+                        ccuBalanceList
                 ))
                 .selectAllList(s -> s)
                 .where(s -> s.getCurrency().getId().equals(currency.getId()))
@@ -252,7 +251,6 @@ public class LumenContextCoreModel {
                 .setId(uuidUtil.v4())
                 .setName("JAPAN");
         this.ccuBalanceList = new ArrayList<>();
-        this.tempBalanceList = new ArrayList<>();
     }
 
     public void checkCcuBalanceGreaterThanOrEqualZero(BigDecimal withdrawalCcuBalance) {
