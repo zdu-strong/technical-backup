@@ -40,13 +40,13 @@ public class LumenContextCoreModel {
                     .setId(uuidUtil.v4())
                     .setCurrency(usd)
                     .setCurrencyBalance(sourceUsdCurrencyBalance)
-                    .setCcuBalance(obtainCcuBalance));
+                    .setCcuBalance(obtainCcuBalance.multiply(new BigDecimal(-1))));
             ccuBalanceList.add(new LumenCcuBalanceModel()
                     .setId(uuidUtil.v4())
                     .setCurrency(japan)
                     .setCurrencyBalance(sourceJapanCurrencyBalance)
-                    .setCcuBalance(obtainCcuBalance));
-            return obtainCcuBalance;
+                    .setCcuBalance(obtainCcuBalance.multiply(new BigDecimal(3))));
+            return obtainCcuBalance.multiply(BigDecimal.TWO);
         }
 
         if (NumberUtil.isGreater(sourceJapanCurrencyBalance, BigDecimal.ZERO)) {
