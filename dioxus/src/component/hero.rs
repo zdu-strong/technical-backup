@@ -15,6 +15,7 @@ use uuid::Uuid;
 
 #[component]
 pub fn Hero() -> Element {
+
     let cat = use_signal(|| CatModel {
         id: Signal::new(Uuid::new_v4().to_string()),
         name: Signal::new("Tom".to_string()),
