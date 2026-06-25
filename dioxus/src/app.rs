@@ -1,7 +1,6 @@
+use crate::common::i18n::use_app_i18n::use_app_i18n;
 use crate::router::Route;
 use dioxus::prelude::*;
-use dioxus_i18n::prelude::*;
-use dioxus_i18n::unic_langid::langid;
 
 const _: Asset = asset!(
     "/assets/common/jetbrains-mono-font/jetbrains-mono.css",
@@ -17,19 +16,10 @@ const _: Asset = asset!(
 );
 const FAVICON: Asset = asset!("/assets/image/favicon.ico");
 const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
-const EN_US_JSON: &str = include_str!("../assets/i18n/en-US.ftl");
 
 #[component]
 pub fn App() -> Element {
-    use_init_i18n(|| {
-        I18nConfig::new(langid!("en-US"))
-            // implicit [`Locale`]
-            .with_locale((
-                // Embed
-                langid!("en-US"),
-                EN_US_JSON,
-            ))
-    });
+    use_app_i18n();
 
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
