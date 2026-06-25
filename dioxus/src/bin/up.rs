@@ -145,7 +145,13 @@ fn cargo_upgrade() {
         return;
     }
     let is_ok = Command::new("cargo")
-        .args(["install", "--locked", "cargo-binstall"])
+        .args([
+            "install",
+            "--locked",
+            "--version",
+            "1.20.0",
+            "cargo-binstall",
+        ])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())

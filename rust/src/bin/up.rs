@@ -1,9 +1,9 @@
 use std::env::current_dir;
 use std::fs;
 use std::path::Path;
-use std::process::exit;
 use std::process::Command;
 use std::process::Stdio;
+use std::process::exit;
 
 fn main() {
     remove_target_dir();
@@ -34,7 +34,13 @@ fn remove_target_dir() {
 
 fn cargo_upgrade() {
     let is_ok = Command::new("cargo")
-        .args(["install", "--locked", "cargo-binstall"])
+        .args([
+            "install",
+            "--locked",
+            "--version",
+            "1.20.0",
+            "cargo-binstall",
+        ])
         .current_dir(current_dir().unwrap())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
