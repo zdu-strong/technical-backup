@@ -1,21 +1,8 @@
 use crate::common::i18n::use_app_i18n::use_app_i18n;
+use crate::constant::app_assets_constant::FAVICON;
+use crate::constant::app_assets_constant::TAILWIND_CSS;
 use crate::router::Route;
 use dioxus::prelude::*;
-
-const _: Asset = asset!(
-    "/assets/common/jetbrains-mono-font/jetbrains-mono.css",
-    AssetOptions::css().with_static_head(true)
-);
-const _: Asset = asset!(
-    "/assets/common/app/app.css",
-    AssetOptions::css().with_static_head(true)
-);
-const _: Asset = asset!(
-    "/assets/common/daisyui/v4.12.24/daisyui.css",
-    AssetOptions::css().with_static_head(true)
-);
-const FAVICON: Asset = asset!("/assets/image/favicon.ico");
-const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
 
 #[component]
 pub fn App() -> Element {
