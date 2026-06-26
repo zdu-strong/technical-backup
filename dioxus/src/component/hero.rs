@@ -1,6 +1,6 @@
 use crate::component::game_button::GameButton;
 use crate::component::game_input::GameInput;
-use crate::constant::image_constant::HEADER_SVG_IMAGE;
+use crate::constant::app_assets_constant::HEADER_SVG_IMAGE;
 use crate::model::cat_model::CatModel;
 use crate::model::user_model::UserModel;
 use bigdecimal::BigDecimal;
@@ -15,7 +15,6 @@ use uuid::Uuid;
 
 #[component]
 pub fn Hero() -> Element {
-
     let cat = use_signal(|| CatModel {
         id: Signal::new(Uuid::new_v4().to_string()),
         name: Signal::new("Tom".to_string()),
