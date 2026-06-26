@@ -39,12 +39,12 @@
         "@cypress/xpath": "2.0.3",
         "@types/node": "24.13.2",
         "@types/wait-on": "5.3.4",
-        "@typescript-eslint/eslint-plugin": "8.60.0",
-        "@typescript-eslint/parser": "8.60.0",
-        "axios": "1.16.1",
+        "@typescript-eslint/eslint-plugin": "8.62.0",
+        "@typescript-eslint/parser": "8.62.0",
+        "axios": "1.18.1",
         "chokidar": "5.0.0",
         "cli-color": "2.0.4",
-        "cypress": "15.16.0",
+        "cypress": "15.18.0",
         "eslint": "8.57.0",
         "eslint-plugin-cypress": "3.6.0",
         "execa": "5.1.1",
@@ -55,7 +55,7 @@
         "serve": "14.2.6",
         "tree-kill": "1.2.2",
         "typescript": "6.0.3",
-        "uuid": "14.0.0",
+        "uuid": "14.0.1",
         "wait-on": "9.0.10"
     }
 }
