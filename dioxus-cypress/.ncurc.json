@@ -3,6 +3,7 @@
     "eslint",
     "eslint-plugin-cypress",
     "execa",
-    "get-port"
+    "get-port",
+    "@types/node"
   ]
 }

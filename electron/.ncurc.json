@@ -6,6 +6,7 @@
         "@fortawesome/react-fontawesome",
         "@types/react",
         "@types/react-dom",
+        "@types/node",
         "react",
         "react-dom",
         "get-port",

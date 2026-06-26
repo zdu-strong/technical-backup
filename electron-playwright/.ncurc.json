@@ -3,6 +3,7 @@
     "eslint",
     "execa",
     "get-port",
-    "linq"
+    "linq",
+    "@types/node"
   ]
 }
