@@ -1,8 +1,6 @@
 {
     "reject": [
         "execa",
-        "@fortawesome/free-brands-svg-icons",
-        "@fortawesome/free-solid-svg-icons",
         "@types/react",
         "@types/react-dom",
         "@types/node",
