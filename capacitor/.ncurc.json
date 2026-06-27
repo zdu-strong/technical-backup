@@ -3,7 +3,6 @@
         "execa",
         "@fortawesome/free-brands-svg-icons",
         "@fortawesome/free-solid-svg-icons",
-        "@fortawesome/react-fontawesome",
         "@types/react",
         "@types/react-dom",
         "@types/node",
