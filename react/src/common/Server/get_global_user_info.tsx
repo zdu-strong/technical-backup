@@ -13,6 +13,10 @@ export const GlobalUserInfo = observable({
     menuOpen: true,
 } as UserModel);
 
+export const GlobalMenuOpen = observable({
+    menuOpen: false
+});
+
 export async function setGlobalUserInfo(user?: UserModel): Promise<void> {
     const hasParam = !!user;
     if (!hasParam) {
@@ -43,17 +47,44 @@ export function removeGlobalUserInfo() {
     GlobalUserInfo.accessToken = '';
     GlobalUserInfo.userEmailList = [] as UserEmailModel[];
     if (window.localStorage.getItem(keyOfGlobalUserInfoOfLocalStorage)) {
-        window.localStorage.clear();
+        window.localStorage.removeItem(keyOfGlobalUserInfoOfLocalStorage);
+    }
+}
+
+export function setGlobalMenuOpen(menuOpen?: boolean) {
+    const hasParam = typeof menuOpen === "boolean";
+    if (!hasParam) {
+        const jsonStringOfLocalStorage = window.localStorage.getItem(keyOfGlobalMenuOpenOfLocalStorage);
+        if (jsonStringOfLocalStorage) {
+            GlobalMenuOpen.menuOpen = !!new TypedJSON(UserModel).parse(jsonStringOfLocalStorage)!.menuOpen;
+        } else {
+            removeGlobalMenuOpen();
+        }
+        return;
+    }
+
+    GlobalMenuOpen.menuOpen = menuOpen;
+    if (hasParam) {
+        window.localStorage.setItem(keyOfGlobalMenuOpenOfLocalStorage, JSON.stringify(GlobalMenuOpen));
+    }
+}
+
+export function removeGlobalMenuOpen() {
+    GlobalMenuOpen.menuOpen = false;
+    if (window.localStorage.getItem(keyOfGlobalMenuOpenOfLocalStorage)) {
+        window.localStorage.removeItem(keyOfGlobalMenuOpenOfLocalStorage);
     }
 }
 
 const keyOfGlobalUserInfoOfLocalStorage = 'GlobalUserInfo-c12e6be9-e969-4a54-b5d4-b451755bf49a';
+const keyOfGlobalMenuOpenOfLocalStorage = "GlobalMenuOpen-c12e6be9-e969-4a54-b5d4-b451755bf49a";
 
 function main() {
     if (!existsWindow) {
         return;
     }
     setGlobalUserInfo();
+    setGlobalMenuOpen();
     fromEvent(window, "storage").pipe(
         switchMap(() => {
             return from(setGlobalUserInfo());

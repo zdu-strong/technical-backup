@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { GlobalUserInfo } from '@common/Server';
 import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 import { useOnceSubmit } from '@/common/use-hook';
+import { isMobilePhone } from "@/common/is-mobile-phone";
 
 export default observer(() => {
 
@@ -17,7 +18,7 @@ export default observer(() => {
     return <div className='flex flex-row items-center'>
         <ThemeSwitcher />
 
-        <Button
+        {!isMobilePhone && <Button
             variant="contained"
             color="secondary"
             startIcon={<FontAwesomeIcon icon={faUser} />}
@@ -26,7 +27,7 @@ export default observer(() => {
             }}
         >
             {GlobalUserInfo.username}
-        </Button>
+        </Button>}
 
         <Button
             variant="contained"

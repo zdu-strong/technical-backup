@@ -4,6 +4,8 @@ import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
+import { isMobilePhone } from "@/common/is-mobile-phone";
+import { GlobalMenuOpen, setGlobalMenuOpen } from '@/common/Server';
 
 type Props = {
     children: ReactNode;
@@ -19,6 +21,14 @@ export default observer((props: Props) => {
     >
         <DashboardLayout
             slots={{ toolbarActions: UserInfoMenu }}
+            slotProps={isMobilePhone ? undefined : {
+                header: {
+                    menuOpen: GlobalMenuOpen.menuOpen,
+                    onToggleMenu: setGlobalMenuOpen,
+                    hideMenuButton: false,
+                }
+            }}
+            hideNavigation={isMobilePhone ? undefined : !GlobalMenuOpen.menuOpen}
         >
             <div className="overflow-auto flex flex-auto">
                 <div className="flex flex-col min-w-full min-h-full w-max">
