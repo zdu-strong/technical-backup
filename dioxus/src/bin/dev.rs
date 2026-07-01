@@ -17,6 +17,8 @@ fn main() {
             "web",
             "--open",
             "true",
+            "--addr",
+            "0.0.0.0",
             "--port",
             "3000",
             "--hot-reload",
