@@ -5,7 +5,6 @@ import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
 import { isMobilePhone } from "@/common/is-mobile-phone";
-import { GlobalMenuOpen, setGlobalMenuOpen } from '@/common/Server';
 import { style } from 'typestyle';
 
 const dashboardLayoutContainer = style({
@@ -27,6 +26,18 @@ const dashboardLayoutContainer = style({
         "& > div.MuiBox-root > div.MuiDrawer-root > div.MuiPaper-root": {
             height: "calc(100vh - 15px)"
         },
+        "& > div.MuiBox-root > div.MuiDrawer-root.css-1hvrvza-MuiDrawer-docked": {
+            width: "0px"
+        },
+        "& > div.MuiBox-root > div.MuiDrawer-root.css-1hvrvza-MuiDrawer-docked > div.MuiDrawer-paper": {
+            width: "0px"
+        },
+        "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked": {
+            width: "0px"
+        },
+        "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked > div.MuiDrawer-paper": {
+            width: "0px"
+        },
     },
     $debugName: "dashboardLayoutContainer"
 });
@@ -46,14 +57,7 @@ export default observer((props: Props) => {
         <div className={`flex flex-col flex-auto ${dashboardLayoutContainer}`}>
             <DashboardLayout
                 slots={{ toolbarActions: UserInfoMenu }}
-                slotProps={isMobilePhone ? undefined : {
-                    header: {
-                        menuOpen: GlobalMenuOpen.menuOpen,
-                        onToggleMenu: setGlobalMenuOpen,
-                        hideMenuButton: false,
-                    }
-                }}
-                hideNavigation={isMobilePhone ? undefined : !GlobalMenuOpen.menuOpen}
+                defaultSidebarCollapsed={true}
             >
                 <div className="flex flex-col flex-auto">
                     {props.children}
