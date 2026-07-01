@@ -77,7 +77,7 @@ export function removeGlobalMenuOpen() {
 }
 
 const keyOfGlobalUserInfoOfLocalStorage = 'GlobalUserInfo-c12e6be9-e969-4a54-b5d4-b451755bf49a';
-const keyOfGlobalMenuOpenOfLocalStorage = "GlobalMenuOpen-c12e6be9-e969-4a54-b5d4-b451755bf49a";
+const keyOfGlobalMenuOpenOfLocalStorage = "GlobalMenuOpen-3a88471f-fb34-4a32-8847-1ffb34ea328f";
 
 function main() {
     if (!existsWindow) {
