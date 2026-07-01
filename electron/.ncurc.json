@@ -9,6 +9,7 @@
         "get-port",
         "linq",
         "electron",
+        "@toolpad/core",
         "@mui/icons-material",
         "@mui/lab",
         "@mui/material",
