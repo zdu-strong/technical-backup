@@ -1,46 +1,27 @@
-import { observer } from 'mobx-react-use-autorun';
-import { Button, Fab } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket, faSpinner, faUser } from '@fortawesome/free-solid-svg-icons';
-import api from '@api';
-import { FormattedMessage } from 'react-intl';
-import { GlobalUserInfo } from '@common/Server';
+import { observer, useMobxState } from 'mobx-react-use-autorun';
+import { Fab } from '@mui/material';
 import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
-import { useOnceSubmit } from '@/common/use-hook';
-import { isMobilePhone } from "@/common/is-mobile-phone";
 import { Settings as SettingsIcon } from "@mui/icons-material";
+import SettingDialog from '@/component/SystemMenu/SettingDialog';
 
 export default observer(() => {
 
-    const signOut = useOnceSubmit(async function () {
-        await api.Authorization.signOut();
+    const state = useMobxState({
+        settingsDialog: {
+            open: false
+        }
     });
+
+    function openSettingsDialog() {
+        state.settingsDialog.open = true;
+    }
+
+    function closeSettingsDialog() {
+        state.settingsDialog.open = false;
+    }
 
     return <div className='flex flex-row items-center'>
         <ThemeSwitcher />
-
-        {!isMobilePhone && <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<FontAwesomeIcon icon={faUser} />}
-            style={{
-                marginLeft: "1em",
-            }}
-        >
-            {GlobalUserInfo.username}
-        </Button>}
-
-        <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<FontAwesomeIcon icon={signOut.loading ? faSpinner : faArrowRightFromBracket} spin={signOut.loading} />}
-            onClick={signOut.resubmit}
-            style={{
-                marginLeft: "1em"
-            }}
-        >
-            <FormattedMessage id="SignOut" defaultMessage="Sign out" />
-        </Button>
 
         <Fab
             color="secondary"
@@ -49,8 +30,13 @@ export default observer(() => {
             style={{
                 marginLeft: "1em",
             }}
+            onClick={openSettingsDialog}
         >
             <SettingsIcon />
         </Fab>
+        <SettingDialog
+            open={state.settingsDialog.open}
+            closeDialog={closeSettingsDialog}
+        />
     </div>
 })

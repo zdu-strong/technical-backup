@@ -6,6 +6,9 @@ import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
 import { isMobilePhone } from "@/common/is-mobile-phone";
 import { style } from 'typestyle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faReact } from "@fortawesome/free-brands-svg-icons";
+import { IconButton } from '@mui/material';
 
 const dashboardLayoutContainer = style({
     $nest: {
@@ -52,7 +55,11 @@ export default observer((props: Props) => {
 
     return <ReactRouterAppProvider
         navigation={navigation}
-        branding={{ title: "", logo: "" }}
+        branding={{
+            title: "",
+            logo: <IconButton size="medium"><FontAwesomeIcon icon={faReact} /></IconButton>,
+            homeUrl: "/"
+        }}
     >
         <div className={`flex flex-col flex-auto ${dashboardLayoutContainer}`}>
             <DashboardLayout
