@@ -57,7 +57,7 @@ export default observer((props: Props) => {
         navigation={navigation}
         branding={{
             title: "",
-            logo: <IconButton size="medium"><FontAwesomeIcon icon={faReact} /></IconButton>,
+            logo: <IconButton size="medium" color="primary"><FontAwesomeIcon icon={faReact} /></IconButton>,
             homeUrl: "/"
         }}
     >
