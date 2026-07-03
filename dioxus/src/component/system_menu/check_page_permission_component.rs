@@ -21,7 +21,7 @@ pub fn CheckPagePermissionComponent(
 
     rsx! {
         LoadingOrErrorComponent {
-            ready: app_check_permission_model().is_ready(dioxus_hook_status),
+            ready: app_check_permission_model().is_ready(dioxus_hook_status.ready),
             error: dioxus_hook_status.error,
             {children}
         }
