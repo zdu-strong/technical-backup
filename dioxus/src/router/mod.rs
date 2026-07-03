@@ -1,4 +1,4 @@
-use crate::component::system_menu::system_menu::SystemMenu;
+use crate::component::system_menu::check_router_permission_component::CheckRouterPermissionComponent;
 use crate::router::blog_page::BlogPage;
 use crate::router::home_page::HomePage;
 use crate::router::not_found_page::NotFoundPage;
@@ -10,7 +10,7 @@ pub mod not_found_page;
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
 pub enum Route {
-    #[layout(SystemMenu)]
+    #[layout(CheckRouterPermissionComponent)]
     #[route("/")]
     HomePage {},
 

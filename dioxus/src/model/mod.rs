@@ -1,3 +1,4 @@
+pub mod app_check_permission_model;
 pub mod cat_model;
 pub mod organize_model;
 pub mod pagination_model;
