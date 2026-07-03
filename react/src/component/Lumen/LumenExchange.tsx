@@ -40,7 +40,7 @@ export default observer(() => {
             return value;
         }
         try {
-            new Big(value);
+            Big(value);
 
             {
                 const regExp = new RegExp("^0+(?=[1-9])", "g");

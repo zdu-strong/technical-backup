@@ -135,6 +135,10 @@ public abstract class BaseService {
     @Lazy
     protected PermissionRelationFormatter permissionRelationFormatter;
 
+    @Autowired
+    @Lazy
+    protected IdentityCardFormatter identityCardFormatter;
+
     protected void persist(Object entity) {
         this.entityManager.persist(entity);
     }

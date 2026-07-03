@@ -16,6 +16,5 @@ public class PermissionRelationModel {
     private String permission;
     private RoleModel role;
     private OrganizeModel organize;
-    private Boolean isOrganizePermission;
 
 }

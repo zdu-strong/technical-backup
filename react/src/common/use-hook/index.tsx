@@ -1,12 +1,12 @@
 import { useMobxState, useMount } from "mobx-react-use-autorun";
-import { concatMap, exhaustMap, from, of, ReplaySubject, retry } from "rxjs";
+import { concatMap, exhaustMap, from, of, retry, Subject } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing';
 import { MessageService } from "@/common/MessageService";
 
 export function useMultipleQuery(callback: () => Promise<void>) {
 
     const subjectState = useMobxState({
-        subject: new ReplaySubject<string>(1),
+        subject: new Subject<string>(),
     });
 
     const state = useMobxState({
@@ -21,7 +21,6 @@ export function useMultipleQuery(callback: () => Promise<void>) {
     }
 
     useMount(async (subscription) => {
-        state.requery();
         subscription.add(subjectState.subject.pipe(
             exhaustMapWithTrailing(() => of(null).pipe(
                 concatMap(() => from((async () => {
@@ -39,6 +38,7 @@ export function useMultipleQuery(callback: () => Promise<void>) {
             )),
             retry(),
         ).subscribe());
+        state.requery();
     })
 
     return state;
@@ -47,7 +47,7 @@ export function useMultipleQuery(callback: () => Promise<void>) {
 export function useMultipleSubmit(callback: () => Promise<void>) {
 
     const subjectState = useMobxState({
-        subject: new ReplaySubject<string>(1),
+        subject: new Subject<string>(),
     });
 
     const state = useMobxState({
@@ -88,7 +88,7 @@ export function useMultipleSubmit(callback: () => Promise<void>) {
 export function useOnceSubmit(callback: () => Promise<void>) {
 
     const subjectState = useMobxState({
-        subject: new ReplaySubject<string>(1),
+        subject: new Subject<string>(),
     });
 
     const state = useMobxState({
@@ -132,7 +132,7 @@ export function useOnceSubmit(callback: () => Promise<void>) {
 export function useOnceSubmitWhileTrue(callback: () => Promise<boolean>) {
 
     const subjectState = useMobxState({
-        subject: new ReplaySubject<string>(1),
+        subject: new Subject<string>(),
     });
 
     const state = useMobxState({

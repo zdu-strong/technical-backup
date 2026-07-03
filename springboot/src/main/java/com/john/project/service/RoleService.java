@@ -8,6 +8,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.john.project.common.database.JPQLFunction;
 import com.john.project.entity.PermissionRelationEntity;
 import com.john.project.entity.RoleEntity;
+import com.john.project.entity.UserEntity;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import org.apache.commons.collections4.CollectionUtils;
@@ -41,6 +42,8 @@ public class RoleService extends BaseService {
         roleEntity.setUpdateDate(new Date());
         roleEntity.setName(roleModel.getName());
         roleEntity.setIsDeleted(false);
+        roleEntity.setHasSystemPermission(hasSystemPermission(roleModel));
+        roleEntity.setHasOrganizePermission(hasOrganizePermission(roleModel));
         this.persist(roleEntity);
 
         for (var permission : roleModel.getPermissionList()) {
@@ -57,6 +60,8 @@ public class RoleService extends BaseService {
                 .getOnlyValue();
         roleEntity.setName(roleModel.getName());
         roleEntity.setUpdateDate(new Date());
+        roleEntity.setHasSystemPermission(hasSystemPermission(roleModel));
+        roleEntity.setHasOrganizePermission(hasOrganizePermission(roleModel));
         this.merge(roleEntity);
 
         var permissionList = this.streamAll(PermissionRelationEntity.class)
@@ -113,17 +118,151 @@ public class RoleService extends BaseService {
         this.merge(roleEntity);
     }
 
+    public RoleModel getRoleById(String id) {
+        var roleEntity = this.streamAll(RoleEntity.class)
+                .where(s -> s.getId().equals(id))
+                .getOnlyValue();
+
+        return this.roleFormatter.format(roleEntity);
+    }
+
     @Transactional(readOnly = true)
     public void checkCanCreateRole(RoleModel roleModel, HttpServletRequest request) {
-        if (!roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
-                .filter(m -> !m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
-            return;
+        var roleName = roleModel.getName();
+
+        for (var permission : roleModel.getPermissionList()) {
+            this.validationFieldUtil.checkNotBlankOfPermission(permission.getPermission());
         }
-        if (roleModel.getPermissionList().stream().anyMatch(s -> Arrays.stream(SystemPermissionEnum.values())
-                .filter(m -> m.getIsOrganizeRole()).map(m -> m.getValue()).toList().contains(s))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role cannot have organization permissions");
+
+        if (JinqStream.from(roleModel.getPermissionList())
+                .where(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                .where(s -> s.getOrganize() != null && StringUtils.isNotBlank(s.getOrganize().getId()))
+                .exists()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "System permission cannot be associated with organization identifiers");
         }
-        this.permissionUtil.checkAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN);
+
+        if (JinqStream.from(roleModel.getPermissionList())
+                .where(s -> SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                .where(s -> s.getOrganize() == null || StringUtils.isBlank(s.getOrganize().getId()))
+                .exists()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organize permission must be associated with organization identifiers");
+        }
+
+        if (roleModel.getPermissionList().stream().anyMatch(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())) {
+            if (this.streamAll(RoleEntity.class).anyMatch(s -> s.getName().equals(roleName))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role name cannot be duplicated");
+            }
+        }
+
+        for (var permissionModel : roleModel.getPermissionList()) {
+            if (!SystemPermissionEnum.parse((permissionModel.getPermission())).getIsOrganizeRole()) {
+                continue;
+            }
+
+            var organizeId = permissionModel.getOrganize().getId();
+
+            if (this.streamAll(PermissionRelationEntity.class)
+                    .where(s -> s.getOrganize().getId().equals(organizeId))
+                    .where(s -> s.getRole().getName().equals(roleName))
+                    .exists()
+            ) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role name cannot be duplicated");
+            }
+        }
+
+        if (!this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN)) {
+            if (roleModel.getPermissionList().stream().anyMatch(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only the super administrator can assign system permission");
+            }
+        }
+
+        if (!this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN, SystemPermissionEnum.ORGANIZE_MANAGE)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only administrators can create roles");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void checkCanUpdateRole(RoleModel roleModel, HttpServletRequest request) {
+        var roleName = roleModel.getName();
+        var roleId = roleModel.getId();
+        var roleEntity = this.streamAll(RoleEntity.class).where(s -> s.getId().equals(roleId)).getOnlyValue();
+        var roleModelInDatabase = this.roleFormatter.format(roleEntity);
+
+        for (var permission : roleModel.getPermissionList()) {
+            this.validationFieldUtil.checkNotBlankOfPermission(permission.getPermission());
+        }
+
+        if (JinqStream.from(roleModel.getPermissionList())
+                .where(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                .where(s -> s.getOrganize() != null && StringUtils.isNotBlank(s.getOrganize().getId()))
+                .exists()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "System permission cannot be associated with organization identifiers");
+        }
+
+        if (JinqStream.from(roleModel.getPermissionList())
+                .where(s -> SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                .where(s -> s.getOrganize() == null || StringUtils.isBlank(s.getOrganize().getId()))
+                .exists()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organize permission must be associated with organization identifiers");
+        }
+
+
+        if (roleModel.getPermissionList().stream().anyMatch(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())) {
+            if (this.streamAll(RoleEntity.class).anyMatch(s -> s.getName().equals(roleName) && !s.getId().equals(roleId) && s.getIsDeleted().equals(false))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role name cannot be duplicated");
+            }
+        }
+
+        for (var permissionModel : roleModel.getPermissionList()) {
+            if (!SystemPermissionEnum.parse((permissionModel.getPermission())).getIsOrganizeRole()) {
+                continue;
+            }
+
+            var organizeId = permissionModel.getOrganize().getId();
+
+            if (this.streamAll(PermissionRelationEntity.class)
+                    .where(s -> s.getOrganize().getId().equals(organizeId))
+                    .where(s -> s.getRole().getName().equals(roleName))
+                    .where(s -> !s.getRole().getId().equals(roleId))
+                    .where(s -> s.getRole().getIsDeleted().equals(false))
+                    .exists()
+            ) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role name cannot be duplicated");
+            }
+        }
+
+        if (!this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN)) {
+            for (var permission : roleModel.getPermissionList()) {
+                if (SystemPermissionEnum.parse(permission.getPermission()).getIsOrganizeRole()) {
+                    continue;
+                }
+                if (!JinqStream.from(roleModelInDatabase.getPermissionList())
+                        .where(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                        .where(s -> s.getPermission().equals(permission.getPermission()))
+                        .exists()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only the super administrator can assign system permission");
+                }
+            }
+        }
+
+
+        if (!this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN)) {
+            for (var permission : roleModelInDatabase.getPermissionList()) {
+                if (SystemPermissionEnum.parse(permission.getPermission()).getIsOrganizeRole()) {
+                    continue;
+                }
+                if (!JinqStream.from(roleModel.getPermissionList())
+                        .where(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                        .where(s -> s.getPermission().equals(permission.getPermission()))
+                        .exists()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only the super administrator can remove system permission");
+                }
+            }
+        }
+
+        if (!this.permissionUtil.hasAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN, SystemPermissionEnum.ORGANIZE_MANAGE)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only administrators can update roles");
+        }
     }
 
     @Transactional(readOnly = true)
@@ -153,10 +292,42 @@ public class RoleService extends BaseService {
             stream = stream.where(s -> JPQL.like(s.getOne().getName(), roleName + "%"));
         }
 
+        if (ObjectUtil.isNotNull(query.getIsOnlySystemRole()) && query.getIsOnlySystemRole()) {
+            stream = stream.where(s -> s.getOne().getHasSystemPermission());
+        }
+
         var roleStream = stream.group(s -> s.getOne(), (s, t) -> s)
                 .select(s -> s.getOne());
 
         return new PaginationModel<>(query, roleStream, this.roleFormatter::format);
+    }
+
+    @Transactional(readOnly = true)
+    public void checkExistRoleById(String id) {
+        if (!hasExistsRoleById(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role does not exist");
+        }
+    }
+
+    private boolean hasExistsRoleById(String id) {
+        var exists = this.streamAll(RoleEntity.class)
+                .where(s -> s.getId().equals(id))
+                .exists();
+        return exists;
+    }
+
+    private boolean hasSystemPermission(RoleModel roleModel) {
+        var hasSystemPermission = JinqStream.from(roleModel.getPermissionList())
+                .where(s -> !SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                .exists();
+        return hasSystemPermission;
+    }
+
+    private boolean hasOrganizePermission(RoleModel roleModel) {
+        var hasOrganizePermission = JinqStream.from(roleModel.getPermissionList())
+                .where(s -> SystemPermissionEnum.parse(s.getPermission()).getIsOrganizeRole())
+                .exists();
+        return hasOrganizePermission;
     }
 
 //    @Transactional(readOnly = true)

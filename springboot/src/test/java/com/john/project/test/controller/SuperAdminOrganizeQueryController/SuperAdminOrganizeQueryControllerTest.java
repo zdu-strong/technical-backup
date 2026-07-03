@@ -1,5 +1,6 @@
 package com.john.project.test.controller.SuperAdminOrganizeQueryController;
 
+import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.SuperAdminOrganizeQueryPaginationModel;
@@ -39,7 +40,9 @@ public class SuperAdminOrganizeQueryControllerTest extends BaseTest {
         {
             var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
             this.createAccount(email);
-            var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+            var organizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             this.organizeUtil.create(organizeModel);
         }
         {

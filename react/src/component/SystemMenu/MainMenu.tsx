@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-use-autorun';
 import { type ReactNode } from "react";
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
-import UserInfoMenu from '@component/SystemMenu/UserInfoMenu';
+import ToolbarActionsMenu from '@/component/SystemMenu/ToolbarActionsMenu';
 import { useReactRouterAppProviderNavigation } from '@component/SystemMenu/js/useReactRouterAppProviderNavigation';
 import { isMobilePhone } from "@/common/is-mobile-phone";
 import { style } from 'typestyle';
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { IconButton } from '@mui/material';
 
-const dashboardLayoutContainer = style({
+export const dashboardLayoutContainer = style({
     $nest: {
         "& > div.MuiBox-root": {
             width: "100%",
@@ -63,7 +63,7 @@ export default observer((props: Props) => {
     >
         <div className={`flex flex-col flex-auto ${dashboardLayoutContainer}`}>
             <DashboardLayout
-                slots={{ toolbarActions: UserInfoMenu }}
+                slots={{ toolbarActions: ToolbarActionsMenu }}
                 defaultSidebarCollapsed={true}
             >
                 <div className="flex flex-col flex-auto">

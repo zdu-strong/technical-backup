@@ -3,6 +3,7 @@ package com.john.project.test.scheduled.SystemInitScheduled;
 import static org.junit.jupiter.api.Assertions.*;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,8 +41,12 @@ public class SystemInitScheduledInitUserRoleAfterCreateOrganinzeTest extends Bas
     @BeforeEach
     public void beforeEach() {
         this.systemInitScheduled.scheduled();
-        var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
-        this.organizeId = this.organizeUtil.create(organizeModel).getId();
+        var organizeModel = new OrganizeModel()
+                .setName("Super Saiyan Son Goku")
+                .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
+        var organize = this.organizeUtil.create(organizeModel);
+        this.organizeId = organize.getId();
+        this.initOrganizeRoleList(organize);
     }
 
 }

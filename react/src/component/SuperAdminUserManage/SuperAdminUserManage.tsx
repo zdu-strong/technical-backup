@@ -6,13 +6,15 @@ import { AutoSizer } from "react-virtualized";
 import api from "@api";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserModel } from "@model/UserModel";
 import SuperAdminUserDetailButton from "@component/SuperAdminUserManage/SuperAdminUserDetailButton";
 import { FormattedMessage } from "react-intl";
 import { PaginationModel } from "@model/PaginationModel";
 import { SuperAdminUserQueryPaginationModel } from "@model/SuperAdminUserQueryPaginationModel";
 import { useMultipleQuery } from "@/common/use-hook";
+import { v4 } from "uuid";
+import UserCreateOrUpdateDialog from "@component/SuperAdminUserManage/UserCreateOrUpdateDialog";
 
 export default observer(() => {
 
@@ -23,78 +25,122 @@ export default observer(() => {
     const state = useMobxState({
         query: new SuperAdminUserQueryPaginationModel(),
         paginationModel: new PaginationModel<UserModel>(),
-        columns: [
-            {
-                headerName: 'ID',
-                field: 'id',
-                width: 290
-            },
-            {
-                renderHeader: () => <FormattedMessage id="Name" defaultMessage="Name" />,
-                field: 'username',
-                width: 150,
-                flex: 1,
-            },
-            {
-                renderHeader: () => <FormattedMessage id="CreateDate" defaultMessage="Create Date" />,
-                field: 'createDate',
-                renderCell: (row) => {
-                    return <div>
-                        {format(row.row.createDate, "yyyy-MM-dd HH:mm:ss")}
-                    </div>
-                },
-                width: 150,
-            },
-            {
-                renderHeader: () => <FormattedMessage id="Operation" defaultMessage="Operation" />,
-                field: '',
-                renderCell: (row) => <SuperAdminUserDetailButton
-                    id={row.row.id}
-                    searchByPagination={userQueryState.requery}
-                />,
-                width: 150,
-            },
-        ] as GridColDef<UserModel>[],
+        createDialog: {
+            id: v4(),
+            open: false,
+        },
     });
+
+    function getRolesName(user: UserModel) {
+        return user.roleList.map(s => s.name).join(", ");
+    }
+
+    const columns: GridColDef<UserModel>[] = [
+        {
+            headerName: 'ID',
+            field: 'id',
+            width: 290
+        },
+        {
+            renderHeader: () => <FormattedMessage id="Name" defaultMessage="Name" />,
+            field: 'username',
+            width: 150,
+            flex: 1,
+        },
+        {
+            renderHeader: () => <FormattedMessage id="Role" defaultMessage="Role" />,
+            field: 'roleList',
+            renderCell: (row) => {
+                return <div>
+                    {getRolesName(row.row)}
+                </div>
+            },
+            width: 300,
+        },
+        {
+            renderHeader: () => <FormattedMessage id="CreateDate" defaultMessage="Create Date" />,
+            field: 'createDate',
+            renderCell: (row) => {
+                return <div>
+                    {format(row.row.createDate, "yyyy-MM-dd HH:mm:ss")}
+                </div>
+            },
+            width: 150,
+        },
+        {
+            renderHeader: () => <FormattedMessage id="Operation" defaultMessage="Operation" />,
+            field: '',
+            renderCell: (row) => <SuperAdminUserDetailButton
+                id={row.row.id}
+                searchByPagination={userQueryState.requery}
+            />,
+            width: 150,
+        },
+    ];
+
+    const openCreateDialog = () => {
+        state.createDialog.id = v4();
+        state.createDialog.open = true;
+    };
+
+    const closeCreateDialog = () => {
+        state.createDialog.open = false;
+    };
 
     const dataGridRef = useGridApiRef();
 
-    return <LoadingOrErrorComponent ready={userQueryState.ready} error={userQueryState.error}>
-        <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
-            <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
-                <Button
-                    variant="contained"
-                    onClick={userQueryState.requery}
-                    startIcon={<FontAwesomeIcon icon={userQueryState.loading ? faSpinner : faSearch} spin={userQueryState.loading} />}
-                >
-                    <FormattedMessage id="Refresh" defaultMessage="Refresh" />
-                </Button>
+    return <>
+        <LoadingOrErrorComponent ready={userQueryState.ready} error={userQueryState.error}>
+            <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
+                <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                    <Button
+                        variant="contained"
+                        onClick={userQueryState.requery}
+                        startIcon={<FontAwesomeIcon icon={userQueryState.loading ? faSpinner : faSearch} spin={userQueryState.loading} />}
+                    >
+                        <FormattedMessage id="Refresh" defaultMessage="Refresh" />
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={openCreateDialog}
+                        startIcon={<FontAwesomeIcon icon={faPlus} />}
+                        style={{ marginLeft: "1em" }}
+                    >
+                        <FormattedMessage id="Create" defaultMessage="Create" />
+                    </Button>
+                </div>
+                <div className="flex flex-auto" style={{ paddingBottom: "1px" }}>
+                    <AutoSizer>
+                        {({ width, height }) => <Box width={Math.max(width, 100)} height={Math.max(height, 100)}>
+                            <DataGrid
+                                rows={state.paginationModel.items}
+                                rowCount={state.paginationModel.totalRecords}
+                                onPaginationModelChange={(s) => {
+                                    state.query.pageNum = Math.max(s.page + 1, 1);
+                                    state.query.pageSize = Math.max(s.pageSize, 1);
+                                    userQueryState.requery();
+                                }}
+                                apiRef={dataGridRef}
+                                sortingMode="server"
+                                paginationMode="server"
+                                getRowId={(s) => s.id}
+                                columns={columns}
+                                autoPageSize
+                                disableRowSelectionOnClick
+                                disableColumnMenu
+                                disableColumnResize
+                                disableColumnSorting
+                            />
+                        </Box>}
+                    </AutoSizer>
+                </div>
             </div>
-            <div className="flex flex-auto" style={{ paddingBottom: "1px" }}>
-                <AutoSizer>
-                    {({ width, height }) => <Box width={Math.max(width, 100)} height={Math.max(height, 100)}>
-                        <DataGrid
-                            rows={state.paginationModel.items}
-                            rowCount={state.paginationModel.totalRecords}
-                            onPaginationModelChange={(s) => {
-                                state.query.pageNum = Math.max(s.page + 1, 1);
-                                state.query.pageSize = Math.max(s.pageSize, 1);
-                                userQueryState.requery();
-                            }}
-                            apiRef={dataGridRef}
-                            sortingMode="server"
-                            paginationMode="server"
-                            getRowId={(s) => s.id}
-                            columns={state.columns}
-                            autoPageSize
-                            disableRowSelectionOnClick
-                            disableColumnMenu
-                            disableColumnResize
-                            disableColumnSorting
-                        />
-                    </Box>}
-                </AutoSizer>
-            </div>
-        </div>
-    </LoadingOrErrorComponent>
+        </LoadingOrErrorComponent>
+        {state.createDialog.open && <UserCreateOrUpdateDialog
+            key={state.createDialog.id}
+            searchByPagination={userQueryState.requery}
+            id={""}
+            closeDialog={closeCreateDialog}
+        />}
+    </>
 })

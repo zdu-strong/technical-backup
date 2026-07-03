@@ -13,6 +13,9 @@ export class OrganizeModel {
     @jsonMember(Number)
     level!: number;
 
+    @jsonMember(String)
+    organizeType!: string;
+
     @jsonMember(Date)
     createDate!: Date;
 

@@ -54,7 +54,7 @@ public class OrganizeFormatter extends BaseService {
             if (!organizeIdList.add(organizeEntity.getId())) {
                 break;
             }
-            if (organizeEntity.getIsCompany()) {
+            if (organizeEntity.getIsTopOrganize()) {
                 break;
             }
             organizeEntity = organizeEntity.getParent();
@@ -73,7 +73,7 @@ public class OrganizeFormatter extends BaseService {
             if (!organizeIdList.add(organizeEntity.getId())) {
                 break;
             }
-            if (organizeEntity.getIsCompany()) {
+            if (organizeEntity.getIsTopOrganize()) {
                 break;
             }
             organizeEntity = organizeEntity.getParent();

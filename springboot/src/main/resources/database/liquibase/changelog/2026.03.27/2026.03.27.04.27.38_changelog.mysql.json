@@ -1,0 +1,123 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1774585694647-1",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "addColumn": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "is_top_organize",
+                  "type": "BIT(1)"
+                }
+              }
+            ]
+            ,
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1774585694647-2",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "addColumn": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "organize_type",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1774585694647-3",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "is_top_organize"
+                }
+              },
+              {
+                "column": {
+                  "name": "organize_type"
+                }
+              },
+              {
+                "column": {
+                  "name": "is_deleted"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDXciogdwolv1xb9d247qhp9ogxj",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1774585694647-4",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "dropColumn": {
+            "columnName": "is_company",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1774585694647-5",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "dropIndex": {
+            "indexName": "IDX5w2of6p8sx2atafw8yqt31axr",
+            "tableName": "organize_entity"
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}

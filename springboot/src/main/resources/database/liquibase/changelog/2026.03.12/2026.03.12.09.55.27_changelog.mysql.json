@@ -1,8 +1,8 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1757252728589-1",
-      "author": "john (generated)",
+      "id": "1773309358252-1",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -83,8 +83,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-2",
-      "author": "john (generated)",
+      "id": "1773309358252-2",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -174,8 +174,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-3",
-      "author": "john (generated)",
+      "id": "1773309358252-3",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -257,8 +257,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-4",
-      "author": "john (generated)",
+      "id": "1773309358252-4",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -348,8 +348,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-5",
-      "author": "john (generated)",
+      "id": "1773309358252-5",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -502,8 +502,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-6",
-      "author": "john (generated)",
+      "id": "1773309358252-6",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -576,8 +576,45 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-7",
-      "author": "john (generated)",
+      "id": "1773309358252-7",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "money",
+                  "type": "DECIMAL(38, 9)"
+                }
+              }
+            ]
+            ,
+            "tableName": "lumen_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1773309358252-8",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -632,8 +669,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-8",
-      "author": "john (generated)",
+      "id": "1773309358252-9",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -720,8 +757,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-9",
-      "author": "john (generated)",
+      "id": "1773309358252-10",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -784,8 +821,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-10",
-      "author": "john (generated)",
+      "id": "1773309358252-11",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -840,8 +877,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-11",
-      "author": "john (generated)",
+      "id": "1773309358252-12",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -910,8 +947,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-12",
-      "author": "john (generated)",
+      "id": "1773309358252-13",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -974,8 +1011,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-13",
-      "author": "john (generated)",
+      "id": "1773309358252-14",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1030,8 +1067,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-14",
-      "author": "john (generated)",
+      "id": "1773309358252-15",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1103,8 +1140,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-15",
-      "author": "john (generated)",
+      "id": "1773309358252-16",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1185,8 +1222,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-16",
-      "author": "john (generated)",
+      "id": "1773309358252-17",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1240,10 +1277,21 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "nullable": false,
+                    "unique": true
                   },
                   "name": "username",
-                  "type": "LONGTEXT"
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "unique": true
+                  },
+                  "name": "username_lower_case",
+                  "type": "VARCHAR(255)"
                 }
               }
             ]
@@ -1258,8 +1306,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-17",
-      "author": "john (generated)",
+      "id": "1773309358252-18",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1322,8 +1370,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-18",
-      "author": "john (generated)",
+      "id": "1773309358252-19",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1422,8 +1470,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-19",
-      "author": "john (generated)",
+      "id": "1773309358252-20",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1486,8 +1534,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-20",
-      "author": "john (generated)",
+      "id": "1773309358252-21",
+      "author": "John (generated)",
       "changes": [
         {
           "createTable": {
@@ -1568,8 +1616,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-21",
-      "author": "john (generated)",
+      "id": "1773309358252-22",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1585,8 +1633,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-22",
-      "author": "john (generated)",
+      "id": "1773309358252-23",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1602,8 +1650,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-23",
-      "author": "john (generated)",
+      "id": "1773309358252-24",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1619,8 +1667,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-24",
-      "author": "john (generated)",
+      "id": "1773309358252-25",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1636,8 +1684,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-25",
-      "author": "john (generated)",
+      "id": "1773309358252-26",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1653,8 +1701,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-26",
-      "author": "john (generated)",
+      "id": "1773309358252-27",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1670,8 +1718,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-27",
-      "author": "john (generated)",
+      "id": "1773309358252-28",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1687,8 +1735,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-28",
-      "author": "john (generated)",
+      "id": "1773309358252-29",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1704,8 +1752,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-29",
-      "author": "john (generated)",
+      "id": "1773309358252-30",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1721,8 +1769,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-30",
-      "author": "john (generated)",
+      "id": "1773309358252-31",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1738,8 +1786,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-31",
-      "author": "john (generated)",
+      "id": "1773309358252-32",
+      "author": "John (generated)",
       "changes": [
         {
           "addUniqueConstraint": {
@@ -1755,8 +1803,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-32",
-      "author": "john (generated)",
+      "id": "1773309358252-33",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1780,8 +1828,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-33",
-      "author": "john (generated)",
+      "id": "1773309358252-34",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1805,8 +1853,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-34",
-      "author": "john (generated)",
+      "id": "1773309358252-35",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1830,8 +1878,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-35",
-      "author": "john (generated)",
+      "id": "1773309358252-36",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1855,8 +1903,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-36",
-      "author": "john (generated)",
+      "id": "1773309358252-37",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1880,8 +1928,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-37",
-      "author": "john (generated)",
+      "id": "1773309358252-38",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1905,8 +1953,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-38",
-      "author": "john (generated)",
+      "id": "1773309358252-39",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1930,8 +1978,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-39",
-      "author": "john (generated)",
+      "id": "1773309358252-40",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1955,8 +2003,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-40",
-      "author": "john (generated)",
+      "id": "1773309358252-41",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -1990,8 +2038,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-41",
-      "author": "john (generated)",
+      "id": "1773309358252-42",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2020,8 +2068,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-42",
-      "author": "john (generated)",
+      "id": "1773309358252-43",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2050,8 +2098,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-43",
-      "author": "john (generated)",
+      "id": "1773309358252-44",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2080,8 +2128,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-44",
-      "author": "john (generated)",
+      "id": "1773309358252-45",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2110,8 +2158,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-45",
-      "author": "john (generated)",
+      "id": "1773309358252-46",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2140,8 +2188,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-46",
-      "author": "john (generated)",
+      "id": "1773309358252-47",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2165,8 +2213,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-47",
-      "author": "john (generated)",
+      "id": "1773309358252-48",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2195,8 +2243,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-48",
-      "author": "john (generated)",
+      "id": "1773309358252-49",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2225,8 +2273,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-49",
-      "author": "john (generated)",
+      "id": "1773309358252-50",
+      "author": "John (generated)",
       "changes": [
         {
           "createIndex": {
@@ -2255,8 +2303,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-50",
-      "author": "john (generated)",
+      "id": "1773309358252-51",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2279,8 +2327,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-51",
-      "author": "john (generated)",
+      "id": "1773309358252-52",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2303,8 +2351,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-52",
-      "author": "john (generated)",
+      "id": "1773309358252-53",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2327,8 +2375,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-53",
-      "author": "john (generated)",
+      "id": "1773309358252-54",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2351,8 +2399,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-54",
-      "author": "john (generated)",
+      "id": "1773309358252-55",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2375,8 +2423,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-55",
-      "author": "john (generated)",
+      "id": "1773309358252-56",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2399,8 +2447,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-56",
-      "author": "john (generated)",
+      "id": "1773309358252-57",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2423,8 +2471,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-57",
-      "author": "john (generated)",
+      "id": "1773309358252-58",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2447,8 +2495,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-58",
-      "author": "john (generated)",
+      "id": "1773309358252-59",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2471,8 +2519,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-59",
-      "author": "john (generated)",
+      "id": "1773309358252-60",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2495,8 +2543,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-60",
-      "author": "john (generated)",
+      "id": "1773309358252-61",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2519,8 +2567,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-61",
-      "author": "john (generated)",
+      "id": "1773309358252-62",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2543,8 +2591,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-62",
-      "author": "john (generated)",
+      "id": "1773309358252-63",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2567,8 +2615,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-63",
-      "author": "john (generated)",
+      "id": "1773309358252-64",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2591,8 +2639,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-64",
-      "author": "john (generated)",
+      "id": "1773309358252-65",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {
@@ -2615,8 +2663,8 @@
   
   {
     "changeSet": {
-      "id": "1757252728589-65",
-      "author": "john (generated)",
+      "id": "1773309358252-66",
+      "author": "John (generated)",
       "changes": [
         {
           "addForeignKeyConstraint": {

@@ -2,6 +2,7 @@ package com.john.project.test.common.OrganizeUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.john.project.enums.OrganizeTypeEnum;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,16 +25,23 @@ public class OrganizeUtilMoveTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         {
-            var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+            var parentOrganizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
-            var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
+            var childOrganizeModel = new OrganizeModel()
+                    .setName("Son Gohan")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue())
+                    .setParent(parentOrganize);
             var childOrganize = this.organizeUtil.create(childOrganizeModel);
             this.organizeId = childOrganize.getId();
             var result = this.organizeService.searchByName(1L, 20L, "Son Gohan", parentOrganize.getId());
             assertEquals(1, result.getTotalRecords());
         }
         {
-            var parentOrganizeModel = new OrganizeModel().setName("Piccolo");
+            var parentOrganizeModel = new OrganizeModel()
+                    .setName("Piccolo")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             var result = this.organizeService.searchByName(1L, 20L, "Son Gohan", parentOrganize.getId());
             assertEquals(0, result.getTotalRecords());

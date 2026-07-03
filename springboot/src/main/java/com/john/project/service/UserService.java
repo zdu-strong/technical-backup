@@ -51,6 +51,7 @@ public class UserService extends BaseService {
         var userEntity = new UserEntity();
         userEntity.setId(newId());
         userEntity.setUsername(userModel.getUsername());
+        userEntity.setUsernameLowerCase(userEntity.getUsername().toLowerCase());
         userEntity.setPassword(this.tokenService.getPasswordInDatabaseOfEncryptedPassword(userModel.getPassword(), userEntity.getId()));
         userEntity.setIsDeleted(false);
         userEntity.setCreateDate(new Date());
@@ -76,6 +77,7 @@ public class UserService extends BaseService {
         var userEntity = this.streamAll(UserEntity.class)
                 .where(s -> s.getId().equals(userId))
                 .getOnlyValue();
+        userEntity.setUsername(userModel.getUsername());
         this.merge(userEntity);
 
         var userRoleRelationList = this.streamAll(UserEntity.class)
@@ -146,6 +148,18 @@ public class UserService extends BaseService {
         }
     }
 
+    public void delete(String id) {
+        var user = this.streamAll(UserEntity.class)
+                .where(s -> s.getId().equals(id))
+                .where(s -> !s.getIsDeleted())
+                .getOnlyValue();
+        user.setIsDeleted(true);
+        user.setUpdateDate(new Date());
+        this.merge(user);
+
+        this.userEmailService.deleteUserEmailByUserId(id);
+    }
+
     @Transactional(readOnly = true)
     public PaginationModel<UserModel> searchForSuperAdminByPagination(SuperAdminUserQueryPaginationModel query) {
         var stream = this.streamAll(UserEntity.class)
@@ -192,18 +206,62 @@ public class UserService extends BaseService {
     }
 
     @Transactional(readOnly = true)
+    public void checkUndeletedUserById(String id) {
+        this.checkExistUserById(id);
+        if (!hasUndeletedUserId(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User has been deleted");
+        }
+    }
+
+    @Transactional(readOnly = true)
     public void checkExistAccount(String account) {
         if (!hasExistsUserId(account) && !hasExistEmail(account)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect username or password");
         }
     }
 
+    @Transactional(readOnly = true)
+    public void checkExistUsername(String username) {
+        if (hasExistUsername(username)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already used");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void checkExistUsername(String username, String userId) {
+        if (hasExistUsername(username, userId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already used");
+        }
+    }
+
+    private boolean hasExistUsername(String username, String userId) {
+        var exists = this.streamAll(UserEntity.class)
+                .where(s -> s.getUsernameLowerCase().equals(username.toLowerCase()))
+                .where(s -> !s.getId().equals(userId))
+                .exists();
+        return exists;
+    }
+
+    private boolean hasExistUsername(String username) {
+        var exists = this.streamAll(UserEntity.class)
+                .where(s -> s.getUsernameLowerCase().equals(username.toLowerCase()))
+                .exists();
+        return exists;
+    }
+
     private boolean hasExistsUserId(String userId) {
         var exists = this.streamAll(UserEntity.class)
                 .where(s -> s.getId().equals(userId))
-                .where(s -> !s.getIsDeleted())
                 .exists();
         return exists;
+    }
+
+    private boolean hasUndeletedUserId(String userId) {
+        var isNotDeleted = this.streamAll(UserEntity.class)
+                .where(s -> s.getId().equals(userId))
+                .where(s -> !s.getIsDeleted())
+                .exists();
+        return isNotDeleted;
     }
 
     private boolean hasExistEmail(String email) {

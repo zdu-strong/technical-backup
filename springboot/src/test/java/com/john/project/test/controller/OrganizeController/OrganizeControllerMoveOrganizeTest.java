@@ -1,6 +1,8 @@
 package com.john.project.test.controller.OrganizeController;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.john.project.enums.OrganizeTypeEnum;
 import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,14 +43,21 @@ public class OrganizeControllerMoveOrganizeTest extends BaseTest {
         var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
         this.createAccount(email);
         {
-            var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+            var parentOrganizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
-            var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
+            var childOrganizeModel = new OrganizeModel()
+                    .setName("Son Gohan")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue())
+                    .setParent(parentOrganize);
             var childOrganize = this.organizeUtil.create(childOrganizeModel);
             this.organizeId = childOrganize.getId();
         }
         {
-            var parentOrganizeModel = new OrganizeModel().setName("Piccolo");
+            var parentOrganizeModel = new OrganizeModel()
+                    .setName("Piccolo")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
             this.parentOrganizeId = parentOrganize.getId();
         }

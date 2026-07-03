@@ -22,6 +22,7 @@ public class OrganizeModel {
     private Date updateDate;
     private Long childCount;
     private Long descendantCount;
+    private String organizeType;
 
     private OrganizeModel parent;
     private List<OrganizeModel> childList;

@@ -2,6 +2,7 @@ package com.john.project.test.service.OrganizeService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.john.project.enums.OrganizeTypeEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.john.project.model.OrganizeModel;
@@ -23,7 +24,9 @@ public class OrganizeServiceSearchByNameShouldZeroResultTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+        var organizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
         var parentOrganize = this.organizeUtil.create(organizeModel);
         this.organizeId = parentOrganize.getId();
     }

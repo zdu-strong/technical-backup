@@ -1,4 +1,4 @@
-import { v7 } from 'uuid'
+import { v4 } from 'uuid'
 import page from '@/page'
 
 it('', () => {
@@ -13,5 +13,5 @@ before(() => {
     cy.visit("/sign-in")
 })
 
-const email = `${v7()}zdu.strong@gmail.com`
+const email = `${v4()}zdu.strong@gmail.com`
 const password = 'Hello, World!'

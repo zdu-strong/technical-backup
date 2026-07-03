@@ -3,6 +3,8 @@ package com.john.project.test.service.OrganizeService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.john.project.enums.OrganizeTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import com.john.project.model.OrganizeModel;
@@ -12,7 +14,9 @@ public class OrganizeServiceCreateOrganizeTest extends BaseTest {
 
     @Test
     public void test() {
-        var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+        var organizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
         var result = this.organizeUtil.create(organizeModel);
         assertNotNull(result.getId());
         assertEquals(36, result.getId().length());

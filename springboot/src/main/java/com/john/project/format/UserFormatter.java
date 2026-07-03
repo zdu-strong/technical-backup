@@ -1,5 +1,6 @@
 package com.john.project.format;
 
+import com.john.project.entity.IdentityCardEntity;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
 import com.john.project.entity.UserRoleRelationEntity;
@@ -25,6 +26,11 @@ public class UserFormatter extends BaseService {
                 .map(this.roleFormatter::format)
                 .toList();
         userModel.setRoleList(roleList);
+        var identityCardList = this.streamAll(IdentityCardEntity.class)
+                .where(s -> s.getUser().getId().equals(userId))
+                .map(s -> this.identityCardFormatter.format(s))
+                .toList();
+        userModel.setIdentityCardList(identityCardList);
         return userModel;
     }
 

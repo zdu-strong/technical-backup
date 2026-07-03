@@ -2,6 +2,7 @@ package com.john.project.entity;
 
 import java.util.Date;
 import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,12 @@ public class RoleEntity {
 
     @Column(nullable = false)
     private Date updateDate;
+
+    @Column(nullable = false)
+    private Boolean hasSystemPermission;
+
+    @Column(nullable = false)
+    private Boolean hasOrganizePermission;
 
     @Column(nullable = false)
     private Boolean isDeleted;

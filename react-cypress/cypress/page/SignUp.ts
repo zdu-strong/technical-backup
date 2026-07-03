@@ -1,5 +1,5 @@
 export default {
-    nickname: () => cy.xpath("//label[.='nickname']/../div/input"),
+    username: () => cy.xpath("//label[.='Username']/../div/input"),
     nextStepButton: () => cy.xpath("//button[.='Next']"),
     password: () => cy.xpath(`//textarea[@rows='6']`),
     addEmailOrPhoneNumber: () => cy.xpath(`//button[@aria-label='add']`),

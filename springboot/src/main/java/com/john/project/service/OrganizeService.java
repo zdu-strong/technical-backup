@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.john.project.entity.OrganizeEntity;
 import com.john.project.entity.OrganizeRelationEntity;
+import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.model.SuperAdminOrganizeQueryPaginationModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,8 @@ public class OrganizeService extends BaseService {
         organizeEntity.setCreateDate(new Date());
         organizeEntity.setUpdateDate(new Date());
         organizeEntity.setParent(parentOrganize);
-        organizeEntity.setIsCompany(organizeEntity.getParent() == null);
+        organizeEntity.setIsTopOrganize(organizeEntity.getParent() == null);
+        organizeEntity.setOrganizeType(organizeModel.getOrganizeType());
         this.persist(organizeEntity);
 
         return this.organizeFormatter.format(organizeEntity);
@@ -79,7 +81,8 @@ public class OrganizeService extends BaseService {
     @Transactional(readOnly = true)
     public PaginationModel<OrganizeModel> searchOrganizeForSuperAdminByPagination(SuperAdminOrganizeQueryPaginationModel query) {
         var stream = this.streamAll(OrganizeEntity.class)
-                .where(s -> s.getIsCompany())
+                .where(s -> s.getIsTopOrganize())
+                .where(s -> s.getIsDeleted().equals(false))
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate());
         return new PaginationModel<>(query, stream, this.organizeFormatter::format);
@@ -90,10 +93,10 @@ public class OrganizeService extends BaseService {
                 .getParentOrganize(new OrganizeModel().setParent(new OrganizeModel().setId(parentId)));
         var organizeEntity = this.streamAll(OrganizeEntity.class)
                 .where(s -> s.getId().equals(id))
-                .where(s -> !s.getIsCompany())
+                .where(s -> !s.getIsTopOrganize())
                 .getOnlyValue();
         organizeEntity.setParent(parentOrganizeEntity);
-        organizeEntity.setIsCompany(organizeEntity.getParent() == null);
+        organizeEntity.setIsTopOrganize(organizeEntity.getParent() == null);
         organizeEntity.setUpdateDate(new Date());
         this.merge(organizeEntity);
     }
@@ -143,7 +146,7 @@ public class OrganizeService extends BaseService {
                 .getOnlyValue();
         var organizeIdList = new ArrayList<String>();
         while (true) {
-            if (organizeEntity.getIsCompany()) {
+            if (organizeEntity.getIsTopOrganize()) {
                 break;
             }
             if (organizeIdList.contains(organizeEntity.getId())) {
@@ -181,7 +184,7 @@ public class OrganizeService extends BaseService {
         var organizeEntity = this.streamAll(OrganizeEntity.class)
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
-        if (organizeEntity.getIsCompany()) {
+        if (organizeEntity.getIsTopOrganize()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organize cannot be moved");
         }
     }
@@ -209,7 +212,7 @@ public class OrganizeService extends BaseService {
 
         var hasExist = this.streamAll(OrganizeEntity.class)
                 .where(s -> s.getId().equals(id))
-                .where(s -> s.getIsCompany())
+                .where(s -> s.getIsTopOrganize())
                 .exists();
         if (!hasExist) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot has parent organize");

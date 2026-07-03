@@ -1,12 +1,8 @@
-import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
-import MainMenu from "@component/SystemMenu/MainMenu";
+import CheckPermissionComponent from "@/common/Server/CheckPagePermissionComponent";
 import SuperAdminOrganizeManage from "@component/SuperAdminOrganizeManage/SuperAdminOrganizeManage";
 
 export default <CheckPermissionComponent
-    isAutoLogin={true}
     checkIsSignIn={true}
 >
-    <MainMenu>
-        <SuperAdminOrganizeManage />
-    </MainMenu>
+    <SuperAdminOrganizeManage />
 </CheckPermissionComponent>

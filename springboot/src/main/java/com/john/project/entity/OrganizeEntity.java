@@ -2,6 +2,7 @@ package com.john.project.entity;
 
 import java.util.Date;
 import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,11 +22,11 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "parentId", "name", "deletionCode" })
+        @UniqueConstraint(columnNames = {"parentId", "name", "deletionCode"})
 }, indexes = {
         @Index(columnList = "parentId, isDeleted"),
         @Index(columnList = "createDate, id"),
-        @Index(columnList = "isCompany, isDeleted")
+        @Index(columnList = "isTopOrganize, organizeType, isDeleted")
 })
 public class OrganizeEntity {
 
@@ -45,7 +46,13 @@ public class OrganizeEntity {
     private Boolean isDeleted;
 
     @Column(nullable = false)
-    private Boolean isCompany;
+    private Boolean isTopOrganize;
+
+    /**
+     * @see com.john.project.enums.OrganizeTypeEnum
+     */
+    @Column(nullable = false)
+    private String organizeType;
 
     @Column(nullable = false)
     private String deletionCode;
@@ -64,5 +71,8 @@ public class OrganizeEntity {
 
     @OneToMany(mappedBy = "organize", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PermissionRelationEntity> permissionRelationList;
+
+    @OneToMany(mappedBy = "organize", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<IdentityCardEntity> identityCardList;
 
 }

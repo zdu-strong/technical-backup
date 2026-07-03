@@ -5,9 +5,8 @@ import { style } from "typestyle";
 import AccountTooltipDialog from "@component/SignIn/AccountTooltipDialog";
 import PasswordTooltipDialog from "@component/SignIn/PasswordTooltipDialog";
 import api from "@api";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion, faArrowRightToBracket, faSpinner, faHome, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faCircleQuestion, faArrowRightToBracket, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useOnceSubmitWhileTrue } from "@/common/use-hook";
 
 const container = style({
@@ -32,53 +31,54 @@ export default observer(() => {
             open: false,
         },
         showPasswordInput: false,
-        errors: {
-            username() {
-                if (state.username) {
-                    if (state.username.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.username.length) {
-                        return <FormattedMessage id="ThereShouldBeNoSpacesAtTheBeginningOfTheAccountId" defaultMessage="There should be no spaces at the beginning of the account ID" />
-                    }
-                    if (state.username.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.username.length) {
-                        return <FormattedMessage id="TheAccountIDCannotHaveASpaceAtTheEnd" defaultMessage="The account ID cannot have a space at the end" />
-                    }
-                }
-                if (!state.submitted) {
-                    return false;
-                }
-                if (!state.username) {
-                    return <FormattedMessage id="PleaseFillInTheAccountID" defaultMessage="Please fill in the account ID" />
-                }
-                return false;
-            },
-            password() {
-                if (state.password) {
-                    if (state.password.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.password.length) {
-                        return <FormattedMessage id="PasswordMustNotHaveSpacesAtTheBeginning" defaultMessage="Password must not have spaces at the beginning" />
-                    }
-                    if (state.password.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.password.length) {
-                        return <FormattedMessage id="PasswordCannotHaveASpaceAtTheEnd" defaultMessage="Password cannot have a space at the end" />
-                    }
-                }
-                if (!state.submitted) {
-                    return false;
-                }
-                if (!state.password) {
-                    return <FormattedMessage id="PleaseFillInThePassword" defaultMessage="Please fill in the password" />
-                }
-                return false;
-            },
-            hasError() {
-                return Object.keys(state.errors).filter(s => s !== "hasError").some(s => (state.errors as any)[s]());
-            }
-        },
     })
+
+    const errors = {
+        username() {
+            if (state.username) {
+                if (state.username.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.username.length) {
+                    return <FormattedMessage id="ThereShouldBeNoSpacesAtTheBeginningOfTheAccountId" defaultMessage="There should be no spaces at the beginning of the account ID" />
+                }
+                if (state.username.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.username.length) {
+                    return <FormattedMessage id="TheAccountIDCannotHaveASpaceAtTheEnd" defaultMessage="The account ID cannot have a space at the end" />
+                }
+            }
+            if (!state.submitted) {
+                return false;
+            }
+            if (!state.username) {
+                return <FormattedMessage id="PleaseFillInTheAccountID" defaultMessage="Please fill in the account ID" />
+            }
+            return false;
+        },
+        password() {
+            if (state.password) {
+                if (state.password.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.password.length) {
+                    return <FormattedMessage id="PasswordMustNotHaveSpacesAtTheBeginning" defaultMessage="Password must not have spaces at the beginning" />
+                }
+                if (state.password.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.password.length) {
+                    return <FormattedMessage id="PasswordCannotHaveASpaceAtTheEnd" defaultMessage="Password cannot have a space at the end" />
+                }
+            }
+            if (!state.submitted) {
+                return false;
+            }
+            if (!state.password) {
+                return <FormattedMessage id="PleaseFillInThePassword" defaultMessage="Please fill in the password" />
+            }
+            return false;
+        },
+        hasError() {
+            return Object.keys(errors).filter(s => s !== "hasError").some(s => (errors as any)[s]());
+        }
+    };
 
     const signIn = useOnceSubmitWhileTrue(async function () {
         state.submitted = true;
-        if (!state.errors.password()) {
+        if (!errors.password()) {
             state.showPasswordInput = false;
         }
-        if (state.errors.hasError()) {
+        if (errors.hasError()) {
             return false;
         }
         await api.Authorization.signIn(state.username, state.password);
@@ -125,8 +125,8 @@ export default observer(() => {
                 onChange={changeUsername}
                 value={state.username}
                 autoComplete="off"
-                error={!!state.errors.username()}
-                helperText={state.errors.username()}
+                error={!!errors.username()}
+                helperText={errors.username()}
                 slotProps={{
                     input: {
                         endAdornment: <IconButton
@@ -150,8 +150,8 @@ export default observer(() => {
                 autoComplete="off"
                 multiline={true}
                 rows={6}
-                error={!!state.errors.password()}
-                helperText={state.errors.password()}
+                error={!!errors.password()}
+                helperText={errors.password()}
                 slotProps={{
                     htmlInput: {
                         style: {
@@ -186,24 +186,6 @@ export default observer(() => {
             >
                 <FormattedMessage id="SignIn" defaultMessage="SignIn" />
             </Button>
-        </div>
-        <div className="w-full" style={{ marginTop: "2em" }}>
-            <Link to="/sign-up" >
-                <Button
-                    variant="contained"
-                    startIcon={<FontAwesomeIcon icon={faUserPlus} />}
-                >
-                    <FormattedMessage id="SignUp" defaultMessage="SignUp" />
-                </Button>
-            </Link>
-            <Link to="/" style={{ marginLeft: "2em" }}>
-                <Button
-                    variant="contained"
-                    startIcon={<FontAwesomeIcon icon={faHome} />}
-                >
-                    <FormattedMessage id="ReturnToHomePage" defaultMessage="To home" />
-                </Button>
-            </Link>
         </div>
         {state.usernameTooltipDialog.open && <AccountTooltipDialog
             closeDialog={closeUsernameTooltip}

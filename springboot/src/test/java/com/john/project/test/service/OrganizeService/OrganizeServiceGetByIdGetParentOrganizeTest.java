@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.john.project.enums.OrganizeTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,11 @@ public class OrganizeServiceGetByIdGetParentOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var parentOrganizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+        var parentOrganizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
         var parentOrganize = this.organizeUtil.create(parentOrganizeModel);
-        var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setParent(parentOrganize);
+        var childOrganizeModel = new OrganizeModel().setName("Son Gohan").setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue()).setParent(parentOrganize);
         this.organizeUtil.create(childOrganizeModel);
         this.organizeId = parentOrganize.getId();
     }

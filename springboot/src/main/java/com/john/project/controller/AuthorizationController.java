@@ -52,6 +52,7 @@ public class AuthorizationController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfPassword(userModel.getPassword());
         this.userService.checkValidEmail(userModel);
         this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
+        this.userService.checkExistUsername(userModel.getUsername());
 
         var user = this.userService.create(userModel);
         user.setAccessToken(this.tokenService.generateAccessToken(user.getId()));
@@ -65,6 +66,7 @@ public class AuthorizationController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfPassword(userModel.getPassword());
         this.userService.checkValidEmail(userModel);
         this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
+        this.userService.checkExistUsername(userModel.getUsername());
 
         userModel.setPassword(this.tokenService.getEncryptedPassword(userModel.getPassword()));
         var user = this.userService.create(userModel);

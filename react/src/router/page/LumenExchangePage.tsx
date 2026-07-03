@@ -1,12 +1,8 @@
 import LumenExchange from "@/component/Lumen/LumenExchange";
-import CheckPermissionComponent from "@common/checkPermission/CheckPagePermissionComponent";
-import MainMenu from "@component/SystemMenu/MainMenu";
+import CheckPermissionComponent from "@/common/Server/CheckPagePermissionComponent";
 
 export default <CheckPermissionComponent
-    isAutoLogin={true}
     checkIsSignIn={true}
 >
-    <MainMenu>
-        <LumenExchange />
-    </MainMenu>
+    <LumenExchange />
 </CheckPermissionComponent>

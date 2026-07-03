@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx-react-use-autorun";
-import { jsonMember, jsonObject } from "typedjson";
+import { jsonArrayMember, jsonMember, jsonObject } from "typedjson";
+import { SystemPermissionModel } from "@model/SystemPermissionModel";
 
 @jsonObject
 export class SystemRoleModel {
@@ -15,6 +16,9 @@ export class SystemRoleModel {
 
     @jsonMember(String)
     name!: string;
+
+    @jsonArrayMember(SystemPermissionModel)
+    permissionList!: SystemPermissionModel[];
 
     constructor() {
         makeAutoObservable(this);

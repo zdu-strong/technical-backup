@@ -1,4 +1,4 @@
-import { Button, Divider, Fab, IconButton, TextField } from "@mui/material";
+import { Button, Divider, Fab, IconButton, TextField, Typography } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 import { style } from "typestyle";
@@ -10,9 +10,8 @@ import StepLabel from '@mui/material/StepLabel';
 import api from "@api";
 import { MessageService } from "@common/MessageService";
 import { UserEmailModel } from "@model/UserEmailModel";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useOnceSubmit } from "@/common/use-hook";
 
 const container = style({
@@ -28,13 +27,13 @@ const container = style({
 export default observer(() => {
 
     const state = useMobxState({
-        nickname: '',
+        username: '',
         password: '',
         emailList: [] as UserEmailModel[],
         steps: [
             {
                 id: v7(),
-                text: <FormattedMessage id="SetNickname" defaultMessage="Set nickname" />,
+                text: <FormattedMessage id="SetUsername" defaultMessage="Set username" />,
             },
             {
                 id: v7(),
@@ -54,85 +53,86 @@ export default observer(() => {
         loading: {
             sendVerificationCode: {} as Record<string, boolean>,
         },
-        errors: {
-            nickname() {
-                if (state.nickname) {
-                    if (state.nickname.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.nickname.length) {
-                        return <FormattedMessage id="ThereShouldBeNoSpacesAtTheBeginningOfTheNickname" defaultMessage="There should be no spaces at the beginning of the nickname" />
-                    }
-                    if (state.nickname.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.nickname.length) {
-                        return <FormattedMessage id="TheNicknameCannotHaveASpaceAtTheEnd" defaultMessage="The nickname cannot have a space at the end" />
-                    }
+    })
+
+    const errors = {
+        username() {
+            if (state.username) {
+                if (state.username.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.username.length) {
+                    return <FormattedMessage id="ThereShouldBeNoSpacesAtTheBeginningOfTheUsername" defaultMessage="There should be no spaces at the beginning of the username" />
                 }
-                if (!state.submitted) {
-                    return false;
+                if (state.username.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.username.length) {
+                    return <FormattedMessage id="TheUsernameCannotHaveASpaceAtTheEnd" defaultMessage="The username cannot have a space at the end" />
                 }
-                if (!state.nickname) {
-                    return <FormattedMessage id="PleaseFillInNickname" defaultMessage="Please fill in nickname" />
-                }
-                return false;
-            },
-            password() {
-                if (state.password) {
-                    if (state.password.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.password.length) {
-                        return <FormattedMessage id="PasswordMustNotHaveSpacesAtTheBeginning" defaultMessage="Password must not have spaces at the beginning" />
-                    }
-                    if (state.password.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.password.length) {
-                        return <FormattedMessage id="PasswordCannotHaveASpaceAtTheEnd" defaultMessage="Password cannot have a space at the end" />
-                    }
-                }
-                if (!state.submitted) {
-                    return false;
-                }
-                if (!state.password) {
-                    return <FormattedMessage id="PleaseFillInThePassword" defaultMessage="Please fill in the password" />
-                }
-                return false;
-            },
-            email(emailInfo: UserEmailModel) {
-                if (!state.submitted) {
-                    return false;
-                }
-                if (!emailInfo.email) {
-                    return <FormattedMessage id="PleaseEnterYourEmail" defaultMessage="Please enter your email" />
-                }
-                if (!new RegExp('^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$').test(emailInfo.email)) {
-                    return <FormattedMessage id="EMailFormatIsIncorrect" defaultMessage="E-mail format is incorrect" />
-                }
-                return false;
-            },
-            verificationCode(emailInfo: UserEmailModel) {
-                if (!state.submitted) {
-                    return false;
-                }
-                if (!emailInfo.verificationCodeEmail.verificationCode) {
-                    return <FormattedMessage id="PleaseFillInTheVerificationCode" defaultMessage="Please fill in the verification code" />
-                }
+            }
+            if (!state.submitted) {
                 return false;
             }
+            if (!state.username) {
+                return <FormattedMessage id="PleaseFillInUsername" defaultMessage="Please fill in username" />
+            }
+            return false;
         },
-    })
+        password() {
+            if (state.password) {
+                if (state.password.replaceAll(new RegExp('^\\s+', 'g'), '').length !== state.password.length) {
+                    return <FormattedMessage id="PasswordMustNotHaveSpacesAtTheBeginning" defaultMessage="Password must not have spaces at the beginning" />
+                }
+                if (state.password.replaceAll(new RegExp('\\s+$', 'g'), '').length !== state.password.length) {
+                    return <FormattedMessage id="PasswordCannotHaveASpaceAtTheEnd" defaultMessage="Password cannot have a space at the end" />
+                }
+            }
+            if (!state.submitted) {
+                return false;
+            }
+            if (!state.password) {
+                return <FormattedMessage id="PleaseFillInThePassword" defaultMessage="Please fill in the password" />
+            }
+            return false;
+        },
+        email(emailInfo: UserEmailModel) {
+            if (!state.submitted) {
+                return false;
+            }
+            if (!emailInfo.email) {
+                return <FormattedMessage id="PleaseEnterYourEmail" defaultMessage="Please enter your email" />
+            }
+            if (!new RegExp('^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$').test(emailInfo.email)) {
+                return <FormattedMessage id="EMailFormatIsIncorrect" defaultMessage="E-mail format is incorrect" />
+            }
+            return false;
+        },
+        verificationCode(emailInfo: UserEmailModel) {
+            if (!state.submitted) {
+                return false;
+            }
+            if (!emailInfo.verificationCodeEmail.verificationCode) {
+                return <FormattedMessage id="PleaseFillInTheVerificationCode" defaultMessage="Please fill in the verification code" />
+            }
+            return false;
+        }
+    };
 
     const signUp = useOnceSubmit(async function () {
         const userEmailList: UserEmailModel[] = state.emailList.map(s => ({
             email: s.email,
             verificationCodeEmail: s.verificationCodeEmail
         }));
-        await api.Authorization.signUp(state.password, state.nickname, userEmailList);
+        await api.Authorization.signUp(state.password, state.username, userEmailList);
     });
 
     function nextStep() {
         state.submitted = true;
-        if (state.activeStep === 0 && state.errors.nickname()) {
+        if (state.activeStep === 0 && errors.username()) {
             return;
         }
-        if (state.activeStep === 1 && state.errors.password()) {
+        if (state.activeStep === 1 && errors.password()) {
             return;
         }
-        if (state.activeStep === 2 && state.emailList.some(s => state.errors.email(s))) {
+        if (state.activeStep === 2 && state.emailList.some(s => errors.email(s))) {
             return;
         }
-        if (state.activeStep === 2 && state.emailList.some(s => state.errors.verificationCode(s))) {
+        if (state.activeStep === 2 && state.emailList.some(s => errors.verificationCode(s))) {
             return;
         }
         state.submitted = false
@@ -163,7 +163,7 @@ export default observer(() => {
     async function sendVerificationCode(userEmailModel: UserEmailModel) {
         try {
             state.submitted = true;
-            if (state.errors.email(userEmailModel)) {
+            if (errors.email(userEmailModel)) {
                 return;
             }
             state.submitted = false;
@@ -188,18 +188,18 @@ export default observer(() => {
                 <Divider style={{ marginTop: "1em" }} />
                 {state.activeStep === 0 && <div className="flex flex-col" style={{ marginTop: "1em" }}>
                     <div>
-                        <FormattedMessage id="NicknameYouCanModifyYourNicknameAtAnyTime" defaultMessage="Nickname, you can modify your nickname at any time" />
+                        <FormattedMessage id="UsernameYouCanModifyYourUsernameAtAnyTime" defaultMessage="Username, you can modify your username at any time" />
                     </div>
                     <TextField
-                        label={<FormattedMessage id="Nickname" defaultMessage="nickname" />}
+                        label={<FormattedMessage id="Username" defaultMessage="Username" />}
                         variant="outlined"
                         onChange={(e) => {
-                            state.nickname = e.target.value;
+                            state.username = e.target.value;
                         }}
-                        value={state.nickname}
+                        value={state.username}
                         autoComplete="off"
-                        error={!!state.errors.nickname()}
-                        helperText={state.errors.nickname()}
+                        error={!!errors.username()}
+                        helperText={errors.username()}
                         style={{ marginTop: "1em" }}
                         onKeyDown={(e) => {
                             if (!e.shiftKey && e.key === "Enter") {
@@ -212,11 +212,11 @@ export default observer(() => {
                 </div>}
                 {state.activeStep !== 0 && (<div className="flex flex-row" style={{ marginTop: "1em" }}>
                     <div style={{ marginRight: "1em" }}>
-                        <FormattedMessage id="Nickname" defaultMessage="nickname" />
+                        <FormattedMessage id="Username" defaultMessage="Username" />
                         {":"}
                     </div>
                     <div>
-                        {state.nickname}
+                        {state.username}
                     </div>
                 </div>)}
                 {state.activeStep > 0 && <Divider style={{ marginTop: "1em", marginBottom: "1em" }} />}
@@ -228,18 +228,18 @@ export default observer(() => {
                     <FormattedMessage id="PasswordSettingIsComplete" defaultMessage="Password setting is complete" />
                 </div>}
                 {state.activeStep === 1 && <div className="flex flex-col">
-                    <div className="flex" style={{ marginBottom: "0em" }} >
+                    <Typography style={{ marginBottom: "0em" }}>
                         <FormattedMessage id="JustLikeTheTreasureMapLetUsHideThePasswordInThisWorld" defaultMessage="Just like the treasure map, let's hide the password in this world. For example, select a paragraph as a password from Shakespeare's works." />
-                    </div>
-                    <div className="flex" style={{ marginBottom: "0em" }} >
+                    </Typography>
+                    <Typography style={{ marginBottom: "0em" }}>
                         <FormattedMessage id="ThePasswordSupportsAllTheCharactersOfUTF8" defaultMessage="The password supports all the characters of UTF-8. You can use any of the language content you like as the password." />
-                    </div>
-                    <div className="flex" style={{ marginBottom: "0em" }}>
+                    </Typography>
+                    <Typography style={{ marginBottom: "0em" }}>
                         <FormattedMessage id="WeDoNotProvideResetPasswordSoRememberYourPassword" defaultMessage="We do not provide reset password functions. So, remember your password." />
-                    </div>
-                    <div className="flex" style={{ marginBottom: "1em" }}>
+                    </Typography>
+                    <Typography style={{ marginBottom: "1em" }}>
                         <FormattedMessage id="OnlyYouWhocanKnowThePassword" defaultMessage="We can't know your chat content and file content. Only you who can know the password." />
-                    </div>
+                    </Typography>
                     <TextField
                         label={<FormattedMessage id="Password" defaultMessage="Password" />}
                         className="flex flex-auto"
@@ -258,8 +258,8 @@ export default observer(() => {
                         autoComplete="off"
                         multiline={true}
                         rows={6}
-                        error={!!state.errors.password()}
-                        helperText={state.errors.password()}
+                        error={!!errors.password()}
+                        helperText={errors.password()}
                         autoFocus={true}
                     />
                 </div>}
@@ -289,8 +289,8 @@ export default observer(() => {
                             value={s.email}
                             autoComplete="off"
                             className="w-full"
-                            error={!!state.errors.email(s)}
-                            helperText={state.errors.email(s)}
+                            error={!!errors.email(s)}
+                            helperText={errors.email(s)}
                             autoFocus={true}
                         />
                         <div style={{ height: "56px" }} className="flex items-center">
@@ -318,8 +318,8 @@ export default observer(() => {
                             value={s.verificationCodeEmail.verificationCode}
                             autoComplete="off"
                             className="w-full"
-                            error={!!state.errors.verificationCode(s)}
-                            helperText={state.errors.verificationCode(s)}
+                            error={!!errors.verificationCode(s)}
+                            helperText={errors.verificationCode(s)}
                             style={{ marginLeft: "1em" }}
                         />
                         <div style={{ height: "56px" }} className="flex items-center">
@@ -370,14 +370,6 @@ export default observer(() => {
                     >
                         <FormattedMessage id="Previous" defaultMessage="Previous" />
                     </Button>}
-                    <Link to="/sign-in">
-                        <Button
-                            variant="contained"
-                            startIcon={<FontAwesomeIcon icon={faUser} />}
-                        >
-                            <FormattedMessage id="SignIn" defaultMessage="SignIn" />
-                        </Button>
-                    </Link>
                     {state.activeStep < state.steps.length - 1 && <Button
                         variant="contained"
                         startIcon={<FontAwesomeIcon icon={faFloppyDisk} />}

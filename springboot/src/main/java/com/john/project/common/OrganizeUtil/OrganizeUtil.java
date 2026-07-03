@@ -71,14 +71,6 @@ public class OrganizeUtil {
     private void refresh(String organizeId) {
         var deadline = this.getDeadline();
 
-        while (!new Date().after(deadline)) {
-            var hasNext = this.permissionRelationService.refresh(organizeId);
-            if (hasNext) {
-                continue;
-            }
-            break;
-        }
-
         var arrayDeque = new ArrayDeque<String>();
         arrayDeque.add(organizeId);
         while (!arrayDeque.isEmpty() && !new Date().after(deadline)) {

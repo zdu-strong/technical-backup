@@ -18,12 +18,27 @@ export const MessageService = {
     },
     success: (message: string | string[] | any) => {
         handleMessage(MESSAGE_TYPE_ENUM.success, message)
+    },
+    confirm: (title: ReactNode, confirmCallback: () => void) => {
+        GlobalConfirmList.push({
+            id: v7(),
+            title,
+            confirmCallback,
+        });
     }
 }
+
+export type CONFIRM_TYPE = {
+    id: string;
+    title: ReactNode;
+    confirmCallback: () => void;
+};
 
 export type MESSAGE_TYPE = "error" | "warning" | "info" | "success";
 
 export const GlobalMessageList = observable([]) as { id: string, message: ReactNode, type: MESSAGE_TYPE }[];
+
+export const GlobalConfirmList = observable([]) as CONFIRM_TYPE[];
 
 export const MESSAGE_TYPE_ENUM = {
     error: "error" as MESSAGE_TYPE,

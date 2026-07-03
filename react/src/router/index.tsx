@@ -9,11 +9,13 @@ import SuperAdminRoleManagePage from '@/router/page/SuperAdminRoleManagePage';
 import SuperAdminOrganizeManagePage from '@/router/page/SuperAdminOrganizeManagePage';
 import SuperAdminUserManagePage from '@/router/page/SuperAdminUserManagePage';
 import LumenExchangePage from '@/router/page/LumenExchangePage';
+import HomeDashboardPage from '@/router/page/HomeDashboardPage';
 
 export default (
     <BrowserRouter>
         <Routes>
-            <Route index element={MessagePage} />
+            <Route index element={HomeDashboardPage} />
+            <Route path="/dashboard" element={HomeDashboardPage} />
             <Route path="/chat" element={MessagePage} />
             <Route path="/sign-in" element={SignInPage} />
             <Route path="/sign-up" element={SignUpPage} />

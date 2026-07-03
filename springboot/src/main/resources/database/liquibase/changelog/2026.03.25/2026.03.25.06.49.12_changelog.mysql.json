@@ -1,0 +1,56 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1774421376641-1",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "addColumn": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "has_organize_permission",
+                  "type": "BIT(1)"
+                }
+              }
+            ]
+            ,
+            "tableName": "role_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1774421376641-2",
+      "author": "John (generated)",
+      "changes": [
+        {
+          "addColumn": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "has_system_permission",
+                  "type": "BIT(1)"
+                }
+              }
+            ]
+            ,
+            "tableName": "role_entity"
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}

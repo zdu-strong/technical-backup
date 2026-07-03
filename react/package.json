@@ -75,7 +75,6 @@
         "rxjs-exhaustmap-with-trailing": "2.1.1",
         "rxjs-websockets": "9.0.0",
         "tailwindcss": "4.3.1",
-        "ts-enum-util": "4.1.0",
         "typedjson": "1.8.0",
         "typescript": "6.0.3",
         "typescript-eslint": "8.62.0",

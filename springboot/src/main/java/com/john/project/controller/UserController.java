@@ -39,6 +39,7 @@ public class UserController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfPassword(user.getPassword());
         this.userService.checkRoleRelation(user, request);
         this.userService.checkValidEmail(user);
+        this.userService.checkExistUsername(user.getUsername());
 
         var userOne = this.userService.create(user);
         return ResponseEntity.ok(userOne);
@@ -49,11 +50,23 @@ public class UserController extends BaseController {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfUsername(user.getUsername());
         this.validationFieldUtil.checkNotEdgesSpaceOfUsername(user.getUsername());
-        this.userService.checkExistUserById(user.getId());
+        this.userService.checkUndeletedUserById(user.getId());
         this.userService.checkRoleRelation(user, request);
         this.userService.checkValidEmail(user);
+        this.userService.checkExistUsername(user.getUsername(), user.getId());
 
         this.userService.update(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/delete")
+    public ResponseEntity<?> delete(@RequestParam String id) {
+        this.permissionUtil.checkIsSignIn(request);
+        this.validationFieldUtil.checkNotBlankOfId(id);
+        this.userService.checkUndeletedUserById(id);
+
+        this.userService.delete(id);
 
         return ResponseEntity.ok().build();
     }

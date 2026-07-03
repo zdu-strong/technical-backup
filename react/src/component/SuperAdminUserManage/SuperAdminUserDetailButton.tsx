@@ -15,15 +15,15 @@ export default observer((props: Props) => {
 
     const state = useMobxState({
         dialog: {
+            id: v7(),
             open: false,
-            id: v7()
         }
     })
 
     function openDialog() {
         state.dialog = {
+            id: v7(),
             open: true,
-            id: v7()
         }
     }
 

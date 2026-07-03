@@ -1,6 +1,8 @@
 package com.john.project.test.common.PermissionUtil;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.john.project.enums.OrganizeTypeEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +30,9 @@ public class PermissionUtilCheckAnyRoleForOrganizeTest extends BaseTest {
         var email = this.uuidUtil.v4() + "@gmail.com";
         this.user = this.createAccount(email);
         this.request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + user.getAccessToken());
-        var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+        var organizeModel = new OrganizeModel()
+                .setName("Super Saiyan Son Goku")
+                .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
         this.organizeId = this.organizeUtil.create(organizeModel).getId();
     }
 }

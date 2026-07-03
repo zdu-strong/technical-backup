@@ -17,4 +17,6 @@ public class SuperAdminRoleQueryPaginationModel extends PaginationModel<RoleMode
 
     private String roleName;
 
+    private Boolean isOnlySystemRole;
+
 }

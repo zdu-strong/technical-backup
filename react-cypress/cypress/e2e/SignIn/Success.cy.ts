@@ -1,4 +1,4 @@
-import { v7 } from 'uuid'
+import { v4 } from 'uuid'
 import page from '@/page'
 import * as action from '@/action'
 
@@ -11,12 +11,11 @@ it('', () => {
 })
 
 before(() => {
-    cy.visit("/sign-up")
     action.signUp(email, password)
     page.Chat.SettingButton().click()
     page.Chat.SignOutButton().click()
     cy.location('pathname').should('equal', '/sign-in')
 })
 
-const email = `${v7()}zdu.strong@gmail.com`
+const email = `${v4()}zdu.strong@gmail.com`
 const password = 'Hello, World!'

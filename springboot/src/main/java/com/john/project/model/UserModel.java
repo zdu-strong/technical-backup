@@ -18,4 +18,5 @@ public class UserModel {
     private String accessToken;
     private List<UserEmailModel> userEmailList;
     private List<RoleModel> roleList;
+    private List<IdentityCardModel> identityCardList;
 }

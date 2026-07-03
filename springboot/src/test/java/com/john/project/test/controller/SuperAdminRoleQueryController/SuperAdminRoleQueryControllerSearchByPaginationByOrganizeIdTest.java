@@ -1,11 +1,10 @@
 package com.john.project.test.controller.SuperAdminRoleQueryController;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.enums.OrganizeTypeEnum;
+import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.enums.SystemRoleEnum;
-import com.john.project.model.OrganizeModel;
-import com.john.project.model.PaginationModel;
-import com.john.project.model.RoleModel;
-import com.john.project.model.SuperAdminRoleQueryPaginationModel;
+import com.john.project.model.*;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
 import org.apache.hc.core5.net.URIBuilder;
@@ -16,6 +15,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,9 +57,12 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByOrganizeIdTest ext
         {
             var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
             this.createAccount(email);
-            var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+            var organizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             var organize = this.organizeUtil.create(organizeModel);
             this.organizeId = organize.getId();
+            this.initOrganizeRoleList(organize);
         }
         {
             var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";

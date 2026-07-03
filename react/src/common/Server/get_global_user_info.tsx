@@ -4,6 +4,8 @@ import { from, fromEvent, retry, switchMap } from 'rxjs';
 import { TypedJSON } from 'typedjson';
 import { existsWindow } from '@common/exists-window/exists-window';
 import { UserEmailModel } from '@model/UserEmailModel';
+import type { SystemRoleModel } from '@/model/SystemRoleModel';
+import type { IdentityCardModel } from '@/model/IdentityCardModel';
 
 export const GlobalUserInfo = observable({
     id: '',
@@ -33,6 +35,8 @@ export async function setGlobalUserInfo(user?: UserModel): Promise<void> {
     GlobalUserInfo.username = user!.username;
     GlobalUserInfo.accessToken = user!.accessToken;
     GlobalUserInfo.userEmailList = user!.userEmailList;
+    GlobalUserInfo.roleList = user!.roleList;
+    GlobalUserInfo.identityCardList = user!.identityCardList;
     if (typeof user!.menuOpen === "boolean") {
         GlobalUserInfo.menuOpen = user!.menuOpen;
     }
@@ -46,6 +50,8 @@ export function removeGlobalUserInfo() {
     GlobalUserInfo.username = '';
     GlobalUserInfo.accessToken = '';
     GlobalUserInfo.userEmailList = [] as UserEmailModel[];
+    GlobalUserInfo.roleList = [] as SystemRoleModel[];
+    GlobalUserInfo.identityCardList = [] as IdentityCardModel[];
     if (window.localStorage.getItem(keyOfGlobalUserInfoOfLocalStorage)) {
         window.localStorage.removeItem(keyOfGlobalUserInfoOfLocalStorage);
     }

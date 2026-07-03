@@ -5,6 +5,8 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import { useCommonContext } from '@/common/CommonContext';
+import { hasAnyPermission } from '@/common/Server';
+import { SystemPermissionEnum } from '@/enums/SystemPermissionEnum';
 
 export function useReactRouterAppProviderNavigation() {
 
@@ -36,21 +38,30 @@ export function useReactRouterAppProviderNavigation() {
             title: formatMessage({ id: "Git", defaultMessage: "Git" }),
             icon: <ShoppingCartIcon />,
         },
-        {
-            segment: 'super-admin/role/manage',
-            title: formatMessage({ id: "RoleManage", defaultMessage: "Role Manage" }),
-            icon: <ShoppingCartIcon />,
-        },
-        {
-            segment: 'super-admin/user/manage',
-            title: formatMessage({ id: "UserManage", defaultMessage: "User Manage" }),
-            icon: <ShoppingCartIcon />,
-        },
-        {
-            segment: 'super-admin/organize/manage',
-            title: formatMessage({ id: "OrganizeManage", defaultMessage: "Organize Manage" }),
-            icon: <ShoppingCartIcon />,
-        },
+        ...(hasAnyPermission(SystemPermissionEnum.SUPER_ADMIN) ? [
+            {
+                kind: 'divider',
+            },
+            {
+                kind: 'header',
+                title: 'Super Administrator',
+            },
+            {
+                segment: 'super-admin/role/manage',
+                title: formatMessage({ id: "RoleManage", defaultMessage: "Role Manage" }),
+                icon: <ShoppingCartIcon />,
+            },
+            {
+                segment: 'super-admin/user/manage',
+                title: formatMessage({ id: "UserManage", defaultMessage: "User Manage" }),
+                icon: <ShoppingCartIcon />,
+            },
+            {
+                segment: 'super-admin/organize/manage',
+                title: formatMessage({ id: "OrganizeManage", defaultMessage: "Organize Manage" }),
+                icon: <ShoppingCartIcon />,
+            },
+        ] : []),
         {
             kind: 'divider',
         },
@@ -59,19 +70,19 @@ export function useReactRouterAppProviderNavigation() {
             title: 'Analytics',
         },
         {
-            segment: '.',
+            segment: 'lumen',
             title: 'Lumen',
             icon: <BarChartIcon />,
             children: [
                 {
-                    segment: 'lumen/exchange',
+                    segment: 'exchange',
                     title: 'Exchange',
                     icon: <DescriptionIcon />,
                 },
             ],
         },
         {
-            segment: '.',
+            segment: 'report',
             title: 'Reports',
             icon: <BarChartIcon />,
             children: [

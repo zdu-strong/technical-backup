@@ -9,21 +9,22 @@ import { FormattedMessage } from "react-intl";
 type Props = {
     id: string;
     searchByPagination: () => void;
+    isOnlyView: boolean;
 }
 
 export default observer((props: Props) => {
 
     const state = useMobxState({
         dialog: {
+            id: v7(),
             open: false,
-            id: v7()
         }
     })
 
     function openDialog() {
         state.dialog = {
+            id: v7(),
             open: true,
-            id: v7()
         }
     }
 
@@ -45,6 +46,7 @@ export default observer((props: Props) => {
                 searchByPagination={props.searchByPagination}
                 key={state.dialog.id}
                 closeDialog={closeDialog}
+                isOnlyView={props.isOnlyView}
             />
         }
     </>

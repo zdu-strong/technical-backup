@@ -2,6 +2,7 @@ package com.john.project.test.controller.SuperAdminRoleQueryController;
 
 
 import cn.hutool.core.util.ObjectUtil;
+import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
@@ -53,9 +54,12 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByRoleNameTest exten
         {
             var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
             this.createAccount(email);
-            var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+            var organizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
             var organize = this.organizeUtil.create(organizeModel);
             this.organizeId = organize.getId();
+            this.initOrganizeRoleList(organize);
         }
         {
             var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";

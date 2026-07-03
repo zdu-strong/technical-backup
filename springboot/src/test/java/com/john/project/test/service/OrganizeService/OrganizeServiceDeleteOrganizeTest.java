@@ -1,5 +1,6 @@
 package com.john.project.test.service.OrganizeService;
 
+import com.john.project.enums.OrganizeTypeEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.john.project.model.OrganizeModel;
@@ -16,7 +17,9 @@ public class OrganizeServiceDeleteOrganizeTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        var organizeModel = new OrganizeModel().setName("Super Saiyan Son Goku");
+        var organizeModel = new OrganizeModel()
+                    .setName("Super Saiyan Son Goku")
+                    .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
         this.organizeId = this.organizeUtil.create(organizeModel).getId();
     }
 

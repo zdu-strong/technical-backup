@@ -18,7 +18,6 @@ public class PermissionRelationFormatter extends BaseService {
         BeanUtils.copyProperties(permissionRelationEntity, permissionModel);
         permissionModel.setPermission(permissionRelationEntity.getPermission().getName());
         permissionModel.setRole(new RoleModel().setId(permissionRelationEntity.getRole().getId()));
-        permissionModel.setIsOrganizePermission(ObjectUtil.isNotNull(permissionRelationEntity.getOrganize()));
         if (ObjectUtil.isNotNull(permissionRelationEntity.getOrganize())) {
             permissionModel.setOrganize(this.organizeFormatter.format(permissionRelationEntity.getOrganize()));
         } else {

@@ -1,8 +1,8 @@
-import { v7 } from 'uuid'
+import { v4 } from 'uuid'
 import page from '@/page'
 
 it('', () => {
-    page.SignUp.nickname().type('John Hancock')
+    page.SignUp.username().type(`John Williams-${v4()}`)
     page.SignUp.nextStepButton().click()
     page.SignUp.password().type('Hello, World!')
     page.SignUp.nextStepButton().click()
@@ -21,4 +21,4 @@ before(() => {
     cy.visit("/sign-up")
 })
 
-const email = `${v7()}zdu.strong@gmail.com`
+const email = `${v4()}zdu.strong@gmail.com`

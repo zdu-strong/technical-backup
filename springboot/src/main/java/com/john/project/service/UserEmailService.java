@@ -33,6 +33,19 @@ public class UserEmailService extends BaseService {
         this.persist(userEmailEntity);
     }
 
+    public void deleteUserEmailByUserId(String userId) {
+        var userEmailList = this.streamAll(UserEmailEntity.class)
+                .where(s -> s.getUser().getId().equals(userId))
+                .where(s -> !s.getIsDeleted())
+                .toList();
+        for (var userEmailEntity : userEmailList) {
+            userEmailEntity.setIsDeleted(true);
+            userEmailEntity.setDeletionCode(uuidUtil.v4());
+            userEmailEntity.setUpdateDate(new Date());
+            this.merge(userEmailEntity);
+        }
+    }
+
     private void inactiveUserEmail(String email) {
         var userEmailList = this.streamAll(UserEmailEntity.class)
                 .where(s -> !s.getIsDeleted())

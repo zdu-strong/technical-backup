@@ -8,10 +8,10 @@ import { TypedJSON } from "typedjson";
 import { getKeyOfRSAPublicKey } from "@api/EncryptDecrypt";
 import { sha3_512 } from 'js-sha3';
 
-export async function signUp(password: string, nickname: string, userEmailList: UserEmailModel[]): Promise<void> {
+export async function signUp(password: string, username: string, userEmailList: UserEmailModel[]): Promise<void> {
     await signOut();
     const { data } = await axios.post(`/sign-up/rsa/one-time`, {
-        username: nickname,
+        username: username,
         password: await getEncryptedPassword(password),
         userEmailList: userEmailList,
     });
@@ -62,6 +62,6 @@ export async function isSignIn() {
     return true;
 }
 
-async function getEncryptedPassword(password: string) {
+export async function getEncryptedPassword(password: string) {
     return await encryptByPublicKeyOfRSA(JSON.stringify([sha3_512(password), new Date()]), await getKeyOfRSAPublicKey());
 }
