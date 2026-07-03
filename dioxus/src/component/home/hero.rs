@@ -1,5 +1,5 @@
-use crate::component::game_button::GameButton;
-use crate::component::game_input::GameInput;
+use crate::component::home::game_button::GameButton;
+use crate::component::home::game_input::GameInput;
 use crate::constant::app_assets_constant::HEADER_SVG_IMAGE;
 use crate::model::cat_model::CatModel;
 use crate::model::user_model::UserModel;

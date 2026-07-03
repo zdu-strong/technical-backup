@@ -1,4 +1,4 @@
-use crate::component::blog::Blog;
+use crate::component::blog::blog::Blog;
 use dioxus::prelude::*;
 
 #[component]

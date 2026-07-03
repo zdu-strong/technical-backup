@@ -6,7 +6,7 @@ use dioxus::prelude::*;
 struct CSS;
 
 #[component]
-pub fn Navbar() -> Element {
+pub fn SystemMenu() -> Element {
     rsx! {
         div {
             id: "navbar",
