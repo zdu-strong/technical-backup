@@ -20,13 +20,13 @@ pub struct AppCheckPermissionModel {
 }
 
 impl AppCheckPermissionModel {
-    pub fn is_ready(&self, ready: bool) -> bool {
+    pub fn is_ready(&self, readyOfInit: bool) -> bool {
         if self.check_is_sign_in && SERVER_USER_INFO().access_token.read().trim().is_empty() {
             return false;
         }
         if self.check_is_not_sign_in && !SERVER_USER_INFO().access_token.read().trim().is_empty() {
             return false;
         }
-        return ready && true;
+        return readyOfInit && true;
     }
 }
