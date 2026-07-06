@@ -1,15 +1,39 @@
-import { $enum } from 'ts-enum-util'
+import { makeAutoObservable } from "mobx-react-use-autorun";
+import { jsonMember, jsonObject } from "typedjson";
+import linq from "linq";
 
-export enum SystemPermissionEnum {
-    SUPER_ADMIN = "SUPER_ADMIN",
-    ORGANIZE_MANAGE = "ORGANIZE_MANAGE",
-    ORGANIZE_VIEW = "ORGANIZE_VIEW",
-}
+@jsonObject
+export class SystemPermissionEnum {
 
-async function main() {
-    const permission = "SUPER_ADMIN";
-    const all = $enum(SystemPermissionEnum).getValues();
-    const permissionEnum = $enum(SystemPermissionEnum).asValueOrThrow(permission);
-    console.log(all)
-    console.log(permissionEnum)
+    static SUPER_ADMIN = new SystemPermissionEnum("SUPER_ADMIN", true, false);
+
+    static ORGANIZE_MANAGE = new SystemPermissionEnum("ORGANIZE_MANAGE", false, true);
+
+    static ORGANIZE_VIEW = new SystemPermissionEnum("ORGANIZE_VIEW", false, true);
+
+    @jsonMember(String)
+    value!: string;
+
+    @jsonMember(Boolean)
+    isSuperAdmin!: boolean;
+
+    @jsonMember(Boolean)
+    isOrganizePermission!: boolean;
+
+    static parse(value: string) {
+        return linq.from(SystemPermissionEnum.values()).where(s => s.value === value).single();
+    }
+
+    static values() {
+        return Object.getOwnPropertyNames(SystemPermissionEnum)
+            .map(s => (SystemPermissionEnum as any)[s])
+            .filter(s => s instanceof SystemPermissionEnum);
+    }
+
+    constructor(value: string, isSuperAdmin: boolean, isOrganizePermission: boolean) {
+        makeAutoObservable(this);
+        this.value = value;
+        this.isSuperAdmin = isSuperAdmin;
+        this.isOrganizePermission = isOrganizePermission;
+    }
 }

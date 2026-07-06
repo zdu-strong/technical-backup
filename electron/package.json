@@ -119,7 +119,6 @@
         "rxjs-websockets": "9.0.0",
         "source-map-support": "0.5.21",
         "tailwindcss": "4.3.1",
-        "ts-enum-util": "4.1.0",
         "ts-loader": "9.6.2",
         "tsconfig-paths": "4.2.0",
         "typedjson": "1.8.0",
