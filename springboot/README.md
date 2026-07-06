@@ -56,6 +56,7 @@ Some experience in use, if you already know it, you can skip it.
 4. Jinq does not support union and union all. It doesn't matter, we can add database association table for query.
 5. Jinq doest not support right join. This does not matter, we can use left join.
 6. Jinq doest not support outer join. It doesn't matter, we can add database association table for query.
+7. Fields or tables related to data migration should not be deleted, in order to maintain forward compatibility.
 
 ## Notes - jpa - create entity
 
