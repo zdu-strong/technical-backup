@@ -13,8 +13,6 @@
         "@mui/x-charts",
         "@mui/x-data-grid",
         "@mui/x-data-grid-pro",
-        "@mui/x-date-pickers",
-        "@fortawesome/free-brands-svg-icons",
-        "@fortawesome/free-solid-svg-icons"
+        "@mui/x-date-pickers"
     ]
 }
