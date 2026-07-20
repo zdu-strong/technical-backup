@@ -4,6 +4,7 @@
         "@types/react",
         "@types/react-dom",
         "@types/node",
+        "typescript",
         "react",
         "react-dom",
         "get-port",
