@@ -14,7 +14,7 @@ pub async fn eat_apple(
         if *surplus_apple_count < 0 {
             panic!("illegal surplus apple count");
         }
-        if surplus_apple_count > max_apple_count {
+        if *surplus_apple_count > *max_apple_count {
             panic!("illegal surplus apple count");
         }
         if *surplus_apple_count == 0 {
