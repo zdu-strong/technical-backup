@@ -10,18 +10,18 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LumenInjectPairDifferentRateTest extends BaseTest {
+public class LumenInjectPairTwiceTest extends BaseTest {
 
     private LumenContextCoreModel lumenContext;
 
     @Test
     public void test() {
-        var result = this.lumenContext.injectPair(new BigDecimal(200), new BigDecimal(100));
-        var usdCcuBalance = this.lumenContext.getUsdCcu();
-        var japanCcuBalance = this.lumenContext.getJapanCcu();
-        assertTrue(ObjectUtil.equals(new BigDecimal("399.999984"), result));
-//        assertTrue(ObjectUtil.equals(new BigDecimal("399.999991"), usdCcuBalance));
-//        assertTrue(ObjectUtil.equals(new BigDecimal("399.999993"), japanCcuBalance));
+        var obtainCCUOfFirst = this.lumenContext.injectPair(new BigDecimal(50), new BigDecimal(100));
+        var obtainCCUOfSecond = this.lumenContext.inject(this.lumenContext.getUsd(), new BigDecimal(150));
+        var totalCCU = obtainCCUOfFirst.add(obtainCCUOfSecond);
+        assertTrue(ObjectUtil.equals(new BigDecimal("200"), obtainCCUOfFirst));
+        assertTrue(ObjectUtil.equals(new BigDecimal("200"), obtainCCUOfSecond));
+        assertTrue(ObjectUtil.equals(new BigDecimal("399.999984"), totalCCU));
     }
 
     @BeforeEach

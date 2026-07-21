@@ -2,8 +2,7 @@ package com.john.project.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.common.baseController.BaseController;
-import com.john.project.model.LumenCcuBalanceModel;
-import com.john.project.model.LumenContextModel;
+import com.john.project.model.LumenContextCoreModel;
 import lombok.SneakyThrows;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,30 +17,30 @@ import java.util.List;
 @RestController
 public class LumenController extends BaseController {
 
-    private final LumenContextModel lumenContextModel = new LumenContextModel();
+    private final LumenContextCoreModel lumenContextCoreModel = new LumenContextCoreModel();
 
     @PostMapping("/lumen/exchange")
     public ResponseEntity<?> exchange(@RequestParam String sourceCurrencyUnit, @RequestParam BigDecimal sourceCurrencyBalance) {
-        var sourceCurrency = JinqStream.from(List.of(this.lumenContextModel.getUsd(), this.lumenContextModel.getJapan()))
+        var sourceCurrency = JinqStream.from(List.of(this.lumenContextCoreModel.getUsd(), this.lumenContextCoreModel.getJapan()))
                 .where(s -> ObjectUtil.equals(s.getName(), sourceCurrencyUnit))
                 .getOnlyValue();
-        var targetCurrencyBalance = this.lumenContextModel.exchange(sourceCurrency, sourceCurrencyBalance);
+        var targetCurrencyBalance = this.lumenContextCoreModel.exchange(sourceCurrency, sourceCurrencyBalance);
         return ResponseEntity.ok(targetCurrencyBalance);
     }
 
     @PostMapping("/lumen/exchange/preview")
     @SneakyThrows
     public ResponseEntity<?> exchangePreview(@RequestParam String sourceCurrencyUnit, @RequestParam BigDecimal sourceCurrencyBalance) {
-        var sourceCurrency = JinqStream.from(List.of(this.lumenContextModel.getUsd(), this.lumenContextModel.getJapan()))
+        var sourceCurrency = JinqStream.from(List.of(this.lumenContextCoreModel.getUsd(), this.lumenContextCoreModel.getJapan()))
                 .where(s -> ObjectUtil.equals(s.getName(), sourceCurrencyUnit))
                 .getOnlyValue();
-        var targetCurrencyBalance = this.objectMapper.readValue(this.objectMapper.writeValueAsString(this.lumenContextModel), LumenContextModel.class).exchange(sourceCurrency, sourceCurrencyBalance);
+        var targetCurrencyBalance = this.objectMapper.readValue(this.objectMapper.writeValueAsString(this.lumenContextCoreModel), LumenContextCoreModel.class).exchange(sourceCurrency, sourceCurrencyBalance);
         return ResponseEntity.ok(targetCurrencyBalance);
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        this.lumenContextModel.injectPair(new BigDecimal(1000 * 1000), new BigDecimal(1000 * 1000));
+        this.lumenContextCoreModel.injectPair(new BigDecimal(1000 * 1000), new BigDecimal(1000 * 1000));
     }
 
 }

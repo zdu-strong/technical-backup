@@ -1,7 +1,7 @@
 package com.john.project.test.common.lumen;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.john.project.model.LumenContextModel;
+import com.john.project.model.LumenContextCoreModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LumenInjectSingleCurrencyTest extends BaseTest {
 
-    private LumenContextModel lumenContext;
+    private LumenContextCoreModel lumenContext;
 
     @Test
     public void test() {
@@ -42,7 +42,7 @@ public class LumenInjectSingleCurrencyTest extends BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.lumenContext = new LumenContextModel();
+        this.lumenContext = new LumenContextCoreModel();
         this.lumenContext.injectPair(new BigDecimal(100), new BigDecimal(100));
     }
 
