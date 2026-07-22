@@ -9,6 +9,7 @@ use crate::action::print_global_username::print_username::print_username;
 use crate::action::show_animal::print_all_animal::print_all_animal;
 use crate::action::spawn_blocking_async_task::spawn_blocking_async_task::spawn_blocking_async_task;
 pub mod action;
+pub mod api;
 pub mod constant;
 pub mod enums;
 pub mod model;

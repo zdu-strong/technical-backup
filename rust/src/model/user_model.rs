@@ -25,4 +25,12 @@ pub struct UserModel {
     #[serde[default]]
     #[serde(deserialize_with = "deserialize_default_from_null")]
     pub update_date: DateTime<Local>,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
+    pub access_token: String,
+
+    #[serde[default]]
+    #[serde(deserialize_with = "deserialize_default_from_null")]
+    pub passowrd: String,
 }
