@@ -12,6 +12,8 @@ pub async fn sign_in(username: Signal<String>, password: Signal<String>) {
         .send()
         .await
         .unwrap()
+        .error_for_status()
+        .unwrap()
         .json::<Option<Signal<UserModel>>>()
         .await
         .unwrap();
@@ -20,7 +22,12 @@ pub async fn sign_in(username: Signal<String>, password: Signal<String>) {
 
 pub async fn sign_out() {
     if !SERVER_USER_INFO().access_token.read().is_empty() {
-        let _ = post("/sign-out").send().await;
+        let _ = post("/sign-out")
+            .send()
+            .await
+            .unwrap()
+            .error_for_status()
+            .unwrap();
         remove_server_user_info();
     }
 }

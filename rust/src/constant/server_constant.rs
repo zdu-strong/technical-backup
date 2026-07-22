@@ -78,5 +78,5 @@ fn get_server_api_url(url: &str, server_address: &str) -> Url {
 }
 
 fn get_server_address() -> String {
-    "http://localhost:8080".to_string()
+    "http://127.0.0.1:8080".to_string()
 }

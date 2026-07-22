@@ -270,7 +270,7 @@ fn set_server_user_info_persistent(user_json_string: String) {
 }
 
 fn get_server_address() -> String {
-    "http://localhost:8080".to_string()
+    "http://127.0.0.1:8080".to_string()
 }
 
 fn get_error_message_text(error: Box<dyn Any + Send + 'static>) -> String {
