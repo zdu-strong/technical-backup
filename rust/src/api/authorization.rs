@@ -15,12 +15,12 @@ pub async fn sign_in(username: &mut String, password: &mut String) {
         .json::<Option<UserModel>>()
         .await
         .unwrap();
-    set_server_user_info(user);
+    set_server_user_info(user).await;
 }
 
 pub async fn sign_out() {
     if !SERVER_USER_INFO.read().await.access_token.is_empty() {
         let _ = post("/sign-out").await.send().await;
-        remove_server_user_info();
+        remove_server_user_info().await;
     }
 }

@@ -28,7 +28,7 @@ pub async fn remove_server_user_info() {
 pub async fn set_server_user_info(user: &mut Option<UserModel>) {
     let has_params = !user.clone().unwrap_or_default().access_token.is_empty();
     if !has_params {
-        remove_server_user_info();
+        remove_server_user_info().await;
         return;
     }
     *SERVER_USER_INFO.write().await = user.clone().unwrap_or_default();
