@@ -38,7 +38,7 @@
         <sql-maven-plugin.version>3.0.0</sql-maven-plugin.version>
         <jinq-jpa.version>2.0.3</jinq-jpa.version>
         <commons-io.version>2.22.0</commons-io.version>
-        <tika-core.version>3.3.1</tika-core.version>
+        <tika-core.version>3.3.2</tika-core.version>
         <java-jwt.version>4.6.0</java-jwt.version>
         <guava.version>33.6.0-jre</guava.version>
         <com-google-zxing-core.version>3.5.4</com-google-zxing-core.version>
