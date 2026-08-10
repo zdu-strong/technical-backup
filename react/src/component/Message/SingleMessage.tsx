@@ -36,7 +36,7 @@ export default observer((props: Props) => {
                 {props.message.pageNum}
                 {":"}
                 <Chip
-                    style={{ marginLeft: "1em" }}
+                    style={{ marginLeft: "1em", maxWidth: "150px" }}
                     icon={<FontAwesomeIcon icon={GlobalUserInfo.id === props.message.user.id ? faFaceGrin : faFaceFlushed} />}
                     size="small"
                     label={props.message.user.username}
