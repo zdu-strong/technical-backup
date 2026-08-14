@@ -4,6 +4,7 @@
     "execa",
     "get-port",
     "linq",
-    "@types/node"
+    "@types/node",
+    "typescript"
   ]
 }

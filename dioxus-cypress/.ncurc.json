@@ -4,6 +4,7 @@
     "eslint-plugin-cypress",
     "execa",
     "get-port",
-    "@types/node"
+    "@types/node",
+    "typescript"
   ]
 }
