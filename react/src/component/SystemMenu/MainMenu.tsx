@@ -34,16 +34,20 @@ export const dashboardLayoutContainer = style({
         },
         "& > div.MuiBox-root > div.MuiDrawer-root.css-1hvrvza-MuiDrawer-docked > div.MuiDrawer-paper": {
             width: "0px",
-            transitionProperty: "none",
-            "-webkit-transition": "none",
+            borderStyle: "none",
+        },
+        "& > div.MuiBox-root > div.MuiDrawer-root.css-1hvrvza-MuiDrawer-docked > div.MuiDrawer-paper > nav": {
+            width: "0px",
         },
         "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked": {
             width: "0px"
         },
         "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked > div.MuiDrawer-paper": {
             width: "0px",
-            transitionProperty: "none",
-            "-webkit-transition": "none",
+            borderStyle: "none",
+        },
+        "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked > div.MuiDrawer-paper > nav": {
+            width: "0px",
         },
     },
     $debugName: "dashboardLayoutContainer"
