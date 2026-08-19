@@ -33,13 +33,17 @@ export const dashboardLayoutContainer = style({
             width: "0px"
         },
         "& > div.MuiBox-root > div.MuiDrawer-root.css-1hvrvza-MuiDrawer-docked > div.MuiDrawer-paper": {
-            width: "0px"
+            width: "0px",
+            transitionProperty: "none",
+            "-webkit-transition": "none",
         },
         "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked": {
             width: "0px"
         },
         "& > div.MuiBox-root > div.MuiDrawer-root.css-1sbqulg-MuiDrawer-docked > div.MuiDrawer-paper": {
-            width: "0px"
+            width: "0px",
+            transitionProperty: "none",
+            "-webkit-transition": "none",
         },
     },
     $debugName: "dashboardLayoutContainer"

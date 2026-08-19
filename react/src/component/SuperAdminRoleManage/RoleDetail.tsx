@@ -74,7 +74,7 @@ export default observer((props: Props) => {
             width: 290
         },
         {
-            renderHeader: () => <FormattedMessage id="Name" defaultMessage="Name" />,
+            renderHeader: () => <FormattedMessage id="OrganizeName" defaultMessage="Organize Name" />,
             field: 'name',
             width: 150,
             flex: 1,

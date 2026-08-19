@@ -52,6 +52,7 @@ export default observer((props: Props) => {
                 organize={props.organize}
                 isCheckedOfPermission={props.isCheckedOfPermission}
                 switchCheckedOfPermission={props.switchCheckedOfPermission}
+                isUpdateOfPermission={false}
             />
         }
     </>

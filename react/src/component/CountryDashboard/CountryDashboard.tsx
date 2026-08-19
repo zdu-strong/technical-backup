@@ -36,7 +36,7 @@ export default observer(() => {
             </Box>
             <div className="flex flex-col justify-center" >
                 <Chip icon={<FontAwesomeIcon icon={faCartShopping} />} label="Consumption tax: 10%" />
-                <Chip icon={<FontAwesomeIcon icon={faCircleDollarToSlot} />} label="Profit tax: 40%" style={{ marginTop: "1em" }} />
+                <Chip icon={<FontAwesomeIcon icon={faCircleDollarToSlot} />} label="Commodity profit tax: 40%" style={{ marginTop: "1em" }} />
                 <Chip icon={<FontAwesomeIcon icon={faHouseChimney} />} label="Fixed asset tax: 2%" style={{ marginTop: "1em" }} />
                 <Chip icon={<FontAwesomeIcon icon={faHouseChimney} />} label="National Reserves: $1000" style={{ marginTop: "1em" }} />
                 <Chip icon={<FontAwesomeIcon icon={faHouseChimney} />} label="Basic living allowance: $100/day" style={{ marginTop: "1em" }} />

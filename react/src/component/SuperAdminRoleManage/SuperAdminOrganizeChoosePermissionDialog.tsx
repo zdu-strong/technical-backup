@@ -15,6 +15,7 @@ type Props = {
     isCheckedOfPermission: (systemPermissionModel: SystemPermissionModel) => boolean;
     closeDialog: () => void;
     organize: OrganizeModel;
+    isUpdateOfPermission: boolean;
 }
 
 export default observer((props: Props) => {
@@ -85,7 +86,7 @@ export default observer((props: Props) => {
         >
             <DialogTitle className="justify-between items-center flex-row flex-auto flex">
                 <div className="flex flex-row items-center" >
-                    <FormattedMessage id="AddPermission" defaultMessage="Add Permission" />
+                    {props.isUpdateOfPermission ? <FormattedMessage id="Permission" defaultMessage="Permission" /> : <FormattedMessage id="AddPermission" defaultMessage="Add Permission" />}
                 </div>
                 <Fab color="default" id="closeButton" onClick={props.closeDialog}>
                     <FontAwesomeIcon icon={faXmark} size="xl" />

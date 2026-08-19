@@ -20,7 +20,7 @@ export default observer(() => {
 
     const state = useMobxState(() => {
         const query = new SuperAdminRoleQueryPaginationModel();
-        query.isOnlySystemRole = true;
+        query.isOnlySystemRole = false;
         return {
             query: query,
             paginationModel: new PaginationModel<SystemRoleModel>(),
