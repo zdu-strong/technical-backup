@@ -38,9 +38,9 @@
         <sql-maven-plugin.version>3.0.0</sql-maven-plugin.version>
         <jinq-jpa.version>2.0.3</jinq-jpa.version>
         <commons-io.version>2.22.0</commons-io.version>
-        <tika-core.version>3.3.2</tika-core.version>
+        <tika-core.version>4.0.0</tika-core.version>
         <java-jwt.version>4.6.0</java-jwt.version>
-        <guava.version>33.6.0-jre</guava.version>
+        <guava.version>33.7.1-jre</guava.version>
         <com-google-zxing-core.version>3.5.4</com-google-zxing-core.version>
         <com-google-zxing-javase.version>3.5.4</com-google-zxing-javase.version>
         <hutool-crypto.version>5.8.47</hutool-crypto.version>
@@ -229,7 +229,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
+        <version>4.1.1</version>
     </parent>
 
     <build>
