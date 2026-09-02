@@ -142,6 +142,11 @@ public class UserMessageWebSocket {
         });
     }
 
+    @OnClose
+    public void onClose() {
+        staticWebSocketList.remove(this);
+    }
+
     @OnError
     @SneakyThrows
     public void OnError(Session session, Throwable e) {
@@ -166,11 +171,6 @@ public class UserMessageWebSocket {
             log.error(e.getMessage(), e);
         }
         session.close(new CloseReason(CloseCodes.UNEXPECTED_CONDITION, e.getMessage()));
-    }
-
-    @OnClose
-    public void onClose() {
-        staticWebSocketList.remove(this);
     }
 
     public void sendMessage() {
