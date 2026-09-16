@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require("path");
 
 const config =
 {
@@ -18,4 +18,4 @@ const config =
     },
 };
 
-module.exports = config
+module.exports = config;

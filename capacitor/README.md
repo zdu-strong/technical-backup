@@ -11,6 +11,7 @@ From https://adoptium.net install java v21, and choose Entire feature.<br/>
 From https://developer.android.com/studio install Android Studio.<br/>
 Next, create virtual device (Phone - Pixel 9 - Android API 36).<br/>
 Next, install Android SDK Command-line Tools (SDK Manager - SDK Tools - Android SDK Command-line Tools).<br/>
+Next, install Android SDK Platfrom package (SDK Manager - SDK Platforms - Android 16.0 API Level 36.0).<br/>
 5. For IOS:<br/>
 Follow this document (https://capacitorjs.com/docs/getting-started/environment-setup) to install Xcode.<br/>
 

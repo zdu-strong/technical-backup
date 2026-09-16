@@ -166,6 +166,8 @@ async function getDeviceList(isRunAndroid, androidSdkRootPath) {
 
         const androidDeviceOutputList = linq.from(androidDeviceOutput.split("\r\n")).selectMany(item => item.split("\n")).toArray();
         const startIndex = androidDeviceOutputList.findIndex((item) => item.includes('-----'));
+        const regexOfAndroidAPIVersion = "(?<=API\\s)[1-9][0-9]*(.[0-9]{1,100})?$";
+        const regexOfPixelPhoneVersion = "(?<=Pixel\\s)[1-9][0-9]*(.[0-9]{1,100})?(?=(\\s|$))";
         if (startIndex < 0) {
             throw new Error("No available Device!")
         }
@@ -174,10 +176,16 @@ async function getDeviceList(isRunAndroid, androidSdkRootPath) {
             .select(item => linq.from(item.split(new RegExp("\\s\\s+")))
                 .select(item => item.trim()).toArray()
             )
-            .where(s => s.some(m => m.trim() === "API 36"))
-            .orderByDescending(s => linq.from(s).first())
-            .orderByDescending(s => s.some(m => m.includes("Pixel 8 ")))
-            .orderByDescending(s => s.some(m => m.includes("Pixel 9 ")))
+            .where(s => s.some(m => new RegExp(regexOfAndroidAPIVersion).test(m.trim())))
+            .where(s => s.some(m => new RegExp(regexOfPixelPhoneVersion).test(m.trim())))
+            .orderByDescending(s => linq.from(s).where(m => new RegExp(regexOfAndroidAPIVersion, "ig").test(m.trim()))
+                .select(s => new RegExp(regexOfAndroidAPIVersion, "ig").exec(s)[0])
+                .select(s => Number(s))
+                .first())
+            .orderByDescending(s => linq.from(s).where(m => new RegExp(regexOfPixelPhoneVersion, "ig").test(m.trim()))
+                .select(s => new RegExp(regexOfPixelPhoneVersion, "ig").exec(s)[0])
+                .select(s => Number(s))
+                .first())
             .select(s => linq.from(s).last())
             .take(1)
             .toArray();

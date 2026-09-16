@@ -17,7 +17,7 @@
     "capacitor.config.ts": true,
     ".ncurc.json": true,
     "rsbuild.config.mjs": true,
-    "capacitor.config.mjs": true,
+    "capacitor.config.js": true,
     "eslint.config.mjs": true
   },
   "files.autoSave": "onFocusChange",
