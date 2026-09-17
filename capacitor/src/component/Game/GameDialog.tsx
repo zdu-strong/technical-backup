@@ -4,7 +4,7 @@ import Game from '@component/Game/Game';
 import { useMount } from "mobx-react-use-autorun";
 import { LANDSCAPE, PORTRAIT_PRIMARY } from '@common/ScreenOrentation';
 import ExitButton from '@component/Game/ExitButton';
-import { Subscription, tap, timer } from 'rxjs';
+import { tap, timer } from 'rxjs';
 
 type Props = {
     closeDialog: () => void;
@@ -23,9 +23,9 @@ export default observer((props: Props) => {
             })
         ).subscribe());
 
-        subscription.add(new Subscription(() => {
+        subscription.add(() => {
             PORTRAIT_PRIMARY()
-        }));
+        });
     })
 
     return <>

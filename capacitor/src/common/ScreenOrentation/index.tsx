@@ -7,7 +7,9 @@ import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
 const subject = new ReplaySubject<"LANDSCAPE" | "PORTRAIT_PRIMARY">(1);
 
-subject.next("PORTRAIT_PRIMARY");
+if (ScreenOrientation.type !== ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY) {
+    subject.next("PORTRAIT_PRIMARY");
+}
 
 subject.pipe(
     concatMap((type) => from((async () => {
