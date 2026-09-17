@@ -3,6 +3,7 @@ package com.john.project.service;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Date;
 
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.HexUtil;
 import com.john.project.entity.TokenEntity;
 import com.john.project.entity.UserEntity;
@@ -93,7 +94,7 @@ public class TokenService extends BaseService {
     public String getPasswordInDatabaseOfEncryptedPassword(String encryptedPassword, String userId) {
         var password = this.getDecryptedPassword(encryptedPassword);
         var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(userId + password));
-        var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(objectMapper.writeValueAsString(new Object[]{userId, this.uuidUtil.v4()}), secretKeyOfAES);
+        var passwordAfterEncrypted = this.encryptDecryptService.encryptByAES(this.uuidUtil.v4(), secretKeyOfAES);
         return passwordAfterEncrypted;
     }
 
@@ -128,8 +129,7 @@ public class TokenService extends BaseService {
             var password = this.getDecryptedPassword(encryptedPassword);
             var secretKeyOfAES = this.encryptDecryptService.generateSecretKeyOfAES(DigestUtils.sha3_512Hex(userId + password));
             var passwordJsonString = this.encryptDecryptService.decryptByAES(userEntity.getPassword(), secretKeyOfAES);
-            var userIdOfPasswordInDatabase = this.objectMapper.readTree(passwordJsonString).get(0).asText();
-            if (!userId.equals(userIdOfPasswordInDatabase)) {
+            if (!Validator.isUUID(passwordJsonString)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Incorrect username or password");
             }
