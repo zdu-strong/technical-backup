@@ -3,6 +3,7 @@ import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation'
 import { Capacitor } from '@capacitor/core'
 import { AndroidFullScreen } from '@awesome-cordova-plugins/android-full-screen'
 import { ReplaySubject, concatMap, from, retry } from 'rxjs'
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
 const subject = new ReplaySubject<"LANDSCAPE" | "PORTRAIT_PRIMARY">(1);
 
@@ -23,6 +24,7 @@ subject.pipe(
 
             await StatusBar.hide();
             await StatusBar.setOverlaysWebView({ overlay: true });
+            await EdgeToEdge.disable();
         } else if (type === "PORTRAIT_PRIMARY") {
             if (Capacitor.getPlatform() === "web") {
                 return;
@@ -30,6 +32,7 @@ subject.pipe(
 
             await ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
             await StatusBar.setOverlaysWebView({ overlay: false });
+            await EdgeToEdge.enable();
 
             if (Capacitor.getPlatform() === "android") {
                 await AndroidFullScreen.showSystemUI()

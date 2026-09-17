@@ -16,6 +16,14 @@ const config =
             signingType: "apksigner",
         }
     },
+    "plugins": {
+        "SystemBars": {
+            "insetsHandling": "disable"
+        },
+        "Keyboard": {
+            "resizeOnFullScreen": false
+        }
+    }
 };
 
 module.exports = config;

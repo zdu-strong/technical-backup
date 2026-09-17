@@ -54,6 +54,7 @@
         "@capacitor/status-bar": "8.0.3",
         "@capacitor/text-zoom": "8.0.1",
         "@capacitor/toast": "8.0.1",
+        "@capawesome/capacitor-android-edge-to-edge-support": "^8.0.8",
         "@emotion/react": "11.14.0",
         "@emotion/styled": "11.14.1",
         "@eslint/js": "10.0.1",

@@ -20,7 +20,7 @@ const container = style({
 
 const exitButton = style({
     position: "absolute",
-    top: "10px"
+    top: "20px"
 });
 
 type Props = {
@@ -35,8 +35,8 @@ export default observer((props: Props) => {
         },
         ready: false,
         isLeftAndNotIsRightOfSafeArea: false,
-        leftOrRightOfSafeArea: 10,
-        topOfSafeArea: 10,
+        leftOrRightOfSafeArea: 20,
+        topOfSafeArea: 20,
     })
 
     useMount(async (subscription) => {
@@ -52,8 +52,8 @@ export default observer((props: Props) => {
 
         const safeArea = await SafeArea.getSafeAreaInsets();
         state.isLeftAndNotIsRightOfSafeArea = safeArea.right >= safeArea.left;
-        state.topOfSafeArea = safeArea.top + 10;
-        state.leftOrRightOfSafeArea = Math.min(safeArea.left, safeArea.right) + 10;
+        state.topOfSafeArea = safeArea.top + 20;
+        state.leftOrRightOfSafeArea = Math.min(safeArea.left, safeArea.right) + 20;
     }
 
     async function refreshSafeAreaInsets(subscription: Subscription) {
