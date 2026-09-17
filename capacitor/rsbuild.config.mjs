@@ -59,5 +59,9 @@ export default defineConfig({
                 strategy: "single-vendor",
             },
         },
+        client: {
+            logLevel: "silent",
+            overlay: false
+        }
     },
 });

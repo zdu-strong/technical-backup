@@ -107,6 +107,7 @@
         "is-mobile": "5.0.0",
         "js-sha3": "0.13.0",
         "jsencrypt": "3.5.4",
+        "mlkem": "2.7.0",
         "mobx-react-use-autorun": "4.0.85",
         "node-rsa": "2.0.0",
         "qs": "6.15.3",
