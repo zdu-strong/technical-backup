@@ -5,15 +5,15 @@ import { AndroidFullScreen } from '@awesome-cordova-plugins/android-full-screen'
 import { ReplaySubject, concatMap, from, retry } from 'rxjs'
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
-const subject = new ReplaySubject<"LANDSCAPE" | "PORTRAIT_PRIMARY">(1);
+const subject = new ReplaySubject<string>(1);
 
 if (ScreenOrientation.type !== ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY) {
-    subject.next("PORTRAIT_PRIMARY");
+    subject.next(ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
 }
 
 subject.pipe(
     concatMap((type) => from((async () => {
-        if (type === "LANDSCAPE") {
+        if (type === ScreenOrientation.ORIENTATIONS.LANDSCAPE) {
             if (Capacitor.getPlatform() === "web") {
                 return;
             }
@@ -27,7 +27,7 @@ subject.pipe(
             await StatusBar.hide();
             await StatusBar.setOverlaysWebView({ overlay: true });
             await EdgeToEdge.disable();
-        } else if (type === "PORTRAIT_PRIMARY") {
+        } else if (type === ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY) {
             if (Capacitor.getPlatform() === "web") {
                 return;
             }
@@ -47,9 +47,9 @@ subject.pipe(
 ).subscribe();
 
 export function LANDSCAPE() {
-    subject.next("LANDSCAPE");
+    subject.next(ScreenOrientation.ORIENTATIONS.LANDSCAPE);
 }
 
 export function PORTRAIT_PRIMARY() {
-    subject.next("PORTRAIT_PRIMARY");
+    subject.next(ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
 }
