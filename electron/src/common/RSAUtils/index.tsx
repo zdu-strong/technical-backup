@@ -21,21 +21,3 @@ export async function decryptByPrivateKeyOfRSA(data: string, privateKeyOfRSA: st
         }
     );
 }
-
-export async function encryptByPrivateKeyOfRSA(data: string, privateKeyOfRSA: string): Promise<string> {
-    return await runWoker(new Worker(new URL('../../common/WebWorker/RSAUtils/encryptByPrivateKeyOfRSA.worker', import.meta.url), { type: "module" }),
-        {
-            data,
-            privateKeyOfRSA,
-        }
-    );
-}
-
-export async function decryptByPublicKeyOfRSA(data: string, publicKeyOfRSA: string): Promise<string> {
-    return await runWoker(new Worker(new URL('../../common/WebWorker/RSAUtils/decryptByPublicKeyOfRSA.worker', import.meta.url), { type: "module" }),
-        {
-            data,
-            publicKeyOfRSA,
-        }
-    );
-}

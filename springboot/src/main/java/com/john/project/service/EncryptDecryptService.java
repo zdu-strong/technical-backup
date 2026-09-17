@@ -51,21 +51,9 @@ public class EncryptDecryptService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public String encryptByPrivateKeyOfRSA(String text) {
-        var rsa = new RSA(this.getKeyOfRSAPrivateKey(), this.getKeyOfRSAPublicKey());
-        return rsa.encryptHex(text, KeyType.PrivateKey);
-    }
-
-    @Transactional(readOnly = true)
     public String encryptByPublicKeyOfRSA(String text) {
         var rsa = new RSA(this.getKeyOfRSAPrivateKey(), this.getKeyOfRSAPublicKey());
         return rsa.encryptHex(text, KeyType.PublicKey);
-    }
-
-    @Transactional(readOnly = true)
-    public String decryptByByPublicKeyOfRSA(String text) {
-        var rsa = new RSA(this.getKeyOfRSAPrivateKey(), this.getKeyOfRSAPublicKey());
-        return rsa.decryptStr(text, KeyType.PublicKey);
     }
 
     @Transactional(readOnly = true)
@@ -98,32 +86,12 @@ public class EncryptDecryptService extends BaseService {
 
     @SneakyThrows
     @Transactional(readOnly = true)
-    public String encryptByPrivateKeyOfRSA(String text, String privateKeyOfRSA) {
-        var keyOfRSAPrivateKey = (RSAPrivateKey) KeyFactory.getInstance("RSA")
-                .generatePrivate(new PKCS8EncodedKeySpec(
-                        HexUtil.decodeHex(privateKeyOfRSA)));
-        var rsa = new RSA(keyOfRSAPrivateKey, null);
-        return rsa.encryptHex(text, KeyType.PrivateKey);
-    }
-
-    @SneakyThrows
-    @Transactional(readOnly = true)
     public String encryptByPublicKeyOfRSA(String text, String publicKeyOfRSA) {
         var keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
                 .generatePublic(new X509EncodedKeySpec(
                         HexUtil.decodeHex(publicKeyOfRSA)));
         var rsa = new RSA(null, keyOfRSAPublicKey);
         return rsa.encryptHex(text, KeyType.PublicKey);
-    }
-
-    @SneakyThrows
-    @Transactional(readOnly = true)
-    public String decryptByByPublicKeyOfRSA(String text, String publicKeyOfRSA) {
-        var keyOfRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA")
-                .generatePublic(new X509EncodedKeySpec(
-                        HexUtil.decodeHex(publicKeyOfRSA)));
-        var rsa = new RSA(null, keyOfRSAPublicKey);
-        return rsa.decryptStr(text, KeyType.PublicKey);
     }
 
     @SneakyThrows
