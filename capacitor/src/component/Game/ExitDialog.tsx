@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCookieBite, faRightFromBracket, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { App } from '@capacitor/app'
 import { Capacitor } from "@capacitor/core";
-import { PORTRAIT_PRIMARY } from '@common/ScreenOrentation';
 
 type Props = {
     closeDialog: () => void;
@@ -20,11 +19,10 @@ export default observer((props: Props) => {
     }
 
     async function exitApp() {
+        endGame();
         if (Capacitor.getPlatform() === "web") {
-            endGame();
             return;
         }
-        PORTRAIT_PRIMARY();
         await App.exitApp();
     }
 

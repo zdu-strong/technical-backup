@@ -68,7 +68,7 @@ export default observer(() => {
         if (Capacitor.getPlatform() === "web") {
             return;
         }
-        await App.exitApp()
+        await App.exitApp();
     }
 
     return (<>
@@ -141,8 +141,10 @@ export default observer(() => {
                 </div>
             </header>
         </div>
-        {state.gameDialog.open && <GameDialog closeDialog={() => {
-            state.gameDialog.open = false;
-        }} />}
+        {state.gameDialog.open && <GameDialog
+            closeDialog={() => {
+                state.gameDialog.open = false;
+            }}
+        />}
     </>);
 })

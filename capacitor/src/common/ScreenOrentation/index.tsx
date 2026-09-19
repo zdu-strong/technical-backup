@@ -2,14 +2,10 @@ import { StatusBar } from '@capacitor/status-bar'
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation'
 import { Capacitor } from '@capacitor/core'
 import { AndroidFullScreen } from '@awesome-cordova-plugins/android-full-screen'
-import { ReplaySubject, concatMap, from, retry } from 'rxjs'
+import { Subject, concatMap, from, retry } from 'rxjs'
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
-const subject = new ReplaySubject<string>(1);
-
-if (ScreenOrientation.type !== ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY) {
-    subject.next(ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-}
+const subject = new Subject<string>();
 
 subject.pipe(
     concatMap((type) => from((async () => {
@@ -51,5 +47,9 @@ export function LANDSCAPE() {
 }
 
 export function PORTRAIT_PRIMARY() {
+    subject.next(ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+}
+
+if (ScreenOrientation.type !== ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY) {
     subject.next(ScreenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
 }
