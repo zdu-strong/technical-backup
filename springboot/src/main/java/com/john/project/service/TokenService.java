@@ -68,19 +68,17 @@ public class TokenService extends BaseService {
                         this.encryptDecryptService.getKeyOfRSAPrivateKey()))
                 .build()
                 .verify(accessToken);
-        if (!this.hasExistTokenEntity(decodedJWT.getId())) {
+        var id = decodedJWT.getId();
+        var userId = decodedJWT.getSubject();
+        var exists = this.streamAll(TokenEntity.class)
+                .where(s -> s.getId().equals(id))
+                .where(s -> s.getUser().getId().equals(userId))
+                .where(s -> !s.getIsDeleted())
+                .exists();
+        if (!exists) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login first and then visit");
         }
         return decodedJWT;
-    }
-
-    @Transactional(readOnly = true)
-    public boolean hasExistTokenEntity(String id) {
-        var exists = this.streamAll(TokenEntity.class)
-                .where(s -> s.getId().equals(id))
-                .where(s -> !s.getIsDeleted())
-                .exists();
-        return exists;
     }
 
     @Transactional(readOnly = true)
