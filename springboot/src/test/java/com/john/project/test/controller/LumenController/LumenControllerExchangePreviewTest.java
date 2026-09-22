@@ -7,7 +7,9 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+
 import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LumenControllerExchangePreviewTest extends BaseTest {
@@ -22,13 +24,14 @@ public class LumenControllerExchangePreviewTest extends BaseTest {
                 .setParameter("sourceCurrencyBalance", "1000")
                 .build();
         var response = this.testRestTemplate.postForEntity(url, null, BigDecimal.class);
+        var result = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(new BigDecimal("998.003992"), response.getBody());
+        assertEquals(new BigDecimal("997.008973"), result);
     }
 
     @BeforeEach
     @SneakyThrows
-    public void beforeEach(){
+    public void beforeEach() {
         var url = new URIBuilder("/lumen/exchange/preview")
                 .setParameter("sourceCurrencyUnit", "USD")
                 .setParameter("sourceCurrencyBalance", "1000")

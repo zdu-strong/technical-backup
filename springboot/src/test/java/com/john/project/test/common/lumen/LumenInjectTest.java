@@ -10,17 +10,16 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LumenInjectThreeTimesTest extends BaseTest {
+public class LumenInjectTest extends BaseTest {
 
     private LumenContextCoreModel lumenContext;
 
     @Test
     public void test() {
-        var obtainCcuOfFirst = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(50));
-        var obtainCcuOfSecond = this.lumenContext.inject(lumenContext.getJapan(), new BigDecimal(100));
-        var obtainCcuOfThree = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(50));
-        var result = obtainCcuOfFirst.add(obtainCcuOfSecond).add(obtainCcuOfThree);
-        assertTrue(ObjectUtil.equals(new BigDecimal("149.999998"), result));
+        var result = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(100));
+        var obtainUsdCurrencyBalance = this.lumenContext.withdrawal(lumenContext.getUsd(), result);
+        assertTrue(ObjectUtil.equals(new BigDecimal("33.333333"), result));
+        assertTrue(ObjectUtil.equals(new BigDecimal("49.999999"), obtainUsdCurrencyBalance));
     }
 
     @BeforeEach

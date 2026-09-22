@@ -220,7 +220,7 @@ public class UserService extends BaseService {
 
     @Transactional(readOnly = true)
     public void checkExistAccount(String account) {
-        if (!hasExistsUserId(account) && !hasExistEmail(account)) {
+        if (!hasExistsUserId(account) && !hasExistEmail(account) && !hasExistUsername(account)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect username or password");
         }
     }

@@ -27,7 +27,7 @@ export default observer((props: Props) => {
         <Divider />
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                <FormattedMessage id="UseAccountIDEmailOrMobilePhoneNumberToSignIn" defaultMessage="Use Account ID, email or mobile phone number to signIn" />
+                <FormattedMessage id="UseAccountIDEmailOrMobilePhoneNumberToSignIn" defaultMessage="Use Account ID, email, username or mobile phone number to signIn" />
             </DialogContentText>
         </DialogContent>
     </Dialog>

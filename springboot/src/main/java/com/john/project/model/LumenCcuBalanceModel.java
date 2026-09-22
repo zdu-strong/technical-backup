@@ -13,10 +13,10 @@ public class LumenCcuBalanceModel {
 
     private String id;
 
-    private LumenCurrencyModel currency;
-
-    private BigDecimal currencyBalance;
+    private BigDecimal usdCurrencyBalance;
 
     private BigDecimal ccuBalance;
+
+    private BigDecimal japanCurrencyBalance;
 
 }

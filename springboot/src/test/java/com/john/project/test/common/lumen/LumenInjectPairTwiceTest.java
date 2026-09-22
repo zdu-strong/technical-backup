@@ -10,16 +10,18 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LumenInjectPairDifferentRateTest extends BaseTest {
+public class LumenInjectPairTwiceTest extends BaseTest {
 
     private LumenContextCoreModel lumenContext;
 
     @Test
     public void test() {
-        var result = this.lumenContext.injectPair(new BigDecimal(200), new BigDecimal(100));
-        var totalCcuBalance = this.lumenContext.getTotalCcuBalance();
-        assertTrue(ObjectUtil.equals(new BigDecimal("250.000000"), result));
-        assertTrue(ObjectUtil.equals(new BigDecimal("450.000000"), totalCcuBalance));
+        var obtainCCUOfFirst = this.lumenContext.injectPair(new BigDecimal(50), new BigDecimal(100));
+        var obtainCCUOfSecond = this.lumenContext.inject(this.lumenContext.getUsd(), new BigDecimal(150));
+        var totalCCU = obtainCCUOfFirst.add(obtainCCUOfSecond);
+        assertTrue(ObjectUtil.equals(new BigDecimal("100"), obtainCCUOfFirst));
+        assertTrue(ObjectUtil.equals(new BigDecimal("150.000000"), obtainCCUOfSecond));
+        assertTrue(ObjectUtil.equals(new BigDecimal("250.000000"), totalCCU));
     }
 
     @BeforeEach
@@ -27,7 +29,7 @@ public class LumenInjectPairDifferentRateTest extends BaseTest {
         this.lumenContext = new LumenContextCoreModel();
         this.lumenContext.injectPair(new BigDecimal(100), new BigDecimal(200));
         var totalCcuBalance = this.lumenContext.getTotalCcuBalance();
-        assertTrue(ObjectUtil.equals(new BigDecimal("200"), totalCcuBalance));
+        assertTrue(ObjectUtil.equals(new BigDecimal("200.000000"), totalCcuBalance));
     }
 
 }

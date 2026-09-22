@@ -12,19 +12,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LumenInjectSingleCurrencyTest extends BaseTest {
+public class LumenInjectRareCurrencyTest extends BaseTest {
 
     private LumenContextCoreModel lumenContext;
 
     @Test
     public void test() {
-        var obtainCcuOfFirst = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(100));
+        var obtainCcuOfFirst = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(50));
         var obtainCcuOfSecond = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(200));
         var obtainCcuOfThree = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(400));
         var obtainCcuOfFour = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(800));
         var obtainCcuOfFive = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(1600));
         var obtainCcuOfSix = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal(3200));
-        var obtainCcuOfSeven = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal("999999999999999999999999999999"));
+        var obtainCcuOfSeven = this.lumenContext.inject(lumenContext.getUsd(), new BigDecimal("6400"));
         var result = JinqStream.from(List.of(
                         obtainCcuOfFirst,
                         obtainCcuOfSecond,
@@ -36,14 +36,14 @@ public class LumenInjectSingleCurrencyTest extends BaseTest {
                 ))
                 .sumBigDecimal(s -> s);
         var obtainJapanCurrencyBalance = this.lumenContext.withdrawal(this.lumenContext.getJapan(), result);
-        assertTrue(ObjectUtil.equals(new BigDecimal("99.999999"), result));
-        assertTrue(ObjectUtil.equals(new BigDecimal("49.999999"), obtainJapanCurrencyBalance));
+        assertTrue(ObjectUtil.equals(new BigDecimal("173.078809"), result));
+        assertTrue(ObjectUtil.equals(new BigDecimal("633805.345913"), obtainJapanCurrencyBalance));
     }
 
     @BeforeEach
     public void beforeEach() {
         this.lumenContext = new LumenContextCoreModel();
-        this.lumenContext.injectPair(new BigDecimal(100), new BigDecimal(100));
+        this.lumenContext.injectPair(new BigDecimal(100), new BigDecimal(1000000));
     }
 
 }

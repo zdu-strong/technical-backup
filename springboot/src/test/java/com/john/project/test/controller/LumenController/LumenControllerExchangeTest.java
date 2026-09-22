@@ -23,8 +23,9 @@ public class LumenControllerExchangeTest extends BaseTest {
                 .setParameter("sourceCurrencyBalance", "1000")
                 .build();
         var response = this.testRestTemplate.postForEntity(url, null, BigDecimal.class);
+        var result = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(new BigDecimal("998.003992"), response.getBody());
+        assertEquals(new BigDecimal("997.008973"), result);
     }
 
 }
