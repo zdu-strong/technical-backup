@@ -59,11 +59,6 @@ public class TokenService extends BaseService {
     @Transactional(readOnly = true)
     public DecodedJWT getDecodedJWTOfAccessToken(HttpServletRequest request) {
         var accessToken = this.getAccessToken(request);
-        return this.getDecodedJWTOfAccessToken(accessToken);
-    }
-
-    @Transactional(readOnly = true)
-    public DecodedJWT getDecodedJWTOfAccessToken(String accessToken) {
         var decodedJWT = JWT
                 .require(Algorithm.RSA512(this.encryptDecryptService.getKeyOfRSAPublicKey(),
                         this.encryptDecryptService.getKeyOfRSAPrivateKey()))

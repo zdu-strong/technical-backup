@@ -1,5 +1,6 @@
 package com.john.project.common.permission;
 
+import com.auth0.jwt.JWT;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,7 +47,15 @@ public class PermissionUtil {
     }
 
     public String getUserId(HttpServletRequest request) {
-        return this.tokenService.getDecodedJWTOfAccessToken(request).getSubject();
+        var accessToken = this.getAccessToken(request);
+        var userId = JWT.decode(accessToken).getSubject();
+        return userId;
+    }
+
+    public String getIdOfAccessToken(HttpServletRequest request){
+        var accessToken = this.getAccessToken(request);
+        var idOfAccessToken = JWT.decode(accessToken).getId();
+        return idOfAccessToken;
     }
 
     public boolean hasAnyPermission(HttpServletRequest request, SystemPermissionEnum... permissionList) {
@@ -147,6 +157,17 @@ public class PermissionUtil {
                 .select(s -> s.getId())
                 .toList();
         return organizeIdList;
+    }
+
+    private String getAccessToken(HttpServletRequest request) {
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.isNotBlank(authorization)) {
+            String prefix = "Bearer ";
+            if (authorization.startsWith(prefix)) {
+                return authorization.substring(prefix.length());
+            }
+        }
+        return "";
     }
 
 }
