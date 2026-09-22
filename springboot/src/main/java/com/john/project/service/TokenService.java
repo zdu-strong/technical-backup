@@ -7,6 +7,7 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.HexUtil;
 import com.john.project.entity.TokenEntity;
 import com.john.project.entity.UserEntity;
+import com.john.project.model.PaginationModel;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -72,8 +73,8 @@ public class TokenService extends BaseService {
         var userId = decodedJWT.getSubject();
         var exists = this.streamAll(TokenEntity.class)
                 .where(s -> s.getId().equals(id))
-                .where(s -> s.getUser().getId().equals(userId))
                 .where(s -> !s.getIsDeleted())
+                .where(s -> s.getUser().getId().equals(userId))
                 .exists();
         if (!exists) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login first and then visit");
@@ -101,7 +102,33 @@ public class TokenService extends BaseService {
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
         tokenEntity.setIsDeleted(true);
+        tokenEntity.setUpdateDate(new Date());
         this.merge(tokenEntity);
+    }
+
+    public void deleteTokenByUserId(String userId) {
+        var tokenList = this.streamAll(TokenEntity.class)
+                .where(s -> s.getUser().getId().equals(userId))
+                .where(s -> !s.getIsDeleted())
+                .sortedDescendingBy(s -> s.getId())
+                .sortedDescendingBy(s -> s.getCreateDate())
+                .limit(10)
+                .toList();
+        for (var tokenEntity : tokenList) {
+            tokenEntity.setIsDeleted(true);
+            tokenEntity.setUpdateDate(new Date());
+            this.merge(tokenEntity);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public PaginationModel<TokenModel> searchForInvalidTokenByPagination(long pageNum, long pageSize) {
+        var stream = this.streamAll(TokenEntity.class)
+                .where(s -> s.getIsDeleted().equals(false))
+                .where(s -> s.getUser().getIsDeleted())
+                .sortedDescendingBy(s -> s.getId())
+                .sortedDescendingBy(s -> s.getCreateDate());
+        return new PaginationModel<>(pageNum, pageSize, stream, this.tokenFormatter::format);
     }
 
     private String getUniqueOneTimePasswordLogo(String encryptedPassword) {

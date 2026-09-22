@@ -28,10 +28,6 @@ public class UserService extends BaseService {
 
     @Autowired
     @Lazy
-    private EncryptDecryptService encryptDecryptService;
-
-    @Autowired
-    @Lazy
     private UserRoleRelationService userRoleRelationService;
 
     @Autowired
@@ -65,9 +61,6 @@ public class UserService extends BaseService {
         for (var roleModel : userModel.getRoleList()) {
             this.userRoleRelationService.create(userEntity.getId(), roleModel.getId());
         }
-
-        var accessToken = this.tokenService.generateAccessToken(userEntity.getId(), userModel.getPassword());
-        this.tokenService.deleteTokenEntity(this.tokenService.getDecodedJWTOfAccessToken(accessToken).getId());
 
         return this.userFormatter.formatWithMoreInformation(userEntity);
     }
@@ -137,6 +130,17 @@ public class UserService extends BaseService {
             }
         }
         {
+            var username = account;
+            var userEntity = this.streamAll(UserEntity.class)
+                    .where(s -> s.getUsername().equals(username))
+                    .where(s -> !s.getIsDeleted())
+                    .findOne()
+                    .orElse(null);
+            if (userEntity != null) {
+                return userEntity.getId();
+            }
+        }
+        {
             var email = account;
             var userEntity = this.streamAll(UserEmailEntity.class)
                     .where(s -> s.getEmail().equals(email))
@@ -158,6 +162,7 @@ public class UserService extends BaseService {
         this.merge(user);
 
         this.userEmailService.deleteUserEmailByUserId(id);
+        this.tokenService.deleteTokenByUserId(id);
     }
 
     @Transactional(readOnly = true)

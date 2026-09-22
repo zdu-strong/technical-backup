@@ -25,6 +25,9 @@ public abstract class BaseDistributedExecution {
     protected StorageSpaceService storageSpaceService;
 
     @Autowired
+    protected TokenService tokenService;
+
+    @Autowired
     protected LongTermTaskUtil longTermTaskUtil;
 
     @Autowired

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.john.project.enums.SystemPermissionEnum;
-import com.john.project.service.EncryptDecryptService;
 import com.john.project.service.OrganizeService;
 import com.john.project.service.TokenService;
 import com.john.project.service.UserService;
@@ -31,9 +28,6 @@ public class PermissionUtil {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private EncryptDecryptService encryptDecryptService;
 
     public void checkIsSignIn(HttpServletRequest request) {
         if (!this.isSignIn(request)) {
