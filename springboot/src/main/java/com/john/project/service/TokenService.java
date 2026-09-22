@@ -112,7 +112,7 @@ public class TokenService extends BaseService {
                 .where(s -> !s.getIsDeleted())
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate())
-                .limit(10)
+                .limit(100)
                 .toList();
         for (var tokenEntity : tokenList) {
             tokenEntity.setIsDeleted(true);
@@ -126,8 +126,8 @@ public class TokenService extends BaseService {
         var stream = this.streamAll(TokenEntity.class)
                 .where(s -> s.getIsDeleted().equals(false))
                 .where(s -> s.getUser().getIsDeleted())
-                .sortedDescendingBy(s -> s.getId())
-                .sortedDescendingBy(s -> s.getCreateDate());
+                .sortedBy(s -> s.getId())
+                .sortedBy(s -> s.getCreateDate());
         return new PaginationModel<>(pageNum, pageSize, stream, this.tokenFormatter::format);
     }
 
