@@ -73,8 +73,8 @@ public class TokenService extends BaseService {
         var userId = decodedJWT.getSubject();
         var exists = this.streamAll(TokenEntity.class)
                 .where(s -> s.getId().equals(id))
-                .where(s -> !s.getIsDeleted())
                 .where(s -> s.getUser().getId().equals(userId))
+                .where(s -> s.getIsDeleted().equals(false))
                 .exists();
         if (!exists) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login first and then visit");
@@ -109,7 +109,7 @@ public class TokenService extends BaseService {
     public void deleteTokenByUserId(String userId) {
         var tokenList = this.streamAll(TokenEntity.class)
                 .where(s -> s.getUser().getId().equals(userId))
-                .where(s -> !s.getIsDeleted())
+                .where(s -> s.getIsDeleted().equals(false))
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate())
                 .limit(100)
