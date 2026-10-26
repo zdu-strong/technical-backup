@@ -17,7 +17,7 @@ public class UserMessageController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfUserMessageContent(userMessageModel);
         this.validationFieldUtil.checkValidOfUrl(userMessageModel.getUrl());
 
-        var userMessage = this.userMessageService.sendMessage(userMessageModel, request);
+        var userMessage = this.userMessageService.sendMessage(request, userMessageModel);
         return ResponseEntity.ok(userMessage);
     }
 
@@ -25,7 +25,7 @@ public class UserMessageController extends BaseController {
     public ResponseEntity<?> recallMessage(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
         this.userMessageService.checkExistsUserMessage(id);
-        this.userMessageService.checkCanRecallUserMessage(id, request);
+        this.userMessageService.checkCanRecallUserMessage(request, id);
 
         this.userMessageService.recallMessage(id);
         return ResponseEntity.ok().build();
@@ -35,9 +35,9 @@ public class UserMessageController extends BaseController {
     public ResponseEntity<?> deleteMessage(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
         this.userMessageService.checkExistsUserMessage(id);
-        this.userMessageService.checkCanDeleteUserMessage(id, request);
+        this.userMessageService.checkCanDeleteUserMessage(request, id);
 
-        this.userMessageService.deleteMessage(id, request);
+        this.userMessageService.deleteMessage(request, id);
         return ResponseEntity.ok().build();
     }
 

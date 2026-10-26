@@ -14,7 +14,7 @@ public class ResourceUtilCheckIsCorrectRangeIfNeedTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        this.resourceHttpHeadersUtil.checkIsCorrectRangeIfNeed(this.resource.contentLength(), request);
+        this.resourceHttpHeadersUtil.checkIsCorrectRangeIfNeed(request, this.resource.contentLength());
     }
 
     @BeforeEach

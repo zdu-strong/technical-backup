@@ -1,0 +1,32 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1792907335913-1",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "create_date"
+                }
+              },
+              {
+                "column": {
+                  "name": "id"
+                }
+              }
+            ]
+            ,
+            "indexName": "IDX9w6ej7fc4cg929habd6nnuxjg",
+            "tableName": "storage_space_entity"
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}

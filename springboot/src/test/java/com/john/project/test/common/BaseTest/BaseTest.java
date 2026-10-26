@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
@@ -17,6 +18,7 @@ import com.john.project.common.EncryptDecryptUtil.EncryptDecryptUtil;
 import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
 import com.john.project.common.uuid.UUIDUtil;
 import com.john.project.enums.OrganizeTypeEnum;
+import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -52,7 +54,6 @@ import com.john.project.properties.SchedulingPoolSizeProperties;
 import com.john.project.properties.ServerAddressProperties;
 import com.john.project.properties.StorageRootPathProperties;
 import com.john.project.common.storage.Storage;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.scheduled.MessageScheduled;
 import com.john.project.scheduled.SystemInitScheduled;
 import com.john.project.service.DistributedExecutionMainService;
@@ -248,7 +249,7 @@ public abstract class BaseTest {
             this.initOrganizeRoleList(response.getBody());
             var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
             superAdminRoleQueryPaginationModel.setPageNum(1L);
-            superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+            superAdminRoleQueryPaginationModel.setPageSize(100L);
             var roleList = this.roleService
                     .searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel)
                     .getItems();
@@ -355,19 +356,20 @@ public abstract class BaseTest {
     }
 
     protected void initOrganizeRoleList(OrganizeModel organize) {
-        var organizeRoleList = Arrays.stream(SystemRoleEnum.values())
-                .filter(s -> s.getIsOrganizeRole())
-                .toList();
-        for (var organizeRole : organizeRoleList) {
-            this.roleService.create(new RoleModel()
-                    .setName(organizeRole.getValue())
-                    .setPermissionList(organizeRole.getPermissionList().stream()
-                            .map(s -> new PermissionRelationModel()
-                                    .setPermission(s.getValue())
-                                    .setOrganize(organize)
-                            )
-                            .toList()));
-        }
+        this.roleService.create(new RoleModel()
+                .setName(SystemPermissionEnum.ORGANIZE_OWNER.getValue())
+                .setPermissionList(List.of(
+                        new PermissionRelationModel()
+                                .setPermission(SystemPermissionEnum.ORGANIZE_OWNER.getValue())
+                                .setOrganize(organize)
+                )));
+        this.roleService.create(new RoleModel()
+                .setName(SystemPermissionEnum.ORGANIZE_MEMBER.getValue())
+                .setPermissionList(List.of(
+                        new PermissionRelationModel()
+                                .setPermission(SystemPermissionEnum.ORGANIZE_MEMBER.getValue())
+                                .setOrganize(organize)
+                )));
     }
 
     protected <T> ResponseEntity<T> fromLongTermTask(Supplier<ResponseEntity<String>> supplier,

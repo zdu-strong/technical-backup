@@ -13,7 +13,7 @@ public class ResourceUtilSetCacheControlTest extends BaseTest {
 
     @Test
     public void test() {
-        this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
+        this.resourceHttpHeadersUtil.setCacheControl(httpHeaders);
         assertEquals("max-age=604800, no-transform, public, immutable", this.httpHeaders.getCacheControl());
     }
 

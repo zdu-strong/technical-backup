@@ -2,6 +2,7 @@ package com.john.project.test.service.UserMessageService;
 
 import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ public class UserMessageServiceGetMessageListByLastMessageTest extends BaseTest 
 
     @Test
     public void test() {
-        var result = this.userMessageService.getMessageListByLastMessage(1L, request);
+        var result = this.userMessageService.getMessageListByLastMessage(request, 1L);
         assertEquals(1, result.getTotalPages());
         var message = JinqStream.from(result.getItems()).getOnlyValue();
         assertTrue(StringUtils.isNotBlank(message.getId()));
@@ -31,7 +32,7 @@ public class UserMessageServiceGetMessageListByLastMessageTest extends BaseTest 
                 .createAccount(uuidUtil.v4() + "zdu.strong@gmail.com")
                 .getId();
         var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
-        var message = this.userMessageService.sendMessage(userMessage, request);
+        var message = this.userMessageService.sendMessage(request, userMessage);
         assertEquals(36, message.getId().length());
         assertEquals(HELLO_WORLD, message.getContent());
         assertEquals(userId, message.getUser().getId());

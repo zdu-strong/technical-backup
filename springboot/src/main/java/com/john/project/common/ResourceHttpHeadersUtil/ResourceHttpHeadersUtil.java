@@ -38,7 +38,7 @@ public class ResourceHttpHeadersUtil {
     private String boundary = MimeTypeUtils.generateMultipartBoundaryString();
     private Tika tika = new Tika();
 
-    public void setContentRangeIfNeed(HttpHeaders httpHeaders, long totalContentLength, HttpServletRequest request) {
+    public void setContentRangeIfNeed(HttpServletRequest request, HttpHeaders httpHeaders, long totalContentLength) {
         var rangeList = this.getRangeList(request);
         if (ObjectUtil.equals(rangeList.size(), 1)) {
             var range = JinqStream.from(rangeList).getOnlyValue();
@@ -48,7 +48,7 @@ public class ResourceHttpHeadersUtil {
         }
     }
 
-    public void setETag(HttpHeaders httpHeaders, HttpServletRequest request) {
+    public void setETag(HttpServletRequest request, HttpHeaders httpHeaders) {
         var eTag = StrFormatter.format("\"{}\"",
                 HexUtil.encodeHexStr(
                         this.storage.getRelativePathFromRequest(request).getBytes(StandardCharsets.UTF_8)));
@@ -56,12 +56,12 @@ public class ResourceHttpHeadersUtil {
                 .setETag(eTag);
     }
 
-    public void setCacheControl(HttpHeaders httpHeaders, HttpServletRequest request) {
+    public void setCacheControl(HttpHeaders httpHeaders) {
         httpHeaders.setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS).cachePublic().immutable().noTransform());
     }
 
     @SneakyThrows
-    public void setContentType(HttpHeaders httpHeaders, HttpServletRequest request) {
+    public void setContentType(HttpServletRequest request, HttpHeaders httpHeaders) {
         var rangeList = this.getRangeList(request);
         if (rangeList.size() > 1) {
             httpHeaders.setContentType(MediaType.parseMediaType("multipart/byteranges; boundary=" + this.boundary));
@@ -78,10 +78,10 @@ public class ResourceHttpHeadersUtil {
     }
 
     @SneakyThrows
-    public void setContentLength(HttpHeaders httpHeaders, long totalContentLength, HttpServletRequest request) {
+    public void setContentLength(HttpServletRequest request, HttpHeaders httpHeaders, long totalContentLength) {
         var rangeList = this.getRangeList(request);
         if (rangeList.size() > 1) {
-            long contentLength = this.getResourceFromRequest(totalContentLength, request).contentLength();
+            long contentLength = this.getResourceFromRequest(request, totalContentLength).contentLength();
             httpHeaders.setContentLength(contentLength);
         } else if (ObjectUtil.equals(rangeList.size(), 1)) {
             var range = JinqStream.from(rangeList).getOnlyValue();
@@ -94,8 +94,8 @@ public class ResourceHttpHeadersUtil {
     }
 
     @SneakyThrows
-    public void setContentDisposition(HttpHeaders httpHeaders, Builder contentDispositionBuilder,
-                                      HttpServletRequest request) {
+    public void setContentDisposition(HttpServletRequest request, HttpHeaders httpHeaders,
+                                      Builder contentDispositionBuilder) {
         String fileName = this.storage.getFileNameFromRequest(request);
         ContentDisposition contentDisposition = contentDispositionBuilder.filename(fileName, StandardCharsets.UTF_8)
                 .build();
@@ -109,7 +109,7 @@ public class ResourceHttpHeadersUtil {
     }
 
     @SneakyThrows
-    public Resource getResourceFromRequest(long totalContentLength, HttpServletRequest request) {
+    public Resource getResourceFromRequest(HttpServletRequest request, long totalContentLength) {
         var rangeList = this.getRangeList(request);
         if (rangeList.size() > 1) {
             String fileName = this.storage.getFileNameFromRequest(request);
@@ -150,7 +150,7 @@ public class ResourceHttpHeadersUtil {
         }
     }
 
-    public void checkIsCorrectRangeIfNeed(long totalContentLength, HttpServletRequest request) {
+    public void checkIsCorrectRangeIfNeed(HttpServletRequest request, long totalContentLength) {
         List<HttpRange> rangeList;
         try {
             rangeList = this.getRangeList(request);

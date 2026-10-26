@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"createDate", "id"})
+@Table(indexes = {
+        @Index(columnList = "createDate, id")
 })
 public class StorageSpaceEntity {
 

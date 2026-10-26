@@ -1,0 +1,94 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1792973582187-1",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addColumn": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "permission_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "identity_card_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1792973582187-2",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "associatedWith": "",
+            "columns": [
+              {
+                "column": {
+                  "name": "permission_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FK8uiw89pa26fqxgqt73qnglwyo",
+            "tableName": "identity_card_entity"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1792973582187-3",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "permission_id",
+            "baseTableName": "identity_card_entity",
+            "constraintName": "FK8uiw89pa26fqxgqt73qnglwyo",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "permission_entity",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1792973582187-4",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "dropColumn": {
+            "columnName": "identity_type",
+            "tableName": "identity_card_entity"
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}

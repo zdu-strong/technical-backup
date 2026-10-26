@@ -3,7 +3,6 @@ package com.john.project.test.controller.SuperAdminRoleQueryController;
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.enums.SystemPermissionEnum;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.*;
 import com.john.project.test.common.BaseTest.BaseTest;
 import lombok.SneakyThrows;
@@ -15,8 +14,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,13 +39,13 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByOrganizeIdTest ext
                 JinqStream.from(roleList)
                         .selectAllList(s -> s.getPermissionList())
                         .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
-                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_MANAGE.getValue()))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemPermissionEnum.ORGANIZE_OWNER.getValue()))
                         .exists());
         assertTrue(
                 JinqStream.from(roleList)
                         .selectAllList(s -> s.getPermissionList())
                         .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
-                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_VIEW.getValue()))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemPermissionEnum.ORGANIZE_MEMBER.getValue()))
                         .exists());
     }
 

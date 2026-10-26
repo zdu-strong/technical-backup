@@ -1,6 +1,7 @@
 package com.john.project.test.common.ResourceUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class ResourceUtilSetContentRangeIfNeedTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, resource.contentLength(), request);
+        this.resourceHttpHeadersUtil.setContentRangeIfNeed(request, httpHeaders, resource.contentLength());
         assertEquals("bytes 0-100/9287", httpHeaders.getFirst(HttpHeaders.CONTENT_RANGE));
     }
 

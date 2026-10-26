@@ -14,7 +14,7 @@ public class UserMessageServiceSendMessageRandomEmailTest extends BaseTest {
 
     @Test
     public void test() {
-        var message = this.userMessageService.sendMessage(userMessage, request);
+        var message = this.userMessageService.sendMessage(request, userMessage);
         assertEquals(36, message.getId().length());
         assertEquals(HELLO_WORLD, message.getContent());
         assertEquals(userId, message.getUser().getId());

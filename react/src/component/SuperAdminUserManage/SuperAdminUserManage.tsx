@@ -42,7 +42,7 @@ export default observer(() => {
             width: 290
         },
         {
-            renderHeader: () => <FormattedMessage id="Name" defaultMessage="Name" />,
+            renderHeader: () => <FormattedMessage id="Username" defaultMessage="Username" />,
             field: 'username',
             width: 150,
             flex: 1,

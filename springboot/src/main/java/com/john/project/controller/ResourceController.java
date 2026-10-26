@@ -26,15 +26,15 @@ public class ResourceController extends BaseController {
         var resource = this.storage.getResourceFromRequest(request);
         var totalContentLength = resource.contentLength();
 
-        this.resourceHttpHeadersUtil.checkIsCorrectRangeIfNeed(totalContentLength, request);
+        this.resourceHttpHeadersUtil.checkIsCorrectRangeIfNeed(request, totalContentLength);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentLength(httpHeaders, totalContentLength, request);
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.inline(), request);
-        this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, totalContentLength, request);
+        this.resourceHttpHeadersUtil.setETag(request, httpHeaders);
+        this.resourceHttpHeadersUtil.setCacheControl(httpHeaders);
+        this.resourceHttpHeadersUtil.setContentType(request, httpHeaders);
+        this.resourceHttpHeadersUtil.setContentLength(request, httpHeaders, totalContentLength);
+        this.resourceHttpHeadersUtil.setContentDisposition(request, httpHeaders, ContentDisposition.inline());
+        this.resourceHttpHeadersUtil.setContentRangeIfNeed(request, httpHeaders, totalContentLength);
 
         if (httpHeaders.getETag().equals(this.request.getHeader(HttpHeaders.IF_NONE_MATCH))) {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).headers(httpHeaders).build();
@@ -42,7 +42,7 @@ public class ResourceController extends BaseController {
 
         if (!this.resourceHttpHeadersUtil.getRangeList(request).isEmpty()) {
             return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).headers(httpHeaders)
-                    .body(this.resourceHttpHeadersUtil.getResourceFromRequest(totalContentLength, request));
+                    .body(this.resourceHttpHeadersUtil.getResourceFromRequest(request, totalContentLength));
         } else {
             return ResponseEntity.ok().headers(httpHeaders).body(resource);
         }
@@ -54,16 +54,15 @@ public class ResourceController extends BaseController {
         var resource = this.storage.getResourceFromRequest(request);
         var totalContentLength = resource.contentLength();
 
-        this.resourceHttpHeadersUtil.checkIsCorrectRangeIfNeed(totalContentLength, request);
+        this.resourceHttpHeadersUtil.checkIsCorrectRangeIfNeed(request, totalContentLength);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setCacheControl(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
-        this.resourceHttpHeadersUtil.setContentLength(httpHeaders, totalContentLength, request);
-        this.resourceHttpHeadersUtil.setContentDisposition(httpHeaders, ContentDisposition.attachment(),
-                request);
-        this.resourceHttpHeadersUtil.setContentRangeIfNeed(httpHeaders, totalContentLength, request);
+        this.resourceHttpHeadersUtil.setETag(request, httpHeaders);
+        this.resourceHttpHeadersUtil.setCacheControl(httpHeaders);
+        this.resourceHttpHeadersUtil.setContentType(request, httpHeaders);
+        this.resourceHttpHeadersUtil.setContentLength(request, httpHeaders, totalContentLength);
+        this.resourceHttpHeadersUtil.setContentDisposition(request, httpHeaders, ContentDisposition.attachment());
+        this.resourceHttpHeadersUtil.setContentRangeIfNeed(request, httpHeaders, totalContentLength);
 
         if (httpHeaders.getETag().equals(this.request.getHeader(HttpHeaders.IF_NONE_MATCH))) {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).headers(httpHeaders).build();
@@ -71,7 +70,7 @@ public class ResourceController extends BaseController {
 
         if (!this.resourceHttpHeadersUtil.getRangeList(request).isEmpty()) {
             return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).headers(httpHeaders)
-                    .body(this.resourceHttpHeadersUtil.getResourceFromRequest(totalContentLength, request));
+                    .body(this.resourceHttpHeadersUtil.getResourceFromRequest(request, totalContentLength));
         } else {
             return ResponseEntity.ok().headers(httpHeaders).body(resource);
         }

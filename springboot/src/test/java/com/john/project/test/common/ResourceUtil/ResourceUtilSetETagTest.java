@@ -14,7 +14,7 @@ public class ResourceUtilSetETagTest extends BaseTest {
 
     @Test
     public void test() {
-        this.resourceHttpHeadersUtil.setETag(httpHeaders, request);
+        this.resourceHttpHeadersUtil.setETag(request, httpHeaders);
         assertTrue(StringUtils.isNotBlank(httpHeaders.getETag()));
     }
 

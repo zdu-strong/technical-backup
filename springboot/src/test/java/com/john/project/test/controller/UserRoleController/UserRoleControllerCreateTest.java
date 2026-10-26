@@ -31,7 +31,7 @@ public class UserRoleControllerCreateTest extends BaseTest {
                 .group(s -> s.getOrganize().getId(), (s, t) -> t.findFirst().get())
                 .select(s -> s.getOne())
                 .where(StringUtils::isNotBlank)
-                .select(s -> new PermissionRelationModel().setPermission(SystemPermissionEnum.ORGANIZE_MANAGE.getValue()).setOrganize(new OrganizeModel().setId(s)))
+                .select(s -> new PermissionRelationModel().setPermission(SystemPermissionEnum.ORGANIZE_OWNER.getValue()).setOrganize(new OrganizeModel().setId(s)))
                 .toList());
         var url = new URIBuilder("/role/create").build();
         var response = this.testRestTemplate.postForEntity(url, new HttpEntity<>(body), RoleModel.class);

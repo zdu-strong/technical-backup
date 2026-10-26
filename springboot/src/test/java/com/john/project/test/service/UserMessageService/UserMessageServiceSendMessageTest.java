@@ -2,6 +2,7 @@ package com.john.project.test.service.UserMessageService;
 
 import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.john.project.model.UserMessageModel;
@@ -13,7 +14,7 @@ public class UserMessageServiceSendMessageTest extends BaseTest {
 
     @Test
     public void test() {
-        var result = this.userMessageService.sendMessage(userMessage, request);
+        var result = this.userMessageService.sendMessage(request, userMessage);
         assertEquals(36, result.getId().length());
         assertEquals(HELLO_WORLD, result.getContent());
         assertEquals(userId, result.getUser().getId());

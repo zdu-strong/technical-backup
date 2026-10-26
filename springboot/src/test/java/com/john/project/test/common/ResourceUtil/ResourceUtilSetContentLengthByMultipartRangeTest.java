@@ -19,7 +19,7 @@ public class ResourceUtilSetContentLengthByMultipartRangeTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        this.resourceHttpHeadersUtil.setContentLength(httpHeaders, resource.contentLength(), request);
+        this.resourceHttpHeadersUtil.setContentLength(request, httpHeaders, resource.contentLength());
         assertEquals(9287, resource.contentLength());
         assertTrue(this.httpHeaders.getContentLength() > 300);
     }

@@ -7,17 +7,13 @@ import com.john.project.entity.OrganizeEntity;
 import com.john.project.entity.PermissionEntity;
 import com.john.project.entity.PermissionRelationEntity;
 import com.john.project.entity.RoleEntity;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
-import com.john.project.model.PermissionRelationModel;
-import com.john.project.model.RoleModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.enums.SystemPermissionEnum;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PermissionRelationService extends BaseService {

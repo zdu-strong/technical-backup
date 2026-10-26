@@ -13,7 +13,7 @@ public class ResourceUtilSetContentTypeByMultipartRangeTest extends BaseTest {
 
     @Test
     public void test() {
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
+        this.resourceHttpHeadersUtil.setContentType(request, httpHeaders);
         Assertions
                 .assertTrue(this.httpHeaders.getContentType().toString().startsWith("multipart/byteranges;boundary="));
     }

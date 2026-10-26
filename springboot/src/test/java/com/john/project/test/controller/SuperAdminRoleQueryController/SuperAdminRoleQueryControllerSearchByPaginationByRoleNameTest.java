@@ -4,7 +4,6 @@ package com.john.project.test.controller.SuperAdminRoleQueryController;
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.enums.SystemPermissionEnum;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.RoleModel;
@@ -35,7 +34,7 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByRoleNameTest exten
         body.setPageNum(1L);
         body.setPageSize(200L);
         body.setOrganizeId(this.organizeId);
-        body.setRoleName(SystemPermissionEnum.ORGANIZE_MANAGE.getValue());
+        body.setRoleName(SystemPermissionEnum.ORGANIZE_OWNER.getValue());
         var response = this.testRestTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(body), new ParameterizedTypeReference<PaginationModel<RoleModel>>() {
         });
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -45,7 +44,7 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByRoleNameTest exten
                 JinqStream.from(roleList)
                         .selectAllList(s -> s.getPermissionList())
                         .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
-                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_MANAGE.getValue()))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemPermissionEnum.ORGANIZE_OWNER.getValue()))
                         .exists());
     }
 

@@ -177,7 +177,7 @@ public class UserMessageWebSocket {
         try {
             checkIsSignIn();
             var lastUserMessageWebSocketSendModel = this.userMessageService
-                    .getMessageListByLastMessage(this.getPageSizeForLastMessage(), request);
+                    .getMessageListByLastMessage(request, this.getPageSizeForLastMessage());
             if (this.hasNeedSendAllOnlineMessage(lastUserMessageWebSocketSendModel)) {
                 this.sendMessageForAllOnlineMessage(lastUserMessageWebSocketSendModel);
             } else if (this.hasNeedSendLastMessage(lastUserMessageWebSocketSendModel)) {
@@ -252,7 +252,7 @@ public class UserMessageWebSocket {
                 .where(s -> !userMessageWebSocketSendModel.getItems().stream().anyMatch(m -> s == (long) m.getPageNum()))
                 .distinct()
                 .selectAllList(s -> this.userMessageService
-                        .getUserMessageByPagination(s, 1L, request)
+                        .getUserMessageByPagination(request, s, 1L)
                         .getItems())
                 .toList();
         var userMessageList = JinqStream.from(List.of(
@@ -272,7 +272,7 @@ public class UserMessageWebSocket {
             return;
         }
 
-        var userMessageList = this.userMessageService.getUserMessageByPagination(pageNum, 1L, request)
+        var userMessageList = this.userMessageService.getUserMessageByPagination(request, pageNum, 1L)
                 .getItems();
         this.sendAndUpdateOnlineMessage(new UserMessageWebSocketSendModel()
                 .setItems(userMessageList)

@@ -43,7 +43,7 @@ public class MessageScheduledTest extends BaseTest {
             var email = this.uuidUtil.v4() + "@gmail.com";
             this.user = this.createAccount(email);
             var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
-            this.userMessageService.sendMessage(userMessage, request);
+            this.userMessageService.sendMessage(request, userMessage);
         }
         {
             URI url = new URIBuilder(this.serverAddressProperties.getWebSocketServerAddress())

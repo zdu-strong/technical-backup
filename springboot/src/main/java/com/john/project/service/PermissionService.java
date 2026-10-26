@@ -13,14 +13,14 @@ import com.john.project.enums.SystemPermissionEnum;
 public class PermissionService extends BaseService {
 
     /**
-     * 
+     *
      * @return hasNext boolean
      */
     public boolean refresh() {
-        if (this.deleteDefaultPermissionList()) {
+        if (this.createDefaultPermissionList()) {
             return true;
         }
-        if (this.createDefaultPermissionList()) {
+        if (this.deleteDefaultPermissionList()) {
             return true;
         }
         return false;

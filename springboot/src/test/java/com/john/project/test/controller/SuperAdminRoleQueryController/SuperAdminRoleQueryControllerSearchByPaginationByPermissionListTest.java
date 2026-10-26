@@ -3,7 +3,6 @@ package com.john.project.test.controller.SuperAdminRoleQueryController;
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.enums.SystemPermissionEnum;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.RoleModel;
@@ -40,7 +39,7 @@ public class SuperAdminRoleQueryControllerSearchByPaginationByPermissionListTest
         assertEquals(roleList.size(),
                 JinqStream.from(roleList)
                         .selectAllList(s -> s.getPermissionList())
-                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.SUPER_ADMIN.getValue()))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemPermissionEnum.SUPER_ADMIN.getValue()))
                         .select(s -> s.getRole().getId())
                         .distinct()
                         .count());

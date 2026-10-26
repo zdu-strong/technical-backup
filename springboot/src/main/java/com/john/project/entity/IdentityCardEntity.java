@@ -17,17 +17,6 @@ public class IdentityCardEntity {
     @Id
     private String id;
 
-    /**
-     * @see com.john.project.enums.SystemPermissionEnum
-     *
-     * ANONYMOUS
-     * RESIDENT
-     * IMMIGRANT
-     * CITIZEN
-     */
-    @Column(nullable = false)
-    private String identityType;
-
     @Column(nullable = false)
     private String address;
 
@@ -36,6 +25,17 @@ public class IdentityCardEntity {
 
     @Column(nullable = false)
     private Date updateDate;
+
+    /**
+     * @see com.john.project.enums.SystemPermissionEnum
+     * <p>
+     * ANONYMOUS
+     * RESIDENT
+     * IMMIGRANT
+     * CITIZEN
+     */
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
+    private PermissionEntity permission;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
     private UserEntity user;

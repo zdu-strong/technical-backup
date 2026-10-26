@@ -34,4 +34,7 @@ public class PermissionEntity {
     @OneToMany(mappedBy = "permission", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PermissionRelationEntity> permissionRelationList;
 
+    @OneToMany(mappedBy = "permission", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<IdentityCardEntity> identityCardList;
+
 }

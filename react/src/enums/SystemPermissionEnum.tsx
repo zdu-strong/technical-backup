@@ -7,9 +7,9 @@ export class SystemPermissionEnum {
 
     static SUPER_ADMIN = new SystemPermissionEnum("SUPER_ADMIN", true, false);
 
-    static ORGANIZE_MANAGE = new SystemPermissionEnum("ORGANIZE_MANAGE", false, true);
+    static ORGANIZE_OWNER = new SystemPermissionEnum("ORGANIZE_OWNER", false, true);
 
-    static ORGANIZE_VIEW = new SystemPermissionEnum("ORGANIZE_VIEW", false, true);
+    static ORGANIZE_MEMBER = new SystemPermissionEnum("ORGANIZE_MEMBER", false, true);
 
     @jsonMember(String)
     value!: string;

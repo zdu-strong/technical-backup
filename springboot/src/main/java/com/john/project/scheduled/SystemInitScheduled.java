@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.john.project.common.EncryptDecryptUtil.EncryptDecryptUtil;
+import com.john.project.constant.SuperAdminRoleNameConstant;
+import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.service.*;
@@ -18,7 +20,6 @@ import com.john.project.common.DistributedExecutionUtil.DistributedExecutionUtil
 import com.john.project.common.EmailUtil.AuthorizationEmailUtil;
 import com.john.project.common.LongTermTaskUtil.LongTermTaskUtil;
 import com.john.project.enums.LongTermTaskTypeEnum;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import com.john.project.model.UserEmailModel;
 import com.john.project.model.UserModel;
@@ -54,9 +55,6 @@ public class SystemInitScheduled {
 
     @Autowired
     private EncryptDecryptUtil encryptDecryptUtil;
-
-    @Autowired
-    private UserRoleRelationService userRoleRelationService;
 
     @Autowired
     private RoleService roleService;
@@ -103,7 +101,7 @@ public class SystemInitScheduled {
             return;
         }
         var superAdminUser = new UserModel();
-        superAdminUser.setUsername("SuperAdmin");
+        superAdminUser.setUsername(SuperAdminRoleNameConstant.SUPER_ADMINISTRATOR);
         superAdminUser.setPassword(this.tokenService.getEncryptedPassword(email));
         var verificationCodeEmailModel = this.authorizationEmailUtil.sendVerificationCode(email);
         verificationCodeEmailModel.setVerificationCode(
@@ -112,7 +110,8 @@ public class SystemInitScheduled {
                 List.of(new UserEmailModel().setEmail(email).setVerificationCodeEmail(verificationCodeEmailModel)));
         var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
         superAdminRoleQueryPaginationModel.setPageNum(1L);
-        superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+        superAdminRoleQueryPaginationModel.setPageSize(100L);
+        superAdminRoleQueryPaginationModel.setPermissionList(List.of(SystemPermissionEnum.SUPER_ADMIN.getValue()));
         superAdminUser.setRoleList(
                 this.roleService.searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel).getItems());
         this.userService.create(superAdminUser);
@@ -141,11 +140,7 @@ public class SystemInitScheduled {
                 break;
             }
         }
-        while (true) {
-            if (!this.userRoleRelationService.refresh()) {
-                break;
-            }
-        }
+        this.roleService.createDefaultSuperAdminRole();
     }
 
     private LongTermTaskUniqueKeyModel getLongTermTaskUniqueKeyModelForInitSystemData() {

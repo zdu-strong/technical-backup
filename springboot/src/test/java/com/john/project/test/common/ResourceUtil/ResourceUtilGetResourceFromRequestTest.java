@@ -14,7 +14,7 @@ public class ResourceUtilGetResourceFromRequestTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        var result = this.resourceHttpHeadersUtil.getResourceFromRequest(this.resource.contentLength(), request);
+        var result = this.resourceHttpHeadersUtil.getResourceFromRequest(request, this.resource.contentLength());
         assertEquals(9287, result.contentLength());
         assertEquals("default.jpg", result.getFilename());
     }

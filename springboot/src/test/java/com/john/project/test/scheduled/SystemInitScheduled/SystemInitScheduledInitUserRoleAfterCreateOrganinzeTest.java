@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.john.project.enums.OrganizeTypeEnum;
+import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.john.project.enums.SystemRoleEnum;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
@@ -20,7 +20,7 @@ public class SystemInitScheduledInitUserRoleAfterCreateOrganinzeTest extends Bas
     public void test() {
         var superAdminRoleQueryPaginationModel = new SuperAdminRoleQueryPaginationModel();
         superAdminRoleQueryPaginationModel.setPageNum(1L);
-        superAdminRoleQueryPaginationModel.setPageSize((long) SystemRoleEnum.values().length);
+        superAdminRoleQueryPaginationModel.setPageSize(100L);
         superAdminRoleQueryPaginationModel.setOrganizeId(organizeId);
         var roleList = this.roleService.searchRoleForSuperAdminByPagination(superAdminRoleQueryPaginationModel).getItems();
         assertEquals(2, roleList.size());
@@ -28,13 +28,13 @@ public class SystemInitScheduledInitUserRoleAfterCreateOrganinzeTest extends Bas
                 JinqStream.from(roleList)
                         .selectAllList(s -> s.getPermissionList())
                         .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
-                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_MANAGE.getValue()))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemPermissionEnum.ORGANIZE_OWNER.getValue()))
                         .exists());
         assertTrue(
                 JinqStream.from(roleList)
                         .selectAllList(s -> s.getPermissionList())
                         .where(s -> ObjectUtil.equals(s.getOrganize().getId(), organizeId))
-                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemRoleEnum.ORGANIZE_VIEW.getValue()))
+                        .where(s -> ObjectUtil.equals(s.getPermission(), SystemPermissionEnum.ORGANIZE_MEMBER.getValue()))
                         .exists());
     }
 

@@ -15,6 +15,6 @@ before(() => {
     cy.visit("/super-admin/user/manage")
 })
 
-const username = "SuperAdmin"
+const username = "Super Administrator"
 const email = `zdu.strong@gmail.com`
 const password = 'zdu.strong@gmail.com'

@@ -14,7 +14,7 @@ public class PermissionUtilGetOrganizeIdListByAnyRoleTest extends BaseTest {
 
     @Test
     public void test() {
-        var result = this.permissionUtil.getOrganizeIdListByAnyPermission(this.request, SystemPermissionEnum.ORGANIZE_MANAGE);
+        var result = this.permissionUtil.getOrganizeIdListByAnyPermission(this.request, SystemPermissionEnum.ORGANIZE_OWNER);
         assertEquals(0, result.size());
     }
 

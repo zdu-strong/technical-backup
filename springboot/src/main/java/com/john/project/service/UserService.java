@@ -1,12 +1,15 @@
 package com.john.project.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.auth0.jwt.JWT;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
+import com.john.project.model.PermissionRelationModel;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +41,10 @@ public class UserService extends BaseService {
     @Autowired
     @Lazy
     private UserEmailService userEmailService;
+
+    @Autowired
+    @Lazy
+    private RoleService roleService;
 
     @Autowired
     @Lazy
@@ -90,10 +97,10 @@ public class UserService extends BaseService {
                 .selectAllList(s -> s.getUserRoleRelationList())
                 .toList();
         for (var userRoleRelationEntity : userRoleRelationList) {
-            if (JinqStream.from(userModel.getRoleList())
-                    .select(s -> s.getId())
-                    .toList()
-                    .contains(userRoleRelationEntity.getRole().getId())) {
+            if (JinqStream.from(userRoleRelationList)
+                    .where(s -> StringUtils.equals(s.getRole().getId(), userRoleRelationEntity.getRole().getId()))
+                    .exists()
+            ) {
                 continue;
             }
             this.remove(userRoleRelationEntity);
@@ -101,9 +108,9 @@ public class UserService extends BaseService {
 
         for (var roleModel : userModel.getRoleList()) {
             if (JinqStream.from(userRoleRelationList)
-                    .select(s -> s.getRole().getId())
-                    .toList()
-                    .contains(roleModel.getId())) {
+                    .where(s -> StringUtils.equals(s.getRole().getId(), roleModel.getId()))
+                    .exists()
+            ) {
                 continue;
             }
             this.userRoleRelationService.create(userId, roleModel.getId());
@@ -123,7 +130,6 @@ public class UserService extends BaseService {
     public UserModel getUser(String id) {
         var user = this.streamAll(UserEntity.class)
                 .where(s -> s.getId().equals(id))
-                .where(s -> !s.getIsDeleted())
                 .getOnlyValue();
         return this.userFormatter.format(user);
     }
@@ -223,10 +229,11 @@ public class UserService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public void checkUndeletedUserById(String id) {
-        this.checkExistUserById(id);
-        if (!hasUndeletedUserId(id)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User has been deleted");
+    public void checkExistUserByIdWhetherDeleted(String id) {
+        if (!this.streamAll(UserEntity.class)
+                .where(s -> s.getId().equals(id))
+                .exists()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exist");
         }
     }
 
@@ -269,16 +276,9 @@ public class UserService extends BaseService {
     private boolean hasExistsUserId(String userId) {
         var exists = this.streamAll(UserEntity.class)
                 .where(s -> s.getId().equals(userId))
-                .exists();
-        return exists;
-    }
-
-    private boolean hasUndeletedUserId(String userId) {
-        var isNotDeleted = this.streamAll(UserEntity.class)
-                .where(s -> s.getId().equals(userId))
                 .where(s -> !s.getIsDeleted())
                 .exists();
-        return isNotDeleted;
+        return exists;
     }
 
     private boolean hasExistEmail(String email) {
@@ -291,16 +291,25 @@ public class UserService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public void checkRoleRelation(UserModel user, HttpServletRequest request) {
+    public void checkRoleRelation(HttpServletRequest request, UserModel user) {
         if (ObjectUtil.isNull(user.getRoleList())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be null");
         }
 
-        if (StringUtils.isBlank(user.getId())) {
-            if (!user.getRoleList().isEmpty()) {
-                this.permissionUtil.checkAnyPermission(request, SystemPermissionEnum.SUPER_ADMIN);
-            }
+        var userId = Optional.ofNullable(user)
+                .map(s -> s.getId())
+                .orElse(StringUtils.EMPTY);
+        List<PermissionRelationModel> oldPermissions = new ArrayList<>();
+        if (StringUtils.isNotBlank(userId)) {
+            oldPermissions = this.streamAll(UserEntity.class)
+                    .where(s -> s.getId().equals(userId))
+                    .findOne()
+                    .map(this.userFormatter::formatWithMoreInformation)
+                    .map(this.permissionUtil::convertToPermissionList)
+                    .get();
         }
+        var newPermissions = this.permissionUtil.convertToPermissionList(user);
+        this.roleService.checkCanChangePermissions(request, oldPermissions, newPermissions, SystemPermissionEnum.SUPER_ADMIN, SystemPermissionEnum.ORGANIZE_OWNER);
     }
 
     @Transactional(readOnly = true)

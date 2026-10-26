@@ -27,7 +27,7 @@ public class UserMessageControllerDeleteMessageTest extends BaseTest {
         var email = this.uuidUtil.v4() + "@gmail.com";
         this.createAccount(email);
         var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
-        this.id = this.userMessageService.sendMessage(userMessage, request).getId();
+        this.id = this.userMessageService.sendMessage(request, userMessage).getId();
     }
 
 }

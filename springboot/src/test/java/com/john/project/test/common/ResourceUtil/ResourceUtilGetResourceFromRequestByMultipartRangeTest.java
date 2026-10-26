@@ -2,6 +2,7 @@ package com.john.project.test.common.ResourceUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class ResourceUtilGetResourceFromRequestByMultipartRangeTest extends Base
     @Test
     @SneakyThrows
     public void test() {
-        var result = this.resourceHttpHeadersUtil.getResourceFromRequest(this.resource.contentLength(), request);
+        var result = this.resourceHttpHeadersUtil.getResourceFromRequest(request, this.resource.contentLength());
         assertTrue(result.contentLength() > 300);
         assertEquals("default.jpg", result.getFilename());
     }

@@ -30,7 +30,7 @@ public class UserMessageServiceGetUserMessageByIdTest extends BaseTest {
                 .createAccount(uuidUtil.v4() + "zdu.strong@gmail.com")
                 .getId();
         var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
-        var message = this.userMessageService.sendMessage(userMessage, request);
+        var message = this.userMessageService.sendMessage(request, userMessage);
         assertEquals(36, message.getId().length());
         assertEquals(HELLO_WORLD, message.getContent());
         assertEquals(userId, message.getUser().getId());

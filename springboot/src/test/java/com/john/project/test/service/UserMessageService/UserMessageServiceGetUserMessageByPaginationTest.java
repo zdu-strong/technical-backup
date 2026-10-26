@@ -2,6 +2,7 @@ package com.john.project.test.service.UserMessageService;
 
 import static com.john.project.constant.HelloWorldConstant.HELLO_WORLD;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ public class UserMessageServiceGetUserMessageByPaginationTest extends BaseTest {
 
     @Test
     public void test() {
-        var userMessagePagination = this.userMessageService.getUserMessageByPagination(1L, 1L, request);
+        var userMessagePagination = this.userMessageService.getUserMessageByPagination(request, 1L, 1L);
         var message = JinqStream.from(userMessagePagination.getItems()).getOnlyValue();
         assertEquals(1, userMessagePagination.getItems().size());
         assertTrue(StringUtils.isNotBlank(message.getId()));
@@ -30,7 +31,7 @@ public class UserMessageServiceGetUserMessageByPaginationTest extends BaseTest {
                 .createAccount(uuidUtil.v4() + "zdu.strong@gmail.com")
                 .getId();
         var userMessage = new UserMessageModel().setContent(HELLO_WORLD);
-        var message = this.userMessageService.sendMessage(userMessage, request);
+        var message = this.userMessageService.sendMessage(request, userMessage);
         assertEquals(36, message.getId().length());
         assertEquals(HELLO_WORLD, message.getContent());
         assertEquals(userId, message.getUser().getId());

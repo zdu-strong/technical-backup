@@ -1,6 +1,7 @@
 package com.john.project.test.common.ResourceUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -14,7 +15,7 @@ public class ResourceUtilSetContentTypeTest extends BaseTest {
 
     @Test
     public void test() {
-        this.resourceHttpHeadersUtil.setContentType(httpHeaders, request);
+        this.resourceHttpHeadersUtil.setContentType(request, httpHeaders);
         assertEquals(MediaType.IMAGE_JPEG, this.httpHeaders.getContentType());
     }
 

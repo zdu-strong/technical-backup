@@ -25,7 +25,7 @@ public class UserMessageService extends BaseService {
     @Lazy
     private UserMessageDeactivateService userMessageDeactivateService;
 
-    public UserMessageModel sendMessage(UserMessageModel userMessageModel, HttpServletRequest request) {
+    public UserMessageModel sendMessage(HttpServletRequest request, UserMessageModel userMessageModel) {
         var userId = this.permissionUtil.getUserId(request);
         var userEntity = this.streamAll(UserEntity.class)
                 .where(s -> s.getId().equals(userId))
@@ -62,7 +62,7 @@ public class UserMessageService extends BaseService {
         this.merge(userMessageEntity);
     }
 
-    public void deleteMessage(String id, HttpServletRequest request) {
+    public void deleteMessage(HttpServletRequest request, String id) {
         var userId = this.permissionUtil.getUserId(request);
         var userMessageId = id;
         this.userMessageDeactivateService.create(userMessageId, userId);
@@ -77,8 +77,8 @@ public class UserMessageService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public PaginationModel<UserMessageModel> getUserMessageByPagination(long pageNum, long pageSize,
-            HttpServletRequest request) {
+    public PaginationModel<UserMessageModel> getUserMessageByPagination(HttpServletRequest request,
+                                                                        long pageNum, long pageSize) {
         var userId = this.permissionUtil.getUserId(request);
         var stream = this.streamAll(UserMessageEntity.class)
                 .where(s -> !s.getIsRecall())
@@ -94,7 +94,7 @@ public class UserMessageService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public UserMessageWebSocketSendModel getMessageListByLastMessage(long pageSize, HttpServletRequest request) {
+    public UserMessageWebSocketSendModel getMessageListByLastMessage(HttpServletRequest request, long pageSize) {
         var userId = this.permissionUtil.getUserId(request);
         var stream = this.streamAll(UserMessageEntity.class)
                 .where(s -> !s.getIsRecall())
@@ -121,7 +121,7 @@ public class UserMessageService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public void checkCanRecallUserMessage(String id, HttpServletRequest request) {
+    public void checkCanRecallUserMessage(HttpServletRequest request, String id) {
         var userMessageEntity = this.streamAll(UserMessageEntity.class)
                 .where(s -> s.getId().equals(id))
                 .getOnlyValue();
@@ -134,7 +134,7 @@ public class UserMessageService extends BaseService {
     }
 
     @Transactional(readOnly = true)
-    public void checkCanDeleteUserMessage(String id, HttpServletRequest request) {
+    public void checkCanDeleteUserMessage(HttpServletRequest request, String id) {
         var userId = this.permissionUtil.getUserId(request);
         var exists = this.streamAll(UserMessageEntity.class)
                 .where(s -> s.getId().equals(id))

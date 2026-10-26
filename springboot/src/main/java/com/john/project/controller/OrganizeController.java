@@ -1,5 +1,7 @@
 package com.john.project.controller;
 
+import com.john.project.enums.SystemPermissionEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,12 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.john.project.common.baseController.BaseController;
 import com.john.project.model.OrganizeModel;
 
+import java.util.Optional;
+
 @RestController
 public class OrganizeController extends BaseController {
 
     @PostMapping("/organize/create")
     public ResponseEntity<?> create(@RequestBody OrganizeModel organizeModel) {
         this.permissionUtil.checkIsSignIn(request);
+        this.validationFieldUtil.checkMustBeNullOfId(organizeModel.getId());
+        this.permissionUtil.checkAnyPermission(request,
+                Optional.ofNullable(organizeModel.getParent())
+                        .map(s -> s.getId())
+                        .orElse(StringUtils.EMPTY),
+                SystemPermissionEnum.SUPER_ADMIN,
+                SystemPermissionEnum.ORGANIZE_OWNER);
         this.validationFieldUtil.checkNotBlankOfOrganizeType(organizeModel.getOrganizeType());
         this.validationFieldUtil.checkValidOfOrganizeType(organizeModel);
         this.organizeService.checkHasExistOfParentOrganize(organizeModel);
@@ -27,6 +38,10 @@ public class OrganizeController extends BaseController {
     public ResponseEntity<?> update(@RequestBody OrganizeModel organizeModel) {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfId(organizeModel.getId());
+        this.permissionUtil.checkAnyPermission(request,
+                organizeModel.getId(),
+                SystemPermissionEnum.SUPER_ADMIN,
+                SystemPermissionEnum.ORGANIZE_OWNER);
 //        this.validationFieldUtil.checkNotBlankOfOrganizeType(organizeModel.getOrganizeType());
 //        this.validationFieldUtil.checkValidOfOrganizeType(organizeModel);
         this.organizeService.checkHasExistById(organizeModel.getId());
@@ -39,6 +54,10 @@ public class OrganizeController extends BaseController {
     public ResponseEntity<?> delete(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfId(id);
+        this.permissionUtil.checkAnyPermission(request,
+                id,
+                SystemPermissionEnum.SUPER_ADMIN,
+                SystemPermissionEnum.ORGANIZE_OWNER);
         this.organizeService.checkHasExistById(id);
 
         this.organizeUtil.delete(id);
@@ -51,6 +70,14 @@ public class OrganizeController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfId(id);
         this.organizeService.checkHasExistById(id);
         this.organizeService.checkHasExistById(parentId);
+        this.permissionUtil.checkAnyPermission(request,
+                id,
+                SystemPermissionEnum.SUPER_ADMIN,
+                SystemPermissionEnum.ORGANIZE_OWNER);
+        this.permissionUtil.checkAnyPermission(request,
+                parentId,
+                SystemPermissionEnum.SUPER_ADMIN,
+                SystemPermissionEnum.ORGANIZE_OWNER);
 
         this.organizeUtil.move(id, parentId);
 

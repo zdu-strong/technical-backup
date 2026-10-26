@@ -1,6 +1,7 @@
 package com.john.project.test.common.ResourceUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ public class ResourceUtilGetResourceFromRequestByRangeTest extends BaseTest {
     @Test
     @SneakyThrows
     public void test() {
-        var result = this.resourceHttpHeadersUtil.getResourceFromRequest(this.resource.contentLength(), request);
+        var result = this.resourceHttpHeadersUtil.getResourceFromRequest(request, this.resource.contentLength());
         assertEquals(100, result.contentLength());
         assertEquals("default.jpg", result.getFilename());
     }

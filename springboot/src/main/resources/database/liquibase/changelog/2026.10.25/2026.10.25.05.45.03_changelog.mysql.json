@@ -1,0 +1,18 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1792907121834-1",
+      "author": "john (generated)",
+      "changes": [
+        {
+          "dropUniqueConstraint": {
+            "constraintName": "UK9w6ej7fc4cg929habd6nnuxjg",
+            "tableName": "storage_space_entity"
+          }
+        }
+      ]
+      
+    }
+  }
+  
+]}

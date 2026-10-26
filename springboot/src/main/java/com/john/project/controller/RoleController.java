@@ -5,15 +5,18 @@ import org.springframework.web.bind.annotation.*;
 import com.john.project.common.baseController.BaseController;
 import com.john.project.model.RoleModel;
 
+import java.util.List;
+
 @RestController
 public class RoleController extends BaseController {
 
     @PostMapping("/role/create")
     public ResponseEntity<?> create(@RequestBody RoleModel roleModel) {
         this.permissionUtil.checkIsSignIn(request);
+        this.validationFieldUtil.checkMustBeNullOfId(roleModel.getId());
         this.validationFieldUtil.checkNotBlankOfRoleName(roleModel.getName());
         this.validationFieldUtil.checkNotEmptyOfPermissionList(roleModel);
-        this.roleService.checkCanCreateRole(roleModel, request);
+        this.roleService.checkRoleRelation(request, roleModel);
 
         var roleOneModel = this.roleService.create(roleModel);
 
@@ -23,10 +26,11 @@ public class RoleController extends BaseController {
     @PostMapping("/role/update")
     public ResponseEntity<?> update(@RequestBody RoleModel roleModel) {
         this.permissionUtil.checkIsSignIn(request);
+        this.validationFieldUtil.checkNotBlankOfId(roleModel.getId());
         this.validationFieldUtil.checkNotBlankOfRoleName(roleModel.getName());
         this.validationFieldUtil.checkNotEmptyOfPermissionList(roleModel);
         this.roleService.checkExistRoleById(roleModel.getId());
-        this.roleService.checkCanUpdateRole(roleModel, request);
+        this.roleService.checkRoleRelation(request, roleModel);
 
         this.roleService.update(roleModel);
 
@@ -38,6 +42,7 @@ public class RoleController extends BaseController {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfId(id);
         this.roleService.checkExistRoleById(id);
+        this.roleService.checkRoleRelation(request, this.roleService.getRoleById(id).setPermissionList(List.of()));
 
         this.roleService.delete(id);
 
