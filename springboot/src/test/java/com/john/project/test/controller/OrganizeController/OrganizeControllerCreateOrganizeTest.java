@@ -34,7 +34,7 @@ public class OrganizeControllerCreateOrganizeTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         var email = this.uuidUtil.v4() + "zdu.strong@gmail.com";
-        this.createAccount(email);
+        this.createAccountOfSuperAdmin(email);
         var parentOrganizeModel = new OrganizeModel()
                 .setName("Super Saiyan Son Goku")
                 .setOrganizeType(OrganizeTypeEnum.ORGANIZE.getValue());
