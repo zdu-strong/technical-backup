@@ -69,42 +69,47 @@ public class RoleService extends BaseService {
                 .where(s -> s.getRole().getId().equals(id))
                 .toList();
 
-        for (var permission : permissionList) {
+        for (var permissionRelationEntity : permissionList) {
+            var permission = permissionRelationEntity.getPermission().getName();
+            var organizeId = Optional.ofNullable(permissionRelationEntity)
+                    .map(m -> m.getOrganize())
+                    .map(m -> m.getId())
+                    .orElse(StringUtils.EMPTY);
             if (JinqStream.from(roleModel.getPermissionList())
-                    .where(s -> StringUtils.equals(s.getPermission(), permission.getPermission().getName()))
+                    .where(s -> StringUtils.equals(s.getPermission(), permission))
                     .where(s -> StringUtils.equals(
                             Optional.ofNullable(s)
                                     .map(m -> m.getOrganize())
                                     .map(m -> m.getId())
                                     .orElse(StringUtils.EMPTY),
-                            Optional.ofNullable(permission)
-                                    .map(m -> m.getOrganize())
-                                    .map(m -> m.getId())
-                                    .orElse(StringUtils.EMPTY)
+                            organizeId
                     ))
-                    .exists()) {
+                    .exists()
+            ) {
                 continue;
             }
-            this.remove(permission);
+            this.remove(permissionRelationEntity);
         }
 
-        for (var permission : roleModel.getPermissionList()) {
+        for (var permissionModel : roleModel.getPermissionList()) {
+            var organizeId = Optional.ofNullable(permissionModel)
+                    .map(m -> m.getOrganize())
+                    .map(m -> m.getId())
+                    .orElse(StringUtils.EMPTY);
             if (JinqStream.from(permissionList)
-                    .where(s -> StringUtils.equals(s.getPermission().getName(), permission.getPermission()))
+                    .where(s -> StringUtils.equals(s.getPermission().getName(), permissionModel.getPermission()))
                     .where(s -> StringUtils.equals(
                             Optional.ofNullable(s)
                                     .map(m -> m.getOrganize())
                                     .map(m -> m.getId())
                                     .orElse(StringUtils.EMPTY),
-                            Optional.ofNullable(permission)
-                                    .map(m -> m.getOrganize())
-                                    .map(m -> m.getId())
-                                    .orElse(StringUtils.EMPTY)
+                            organizeId
                     ))
-                    .exists()) {
+                    .exists()
+            ) {
                 continue;
             }
-            this.permissionRelationService.create(roleEntity.getId(), permission.getOrganize(), SystemPermissionEnum.parse(permission.getPermission()));
+            this.permissionRelationService.create(roleEntity.getId(), permissionModel.getOrganize(), SystemPermissionEnum.parse(permissionModel.getPermission()));
         }
 
     }
@@ -218,73 +223,69 @@ public class RoleService extends BaseService {
     @Transactional(readOnly = true)
     public void checkCanChangePermissions(HttpServletRequest request, List<PermissionRelationModel> oldPermissions, List<PermissionRelationModel> newPermissions, SystemPermissionEnum... permissionList) {
         for (var permissionModel : newPermissions) {
+            var organizeId = Optional.ofNullable(permissionModel)
+                    .map(s -> s.getOrganize())
+                    .map(s -> s.getId())
+                    .orElse(StringUtils.EMPTY);
             this.validationFieldUtil.checkNotBlankOfPermission(permissionModel.getPermission());
 
             if (ObjectUtil.isNull(EnumUtil.getBy(SystemPermissionEnum::getValue, permissionModel.getPermission()))) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permission does not exist");
             }
 
-            if (Optional.ofNullable(permissionModel)
-                    .map(s -> s.getOrganize())
-                    .map(s -> s.getId())
-                    .filter(StringUtils::isNotBlank)
-                    .isEmpty() && !SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSuperAdmin()
+            if (StringUtils.isBlank(organizeId) && !SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSuperAdmin()
             ) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permissions must be associated with an organization");
             }
 
-            if (Optional.ofNullable(permissionModel)
-                    .map(s -> s.getOrganize())
-                    .map(s -> s.getId())
-                    .filter(StringUtils::isNotBlank)
-                    .isPresent() && SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSuperAdmin()
+            if (StringUtils.isNotBlank(organizeId) && SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSuperAdmin()
             ) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permissions must not be associated with an organization");
             }
         }
 
         for (var oldPermissionModel : oldPermissions) {
-            if (JinqStream.from(newPermissions)
-                    .where(s -> StringUtils.equals(s.getPermission(), oldPermissionModel.getPermission()))
-                    .where(s -> StringUtils.equals(
-                            Optional.ofNullable(s)
-                                    .map(m -> m.getOrganize())
-                                    .map(m -> m.getId())
-                                    .orElse(StringUtils.EMPTY),
-                            Optional.ofNullable(oldPermissionModel)
-                                    .map(m -> m.getOrganize())
-                                    .map(m -> m.getId())
-                                    .orElse(StringUtils.EMPTY)
-                    ))
-                    .exists()) {
-                continue;
-            }
             var organizeId = Optional.ofNullable(oldPermissionModel)
                     .map(s -> s.getOrganize())
                     .map(s -> s.getId())
                     .orElse(StringUtils.EMPTY);
-            this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
-        }
-        for (var newPermissionModel : newPermissions) {
-            if (JinqStream.from(oldPermissions)
-                    .where(s -> StringUtils.equals(s.getPermission(), newPermissionModel.getPermission()))
+            var permission = oldPermissionModel.getPermission();
+            if (JinqStream.from(newPermissions)
+                    .where(s -> StringUtils.equals(s.getPermission(), permission))
                     .where(s -> StringUtils.equals(
                             Optional.ofNullable(s)
                                     .map(m -> m.getOrganize())
                                     .map(m -> m.getId())
                                     .orElse(StringUtils.EMPTY),
-                            Optional.ofNullable(newPermissionModel)
-                                    .map(m -> m.getOrganize())
-                                    .map(m -> m.getId())
-                                    .orElse(StringUtils.EMPTY)
+                            organizeId
                     ))
-                    .exists()) {
+                    .exists()
+            ) {
                 continue;
             }
+
+            this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
+        }
+        for (var newPermissionModel : newPermissions) {
             var organizeId = Optional.ofNullable(newPermissionModel)
                     .map(s -> s.getOrganize())
                     .map(s -> s.getId())
                     .orElse(StringUtils.EMPTY);
+            var permission = newPermissionModel.getPermission();
+            if (JinqStream.from(oldPermissions)
+                    .where(s -> StringUtils.equals(s.getPermission(), permission))
+                    .where(s -> StringUtils.equals(
+                            Optional.ofNullable(s)
+                                    .map(m -> m.getOrganize())
+                                    .map(m -> m.getId())
+                                    .orElse(StringUtils.EMPTY),
+                            organizeId
+                    ))
+                    .exists()
+            ) {
+                continue;
+            }
+
             this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
         }
     }
@@ -297,10 +298,9 @@ public class RoleService extends BaseService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while initializing the super administrator role");
         }
 
-        if (this.streamAll(RoleEntity.class)
-                .where(s -> s.getIsDeleted().equals(false))
-                .selectAllList(s -> s.getPermissionRelationList())
+        if (this.streamAll(PermissionRelationEntity.class)
                 .where(s -> s.getPermission().getName().equals(permissionName))
+                .where(s -> s.getRole().getIsDeleted().equals(false))
                 .exists()) {
             return;
         }
