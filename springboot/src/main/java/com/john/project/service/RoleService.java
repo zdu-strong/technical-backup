@@ -71,19 +71,18 @@ public class RoleService extends BaseService {
 
         for (var permission : permissionList) {
             if (JinqStream.from(roleModel.getPermissionList())
-                    .where(s -> ObjectUtil.equals(permission.getPermission(), s.getPermission()))
-                    .where(s -> ObjectUtil.equals(
-                            Optional.ofNullable(permission.getOrganize()).map(m -> m.getId()).orElse(null),
-                            Optional.ofNullable(s.getOrganize())
-                                    .map(m -> Optional.ofNullable(m.getId()))
-                                    .filter(m -> m.isPresent())
-                                    .map(m -> m.get())
-                                    .filter(StringUtils::isNotBlank)
-                                    .orElse(null)
-
+                    .where(s -> StringUtils.equals(s.getPermission(), permission.getPermission().getName()))
+                    .where(s -> StringUtils.equals(
+                            Optional.ofNullable(s)
+                                    .map(m -> m.getOrganize())
+                                    .map(m -> m.getId())
+                                    .orElse(StringUtils.EMPTY),
+                            Optional.ofNullable(permission)
+                                    .map(m -> m.getOrganize())
+                                    .map(m -> m.getId())
+                                    .orElse(StringUtils.EMPTY)
                     ))
-                    .exists()
-            ) {
+                    .exists()) {
                 continue;
             }
             this.remove(permission);
@@ -91,18 +90,18 @@ public class RoleService extends BaseService {
 
         for (var permission : roleModel.getPermissionList()) {
             if (JinqStream.from(permissionList)
-                    .where(s -> ObjectUtil.equals(permission.getPermission(), s.getPermission()))
-                    .where(s -> ObjectUtil.equals(
-                            Optional.ofNullable(permission.getOrganize())
-                                    .map(m -> Optional.ofNullable(m.getId()))
-                                    .filter(m -> m.isPresent())
-                                    .map(m -> m.get())
-                                    .filter(StringUtils::isNotBlank)
-                                    .orElse(null),
-                            Optional.ofNullable(s.getOrganize()).map(m -> m.getId()).orElse(null)
+                    .where(s -> StringUtils.equals(s.getPermission().getName(), permission.getPermission()))
+                    .where(s -> StringUtils.equals(
+                            Optional.ofNullable(s)
+                                    .map(m -> m.getOrganize())
+                                    .map(m -> m.getId())
+                                    .orElse(StringUtils.EMPTY),
+                            Optional.ofNullable(permission)
+                                    .map(m -> m.getOrganize())
+                                    .map(m -> m.getId())
+                                    .orElse(StringUtils.EMPTY)
                     ))
-                    .exists()
-            ) {
+                    .exists()) {
                 continue;
             }
             this.permissionRelationService.create(roleEntity.getId(), permission.getOrganize(), SystemPermissionEnum.parse(permission.getPermission()));
@@ -206,7 +205,7 @@ public class RoleService extends BaseService {
                 stream = stream.where(s -> !s.getRole().getId().equals(roleId));
             }
 
-            if (StringUtils.isBlank(organizeId)) {
+            if (StringUtils.isNotBlank(organizeId)) {
                 stream = stream.where(s -> s.getOrganize().getId().equals(organizeId));
             }
 
@@ -264,11 +263,7 @@ public class RoleService extends BaseService {
                     .map(s -> s.getOrganize())
                     .map(s -> s.getId())
                     .orElse(StringUtils.EMPTY);
-            if (StringUtils.isBlank(organizeId)) {
-                this.permissionUtil.checkAnyPermission(request, permissionList);
-            } else {
-                this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
-            }
+            this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
         }
         for (var newPermissionModel : newPermissions) {
             if (JinqStream.from(oldPermissions)
@@ -290,11 +285,7 @@ public class RoleService extends BaseService {
                     .map(s -> s.getOrganize())
                     .map(s -> s.getId())
                     .orElse(StringUtils.EMPTY);
-            if (StringUtils.isBlank(organizeId)) {
-                this.permissionUtil.checkAnyPermission(request, permissionList);
-            } else {
-                this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
-            }
+            this.permissionUtil.checkAnyPermission(request, organizeId, permissionList);
         }
     }
 
