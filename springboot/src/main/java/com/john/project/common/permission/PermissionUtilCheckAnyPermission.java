@@ -25,4 +25,11 @@ public abstract class PermissionUtilCheckAnyPermission extends PermissionUtilIsH
         }
     }
 
+    public void checkAnyPermissionByDownstreamMember(HttpServletRequest request, String organizeId,
+                                               SystemPermissionEnum... permissionList) {
+        if (!this.hasAnyPermissionByDownstreamMember(request, organizeId, permissionList)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+    }
+
 }

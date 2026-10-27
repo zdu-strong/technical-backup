@@ -30,6 +30,7 @@ public abstract class PermissionUtilGetOrganizeIdList extends PermissionUtilGetU
                     return ArrayUtils.contains(permissionList, permission) && !permission.getIsSuperAdmin();
                 })
                 .select(s -> s.getOrganize().getId())
+                .distinct()
                 .toList();
         return organizeIdList;
     }

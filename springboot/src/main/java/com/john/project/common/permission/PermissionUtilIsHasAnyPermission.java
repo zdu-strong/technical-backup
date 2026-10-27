@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Component
 public abstract class PermissionUtilIsHasAnyPermission extends PermissionUtilIsSign {
 
-    public boolean hasAnyPermission(HttpServletRequest request, SystemPermissionEnum... permissionList) {
+    protected boolean hasAnyPermission(HttpServletRequest request, SystemPermissionEnum... permissionList) {
         if (permissionList.length == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be empty");
         }
@@ -27,16 +27,13 @@ public abstract class PermissionUtilIsHasAnyPermission extends PermissionUtilIsS
         return hasAnyPermission;
     }
 
-    public boolean hasAnyPermission(HttpServletRequest request, String organizeId,
-                                    SystemPermissionEnum... permissionList) {
+    protected boolean hasAnyPermission(HttpServletRequest request, String organizeId,
+                                       SystemPermissionEnum... permissionList) {
         if (StringUtils.isBlank(organizeId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OrganizeId Cannot be empty");
         }
         if (permissionList.length == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be empty");
-        }
-        if (Arrays.stream(permissionList).anyMatch(s -> !s.getIsOrganizePermission() && !s.getIsSuperAdmin())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not a superAdmin and not an organize role");
         }
         var userId = this.getUserId(request);
         var user = this.userService.getUserWithMoreInformation(userId);
@@ -51,6 +48,43 @@ public abstract class PermissionUtilIsHasAnyPermission extends PermissionUtilIsS
         var ancestorIdList = this.organizeService.getAccestorIdList(organizeId);
         if (JinqStream.from(ancestorIdList).anyMatch(s -> organizeIdList.contains(s))) {
             return true;
+        }
+
+        return false;
+    }
+
+    protected boolean hasAnyPermissionByDownstreamMember(HttpServletRequest request, String organizeId,
+                                                           SystemPermissionEnum... permissionList) {
+        if (StringUtils.isBlank(organizeId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OrganizeId Cannot be empty");
+        }
+        if (permissionList.length == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be empty");
+        }
+        var userId = this.getUserId(request);
+        var user = this.userService.getUserWithMoreInformation(userId);
+
+        if (Arrays.stream(permissionList).anyMatch(s -> s.getIsSuperAdmin())
+                && JinqStream.from(convertToPermissionList(user))
+                .select(s -> SystemPermissionEnum.parse(s.getPermission()))
+                .anyMatch(s -> s.getIsSuperAdmin())) {
+            return true;
+        }
+
+        if (JinqStream.from(this.convertToIdentityCardlList(user))
+                .where(s -> ArrayUtils.contains(permissionList, SystemPermissionEnum.parse(s.getIdentityType())))
+                .where(s -> StringUtils.equals(s.getTopOrganize().getId(), organizeId))
+                .exists()
+        ) {
+            return true;
+        }
+
+        var organizeIdList = this.getOrganizeIdListByAnyPermission(request, permissionList);
+        for (var descendantId : organizeIdList) {
+            var ancestorIdList = this.organizeService.getAccestorIdList(descendantId);
+            if (ancestorIdList.contains(organizeId)) {
+                return true;
+            }
         }
 
         return false;

@@ -67,7 +67,10 @@ public abstract class PermissionUtilBase {
     }
 
     protected List<IdentityCardModel> convertToIdentityCardlList(UserModel user) {
-        return JinqStream.from(user.getIdentityCardList())
+        var identityCardList = Optional.ofNullable(user)
+                .map(s -> s.getIdentityCardList())
+                .orElse(new ArrayList<>());
+        return JinqStream.from(identityCardList)
                 .where(s -> ObjectUtil.isNotNull(EnumUtil.getBy(SystemPermissionEnum::getValue, s.getIdentityType())))
                 .toList();
     }
