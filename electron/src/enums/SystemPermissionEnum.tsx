@@ -15,7 +15,7 @@ export class SystemPermissionEnum {
     value!: string;
 
     @jsonMember(Boolean)
-    isSuperAdmin!: boolean;
+    isSystemPermission!: boolean;
 
     @jsonMember(Boolean)
     isOrganizePermission!: boolean;
@@ -30,10 +30,10 @@ export class SystemPermissionEnum {
             .filter(s => s instanceof SystemPermissionEnum);
     }
 
-    constructor(value: string, isSuperAdmin: boolean, isOrganizePermission: boolean) {
+    constructor(value: string, isSystemPermission: boolean, isOrganizePermission: boolean) {
         makeAutoObservable(this);
         this.value = value;
-        this.isSuperAdmin = isSuperAdmin;
+        this.isSystemPermission = isSystemPermission;
         this.isOrganizePermission = isOrganizePermission;
     }
 }

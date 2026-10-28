@@ -31,7 +31,7 @@ public enum SystemPermissionEnum {
     ;
 
     private String value;
-    private Boolean isSuperAdmin;
+    private Boolean isSystemPermission;
     private Boolean isOrganizePermission;
     private Boolean isIdentityCardPermission;
     private List<OrganizeTypeEnum> organizeType;

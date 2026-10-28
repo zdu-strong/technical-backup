@@ -172,7 +172,7 @@ public class RoleService extends BaseService {
         var roleName = SuperAdminRoleNameConstant.SUPER_ADMINISTRATOR;
         var permissionName = SystemPermissionEnum.SUPER_ADMIN.getValue();
 
-        if (!SystemPermissionEnum.SUPER_ADMIN.getIsSuperAdmin()) {
+        if (!SystemPermissionEnum.SUPER_ADMIN.getIsSystemPermission()) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while initializing the super administrator role");
         }
 

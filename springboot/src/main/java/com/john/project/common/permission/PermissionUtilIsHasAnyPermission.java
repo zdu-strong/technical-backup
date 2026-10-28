@@ -38,10 +38,12 @@ public abstract class PermissionUtilIsHasAnyPermission extends PermissionUtilIsS
         var userId = this.getUserId(request);
         var user = this.userService.getUserWithMoreInformation(userId);
 
-        if (Arrays.stream(permissionList).anyMatch(s -> s.getIsSuperAdmin())
-                && JinqStream.from(convertToPermissionList(user))
+        if (JinqStream.from(convertToPermissionList(user))
                 .select(s -> SystemPermissionEnum.parse(s.getPermission()))
-                .anyMatch(s -> s.getIsSuperAdmin())) {
+                .where(s -> ArrayUtils.contains(permissionList, s))
+                .where(s -> s.getIsSystemPermission())
+                .exists()
+        ) {
             return true;
         }
         var organizeIdList = this.getOrganizeIdListByAnyPermission(request, permissionList);
@@ -54,7 +56,7 @@ public abstract class PermissionUtilIsHasAnyPermission extends PermissionUtilIsS
     }
 
     protected boolean hasAnyPermissionByDownstreamMember(HttpServletRequest request, String organizeId,
-                                                           SystemPermissionEnum... permissionList) {
+                                                         SystemPermissionEnum... permissionList) {
         if (StringUtils.isBlank(organizeId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OrganizeId Cannot be empty");
         }
@@ -64,10 +66,12 @@ public abstract class PermissionUtilIsHasAnyPermission extends PermissionUtilIsS
         var userId = this.getUserId(request);
         var user = this.userService.getUserWithMoreInformation(userId);
 
-        if (Arrays.stream(permissionList).anyMatch(s -> s.getIsSuperAdmin())
-                && JinqStream.from(convertToPermissionList(user))
+        if (JinqStream.from(convertToPermissionList(user))
                 .select(s -> SystemPermissionEnum.parse(s.getPermission()))
-                .anyMatch(s -> s.getIsSuperAdmin())) {
+                .where(s -> ArrayUtils.contains(permissionList, s))
+                .where(s -> s.getIsSystemPermission())
+                .exists()
+        ) {
             return true;
         }
 

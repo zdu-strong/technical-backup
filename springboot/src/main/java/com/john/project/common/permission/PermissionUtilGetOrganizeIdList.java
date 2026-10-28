@@ -27,7 +27,7 @@ public abstract class PermissionUtilGetOrganizeIdList extends PermissionUtilGetU
         var organizeIdList = JinqStream.from(convertToPermissionList(user))
                 .where(s -> {
                     var permission = SystemPermissionEnum.parse(s.getPermission());
-                    return ArrayUtils.contains(permissionList, permission) && !permission.getIsSuperAdmin();
+                    return ArrayUtils.contains(permissionList, permission) && !permission.getIsSystemPermission();
                 })
                 .select(s -> s.getOrganize().getId())
                 .distinct()

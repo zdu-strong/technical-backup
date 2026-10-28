@@ -38,7 +38,7 @@ public abstract class ValidationFieldUtilPermissionRelation extends ValidationFi
 
         for (var permissionModel : newPermissions) {
             var permission = SystemPermissionEnum.parse(permissionModel.getPermission());
-            if (!permission.getIsSuperAdmin() && !permission.getIsOrganizePermission()) {
+            if (!permission.getIsSystemPermission() && !permission.getIsOrganizePermission()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown permission type");
             }
         }
@@ -99,12 +99,12 @@ public abstract class ValidationFieldUtilPermissionRelation extends ValidationFi
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permission does not exist");
             }
 
-            if (StringUtils.isBlank(organizeId) && !SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSuperAdmin()
+            if (StringUtils.isBlank(organizeId) && !SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSystemPermission()
             ) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permissions must be associated with an organization");
             }
 
-            if (StringUtils.isNotBlank(organizeId) && SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSuperAdmin()
+            if (StringUtils.isNotBlank(organizeId) && SystemPermissionEnum.parse(permissionModel.getPermission()).getIsSystemPermission()
             ) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permissions must not be associated with an organization");
             }

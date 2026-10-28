@@ -11,7 +11,7 @@ public class SystemRoleEnumOnlyOneSuperAdminTest extends BaseTest {
 
     @Test
     public void test() {
-        assertEquals(1, Arrays.stream(SystemPermissionEnum.values()).filter(s -> s.getIsSuperAdmin()).count());
+        assertEquals(1, Arrays.stream(SystemPermissionEnum.values()).filter(s -> s.getIsSystemPermission()).count());
     }
 
 }
