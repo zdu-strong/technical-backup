@@ -4,12 +4,12 @@ import com.john.project.enums.LongTermTaskTypeEnum;
 import com.john.project.model.LongTermTaskUniqueKeyModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Component
-public abstract class ValidationFieldUtilValidUrl extends ValidationFieldUtilCorrectFormat {
+@Service
+public abstract class ValidationFieldUtilValidUrl extends ValidationFieldUtilValidEmail {
 
     public void checkValidOfUrl(String url) {
         if (StringUtils.isBlank(url)) {

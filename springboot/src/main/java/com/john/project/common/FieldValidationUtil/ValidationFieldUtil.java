@@ -1,9 +1,9 @@
 package com.john.project.common.FieldValidationUtil;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class ValidationFieldUtil extends ValidationFieldUtilValidEnumValue {
+@Service
+public class ValidationFieldUtil extends ValidationFieldUtilCanMove {
 
 
 }

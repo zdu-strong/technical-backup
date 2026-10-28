@@ -158,67 +158,6 @@ public class OrganizeService extends BaseService {
         return this.organizeFormatter.format(organizeEntity);
     }
 
-    @Transactional(readOnly = true)
-    public void checkHasExistOfParentOrganize(OrganizeModel organizeModel) {
-        var parentOrganizeId = Optional.ofNullable(organizeModel.getParent())
-                .map(s -> s.getId())
-                .filter(s -> StringUtils.isNotBlank(s))
-                .orElse(null);
-        if (StringUtils.isBlank(parentOrganizeId)) {
-            return;
-        }
-        this.checkHasExistById(parentOrganizeId);
-    }
-
-    @Transactional(readOnly = true)
-    public void checkCanBeMoveOfOrganize(String id, String parentId) {
-        if (StringUtils.isBlank(parentId)) {
-            return;
-        }
-        if (id.equals(parentId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organize cannot be moved");
-        }
-        if (this.isChildOfOrganize(parentId, id)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organize cannot be moved");
-        }
-        var organizeEntity = this.streamAll(OrganizeEntity.class)
-                .where(s -> s.getId().equals(id))
-                .getOnlyValue();
-        if (organizeEntity.getIsTopOrganize()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organize cannot be moved");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkHasExistById(String id) {
-        if (StringUtils.isBlank(id)) {
-            return;
-        }
-        var hasExist = this.streamAll(OrganizeEntity.class)
-                .where(s -> s.getId().equals(id))
-                .filter(s -> this.organizeFormatter.isActive(s))
-                .findFirst()
-                .isPresent();
-        if (!hasExist) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Organize does not exist");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkCannotHasParentOrganizeById(String id) {
-        if (StringUtils.isBlank(id)) {
-            return;
-        }
-
-        var hasExist = this.streamAll(OrganizeEntity.class)
-                .where(s -> s.getId().equals(id))
-                .where(s -> s.getIsTopOrganize())
-                .exists();
-        if (!hasExist) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot has parent organize");
-        }
-    }
-
     private OrganizeEntity getParentOrganize(OrganizeModel organizeModel) {
         var parentOrganizeId = Optional.ofNullable(organizeModel.getParent())
                 .map(s -> s.getId())

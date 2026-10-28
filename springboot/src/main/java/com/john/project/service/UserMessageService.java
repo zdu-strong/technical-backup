@@ -8,10 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.UserMessageModel;
@@ -112,39 +110,4 @@ public class UserMessageService extends BaseService {
         return userMessageWebSocketSendModel;
     }
 
-    @Transactional(readOnly = true)
-    public void checkExistsUserMessage(String id) {
-        var exists = this.streamAll(UserMessageEntity.class).where(s -> s.getId().equals(id)).exists();
-        if (!exists) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User message do not exists");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkCanRecallUserMessage(HttpServletRequest request, String id) {
-        var userMessageEntity = this.streamAll(UserMessageEntity.class)
-                .where(s -> s.getId().equals(id))
-                .getOnlyValue();
-        if (!userMessageEntity.getUser().getId().equals(this.permissionUtil.getUserId(request))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only recall your own messages");
-        }
-        if (userMessageEntity.getIsRecall()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot recall again");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkCanDeleteUserMessage(HttpServletRequest request, String id) {
-        var userId = this.permissionUtil.getUserId(request);
-        var exists = this.streamAll(UserMessageEntity.class)
-                .where(s -> s.getId().equals(id))
-                .where(s -> !s.getIsRecall())
-                .leftOuterJoin((s, t) -> JinqStream.from(s.getUserMessageDeactivateList()),
-                        (s, t) -> t.getUser().getId().equals(userId))
-                .where(s -> s.getTwo() == null)
-                .exists();
-        if (!exists) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot delete again");
-        }
-    }
 }

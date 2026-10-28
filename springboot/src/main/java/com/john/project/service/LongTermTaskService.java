@@ -132,19 +132,6 @@ public class LongTermTaskService extends BaseService {
         return null;
     }
 
-    @Transactional(readOnly = true)
-    public void checkHasExistById(String id) {
-        if (StringUtils.isBlank(id)) {
-            return;
-        }
-        var hasExist = this.streamAll(LongTermTaskEntity.class)
-                .where(s -> s.getId().equals(id))
-                .exists();
-        if (!hasExist) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The specified task does not exist");
-        }
-    }
-
     private LongTermTaskEntity createLongTermTaskByLongTermTaskUniqueKeyModel(LongTermTaskUniqueKeyModel longTermTaskUniqueKeyModel) {
         var uniqueKeyJsonString = this.longTermTaskFormatter
                 .formatLongTermTaskUniqueKey(longTermTaskUniqueKeyModel);

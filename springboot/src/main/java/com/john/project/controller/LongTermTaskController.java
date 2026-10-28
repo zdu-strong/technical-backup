@@ -2,6 +2,7 @@ package com.john.project.controller;
 
 import java.time.Duration;
 import java.util.Date;
+
 import org.apache.commons.lang3.ThreadUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,12 @@ public class LongTermTaskController extends BaseController {
     public ResponseEntity<?> getLongTermTaskIsDone(@RequestParam String encryptedId) {
         var id = this.encryptDecryptUtil.decryptByAES(encryptedId);
 
-        this.longTermTaskService
-                .checkHasExistById(id);
+        this.validationFieldUtil.checkExistsOfLongTermTask(id);
 
         var expireDate = DateUtils.addSeconds(new Date(), 30);
 
         while (true) {
-            var response = this.longTermTaskService
-                    .getLongTermTask(id);
+            var response = this.longTermTaskService.getLongTermTask(id);
             if (response.getBody() instanceof LongTermTaskModel) {
                 var longTermTaskResult = this.objectMapper.readValue(
                         this.objectMapper.writeValueAsString(response.getBody()),
@@ -52,7 +51,7 @@ public class LongTermTaskController extends BaseController {
      * asynchronous task api. Call them first, like this: (
      * this.longTermTaskUtil.run(()->{});). And then call this api for polling to
      * obtain the execution results.
-     * 
+     *
      */
     @GetMapping("/long-term-task")
     @SneakyThrows
@@ -60,11 +59,9 @@ public class LongTermTaskController extends BaseController {
 
         var id = this.encryptDecryptUtil.decryptByAES(encryptedId);
 
-        this.longTermTaskService
-                .checkHasExistById(id);
+        this.validationFieldUtil.checkExistsOfLongTermTask(id);
 
-        var response = this.longTermTaskService
-                .getLongTermTask(id);
+        var response = this.longTermTaskService.getLongTermTask(id);
         if (response.getBody() instanceof LongTermTaskModel) {
             var longTermTaskResult = this.objectMapper.readValue(
                     this.objectMapper.writeValueAsString(response.getBody()),

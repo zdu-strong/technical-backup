@@ -24,8 +24,8 @@ public class UserMessageController extends BaseController {
     @PostMapping("/user-message/recall")
     public ResponseEntity<?> recallMessage(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
-        this.userMessageService.checkExistsUserMessage(id);
-        this.userMessageService.checkCanRecallUserMessage(request, id);
+        this.validationFieldUtil.checkExistsOfUserMessage(id);
+        this.validationFieldUtil.checkCanRecallOfUserMessage(request, id);
 
         this.userMessageService.recallMessage(id);
         return ResponseEntity.ok().build();
@@ -34,8 +34,8 @@ public class UserMessageController extends BaseController {
     @PostMapping("/user-message/delete")
     public ResponseEntity<?> deleteMessage(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
-        this.userMessageService.checkExistsUserMessage(id);
-        this.userMessageService.checkCanDeleteUserMessage(request, id);
+        this.validationFieldUtil.checkExistsOfUserMessage(id);
+        this.validationFieldUtil.checkCanDeleteOfUserMessage(request, id);
 
         this.userMessageService.deleteMessage(request, id);
         return ResponseEntity.ok().build();

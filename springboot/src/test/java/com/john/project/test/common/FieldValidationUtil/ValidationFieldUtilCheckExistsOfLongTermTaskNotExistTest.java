@@ -1,4 +1,4 @@
-package com.john.project.test.service.LongTermTaskService;
+package com.john.project.test.common.FieldValidationUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,21 +8,21 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class LongTermTaskServiceCheckIsExistLongTermTaskByIdNotExistTest extends BaseTest {
+public class ValidationFieldUtilCheckExistsOfLongTermTaskNotExistTest extends BaseTest {
 
-    private String longTermtaskId;
+    private String longTermTaskId;
 
     @Test
     public void test() {
         assertThrowsExactly(ResponseStatusException.class, () -> {
-            this.longTermTaskService.checkHasExistById(this.longTermtaskId);
+            this.validationFieldUtil.checkExistsOfLongTermTask(this.longTermTaskId);
         });
 
     }
 
     @BeforeEach
     public void BeforeEach() {
-        this.longTermtaskId = this.uuidUtil.v4();
+        this.longTermTaskId = this.uuidUtil.v4();
     }
 
 }

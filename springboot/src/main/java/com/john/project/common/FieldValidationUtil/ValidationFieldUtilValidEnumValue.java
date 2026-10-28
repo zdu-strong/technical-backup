@@ -3,22 +3,19 @@ package com.john.project.common.FieldValidationUtil;
 import cn.hutool.core.util.EnumUtil;
 import com.john.project.enums.OrganizeTypeEnum;
 import com.john.project.model.OrganizeModel;
-import com.john.project.service.OrganizeService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
-public abstract class ValidationFieldUtilValidEnumValue extends ValidationFieldUtilMustBeNull {
+@Service
+public abstract class ValidationFieldUtilValidEnumValue extends ValidationFieldUtilCorrectFormat {
 
-    @Autowired
-    private OrganizeService organizeService;
-
+    @Transactional(readOnly = true)
     public void checkValidOfOrganizeType(OrganizeModel organizeModel) {
         if (StringUtils.isBlank(organizeModel.getOrganizeType())) {
             return;

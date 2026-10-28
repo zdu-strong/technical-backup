@@ -19,7 +19,7 @@ public class OrganizeController extends BaseController {
     @PostMapping("/organize/create")
     public ResponseEntity<?> create(@RequestBody OrganizeModel organizeModel) {
         this.permissionUtil.checkIsSignIn(request);
-        this.validationFieldUtil.checkMustBeNullOfId(organizeModel.getId());
+        this.validationFieldUtil.checkNullOfId(organizeModel.getId());
         this.permissionUtil.checkAnyPermission(request,
                 Optional.ofNullable(organizeModel.getParent())
                         .map(s -> s.getId())
@@ -28,7 +28,7 @@ public class OrganizeController extends BaseController {
                 SystemPermissionEnum.ORGANIZE_OWNER);
         this.validationFieldUtil.checkNotBlankOfOrganizeType(organizeModel.getOrganizeType());
         this.validationFieldUtil.checkValidOfOrganizeType(organizeModel);
-        this.organizeService.checkHasExistOfParentOrganize(organizeModel);
+        this.validationFieldUtil.checkNotDeletedOfOrganizeByParentOrganize(organizeModel);
 
         var organize = this.organizeUtil.create(organizeModel);
         return ResponseEntity.ok(organize);
@@ -42,9 +42,9 @@ public class OrganizeController extends BaseController {
                 organizeModel.getId(),
                 SystemPermissionEnum.SUPER_ADMIN,
                 SystemPermissionEnum.ORGANIZE_OWNER);
+        this.validationFieldUtil.checkNotDeletedOfOrganize(organizeModel.getId());
 //        this.validationFieldUtil.checkNotBlankOfOrganizeType(organizeModel.getOrganizeType());
 //        this.validationFieldUtil.checkValidOfOrganizeType(organizeModel);
-        this.organizeService.checkHasExistById(organizeModel.getId());
 
         this.organizeUtil.update(organizeModel);
         return ResponseEntity.ok().build();
@@ -58,7 +58,7 @@ public class OrganizeController extends BaseController {
                 id,
                 SystemPermissionEnum.SUPER_ADMIN,
                 SystemPermissionEnum.ORGANIZE_OWNER);
-        this.organizeService.checkHasExistById(id);
+        this.validationFieldUtil.checkNotDeletedOfOrganize(id);
 
         this.organizeUtil.delete(id);
         return ResponseEntity.ok().build();
@@ -68,8 +68,8 @@ public class OrganizeController extends BaseController {
     public ResponseEntity<?> move(@RequestParam String id, @RequestParam(required = false) String parentId) {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfId(id);
-        this.organizeService.checkHasExistById(id);
-        this.organizeService.checkHasExistById(parentId);
+        this.validationFieldUtil.checkNotDeletedOfOrganize(id);
+        this.validationFieldUtil.checkNotDeletedOfOrganize(parentId);
         this.permissionUtil.checkAnyPermission(request,
                 id,
                 SystemPermissionEnum.SUPER_ADMIN,
@@ -88,7 +88,7 @@ public class OrganizeController extends BaseController {
     public ResponseEntity<?> getOrganizeById(@RequestParam String id) {
         this.permissionUtil.checkIsSignIn(request);
         this.validationFieldUtil.checkNotBlankOfId(id);
-        this.organizeService.checkHasExistById(id);
+        this.validationFieldUtil.checkExistsOfOrganize(id);
 
         var organizeModel = this.organizeService.getById(id);
         return ResponseEntity.ok(organizeModel);

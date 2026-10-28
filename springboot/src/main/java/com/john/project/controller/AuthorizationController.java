@@ -15,7 +15,7 @@ public class AuthorizationController extends BaseController {
     @PostMapping("/sign-in")
     @SneakyThrows
     public ResponseEntity<?> signIn(@RequestParam String username, @RequestParam String password) {
-        this.userService.checkExistAccount(username);
+        this.validationFieldUtil.checkExistsOfUserByAccount(username);
         var userId = this.userService.getUserId(username);
         var accessToken = this.tokenService.generateAccessToken(userId, this.tokenService.getEncryptedPassword(password));
         var user = this.userService.getUserWithMoreInformation(userId);
@@ -26,7 +26,7 @@ public class AuthorizationController extends BaseController {
     @PostMapping("/sign-in/ml-kem/one-time")
     @SneakyThrows
     public ResponseEntity<?> signInByMLKEMOneTime(@RequestParam String username, @RequestParam String password) {
-        this.userService.checkExistAccount(username);
+        this.validationFieldUtil.checkExistsOfUserByAccount(username);
         var userId = this.userService.getUserId(username);
         var accessToken = this.tokenService.generateAccessToken(userId, password);
         var user = this.userService.getUserWithMoreInformation(userId);
@@ -48,9 +48,9 @@ public class AuthorizationController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfNickname(userModel.getUsername());
         this.validationFieldUtil.checkNotEdgesSpaceOfUsername(userModel.getUsername());
         this.validationFieldUtil.checkNotBlankOfPassword(userModel.getPassword());
-        this.userService.checkValidEmail(userModel);
-        this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
-        this.userService.checkExistUsername(userModel.getUsername());
+        this.validationFieldUtil.checkValidOfUserByEmail(userModel);
+        this.validationFieldUtil.checkEmptyOfRoleList(userModel);
+        this.validationFieldUtil.checkNotExistsOfUserByUsername(userModel.getUsername());
 
         var user = this.userService.create(userModel);
         user.setAccessToken(this.tokenService.generateAccessToken(user.getId()));
@@ -62,9 +62,9 @@ public class AuthorizationController extends BaseController {
         this.validationFieldUtil.checkNotBlankOfNickname(userModel.getUsername());
         this.validationFieldUtil.checkNotEdgesSpaceOfUsername(userModel.getUsername());
         this.validationFieldUtil.checkNotBlankOfPassword(userModel.getPassword());
-        this.userService.checkValidEmail(userModel);
-        this.userService.checkUserRoleRelationListMustBeEmpty(userModel);
-        this.userService.checkExistUsername(userModel.getUsername());
+        this.validationFieldUtil.checkValidOfUserByEmail(userModel);
+        this.validationFieldUtil.checkEmptyOfRoleList(userModel);
+        this.validationFieldUtil.checkNotExistsOfUserByUsername(userModel.getUsername());
 
         userModel.setPassword(this.tokenService.getEncryptedPassword(userModel.getPassword()));
         var user = this.userService.create(userModel);

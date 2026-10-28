@@ -3,8 +3,8 @@ package com.john.project.common.OrganizeUtil;
 import java.util.ArrayDeque;
 import java.util.Date;
 
+import com.john.project.common.FieldValidationUtil.ValidationFieldUtil;
 import com.john.project.model.OrganizeModel;
-import com.john.project.service.PermissionRelationService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +31,22 @@ public class OrganizeUtil {
     private OrganizeRelationService organizeRelationService;
 
     @Autowired
-    private PermissionRelationService permissionRelationService;
+    private LongTermTaskUtil longTermTaskUtil;
 
     @Autowired
-    private LongTermTaskUtil longTermTaskUtil;
+    private ValidationFieldUtil validationFieldUtil;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     public void move(String id, String parentId) {
-        this.organizeService.checkCanBeMoveOfOrganize(id, parentId);
+        this.validationFieldUtil.checkCanBeMoveOfOrganize(id, parentId);
         var expectException = new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 "Too many requests to move the organize, please wait a minute and try again");
         var uniqueKeyList = this.getUniqueKeyList(id, parentId);
         this.longTermTaskUtil.runRetryWhenExists(() -> {
             this.checkUniqueKeyList(id, parentId, uniqueKeyList);
-            this.organizeService.checkCanBeMoveOfOrganize(id, parentId);
+            this.validationFieldUtil.checkCanBeMoveOfOrganize(id, parentId);
             this.organizeService.move(id, parentId);
         }, expectException, uniqueKeyList);
 

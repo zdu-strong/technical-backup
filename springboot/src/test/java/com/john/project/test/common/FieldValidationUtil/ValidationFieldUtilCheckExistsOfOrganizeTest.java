@@ -1,4 +1,4 @@
-package com.john.project.test.service.OrganizeService;
+package com.john.project.test.common.FieldValidationUtil;
 
 import com.john.project.enums.OrganizeTypeEnum;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import com.john.project.model.OrganizeModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class OrganizeServiceCheckExistOrganizeTest extends BaseTest {
+public class ValidationFieldUtilCheckExistsOfOrganizeTest extends BaseTest {
     private String organizeId;
 
     @Test
     public void test() {
-        this.organizeService.checkHasExistById(this.organizeId);
+        this.validationFieldUtil.checkExistsOfOrganize(this.organizeId);
     }
 
     @BeforeEach

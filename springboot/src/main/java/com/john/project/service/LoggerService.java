@@ -9,6 +9,7 @@ import com.john.project.model.LoggerModel;
 import com.john.project.model.PaginationModel;
 
 import lombok.SneakyThrows;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoggerService extends BaseService {
@@ -37,6 +38,7 @@ public class LoggerService extends BaseService {
         return this.loggerFormatter.format(loggerEntity);
     }
 
+    @Transactional(readOnly = true)
     public PaginationModel<LoggerModel> searchByPagination(long pageNum, long pageSize, String message) {
         var stream = this.streamAll(LoggerEntity.class)
                 .where(s -> s.getMessage().contains(message));

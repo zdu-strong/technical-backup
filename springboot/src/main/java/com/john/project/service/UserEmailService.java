@@ -59,16 +59,4 @@ public class UserEmailService extends BaseService {
         }
     }
 
-    @Transactional(readOnly = true)
-    public void checkIsNotUsedOfEmail(String email) {
-        var isPresent = this.streamAll(UserEmailEntity.class)
-                .where(s -> s.getEmail().equals(email))
-                .where(s -> !s.getIsDeleted())
-                .where(s -> !s.getUser().getIsDeleted())
-                .exists();
-        if (isPresent) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail " + email + " has bound account");
-        }
-    }
-
 }

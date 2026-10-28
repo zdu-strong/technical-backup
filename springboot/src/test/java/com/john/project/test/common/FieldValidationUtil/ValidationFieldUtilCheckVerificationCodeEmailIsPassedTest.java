@@ -1,4 +1,4 @@
-package com.john.project.test.service.VerificationCodeEmailService;
+package com.john.project.test.common.FieldValidationUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,13 +9,12 @@ import org.junit.jupiter.api.Test;
 import com.john.project.model.VerificationCodeEmailModel;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class VerificationCodeEmailServiceCheckVerificationCodeEmailIsPassedTest extends BaseTest {
+public class ValidationFieldUtilCheckVerificationCodeEmailIsPassedTest extends BaseTest {
     private VerificationCodeEmailModel verificationCodeEmailModel;
 
     @Test
     public void test() {
-        this.verificationCodeEmailService
-                .checkVerificationCodeEmailIsPassed(this.verificationCodeEmailModel);
+        this.validationFieldUtil.checkPassedOfVerificationCodeEmail(this.verificationCodeEmailModel);
     }
 
     @BeforeEach
@@ -33,7 +32,7 @@ public class VerificationCodeEmailServiceCheckVerificationCodeEmailIsPassedTest 
         assertNotNull(result.getCreateDate());
         assertNotNull(result.getUpdateDate());
         this.verificationCodeEmailModel = result;
-        this.verificationCodeEmailService.checkVerificationCodeEmailHasBeenUsed(this.verificationCodeEmailModel);
+        this.validationFieldUtil.checkNotUsedOfVerificationCodeEmail(this.verificationCodeEmailModel);
     }
 
 }

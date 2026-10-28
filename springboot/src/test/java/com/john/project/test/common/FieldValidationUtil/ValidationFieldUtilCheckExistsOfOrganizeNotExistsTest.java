@@ -1,4 +1,4 @@
-package com.john.project.test.service.OrganizeService;
+package com.john.project.test.common.FieldValidationUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,12 +7,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class OrganizeServiceCheckExistOrganizeNotExistOrganizeTest extends BaseTest {
+public class ValidationFieldUtilCheckExistsOfOrganizeNotExistsTest extends BaseTest {
 
     @Test
     public void test() {
         assertThrows(ResponseStatusException.class, () -> {
-            this.organizeService.checkHasExistById(uuidUtil.v4());
+            this.validationFieldUtil.checkExistsOfOrganize(uuidUtil.v4());
         });
     }
 

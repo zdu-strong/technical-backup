@@ -1,15 +1,15 @@
-package com.john.project.test.service.UserService;
+package com.john.project.test.common.FieldValidationUtil;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.john.project.test.common.BaseTest.BaseTest;
 
-public class UserServiceCheckExistAccountTest extends BaseTest {
+public class ValidationFieldUtilCheckExistsOfUserByAccountTest extends BaseTest {
     private String email;
 
     @Test
     public void test() {
-        this.userService.checkExistAccount(this.email);
+        this.validationFieldUtil.checkExistsOfUserByAccount(this.email);
     }
 
     @BeforeEach

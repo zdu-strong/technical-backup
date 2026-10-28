@@ -1,31 +1,21 @@
 package com.john.project.service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.auth0.jwt.JWT;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
-import com.john.project.model.PermissionRelationModel;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import com.john.project.common.baseService.BaseService;
-import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.PaginationModel;
 import com.john.project.model.UserModel;
-import cn.hutool.core.text.StrFormatter;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService extends BaseService {
@@ -36,15 +26,7 @@ public class UserService extends BaseService {
 
     @Autowired
     @Lazy
-    private VerificationCodeEmailService verificationCodeEmailService;
-
-    @Autowired
-    @Lazy
     private UserEmailService userEmailService;
-
-    @Autowired
-    @Lazy
-    private RoleService roleService;
 
     @Autowired
     @Lazy
@@ -189,137 +171,6 @@ public class UserService extends BaseService {
                 .where(s -> !s.getIsDeleted())
                 .sortedDescendingBy(s -> s.getCreateDate());
         return new PaginationModel<>(query, stream, this.userFormatter::format);
-    }
-
-    @Transactional(readOnly = true)
-    public void checkValidEmail(UserModel userModel) {
-        for (var userEmail : userModel.getUserEmailList()) {
-            this.validationFieldUtil.checkNotBlankOfEmail(userEmail.getEmail());
-            this.validationFieldUtil.checkCorrectFormatOfEmail(userEmail.getEmail());
-
-            if (StringUtils.isNotBlank(userModel.getId())) {
-                var user = this.getUserWithMoreInformation(userModel.getId());
-                if (user.getUserEmailList().stream().anyMatch(s -> ObjectUtil.equals(s.getEmail(), userEmail.getEmail()))) {
-                    continue;
-                }
-            }
-
-            if (StringUtils.isBlank(userEmail.getVerificationCodeEmail().getVerificationCode())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        StrFormatter.format("The verification code of email {} cannot be empty", userEmail.getEmail()));
-            }
-
-            userEmail.getVerificationCodeEmail().setEmail(userEmail.getEmail());
-
-            this.verificationCodeEmailService
-                    .checkVerificationCodeEmailHasBeenUsed(userEmail.getVerificationCodeEmail());
-
-            this.verificationCodeEmailService
-                    .checkVerificationCodeEmailIsPassed(userEmail.getVerificationCodeEmail());
-
-            this.userEmailService.checkIsNotUsedOfEmail(userEmail.getEmail());
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkExistUserById(String id) {
-        if (!hasExistsUserId(id)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exist");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkExistUserByIdWhetherDeleted(String id) {
-        if (!this.streamAll(UserEntity.class)
-                .where(s -> s.getId().equals(id))
-                .exists()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exist");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkExistAccount(String account) {
-        if (!hasExistsUserId(account) && !hasExistEmail(account) && !hasExistUsername(account)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect username or password");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkExistUsername(String username) {
-        if (hasExistUsername(username)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already used");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void checkExistUsername(String username, String userId) {
-        if (hasExistUsername(username, userId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already used");
-        }
-    }
-
-    private boolean hasExistUsername(String username, String userId) {
-        var exists = this.streamAll(UserEntity.class)
-                .where(s -> s.getUsernameLowerCase().equals(username.toLowerCase()))
-                .where(s -> !s.getId().equals(userId))
-                .exists();
-        return exists;
-    }
-
-    private boolean hasExistUsername(String username) {
-        var exists = this.streamAll(UserEntity.class)
-                .where(s -> s.getUsernameLowerCase().equals(username.toLowerCase()))
-                .exists();
-        return exists;
-    }
-
-    private boolean hasExistsUserId(String userId) {
-        var exists = this.streamAll(UserEntity.class)
-                .where(s -> s.getId().equals(userId))
-                .where(s -> !s.getIsDeleted())
-                .exists();
-        return exists;
-    }
-
-    private boolean hasExistEmail(String email) {
-        var exists = this.streamAll(UserEmailEntity.class)
-                .where(s -> s.getEmail().equals(email))
-                .where(s -> !s.getIsDeleted())
-                .where(s -> !s.getUser().getIsDeleted())
-                .exists();
-        return exists;
-    }
-
-    @Transactional(readOnly = true)
-    public void checkRoleRelation(HttpServletRequest request, UserModel user) {
-        if (ObjectUtil.isNull(user.getRoleList())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList cannot be null");
-        }
-
-        var userId = Optional.ofNullable(user)
-                .map(s -> s.getId())
-                .orElse(StringUtils.EMPTY);
-        List<PermissionRelationModel> oldPermissions = new ArrayList<>();
-        if (StringUtils.isNotBlank(userId)) {
-            oldPermissions = this.streamAll(UserEntity.class)
-                    .where(s -> s.getId().equals(userId))
-                    .findOne()
-                    .map(this.userFormatter::formatWithMoreInformation)
-                    .map(this.permissionUtil::convertToPermissionList)
-                    .get();
-        }
-        var newPermissions = this.permissionUtil.convertToPermissionList(user);
-        this.roleService.checkCanChangePermissions(request, oldPermissions, newPermissions, SystemPermissionEnum.SUPER_ADMIN, SystemPermissionEnum.ORGANIZE_OWNER);
-    }
-
-    @Transactional(readOnly = true)
-    public void checkUserRoleRelationListMustBeEmpty(UserModel user) {
-        if (ObjectUtil.isEmpty(user.getRoleList())) {
-            user.setRoleList(List.of());
-        }
-        if (!ObjectUtil.isEmpty(user.getRoleList())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "roleList must be empty");
-        }
     }
 
 }
