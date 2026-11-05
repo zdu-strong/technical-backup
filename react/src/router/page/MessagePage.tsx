@@ -1,5 +1,5 @@
 import CheckPermissionComponent from "@/common/Server/CheckPagePermissionComponent";
-import MessageEntry from "@component/Message/MessageEntry";
+import MessageEntry from "@/component/message/MessageEntry";
 
 export default <CheckPermissionComponent
     checkIsSignIn={true}

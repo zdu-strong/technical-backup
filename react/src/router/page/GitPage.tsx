@@ -1,5 +1,5 @@
 import CheckPermissionComponent from "@/common/Server/CheckPagePermissionComponent";
-import GitInfoComponent from "@component/GitInfo";
+import GitInfoComponent from "@/component/git-info";
 
 export default <CheckPermissionComponent
     checkIsSignIn={true}

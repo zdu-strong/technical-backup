@@ -5,10 +5,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.john.project.entity.OrganizeEntity;
 import com.john.project.entity.OrganizeRelationEntity;
 import com.john.project.enums.OrganizeTypeEnum;
+import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.SuperAdminOrganizeQueryPaginationModel;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -82,6 +85,21 @@ public class OrganizeService extends BaseService {
     public PaginationModel<OrganizeModel> searchOrganizeForSuperAdminByPagination(SuperAdminOrganizeQueryPaginationModel query) {
         var stream = this.streamAll(OrganizeEntity.class)
                 .where(s -> s.getIsTopOrganize())
+                .where(s -> s.getIsDeleted().equals(false))
+                .sortedDescendingBy(s -> s.getId())
+                .sortedDescendingBy(s -> s.getCreateDate());
+        return new PaginationModel<>(query, stream, this.organizeFormatter::format);
+    }
+
+    @Transactional(readOnly = true)
+    public PaginationModel<OrganizeModel> searchOrganizeForManageByPagination(HttpServletRequest request, SuperAdminOrganizeQueryPaginationModel query) {
+        var organizeIdList = this.permissionUtil.getOrganizeIdListByAnyPermission(request, SystemPermissionEnum.ORGANIZE_OWNER);
+        if (ObjectUtil.isEmpty(organizeIdList)) {
+            return new PaginationModel<>(query);
+        }
+
+        var stream = this.streamAll(OrganizeEntity.class)
+                .where(s -> organizeIdList.contains(s.getId()))
                 .where(s -> s.getIsDeleted().equals(false))
                 .sortedDescendingBy(s -> s.getId())
                 .sortedDescendingBy(s -> s.getCreateDate());

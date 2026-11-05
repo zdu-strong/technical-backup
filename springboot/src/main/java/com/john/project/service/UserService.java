@@ -2,10 +2,13 @@ package com.john.project.service;
 
 import java.util.Date;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.auth0.jwt.JWT;
 import com.john.project.entity.UserEmailEntity;
 import com.john.project.entity.UserEntity;
+import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.SuperAdminUserQueryPaginationModel;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.jinq.orm.stream.JinqStream;
@@ -167,6 +170,18 @@ public class UserService extends BaseService {
 
     @Transactional(readOnly = true)
     public PaginationModel<UserModel> searchForSuperAdminByPagination(SuperAdminUserQueryPaginationModel query) {
+        var stream = this.streamAll(UserEntity.class)
+                .where(s -> !s.getIsDeleted())
+                .sortedDescendingBy(s -> s.getCreateDate());
+        return new PaginationModel<>(query, stream, this.userFormatter::format);
+    }
+
+    @Transactional(readOnly = true)
+    public PaginationModel<UserModel> searchForManageByPagination(HttpServletRequest request, SuperAdminUserQueryPaginationModel query) {
+        var organizeIdList = this.permissionUtil.getOrganizeIdListByAnyPermission(request, SystemPermissionEnum.ORGANIZE_OWNER);
+        if (ObjectUtil.isEmpty(organizeIdList)) {
+            return new PaginationModel<>(query);
+        }
         var stream = this.streamAll(UserEntity.class)
                 .where(s -> !s.getIsDeleted())
                 .sortedDescendingBy(s -> s.getCreateDate());

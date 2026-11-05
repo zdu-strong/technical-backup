@@ -9,8 +9,8 @@ public class LongTermTaskServiceCreateLongTermTaskTest extends BaseTest {
 
     @Test
     public void test() {
-        var longTermtaskId = this.longTermTaskService.createLongTermTask();
-        assertNotNull(longTermtaskId);
+        var longTermTaskId = this.longTermTaskService.createLongTermTask();
+        assertNotNull(longTermTaskId);
     }
 
 }

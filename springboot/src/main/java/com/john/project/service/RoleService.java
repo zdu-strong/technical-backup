@@ -168,6 +168,43 @@ public class RoleService extends BaseService {
         return new PaginationModel<>(query, roleStream, this.roleFormatter::format);
     }
 
+    @Transactional(readOnly = true)
+    public PaginationModel<RoleModel> searchRoleForManageByPagination(HttpServletRequest request, SuperAdminRoleQueryPaginationModel query) {
+        var stream = this.streamAll(PermissionRelationEntity.class)
+                .join(s -> JinqStream.of(s.getRole()))
+                .join(s -> JinqStream.of(s.getOne().getPermission()))
+                .leftOuterJoin(s -> JinqStream.of(s.getOne().getOne().getOrganize()))
+                .select(s -> new Tuple3<>(s.getOne().getOne().getTwo(), s.getOne().getTwo(), s.getTwo()))
+                .leftOuterJoinList(s -> s.getThree().getAncestorList())
+                .leftOuterJoin(s -> JinqStream.of(s.getTwo().getAncestor()))
+                .select(s -> new Tuple3<>(s.getOne().getOne().getOne(), s.getOne().getOne().getTwo(), s.getTwo()))
+                .where(s -> !s.getOne().getIsDeleted());
+
+        if (StringUtils.isNotBlank(query.getOrganizeId())) {
+            var organizeId = query.getOrganizeId();
+            stream = stream.where(s -> s.getThree().getId().equals(organizeId));
+        }
+
+        if (CollectionUtils.isNotEmpty(query.getPermissionList())) {
+            var permissionList = query.getPermissionList();
+            stream = stream.where(s -> permissionList.contains(s.getTwo().getName()));
+        }
+
+        if (StringUtils.isNotBlank(query.getRoleName())) {
+            var roleName = query.getRoleName();
+            stream = stream.where(s -> JPQL.like(s.getOne().getName(), roleName + "%"));
+        }
+
+        if (ObjectUtil.isNotNull(query.getIsOnlySystemRole()) && query.getIsOnlySystemRole()) {
+            stream = stream.where(s -> s.getOne().getHasSystemPermission());
+        }
+
+        var roleStream = stream.group(s -> s.getOne(), (s, t) -> s)
+                .select(s -> s.getOne());
+
+        return new PaginationModel<>(query, roleStream, this.roleFormatter::format);
+    }
+
     public void createDefaultSuperAdminRole() {
         var roleName = SuperAdminRoleNameConstant.SUPER_ADMINISTRATOR;
         var permissionName = SystemPermissionEnum.SUPER_ADMIN.getValue();

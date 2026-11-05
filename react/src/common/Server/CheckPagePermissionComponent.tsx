@@ -7,8 +7,8 @@ import { ReplaySubject, from } from "rxjs";
 import { exhaustMapWithTrailing } from "rxjs-exhaustmap-with-trailing";
 import { v4, v7 } from "uuid";
 import { useCommonContext } from "@/common/CommonContext";
-import MainMenu from "@/component/SystemMenu/MainMenu";
-import MainMenuForSignIn from "@/component/SystemMenu/MainMenuForSignIn";
+import MainMenu from "@/component/system-menu/menu/MainMenu";
+import MainMenuForSignIn from "@/component/system-menu/menu/MainMenuForSignIn";
 
 type Props = {
     children: ReactNode;

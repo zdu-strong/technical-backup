@@ -1,7 +1,7 @@
 import { observer, useMount } from "mobx-react-use-autorun";
-import { GlobalChatMessage, GlobalScrollToLastItemSubject } from '@component/Message/js/Global_Chat';
+import { GlobalChatMessage, GlobalScrollToLastItemSubject } from '@/component/message/js/Global_Chat';
 import { List } from 'react-virtualized';
-import SingleMessageLoaded from "@/component/Message/SingleMessageLoaded";
+import SingleMessageLoaded from "@/component/message/SingleMessageLoaded";
 import { useRef } from "react";
 import { EMPTY, concatMap, delay, interval, of, take, tap } from "rxjs";
 import { exhaustMapWithTrailing } from 'rxjs-exhaustmap-with-trailing'

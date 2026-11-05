@@ -1,0 +1,141 @@
+import { observer, useMobxState } from "mobx-react-use-autorun";
+import { DataGrid, type GridColDef, useGridApiRef } from '@mui/x-data-grid';
+import { Box, Button } from "@mui/material";
+import { format } from "date-fns";
+import { AutoSizer } from "react-virtualized";
+import api from "@api";
+import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import SuperAdminOrganizeDetailButton from "@/component/super-admin/organize/detail/SuperAdminOrganizeDetailButton";
+import { FormattedMessage } from "react-intl";
+import { PaginationModel } from "@model/PaginationModel";
+import { OrganizeModel } from "@model/OrganizeModel";
+import { SuperAdminOrganizeQueryPaginationModel } from "@model/SuperAdminOrganizeQueryPaginationModel";
+import { useMultipleQuery } from "@/common/use-hook";
+import { v4 } from "uuid";
+import OrganizeCreateOrUpdateDialog from "@/component/super-admin/organize/create/OrganizeCreateOrUpdateDialog";
+
+export default observer(() => {
+
+    const state = useMobxState({
+        query: new SuperAdminOrganizeQueryPaginationModel(),
+        paginationModel: new PaginationModel<OrganizeModel>(),
+        createDialog: {
+            id: v4(),
+            open: false,
+        },
+    });
+
+    const columns: GridColDef<OrganizeModel>[] = [
+        {
+            headerName: 'ID',
+            field: 'id',
+            width: 290
+        },
+        {
+            renderHeader: () => <FormattedMessage id="Name" defaultMessage="Name" />,
+            field: 'name',
+            width: 150,
+            flex: 1,
+        },
+        {
+            renderHeader: () => <FormattedMessage id="OrganizeType" defaultMessage="Organize Type" />,
+            field: 'organizeType',
+            width: 200,
+        },
+        {
+            renderHeader: () => <FormattedMessage id="CreateDate" defaultMessage="Create Date" />,
+            field: 'createDate',
+            renderCell: (row) => {
+                return <div>
+                    {format(row.row.createDate, "yyyy-MM-dd HH:mm:ss")}
+                </div>
+            },
+            width: 150,
+        },
+        {
+            renderHeader: () => <FormattedMessage id="Operation" defaultMessage="Operation" />,
+            field: '',
+            renderCell: (row) => <SuperAdminOrganizeDetailButton
+                id={row.row.id}
+                searchByPagination={organizeQueryState.requery}
+                isOnlyView={false}
+            />,
+            width: 150,
+        },
+    ];
+
+    const dataGridRef = useGridApiRef();
+
+    const organizeQueryState = useMultipleQuery(async () => {
+        state.paginationModel = await api.SuperAdminOrganizeQuery.searchByPagination(state.query);
+    });
+
+
+    const openCreateDialog = () => {
+        state.createDialog.id = v4();
+        state.createDialog.open = true;
+    };
+
+    const closeCreateDialog = () => {
+        state.createDialog.open = false;
+    };
+
+    return <>
+        <LoadingOrErrorComponent ready={organizeQueryState.ready} error={organizeQueryState.error}>
+            <div className="flex flex-col flex-auto" style={{ paddingLeft: "50px", paddingRight: "50px" }}>
+                <div className="flex flex-row" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                    <Button
+                        variant="contained"
+                        onClick={organizeQueryState.requery}
+                        startIcon={<FontAwesomeIcon icon={organizeQueryState.loading ? faSpinner : faSearch} spin={organizeQueryState.loading} />}
+                    >
+                        <FormattedMessage id="Refresh" defaultMessage="Refresh" />
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={openCreateDialog}
+                        startIcon={<FontAwesomeIcon icon={faPlus} />}
+                        style={{ marginLeft: "1em" }}
+                    >
+                        <FormattedMessage id="Create" defaultMessage="Create" />
+                    </Button>
+                </div>
+                <div className="flex flex-auto" style={{ paddingBottom: "1px" }}>
+                    <AutoSizer>
+                        {({ width, height }) => <Box width={Math.max(width, 100)} height={Math.max(height, 100)}>
+                            <DataGrid
+                                rows={state.paginationModel.items}
+                                rowCount={state.paginationModel.totalRecords}
+                                onPaginationModelChange={(s) => {
+                                    state.query.pageNum = Math.max(s.page + 1, 1);
+                                    state.query.pageSize = Math.max(s.pageSize, 1);
+                                    organizeQueryState.requery();
+                                }}
+                                apiRef={dataGridRef}
+                                sortingMode="server"
+                                paginationMode="server"
+                                getRowId={(s) => s.id}
+                                columns={columns}
+                                autoPageSize
+                                disableRowSelectionOnClick
+                                disableColumnMenu
+                                disableColumnResize
+                                disableColumnSorting
+                            />
+                        </Box>}
+                    </AutoSizer>
+                </div>
+            </div>
+        </LoadingOrErrorComponent>
+        {state.createDialog.open && <OrganizeCreateOrUpdateDialog
+            key={state.createDialog.id}
+            id=""
+            parentId=""
+            organizeType=""
+            searchByPagination={organizeQueryState.requery}
+            closeDialog={closeCreateDialog}
+        />}
+    </>
+})

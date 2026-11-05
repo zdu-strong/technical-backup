@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-use-autorun";
 import { style } from "typestyle";
 import { AutoSizer } from 'react-virtualized';
-import MessageUnlimitedList from '@component/Message/MessageUnlimitedList';
-import { useGlobalMessageReady } from "@component/Message/js/Global_Chat";
+import MessageUnlimitedList from '@/component/message/MessageUnlimitedList';
+import { useGlobalMessageReady } from "@/component/message/js/Global_Chat";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 
 const containerAutoSizer = style({

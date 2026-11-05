@@ -7,7 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
 import { reportWebVitals } from '@/reportWebVitals';
-import { useReadyForApplication } from '@/component/HomePageComponent/js/useReadyForApplication';
+import { useReadyForApplication } from '@/component/home/js/useReadyForApplication';
 
 reportWebVitals();
 

@@ -1,4 +1,4 @@
-import logo from '@component/Home/image/logo.svg';
+import logo from '@component/home/image/logo.svg';
 import { FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 import { keyframes, style } from 'typestyle';
@@ -6,7 +6,7 @@ import { useMobxState, observer } from 'mobx-react-use-autorun';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWater } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useRandomNumber } from '@component/Home/js/useRandomNumber';
+import { useRandomNumber } from '@/component/home/js/useRandomNumber';
 
 const container = style({
     textAlign: "center",

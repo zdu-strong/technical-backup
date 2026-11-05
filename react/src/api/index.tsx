@@ -12,6 +12,9 @@ import * as SuperAdminOrganizeQuery from '@api/SuperAdminOrganizeQuery';
 import * as Lumen from '@api/Lumen';
 import * as Role from '@api/Role';
 import * as Organize from '@api/Organize';
+import * as ManageOrganizeQuery from "@api/ManageOrganizeQuery";
+import * as ManageRoleQuery from "@api/ManageRoleQuery";
+import * as ManageUserQuery from "@api/ManageUserQuery";
 
 export default {
     Authorization,
@@ -27,5 +30,8 @@ export default {
     User,
     Lumen,
     Role,
-    Organize
+    Organize,
+    ManageOrganizeQuery,
+    ManageRoleQuery,
+    ManageUserQuery,
 }

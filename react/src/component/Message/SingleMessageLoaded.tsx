@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-use-autorun";
-import { useGlobalSingleMessage } from "@component/Message/js/Global_Chat";
+import { useGlobalSingleMessage } from "@/component/message/js/Global_Chat";
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
-import SingleMessage from "@/component/Message/SingleMessage";
+import SingleMessage from "@/component/message/SingleMessage";
 
 type Props = {
     pageNum: number

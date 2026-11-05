@@ -1,7 +1,7 @@
 import { Fab } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { style } from "typestyle";
-import ExitDialog from "@component/Game/ExitDialog";
+import ExitDialog from "@component/game/ExitDialog";
 import { useMount } from "mobx-react-use-autorun";
 import { Capacitor } from '@capacitor/core'
 import { delay, from, of, repeat, Subscription } from "rxjs";

@@ -1,6 +1,6 @@
 import { FriendshipModel } from "@model/FriendshipModel";
 import { observer, useMobxState } from "mobx-react-use-autorun";
-import StrangerChild from "@component/Stranger/StrangerChild";
+import StrangerChild from "@/component/stranger/StrangerChild";
 import api from '@api'
 import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
 import { FormattedMessage } from "react-intl";

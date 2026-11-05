@@ -12,7 +12,7 @@ before(() => {
     page.SignIn.password().clear().type(password)
     page.SignIn.signInButton().click()
     cy.location('pathname', { timeout: 180000 }).should('equal', '/')
-    cy.visit("/super-admin/user/manage")
+    cy.visit("/super-admin/manage/user")
 })
 
 const username = "Super Administrator"
