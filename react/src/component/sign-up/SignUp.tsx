@@ -11,8 +11,9 @@ import api from "@api";
 import { MessageService } from "@common/MessageService";
 import { UserEmailModel } from "@model/UserEmailModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faEye, faEyeSlash, faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useOnceSubmit } from "@/common/use-hook";
+import PasswordTooltipDialog from "@/component/sign-in/PasswordTooltipDialog";
 
 const container = style({
     display: "flex",
@@ -50,6 +51,10 @@ export default observer(() => {
         ],
         activeStep: 0,
         submitted: false,
+        showPasswordInput: false,
+        passwordTooltipDialog: {
+            open: false,
+        },
         loading: {
             sendVerificationCode: {} as Record<string, boolean>,
         },
@@ -160,6 +165,10 @@ export default observer(() => {
         });
     }
 
+    function swtichPasswordVisibility() {
+        state.showPasswordInput = !state.showPasswordInput;
+    }
+
     async function sendVerificationCode(userEmailModel: UserEmailModel) {
         try {
             state.submitted = true;
@@ -177,6 +186,19 @@ export default observer(() => {
         } finally {
             state.loading.sendVerificationCode[userEmailModel.id!] = false;
         }
+    }
+
+    function changePassword(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        state.password = e.target.value;
+    }
+
+
+    function showPasswordTooltip() {
+        state.passwordTooltipDialog.open = true;
+    }
+
+    function closePasswordTooltip() {
+        state.passwordTooltipDialog.open = false;
     }
 
     return <div className={container}>
@@ -234,32 +256,37 @@ export default observer(() => {
                     <Typography style={{ marginBottom: "0em" }}>
                         <FormattedMessage id="ThePasswordSupportsAllTheCharactersOfUTF8" defaultMessage="The password supports all the characters of UTF-8. You can use any of the language content you like as the password." />
                     </Typography>
-                    <Typography style={{ marginBottom: "0em" }}>
+                    <Typography style={{ marginBottom: "2em" }}>
                         <FormattedMessage id="WeDoNotProvideResetPasswordSoRememberYourPassword" defaultMessage="We do not provide reset password functions. So, remember your password." />
                     </Typography>
-                    <Typography style={{ marginBottom: "1em" }}>
-                        <FormattedMessage id="OnlyYouWhocanKnowThePassword" defaultMessage="We can't know your chat content and file content. Only you who can know the password." />
-                    </Typography>
+
                     <TextField
                         label={<FormattedMessage id="Password" defaultMessage="Password" />}
-                        className="flex flex-auto"
                         variant="outlined"
-                        onChange={(e) => {
-                            state.password = e.target.value;
-                        }}
-                        slotProps={{
-                            htmlInput: {
-                                style: {
-                                    resize: "vertical",
-                                }
-                            }
-                        }}
+                        onChange={changePassword}
                         value={state.password}
                         autoComplete="off"
-                        multiline={true}
-                        rows={6}
+                        type={state.showPasswordInput ? "text" : "password"}
                         error={!!errors.password()}
                         helperText={errors.password()}
+                        slotProps={{
+                            input: {
+                                endAdornment: <div className="flex flex-row">
+                                    <IconButton
+                                        color="primary"
+                                        onClick={swtichPasswordVisibility}
+                                    >
+                                        <FontAwesomeIcon icon={state.showPasswordInput ? faEye : faEyeSlash} />
+                                    </IconButton>
+                                    <IconButton
+                                        color="primary"
+                                        onClick={showPasswordTooltip}
+                                    >
+                                        <FontAwesomeIcon icon={faCircleQuestion} />
+                                    </IconButton>
+                                </div>
+                            }
+                        }}
                         autoFocus={true}
                     />
                 </div>}
@@ -389,5 +416,9 @@ export default observer(() => {
             <div>
             </div>
         </div>
+
+        {state.passwordTooltipDialog.open && <PasswordTooltipDialog
+            closeDialog={closePasswordTooltip}
+        />}
     </div>
 })

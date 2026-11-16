@@ -6,7 +6,7 @@ import AccountTooltipDialog from "@component/sign-in/AccountTooltipDialog";
 import PasswordTooltipDialog from "@component/sign-in/PasswordTooltipDialog";
 import api from "@api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion, faArrowRightToBracket, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faCircleQuestion, faArrowRightToBracket, faSpinner, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { useOnceSubmitWhileTrue } from "@/common/use-hook";
 
 const container = style({
@@ -87,32 +87,31 @@ export default observer(() => {
 
     function changeUsername(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         state.username = e.target.value;
-    };
+    }
 
     function changePassword(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         state.password = e.target.value;
-    };
-
+    }
 
     function showPasswordTooltip() {
         state.passwordTooltipDialog.open = true;
-    };
+    }
 
     function showUsernameTooltip() {
         state.usernameTooltipDialog.open = true;
-    };
+    }
 
     function closePasswordTooltip() {
         state.passwordTooltipDialog.open = false;
-    };
+    }
 
     function closeUsernameTooltip() {
         state.usernameTooltipDialog.open = false;
-    };
+    }
 
-    function showPasswordInput() {
-        state.showPasswordInput = true;
-    };
+    function swtichPasswordVisibility() {
+        state.showPasswordInput = !state.showPasswordInput;
+    }
 
     return <div className={container}>
         <div>
@@ -141,41 +140,35 @@ export default observer(() => {
             />
         </div>
         <div style={{ marginTop: "1em" }} className="flex flex-col w-full">
-            {state.showPasswordInput && <TextField
+            <TextField
                 label={<FormattedMessage id="Password" defaultMessage="Password" />}
-                className="flex flex-auto"
                 variant="outlined"
                 onChange={changePassword}
                 value={state.password}
                 autoComplete="off"
-                multiline={true}
-                rows={6}
+                type={state.showPasswordInput ? "text" : "password"}
                 error={!!errors.password()}
                 helperText={errors.password()}
                 slotProps={{
-                    htmlInput: {
-                        style: {
-                            resize: "vertical",
-                        }
-                    },
                     input: {
-                        endAdornment: <IconButton
-                            color="primary"
-                            onClick={showPasswordTooltip}
-                        >
-                            <FontAwesomeIcon icon={faCircleQuestion} />
-                        </IconButton>
+                        endAdornment: <div className="flex flex-row">
+                            <IconButton
+                                color="primary"
+                                onClick={swtichPasswordVisibility}
+                            >
+                                <FontAwesomeIcon icon={state.showPasswordInput ? faEye : faEyeSlash} />
+                            </IconButton>
+                            <IconButton
+                                color="primary"
+                                onClick={showPasswordTooltip}
+                            >
+                                <FontAwesomeIcon icon={faCircleQuestion} />
+                            </IconButton>
+                        </div>
                     }
                 }}
-                autoFocus={true}
-            />}
-            {!state.showPasswordInput && <Button
-                variant="outlined"
-                className="w-full normal-case"
-                onClick={showPasswordInput}
-            >
-                <FormattedMessage id="ThePasswordHasBeenFilledInClickEdit" defaultMessage="The password has been filled in, click Edit" />
-            </Button>}
+                autoFocus={false}
+            />
         </div>
         <div style={{ marginTop: "1em" }}>
             <Button
