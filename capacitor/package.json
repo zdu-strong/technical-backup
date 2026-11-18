@@ -79,7 +79,7 @@
         "@tailwindcss/postcss": "4.3.3",
         "@toolpad/core": "0.16.0",
         "@types/inquirer": "9.0.10",
-        "@types/node": "24.13.2",
+        "@types/node": "24.19.2",
         "@types/qs": "6.15.1",
         "@types/react": "19.0.6",
         "@types/react-dom": "19.0.6",

@@ -5,6 +5,7 @@
     "tsconfig.json": true,
     ".vscode": true,
     "bin": true,
+    ".ncurc.json": true,
   },
   "files.autoSave": "onFocusChange",
   "editor.insertSpaces": true,
