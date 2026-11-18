@@ -38,9 +38,9 @@
         <sql-maven-plugin.version>3.0.0</sql-maven-plugin.version>
         <jinq-jpa.version>2.0.3</jinq-jpa.version>
         <commons-io.version>2.22.0</commons-io.version>
-        <tika-core.version>4.1.0</tika-core.version>
+        <tika-core.version>4.2.0</tika-core.version>
         <java-jwt.version>4.6.2</java-jwt.version>
-        <guava.version>33.7.2-jre</guava.version>
+        <guava.version>33.8.0-jre</guava.version>
         <com-google-zxing-core.version>3.5.4</com-google-zxing-core.version>
         <com-google-zxing-javase.version>3.5.4</com-google-zxing-javase.version>
         <hutool-crypto.version>5.8.48</hutool-crypto.version>
@@ -56,8 +56,8 @@
         <sneakyfun.version>1.0.0</sneakyfun.version>
         <commons-exec.version>1.6.0</commons-exec.version>
         <chicory.version>1.7.5</chicory.version>
-        <bouncycastle-bcprov.version>1.86</bouncycastle-bcprov.version>
-        <bouncycastle-bcpkix.version>1.86</bouncycastle-bcpkix.version>
+        <bouncycastle-bcprov.version>1.87</bouncycastle-bcprov.version>
+        <bouncycastle-bcpkix.version>1.87</bouncycastle-bcpkix.version>
     </properties>
 
     <dependencies>
@@ -242,7 +242,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
     </parent>
 
     <build>
