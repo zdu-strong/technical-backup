@@ -26,8 +26,8 @@ async function waitApplicationLoaded() {
     const isLoaded = getIsLoaded();
     if (!isLoaded) {
         const display = electronRemote.screen.getDisplayNearestPoint(electronRemote.screen.getCursorScreenPoint());
-        const defaultWidth = display.workArea.width / 2;
-        const defaultHeight = display.workArea.height / 2;
+        const defaultWidth = Math.floor(display.workArea.width * 7 / 10);
+        const defaultHeight = Math.floor(display.workArea.height * 7 / 10);
         const width = display.workArea.width > defaultWidth ? defaultWidth : display.workArea.width;
         const height = display.workArea.height > defaultHeight ? defaultHeight : display.workArea.height;
         electronRemote.getCurrentWindow().setBounds({
@@ -51,7 +51,7 @@ async function waitApplicationLoaded() {
     }
 }
 
-function exitApp(){
+function exitApp() {
     electronRemote.app.exit();
 }
 
