@@ -1,7 +1,7 @@
 export default {
     username: () => cy.xpath("//label[.='Username']/../div/input"),
     nextStepButton: () => cy.xpath("//button[.='Next']"),
-    password: () => cy.xpath(`//textarea[@rows='6']`),
+    password: () => cy.xpath(`//label[.='Password']/../div/input`),
     addEmailOrPhoneNumber: () => cy.xpath(`//button[@aria-label='add']`),
     email: () => cy.xpath(`//label[.='Email']/../div/input`),
     sendVerificationCodeButton: () => cy.xpath(`//button[.='Send']`),

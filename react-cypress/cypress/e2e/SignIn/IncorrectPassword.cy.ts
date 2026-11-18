@@ -4,7 +4,6 @@ import * as action from '@/action'
 
 it('', () => {
     page.SignIn.username().clear().type(email)
-    page.SignIn.showPasswordButton().click()
     page.SignIn.password().clear().type(email)
     page.SignIn.signInButton().click()
     page.SignIn.incorrectPasswordOrUsernameDialog().should("exist")
