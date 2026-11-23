@@ -4,15 +4,13 @@ import java.util.Date;
 
 import cn.hutool.core.text.StrFormatter;
 import com.john.project.common.database.JPQLFunction;
-import com.john.project.constant.EncryptDecryptConstant;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.entity.EncryptDecryptEntity;
 
-import static com.john.project.constant.EncryptDecryptConstant.EMERGENCY_ROTATION;
-import static com.john.project.constant.EncryptDecryptConstant.ROUTINE_ROTATION;
+import static com.john.project.constant.EncryptDecryptConstant.*;
 
 @Service
 public class EncryptDecryptService extends BaseService {
@@ -30,8 +28,8 @@ public class EncryptDecryptService extends BaseService {
     }
 
     public boolean init() {
-        var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
-        var validDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays());
+        var expiredDate = DateUtils.addDays(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.toDays());
+        var validDate = DateUtils.addDays(new Date(), -(int) SECRET_KEY_ROTATION_DURATION.toDays());
 
         if (!isValid()
                 && !this.streamAll(EncryptDecryptEntity.class)
@@ -81,7 +79,7 @@ public class EncryptDecryptService extends BaseService {
     }
 
     private boolean deleteExpired() {
-        var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
+        var expiredDate = DateUtils.addDays(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.toDays());
         var encryptDecryptEntityList = this.streamAll(EncryptDecryptEntity.class)
                 .where(s -> s.getCreateDate().before(expiredDate))
                 .toList();
@@ -94,20 +92,20 @@ public class EncryptDecryptService extends BaseService {
 
     private boolean isValid() {
         var isValid = JinqStream.from(this.encryptDecryptUtil.getEncryptDecryptModelList())
-                .where(s -> !s.getCreateDate().before(DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays())))
+                .where(s -> !s.getCreateDate().before(DateUtils.addDays(new Date(), -(int) SECRET_KEY_ROTATION_DURATION.toDays())))
                 .exists();
         return isValid;
     }
 
     private String getName() {
-        var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
+        var expiredDate = DateUtils.addDays(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.toDays());
         var name = this.streamAll(EncryptDecryptEntity.class)
                 .where(s -> !s.getCreateDate().before(expiredDate))
                 .sortedDescendingBy(s -> s.getCreateDate())
                 .limit(1)
                 .findOne()
                 .map(s -> s.getCreateDate())
-                .map(s -> DateUtils.addDays(s, (int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays()))
+                .map(s -> DateUtils.addDays(s, (int) SECRET_KEY_ROTATION_DURATION.toDays()))
                 .map(s -> JPQLFunction.formatDateAsYearMonthDay(s, "UTC"))
                 .map(s -> StrFormatter.format(ROUTINE_ROTATION, s))
                 .orElse(StrFormatter.format(ROUTINE_ROTATION, "INITIALIZE_SECRET_KEY"));
