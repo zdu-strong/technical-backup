@@ -240,6 +240,7 @@ export default observer(() => {
                             }
                         }}
                         fullWidth={true}
+                        name="username"
                     />
                 </div>
                 {state.activeStep > 0 && <Divider style={{ marginTop: "1em", marginBottom: "1em" }} />}
@@ -282,6 +283,7 @@ export default observer(() => {
                         }}
                         autoFocus={state.activeStep === 1 ? true : false}
                         fullWidth={true}
+                        name="password"
                     />
                 </div>}
                 {state.activeStep > 1 && <Divider style={{ marginTop: "1em", marginBottom: "1em" }} />}

@@ -137,6 +137,7 @@ export default observer(() => {
                     }
                 }}
                 autoFocus={true}
+                name="username"
             />
         </div>
         <div style={{ marginTop: "1em" }} className="flex flex-col w-full">
@@ -168,6 +169,7 @@ export default observer(() => {
                     }
                 }}
                 autoFocus={false}
+                name="password"
             />
         </div>
         <div style={{ marginTop: "1em" }}>
