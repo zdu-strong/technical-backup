@@ -31,7 +31,7 @@ public class UserMessageFormatter extends BaseService {
     private String getContentOfUserMessageEntity(UserMessageEntity userMessageEntity, boolean isActive) {
         if (!isActive || userMessageEntity.getIsRecall()
                 || StringUtils.isNotBlank(userMessageEntity.getFolderName())) {
-            return "";
+            return StringUtils.EMPTY;
         } else {
             return userMessageEntity.getContent();
         }

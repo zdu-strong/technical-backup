@@ -75,8 +75,8 @@ public class LongTermTaskFormatter extends BaseService {
 
     @SneakyThrows
     public ResponseEntity<?> format(LongTermTaskEntity longTermTaskEntity) {
-        var expireDate = DateUtils.addMilliseconds(new Date(),
-                Long.valueOf(0 - LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toMillis())
+        var expireDate = DateUtils.addSeconds(new Date(),
+                Long.valueOf(0 - LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toSeconds())
                         .intValue());
         if (!longTermTaskEntity.getIsDone() && longTermTaskEntity.getUpdateDate().before(expireDate)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The task failed because it stopped");

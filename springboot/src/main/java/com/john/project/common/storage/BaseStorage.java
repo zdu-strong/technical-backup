@@ -70,7 +70,7 @@ public abstract class BaseStorage {
             synchronized (getClass()) {
                 if (StringUtils.isBlank(storageRootPath)) {
                     File currentFolderPath = Paths.get(new File(".").getAbsolutePath()).normalize().toFile();
-                    String rootPath = "";
+                    String rootPath = StringUtils.EMPTY;
                     if (this.developmentMockModeProperties.getIsUnitTestEnvironment() || this.developmentMockModeProperties.getIsCypressTestEnvironment()) {
                         if (new File(currentFolderPath, ".mvn").isDirectory()) {
                             rootPath = Paths.get(currentFolderPath.getAbsolutePath(), "target/storage").toString();
@@ -170,7 +170,7 @@ public abstract class BaseStorage {
     }
 
     protected String getRelativePathFromResourcePath(String relativePathOfResource) {
-        String path = "";
+        String path = StringUtils.EMPTY;
         if (Paths.get(relativePathOfResource.replaceAll(Pattern.quote("\\"), "/")).isAbsolute()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only relative path can be passed in");
         } else {

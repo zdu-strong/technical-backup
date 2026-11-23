@@ -53,7 +53,7 @@ public class TokenService extends BaseService {
 
     @Transactional(readOnly = true)
     public boolean getIsInvalidOfTokenEntity(String id) {
-        var createDate = DateUtils.addMilliseconds(new Date(), -(int) ONE_TIME_PASSWORD_SURVIVAL_DURATION.plusHours(1).toMillis());
+        var createDate = DateUtils.addSeconds(new Date(), -(int) ONE_TIME_PASSWORD_SURVIVAL_DURATION.plusHours(1).toSeconds());
         var isInvalid = this.streamAll(TokenEntity.class)
                 .where(s -> s.getId().equals(id))
                 .where(s -> s.getCreateDate().before(createDate))
@@ -124,11 +124,11 @@ public class TokenService extends BaseService {
                     .where(s -> s.getId().equals(userId))
                     .getOnlyValue();
             var createDate = this.getCreateDateOfEncryptedPassword(encryptedPassword);
-            if (createDate.before(DateUtils.addMilliseconds(new Date(), -(int) ONE_TIME_PASSWORD_SURVIVAL_DURATION.toMillis()))) {
+            if (createDate.before(DateUtils.addSeconds(new Date(), -(int) ONE_TIME_PASSWORD_SURVIVAL_DURATION.toSeconds()))) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Incorrect username or password");
             }
-            if (createDate.after(DateUtils.addMilliseconds(new Date(), (int) ONE_TIME_PASSWORD_SURVIVAL_DURATION.toMillis()))) {
+            if (createDate.after(DateUtils.addSeconds(new Date(), (int) ONE_TIME_PASSWORD_SURVIVAL_DURATION.toSeconds()))) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Incorrect username or password");
             }

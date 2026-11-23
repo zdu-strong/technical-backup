@@ -55,11 +55,11 @@ public class NonceControllerAdviceConfig {
 
         var timestamp = convertDateStringToDate(timestampString);
         if (timestamp
-                .after(DateUtils.addMilliseconds(new Date(), (int) NonceConstant.NONCE_SURVIVAL_DURATION.toMillis()))) {
+                .after(DateUtils.addSeconds(new Date(), (int) NonceConstant.NONCE_SURVIVAL_DURATION.toSeconds()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nonce has expired");
         }
         if (timestamp.before(
-                DateUtils.addMilliseconds(new Date(), (int) -NonceConstant.NONCE_SURVIVAL_DURATION.toMillis()))) {
+                DateUtils.addSeconds(new Date(), (int) -NonceConstant.NONCE_SURVIVAL_DURATION.toSeconds()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nonce has expired");
         }
         nonce = HexUtil.encodeHexStr(

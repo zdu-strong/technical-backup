@@ -40,7 +40,7 @@ public abstract class PermissionUtilBase {
                 return authorization.substring(prefix.length());
             }
         }
-        return "";
+        return StringUtils.EMPTY;
     }
 
     public List<PermissionRelationModel> convertToPermissionList(UserModel user) {

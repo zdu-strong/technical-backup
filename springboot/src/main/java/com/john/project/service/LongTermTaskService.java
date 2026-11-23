@@ -31,8 +31,8 @@ public class LongTermTaskService extends BaseService {
     }
 
     public void deleteLongTermTaskOfExpired(LongTermTaskUniqueKeyModel... longTermTaskUniqueKey) {
-        var expiredDate = DateUtils.addMilliseconds(new Date(),
-                (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toMillis());
+        var expiredDate = DateUtils.addSeconds(new Date(),
+                (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toSeconds());
 
         for (var longTermTaskUniqueKeyModel : longTermTaskUniqueKey) {
             var uniqueKeyJsonString = this.longTermTaskFormatter.formatLongTermTaskUniqueKey(longTermTaskUniqueKeyModel);
@@ -106,8 +106,8 @@ public class LongTermTaskService extends BaseService {
 
     @Transactional(readOnly = true)
     public LongTermTaskUniqueKeyModel findOneNotRunning(List<LongTermTaskUniqueKeyModel> longTermTaskUniqueKeyList) {
-        var expiredDate = DateUtils.addMilliseconds(new Date(),
-                (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toMillis());
+        var expiredDate = DateUtils.addSeconds(new Date(),
+                (int) -LongTermTaskTempWaitDurationConstant.TEMP_TASK_SURVIVAL_DURATION.toSeconds());
         for (var longTermTaskUniqueKeyOneList : Lists.partition(longTermTaskUniqueKeyList, 100)) {
             var uniqueKeyJsonStringList = longTermTaskUniqueKeyOneList
                     .stream()

@@ -2,7 +2,10 @@ package com.john.project.scheduled;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.john.project.common.EncryptDecryptUtil.EncryptDecryptUtil;
 import com.john.project.constant.SuperAdminRoleNameConstant;
@@ -10,6 +13,7 @@ import com.john.project.enums.SystemPermissionEnum;
 import com.john.project.model.SuperAdminRoleQueryPaginationModel;
 import com.john.project.properties.DevelopmentMockModeProperties;
 import com.john.project.service.*;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +72,8 @@ public class SystemInitScheduled {
     @Getter
     private Boolean hasInit = false;
 
+    private final Executor executorOfSecretKeyRotation = Executors.newVirtualThreadPerTaskExecutor();
+
     @Scheduled(initialDelay = 0, fixedDelay = 24 * 60 * 60 * 1000)
     public void scheduled() {
         synchronized (getClass()) {
@@ -118,7 +124,7 @@ public class SystemInitScheduled {
     }
 
     private void initEncryptDecryptKey() {
-        Flowable.just("")
+        Flowable.just(StringUtils.EMPTY)
                 .doOnNext(s -> {
                     while (!this.encryptDecryptService.init()) {
                     }
@@ -129,9 +135,34 @@ public class SystemInitScheduled {
                 })
                 .timeout(1, TimeUnit.DAYS)
                 .blockingSubscribe();
-        this.encryptDecryptUtil.getKeyOfSecretKeyOfAES();
         this.encryptDecryptUtil.getKeyOfPublicKeyOfMLKEM();
-        this.encryptDecryptUtil.getKeyOfPrivateKeyOfMLKEM();
+        if (!this.developmentMockModeProperties.getIsUnitTestEnvironment() && !this.developmentMockModeProperties.getIsCypressTestEnvironment()) {
+            var isSkipExecuteByFirst = new AtomicBoolean(true);
+            Flowable.just(StringUtils.EMPTY)
+                    .observeOn(Schedulers.from(executorOfSecretKeyRotation))
+                    .doOnNext(t -> {
+                        if (isSkipExecuteByFirst.get()) {
+                            isSkipExecuteByFirst.set(false);
+                            return;
+                        }
+                        Flowable.just(StringUtils.EMPTY)
+                                .observeOn(Schedulers.from(executorOfSecretKeyRotation))
+                                .doOnNext(s -> {
+                                    while (!this.encryptDecryptService.init()) {
+                                    }
+                                })
+                                .retry((s) -> {
+                                    ThreadUtils.sleepQuietly(Duration.ofSeconds(1));
+                                    return true;
+                                })
+                                .timeout(1, TimeUnit.DAYS)
+                                .blockingSubscribe();
+                    })
+                    .delay(1, TimeUnit.DAYS)
+                    .repeat()
+                    .retry()
+                    .subscribe();
+        }
     }
 
     private void initUserRole() {

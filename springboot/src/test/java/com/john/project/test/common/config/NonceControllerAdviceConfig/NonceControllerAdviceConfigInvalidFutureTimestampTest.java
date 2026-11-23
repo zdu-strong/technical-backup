@@ -40,7 +40,7 @@ public class NonceControllerAdviceConfigInvalidFutureTimestampTest extends BaseT
     public void beforeEach() {
         this.nonce = this.uuidUtil.v4();
         this.timestamp = FastDateFormat.getInstance(DateFormatConstant.UTC).format(
-                DateUtils.addMilliseconds(new Date(),
-                        (int) NonceConstant.NONCE_SURVIVAL_DURATION.plusHours(1).toMillis()));
+                DateUtils.addSeconds(new Date(),
+                        (int) NonceConstant.NONCE_SURVIVAL_DURATION.plusHours(1).toSeconds()));
     }
 }

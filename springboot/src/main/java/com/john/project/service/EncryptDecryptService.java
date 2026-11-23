@@ -1,65 +1,117 @@
 package com.john.project.service;
 
-import java.time.Duration;
 import java.util.Date;
 
-import org.apache.commons.lang3.ThreadUtils;
+import cn.hutool.core.text.StrFormatter;
+import com.john.project.constant.DateFormatConstant;
+import com.john.project.constant.EncryptDecryptConstant;
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.lang3.time.FastDateFormat;
+import org.jinq.orm.stream.JinqStream;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.john.project.common.baseService.BaseService;
 import com.john.project.entity.EncryptDecryptEntity;
-import com.john.project.model.EncryptDecryptModel;
-import lombok.SneakyThrows;
+
+import static com.john.project.constant.EncryptDecryptConstant.EMERGENCY_ROTATION;
+import static com.john.project.constant.EncryptDecryptConstant.ROUTINE_ROTATION;
 
 @Service
 public class EncryptDecryptService extends BaseService {
 
-    private EncryptDecryptModel encryptDecryptModel;
-
-    @Transactional(readOnly = true)
-    public EncryptDecryptModel getEncryptDecryptModel() {
-        while (this.encryptDecryptModel == null) {
-            ThreadUtils.sleepQuietly(Duration.ofMillis(100));
-        }
-        return this.encryptDecryptModel;
+    public void createEmergencyRotationSecretKey() {
+        var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND_MILLISECOND);
+        var name = StrFormatter.format(EMERGENCY_ROTATION, fastDateFormat);
+        this.create(name);
     }
 
-    @SneakyThrows
+    public void delete(String id) {
+        var encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
+                .where(s -> s.getId().equals(id))
+                .getOnlyValue();
+        this.remove(encryptDecryptEntity);
+    }
+
     public boolean init() {
-        var name = getClass().getSimpleName();
+        var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
+        var validDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays());
 
-        if (this.encryptDecryptModel == null) {
-            if (this.streamAll(EncryptDecryptEntity.class)
-                    .where(s -> s.getName().equals(name))
+        if (!isValid()
+                && !this.streamAll(EncryptDecryptEntity.class)
+                .where(s -> !s.getCreateDate().before(validDate))
+                .exists()
+        ) {
+            var name = this.getName();
+            this.deleteExpired();
+            this.create(name);
+        } else {
+            // Query valid secret keys
+            var encryptDecryptModelList = this.streamAll(EncryptDecryptEntity.class)
+                    .where(s -> !s.getCreateDate().before(expiredDate))
+                    .map(this.encryptDecryptFormatter::format)
+                    .toList();
+            if (JinqStream.from(encryptDecryptModelList)
+                    .where(s -> !s.getCreateDate().before(validDate))
                     .exists()) {
-                var encryptDecryptEntity = this.streamAll(EncryptDecryptEntity.class)
-                        .where(s -> s.getName().equals(name))
-                        .getOnlyValue();
-                this.encryptDecryptModel = this.encryptDecryptFormatter.format(encryptDecryptEntity);
-            } else {
-                var encryptDecryptEntity = new EncryptDecryptEntity();
-                encryptDecryptEntity.setId(newId());
-                encryptDecryptEntity.setName(name);
-                encryptDecryptEntity.setCreateDate(new Date());
-                encryptDecryptEntity.setUpdateDate(new Date());
-
-                /*
-                 * aes for common uses
-                 */
-                encryptDecryptEntity.setSecretKeyOfAES(this.encryptDecryptUtil.generateSecretKeyOfAES());
-
-                /*
-                 * ml-kem for common uses
-                 */
-                var keyPairOfMLKEM = this.encryptDecryptUtil.generateKeyPairOfMLKEM();
-                encryptDecryptEntity.setPublicKeyOfMLKEM(keyPairOfMLKEM.getPublicKeyOfMLKEM());
-                encryptDecryptEntity.setPrivateKeyOfMLKEM(keyPairOfMLKEM.getPrivateKeyOfMLKEM());
-
-                this.persist(encryptDecryptEntity);
+                this.encryptDecryptUtil.setEncryptDecryptModelList(encryptDecryptModelList);
             }
         }
 
-        return this.encryptDecryptModel != null;
+        return isValid();
+    }
+
+    private void create(String name) {
+        var encryptDecryptEntity = new EncryptDecryptEntity();
+        encryptDecryptEntity.setId(newId());
+        encryptDecryptEntity.setName(name);
+        encryptDecryptEntity.setCreateDate(new Date());
+        encryptDecryptEntity.setUpdateDate(new Date());
+
+        /*
+         * aes for common uses
+         */
+        encryptDecryptEntity.setSecretKeyOfAES(this.encryptDecryptUtil.generateSecretKeyOfAES());
+
+        /*
+         * ml-kem for common uses
+         */
+        var keyPairOfMLKEM = this.encryptDecryptUtil.generateKeyPairOfMLKEM();
+        encryptDecryptEntity.setPublicKeyOfMLKEM(keyPairOfMLKEM.getPublicKeyOfMLKEM());
+        encryptDecryptEntity.setPrivateKeyOfMLKEM(keyPairOfMLKEM.getPrivateKeyOfMLKEM());
+
+        this.persist(encryptDecryptEntity);
+    }
+
+    private void deleteExpired() {
+        var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
+        var encryptDecryptEntityList = this.streamAll(EncryptDecryptEntity.class)
+                .where(s -> s.getCreateDate().before(expiredDate))
+                .toList();
+        for (var encryptDecryptEntity : encryptDecryptEntityList) {
+            this.remove(encryptDecryptEntity);
+        }
+    }
+
+    private boolean isValid() {
+        var isValid = JinqStream.from(this.encryptDecryptUtil.getEncryptDecryptModelList())
+                .where(s -> !s.getCreateDate().before(DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays())))
+                .exists();
+        return isValid;
+    }
+
+    private String getName() {
+        var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
+        var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY);
+        var name = this.streamAll(EncryptDecryptEntity.class)
+                .where(s -> !s.getCreateDate().before(expiredDate))
+                .sortedDescendingBy(s -> s.getCreateDate())
+                .limit(1)
+                .findOne()
+                .map(s -> s.getCreateDate())
+                .map(s -> DateUtils.addDays(s, (int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays()))
+                .map(s -> fastDateFormat.format(s))
+                .map(s -> StrFormatter.format(ROUTINE_ROTATION, s))
+                .orElse(StrFormatter.format(ROUTINE_ROTATION, fastDateFormat.format(new Date())));
+        return name;
     }
 
 }

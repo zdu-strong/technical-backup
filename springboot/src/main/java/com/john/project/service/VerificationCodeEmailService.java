@@ -2,6 +2,7 @@ package com.john.project.service;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +52,7 @@ public class VerificationCodeEmailService extends BaseService {
             }
         }
 
-        String verificationCode = "";
+        String verificationCode = StringUtils.EMPTY;
 
         for (var i = verificationCodeLength; i > 0; i--) {
             verificationCode += RandomUtil.randomLong(10);

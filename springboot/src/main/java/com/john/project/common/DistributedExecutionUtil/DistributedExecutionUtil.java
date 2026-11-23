@@ -95,7 +95,7 @@ public class DistributedExecutionUtil {
                                     .getLastDistributedExecution(baseDistributedExecution);
 
                             if (isInCooldownPeriod(distributedExecutionMainModel, baseDistributedExecution)) {
-                                var delayMilliseconds = Math.abs(Math.subtractExact(DateUtils.addMilliseconds(distributedExecutionMainModel.getUpdateDate(), (int) baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis()).getTime(), new Date().getTime()));
+                                var delayMilliseconds = Math.abs(Math.subtractExact(DateUtils.addSeconds(distributedExecutionMainModel.getUpdateDate(), (int) baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toSeconds()).getTime(), new Date().getTime()));
                                 return Flowable.timer(delayMilliseconds, TimeUnit.MILLISECONDS);
                             }
 
@@ -276,8 +276,8 @@ public class DistributedExecutionUtil {
                         .anyMatch(m -> ObjectUtil.equals(s.getStatus(), m.getValue()))
                 )
                 .filter(s -> !new Date().after(DateUtils
-                        .addMilliseconds(s.getUpdateDate(),
-                                (int) baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toMillis())))
+                        .addSeconds(s.getUpdateDate(),
+                                (int) baseDistributedExecution.getTheIntervalBetweenTwoExecutions().toSeconds())))
                 .isPresent();
     }
 

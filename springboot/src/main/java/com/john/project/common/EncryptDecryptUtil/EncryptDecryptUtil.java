@@ -3,10 +3,14 @@ package com.john.project.common.EncryptDecryptUtil;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.john.project.model.EncryptDecryptModel;
-import com.john.project.service.EncryptDecryptService;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.ThreadUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.bouncycastle.crypto.generators.MLKEMKeyPairGenerator;
 import org.bouncycastle.crypto.kems.MLKEMExtractor;
 import org.bouncycastle.crypto.kems.MLKEMGenerator;
@@ -14,8 +18,7 @@ import org.bouncycastle.crypto.params.MLKEMKeyGenerationParameters;
 import org.bouncycastle.crypto.params.MLKEMParameters;
 import org.bouncycastle.crypto.params.MLKEMPrivateKeyParameters;
 import org.bouncycastle.crypto.params.MLKEMPublicKeyParameters;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+import org.jinq.orm.stream.JinqStream;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
@@ -26,24 +29,41 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static com.john.project.constant.EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION;
+import static com.john.project.constant.EncryptDecryptConstant.SECRET_KEY_WAIT_ACTIVATION_DURATION;
 
 @Component
 public class EncryptDecryptUtil {
 
-    @Autowired
-    @Lazy
-    private EncryptDecryptService encryptDecryptService;
-
-    private EncryptDecryptModel encryptDecryptModel;
+    @Getter
+    @Setter
+    private List<EncryptDecryptModel> encryptDecryptModelList = new ArrayList<>();
 
     public String encryptByAES(String text) {
-        var secretKeyOfAES = this.getKeyOfSecretKeyOfAES();
+        var secretKeyOfAES = this.getKeyOfSecretKeyOfAESForEncryption();
         return this.encryptByAES(text, secretKeyOfAES);
     }
 
     public String decryptByAES(String text) {
-        var secretKeyOfAES = this.getKeyOfSecretKeyOfAES();
-        return this.decryptByAES(text, secretKeyOfAES);
+        var listOfSecretKeyOfAES = this.getKeyOfSecretKeyOfAESForDecryption();
+        for (var i = listOfSecretKeyOfAES.size() - 1; i >= 0; i--) {
+            var secretKeyOfAES = listOfSecretKeyOfAES.get(i);
+            if (i == 0) {
+                return this.decryptByAES(text, secretKeyOfAES);
+            } else {
+                try {
+                    return this.decryptByAES(text, secretKeyOfAES);
+                } catch (Throwable e) {
+                    // do nothing
+                }
+            }
+        }
+        throw new NotImplementedException("The key cannot be empty");
     }
 
     public String encryptByPublicKeyOfMLKEM(String text) {
@@ -52,8 +72,20 @@ public class EncryptDecryptUtil {
     }
 
     public String decryptByByPrivateKeyOfMLKEM(String text) {
-        var privateKeyOfMLKEM = this.getKeyOfPrivateKeyOfMLKEM();
-        return this.decryptByByPrivateKeyOfMLKEM(text, privateKeyOfMLKEM);
+        var listOfPrivateKeyOfMLKEM = this.getKeyOfPrivateKeyOfMLKEM();
+        for (var i = listOfPrivateKeyOfMLKEM.size() - 1; i >= 0; i--) {
+            var privateKeyOfMLKEM = listOfPrivateKeyOfMLKEM.get(i);
+            if (i == 0) {
+                return this.decryptByByPrivateKeyOfMLKEM(text, privateKeyOfMLKEM);
+            } else {
+                try {
+                    return this.decryptByByPrivateKeyOfMLKEM(text, privateKeyOfMLKEM);
+                } catch (Throwable e) {
+                    // do nothing
+                }
+            }
+        }
+        throw new NotImplementedException("The key cannot be empty");
     }
 
     @SneakyThrows
@@ -78,7 +110,7 @@ public class EncryptDecryptUtil {
 
     @SneakyThrows
     public String encryptWithFixedSaltByAES(String text) {
-        var secretKeyOfAES = new SecretKeySpec(HexUtil.decodeHex(this.getKeyOfSecretKeyOfAES()), "AES");
+        var secretKeyOfAES = new SecretKeySpec(HexUtil.decodeHex(this.getKeyOfSecretKeyOfAESForEncryption()), "AES");
         var salt = DigestUtils.md5(text);
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKeyOfAES, new GCMParameterSpec(16 * 8, salt));
@@ -137,24 +169,47 @@ public class EncryptDecryptUtil {
     }
 
     public String getKeyOfPublicKeyOfMLKEM() {
-        this.initKey();
-        return this.encryptDecryptModel.getPublicKeyOfMLKEM();
+        var publicKeyOfMLKEM = this.getValidListOfSecretKey()
+                .select(s -> s.getPublicKeyOfMLKEM())
+                .limit(1)
+                .getOnlyValue();
+        return publicKeyOfMLKEM;
     }
 
-    public String getKeyOfPrivateKeyOfMLKEM() {
-        this.initKey();
-        return this.encryptDecryptModel.getPrivateKeyOfMLKEM();
+    private List<String> getKeyOfPrivateKeyOfMLKEM() {
+        var listOfPrivateKeyOfMLKEM = this.getValidListOfSecretKey()
+                .map(s -> s.getPrivateKeyOfMLKEM())
+                .toList();
+        return listOfPrivateKeyOfMLKEM;
     }
 
-    public String getKeyOfSecretKeyOfAES() {
-        this.initKey();
-        return this.encryptDecryptModel.getSecretKeyOfAES();
+    private String getKeyOfSecretKeyOfAESForEncryption() {
+        var secretKeyOfAES = this.getValidListOfSecretKey()
+                .select(s -> s.getSecretKeyOfAES())
+                .limit(1)
+                .getOnlyValue();
+        return secretKeyOfAES;
     }
 
-    private void initKey() {
-        if (this.encryptDecryptModel == null) {
-            this.encryptDecryptModel = this.encryptDecryptService.getEncryptDecryptModel();
+    private List<String> getKeyOfSecretKeyOfAESForDecryption() {
+        var listOfSecretKeyOfAES = this.getValidListOfSecretKey()
+                .map(s -> s.getSecretKeyOfAES())
+                .toList();
+        return listOfSecretKeyOfAES;
+    }
+
+    private JinqStream<EncryptDecryptModel> getValidListOfSecretKey() {
+        while (this.encryptDecryptModelList.isEmpty()) {
+            ThreadUtils.sleepQuietly(Duration.ofMillis(100));
         }
+        var waitActivationDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds());
+        var expiringSoonDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.plusSeconds(-SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds()).toSeconds());
+        return JinqStream.from(this.encryptDecryptModelList)
+                .sortedDescendingBy(s -> s.getCreateDate())
+                .sortedBy(s -> s.getCreateDate().before(waitActivationDate) ?
+                        waitActivationDate :
+                        s.getCreateDate())
+                .sortedDescendingBy(s -> s.getCreateDate().before(expiringSoonDate) ? s.getCreateDate() : expiringSoonDate);
     }
 
 }

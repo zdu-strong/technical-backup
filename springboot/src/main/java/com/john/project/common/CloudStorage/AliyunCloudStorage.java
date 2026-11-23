@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jinq.orm.stream.JinqStream;
 import org.jinq.tuples.Pair;
@@ -100,7 +101,7 @@ public class AliyunCloudStorage extends BaseStorage implements CloudStorageInter
                         .select(s -> this.getFileNameFromResource(new FileSystemResource(s)))
                         .select(s -> {
                             this.delete(key + "/" + s);
-                            return "";
+                            return StringUtils.EMPTY;
                         }).toList();
                 ossClient.deleteObject(this.aliyunCloudStorageProperties.getBucketName(), key + "/");
             }
@@ -122,8 +123,8 @@ public class AliyunCloudStorage extends BaseStorage implements CloudStorageInter
             return new ByteArrayResource(jsonBytes);
         }
 
-        var expireDate = DateUtils.addMilliseconds(new Date(),
-                Long.valueOf(this.tempUrlSurvivalDuration.toMillis()).intValue());
+        var expireDate = DateUtils.addSeconds(new Date(),
+                Long.valueOf(this.tempUrlSurvivalDuration.toSeconds()).intValue());
 
         var ossClient = this.getOssClientClient();
         try {
@@ -154,8 +155,8 @@ public class AliyunCloudStorage extends BaseStorage implements CloudStorageInter
             return new ByteArrayResource(bytes);
         }
 
-        var expireDate = DateUtils.addMilliseconds(new Date(),
-                Long.valueOf(this.tempUrlSurvivalDuration.toMillis()).intValue());
+        var expireDate = DateUtils.addSeconds(new Date(),
+                Long.valueOf(this.tempUrlSurvivalDuration.toSeconds()).intValue());
 
         var ossClient = this.getOssClientClient();
         try {
