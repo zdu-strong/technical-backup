@@ -1,4 +1,4 @@
-import { Button, Divider, Fab, IconButton, TextField, Typography } from "@mui/material";
+import { Button, Divider, Fab, IconButton, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 import { style } from "typestyle";
@@ -11,7 +11,7 @@ import api from "@api";
 import { MessageService } from "@common/MessageService";
 import { UserEmailModel } from "@model/UserEmailModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleQuestion, faEye, faEyeSlash, faFloppyDisk, faPaperPlane, faPlus, faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faCircleUser, faEye, faEyeSlash, faFloppyDisk, faLock, faPaperPlane, faPlus, faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useOnceSubmit } from "@/common/use-hook";
 import PasswordTooltipDialog from "@/component/sign-in/PasswordTooltipDialog";
 
@@ -208,12 +208,12 @@ export default observer(() => {
                     <FormattedMessage id="SignUp" defaultMessage="SignUp" />
                 </div>
                 <Divider style={{ marginTop: "1em" }} />
-                {state.activeStep === 0 && <div className="flex flex-col" style={{ marginTop: "1em" }}>
-                    <div>
-                        <FormattedMessage id="UsernameYouCanModifyYourUsernameAtAnyTime" defaultMessage="Username, you can modify your username at any time" />
+                <div className="flex flex-row items-center" style={{ marginTop: "1em" }}>
+                    <div style={{ marginRight: "1em" }}>
+                        <FormattedMessage id="Username" defaultMessage="Username" />
+                        {":"}
                     </div>
                     <TextField
-                        label={<FormattedMessage id="Username" defaultMessage="Username" />}
                         variant="outlined"
                         onChange={(e) => {
                             state.username = e.target.value;
@@ -225,43 +225,31 @@ export default observer(() => {
                         style={{ marginTop: "1em" }}
                         onKeyDown={(e) => {
                             if (!e.shiftKey && e.key === "Enter") {
-                                e.preventDefault()
+                                e.preventDefault();
                                 nextStep();
                             }
                         }}
-                        autoFocus={true}
+                        autoFocus={state.activeStep == 0 ? true : false}
+                        slotProps={{
+                            input: {
+                                startAdornment: <IconButton
+                                    color="primary"
+                                >
+                                    <FontAwesomeIcon icon={faCircleUser} />
+                                </IconButton>
+                            }
+                        }}
+                        fullWidth={true}
                     />
-                </div>}
-                {state.activeStep !== 0 && (<div className="flex flex-row" style={{ marginTop: "1em" }}>
-                    <div style={{ marginRight: "1em" }}>
-                        <FormattedMessage id="Username" defaultMessage="Username" />
-                        {":"}
-                    </div>
-                    <div>
-                        {state.username}
-                    </div>
-                </div>)}
+                </div>
                 {state.activeStep > 0 && <Divider style={{ marginTop: "1em", marginBottom: "1em" }} />}
-                {state.activeStep > 1 && <div className="flex flex-row">
+                {state.activeStep > 0 && <div className="flex flex-row items-center">
                     <div className="flex flex-row" style={{ marginRight: "1em" }}>
                         <FormattedMessage id="Password" defaultMessage="Password" />
                         {":"}
                     </div>
-                    <FormattedMessage id="PasswordSettingIsComplete" defaultMessage="Password setting is complete" />
-                </div>}
-                {state.activeStep === 1 && <div className="flex flex-col">
-                    <Typography style={{ marginBottom: "0em" }}>
-                        <FormattedMessage id="JustLikeTheTreasureMapLetUsHideThePasswordInThisWorld" defaultMessage="Just like the treasure map, let's hide the password in this world. For example, select a paragraph as a password from Shakespeare's works." />
-                    </Typography>
-                    <Typography style={{ marginBottom: "0em" }}>
-                        <FormattedMessage id="ThePasswordSupportsAllTheCharactersOfUTF8" defaultMessage="The password supports all the characters of UTF-8. You can use any of the language content you like as the password." />
-                    </Typography>
-                    <Typography style={{ marginBottom: "2em" }}>
-                        <FormattedMessage id="WeDoNotProvideResetPasswordSoRememberYourPassword" defaultMessage="We do not provide reset password functions. So, remember your password." />
-                    </Typography>
 
                     <TextField
-                        label={<FormattedMessage id="Password" defaultMessage="Password" />}
                         variant="outlined"
                         onChange={changePassword}
                         value={state.password}
@@ -271,6 +259,11 @@ export default observer(() => {
                         helperText={errors.password()}
                         slotProps={{
                             input: {
+                                startAdornment: <IconButton
+                                    color="primary"
+                                >
+                                    <FontAwesomeIcon icon={faLock} />
+                                </IconButton>,
                                 endAdornment: <div className="flex flex-row">
                                     <IconButton
                                         color="primary"
@@ -287,7 +280,8 @@ export default observer(() => {
                                 </div>
                             }
                         }}
-                        autoFocus={true}
+                        autoFocus={state.activeStep === 1 ? true : false}
+                        fullWidth={true}
                     />
                 </div>}
                 {state.activeStep > 1 && <Divider style={{ marginTop: "1em", marginBottom: "1em" }} />}
