@@ -31,7 +31,7 @@ public class CaffeineTest extends BaseTest {
         for (var i = 1000 * 1000; i > 0; i--) {
             caffeineLoadCache.get(StringUtils.EMPTY).get();
         }
-        var costTimes = timer.interval();
+        var costTimes = timer.intervalMs();
         assertTrue(costTimes < 1000);
     }
 

@@ -35,7 +35,7 @@ public class CaffeineQueryBalanceTest extends BaseTest {
                 .doOnNext((s) -> queryBalance())
                 .sequential()
                 .blockingSubscribe();
-        var costTimes = timer.interval();
+        var costTimes = timer.intervalMs();
         assertTrue(costTimes < 10000);
     }
 

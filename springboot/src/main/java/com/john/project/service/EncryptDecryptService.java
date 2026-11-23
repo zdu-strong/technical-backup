@@ -49,16 +49,6 @@ public class EncryptDecryptService extends BaseService {
             if (JinqStream.from(encryptDecryptModelList)
                     .where(s -> !s.getCreateDate().before(validDate))
                     .exists()) {
-                var waitActivationDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds());
-                var expiringSoonDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.plusSeconds(-SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds()).toSeconds());
-                encryptDecryptModelList = JinqStream.from(encryptDecryptModelList)
-                        .sortedBy(s -> s.getName())
-                        .sortedDescendingBy(s -> s.getCreateDate())
-                        .sortedBy(s -> s.getCreateDate().before(waitActivationDate) ?
-                                waitActivationDate :
-                                s.getCreateDate())
-                        .sortedDescendingBy(s -> s.getCreateDate().before(expiringSoonDate) ? s.getCreateDate() : expiringSoonDate)
-                        .toList();
                 this.encryptDecryptUtil.setEncryptDecryptModelList(encryptDecryptModelList);
             }
         }

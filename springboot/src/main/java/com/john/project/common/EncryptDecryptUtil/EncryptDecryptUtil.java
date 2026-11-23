@@ -2,6 +2,8 @@ package com.john.project.common.EncryptDecryptUtil;
 
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.john.project.model.EncryptDecryptModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +12,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.ThreadUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.bouncycastle.crypto.generators.MLKEMKeyPairGenerator;
 import org.bouncycastle.crypto.kems.MLKEMExtractor;
@@ -33,6 +36,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.john.project.constant.EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION;
 import static com.john.project.constant.EncryptDecryptConstant.SECRET_KEY_WAIT_ACTIVATION_DURATION;
@@ -43,6 +48,52 @@ public class EncryptDecryptUtil {
     @Getter
     @Setter
     private List<EncryptDecryptModel> encryptDecryptModelList = new ArrayList<>();
+
+    private final AsyncLoadingCache<Long, String> caffeineLoadCacheForPublicKeyOfMLKEM = Caffeine.newBuilder()
+            .executor(Executors.newVirtualThreadPerTaskExecutor())
+            .expireAfterWrite(30, TimeUnit.SECONDS)
+            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .buildAsync((t) -> {
+                var publicKeyOfMLKEM = this.getListOfSecretKey()
+                        .select(s -> s.getPublicKeyOfMLKEM())
+                        .limit(1)
+                        .getOnlyValue();
+                return publicKeyOfMLKEM;
+            });
+
+    private final AsyncLoadingCache<Long, List<String>> caffeineLoadCacheForPrivateKeyOfMLKEM = Caffeine.newBuilder()
+            .executor(Executors.newVirtualThreadPerTaskExecutor())
+            .expireAfterWrite(30, TimeUnit.SECONDS)
+            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .buildAsync((t) -> {
+                var listOfPrivateKeyOfMLKEM = this.getListOfSecretKey()
+                        .map(s -> s.getPrivateKeyOfMLKEM())
+                        .toList();
+                return listOfPrivateKeyOfMLKEM;
+            });
+
+    private final AsyncLoadingCache<Long, String> caffeineLoadCacheForSecretKeyOfAESForEncryption = Caffeine.newBuilder()
+            .executor(Executors.newVirtualThreadPerTaskExecutor())
+            .expireAfterWrite(30, TimeUnit.SECONDS)
+            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .buildAsync((t) -> {
+                var secretKeyOfAES = this.getListOfSecretKey()
+                        .select(s -> s.getSecretKeyOfAES())
+                        .limit(1)
+                        .getOnlyValue();
+                return secretKeyOfAES;
+            });
+
+    private final AsyncLoadingCache<Long, List<String>> caffeineLoadCacheForSecretKeyOfAESForDecryption = Caffeine.newBuilder()
+            .executor(Executors.newVirtualThreadPerTaskExecutor())
+            .expireAfterWrite(30, TimeUnit.SECONDS)
+            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .buildAsync((t) -> {
+                var listOfSecretKeyOfAES = this.getListOfSecretKey()
+                        .map(s -> s.getSecretKeyOfAES())
+                        .toList();
+                return listOfSecretKeyOfAES;
+            });
 
     public String encryptByAES(String text) {
         var secretKeyOfAES = this.getKeyOfSecretKeyOfAESForEncryption();
@@ -168,41 +219,39 @@ public class EncryptDecryptUtil {
                 .setPrivateKeyOfMLKEM(HexUtil.encodeHexStr(privateKeyOfMLKEM.getEncoded()));
     }
 
+    @SneakyThrows
     public String getKeyOfPublicKeyOfMLKEM() {
-        var publicKeyOfMLKEM = this.getValidListOfSecretKey()
-                .select(s -> s.getPublicKeyOfMLKEM())
-                .limit(1)
-                .getOnlyValue();
-        return publicKeyOfMLKEM;
+        return caffeineLoadCacheForPublicKeyOfMLKEM.get(NumberUtils.LONG_ZERO).get();
     }
 
+    @SneakyThrows
     private List<String> getKeyOfPrivateKeyOfMLKEM() {
-        var listOfPrivateKeyOfMLKEM = this.getValidListOfSecretKey()
-                .map(s -> s.getPrivateKeyOfMLKEM())
-                .toList();
-        return listOfPrivateKeyOfMLKEM;
+        return caffeineLoadCacheForPrivateKeyOfMLKEM.get(NumberUtils.LONG_ZERO).get();
     }
 
+    @SneakyThrows
     private String getKeyOfSecretKeyOfAESForEncryption() {
-        var secretKeyOfAES = this.getValidListOfSecretKey()
-                .select(s -> s.getSecretKeyOfAES())
-                .limit(1)
-                .getOnlyValue();
-        return secretKeyOfAES;
+        return caffeineLoadCacheForSecretKeyOfAESForEncryption.get(NumberUtils.LONG_ZERO).get();
     }
 
+    @SneakyThrows
     private List<String> getKeyOfSecretKeyOfAESForDecryption() {
-        var listOfSecretKeyOfAES = this.getValidListOfSecretKey()
-                .map(s -> s.getSecretKeyOfAES())
-                .toList();
-        return listOfSecretKeyOfAES;
+        return caffeineLoadCacheForSecretKeyOfAESForDecryption.get(NumberUtils.LONG_ZERO).get();
     }
 
-    private JinqStream<EncryptDecryptModel> getValidListOfSecretKey() {
+    private JinqStream<EncryptDecryptModel> getListOfSecretKey() {
         while (this.encryptDecryptModelList.isEmpty()) {
             ThreadUtils.sleepQuietly(Duration.ofMillis(100));
         }
-        return JinqStream.from(this.encryptDecryptModelList);
+        var waitActivationDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds());
+        var expiringSoonDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.plusSeconds(-SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds()).toSeconds());
+        return JinqStream.from(encryptDecryptModelList)
+                .sortedBy(s -> s.getName())
+                .sortedDescendingBy(s -> s.getCreateDate())
+                .sortedBy(s -> s.getCreateDate().before(waitActivationDate) ?
+                        waitActivationDate :
+                        s.getCreateDate())
+                .sortedDescendingBy(s -> s.getCreateDate().before(expiringSoonDate) ? s.getCreateDate() : expiringSoonDate);
     }
 
 }
