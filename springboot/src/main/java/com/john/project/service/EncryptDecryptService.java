@@ -38,9 +38,10 @@ public class EncryptDecryptService extends BaseService {
                 .where(s -> !s.getCreateDate().before(validDate))
                 .exists()
         ) {
-            var name = this.getName();
-            this.deleteExpired();
-            this.create(name);
+            if (!this.deleteExpired()) {
+                var name = this.getName();
+                this.create(name);
+            }
         } else {
             // Query valid secret keys
             var encryptDecryptModelList = this.streamAll(EncryptDecryptEntity.class)
@@ -79,14 +80,16 @@ public class EncryptDecryptService extends BaseService {
         this.persist(encryptDecryptEntity);
     }
 
-    private void deleteExpired() {
+    private boolean deleteExpired() {
         var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
         var encryptDecryptEntityList = this.streamAll(EncryptDecryptEntity.class)
                 .where(s -> s.getCreateDate().before(expiredDate))
                 .toList();
         for (var encryptDecryptEntity : encryptDecryptEntityList) {
             this.remove(encryptDecryptEntity);
+            return true;
         }
+        return false;
     }
 
     private boolean isValid() {
@@ -107,7 +110,7 @@ public class EncryptDecryptService extends BaseService {
                 .map(s -> DateUtils.addDays(s, (int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays()))
                 .map(s -> JPQLFunction.formatDateAsYearMonthDay(s, "UTC"))
                 .map(s -> StrFormatter.format(ROUTINE_ROTATION, s))
-                .orElse(StrFormatter.format(ROUTINE_ROTATION, JPQLFunction.formatDateAsYearMonthDay(new Date(), "UTC")));
+                .orElse(StrFormatter.format(ROUTINE_ROTATION, "INITIALIZE_SECRET_KEY"));
         return name;
     }
 
