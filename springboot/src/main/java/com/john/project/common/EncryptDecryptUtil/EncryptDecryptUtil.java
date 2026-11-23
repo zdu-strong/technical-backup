@@ -31,7 +31,6 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
@@ -170,7 +169,7 @@ public class EncryptDecryptUtil {
 
     @SneakyThrows
     public String encryptByPublicKeyOfMLKEM(String text, String publicKeyOfMLKEM) {
-        var generatorOfMLKEM = new MLKEMGenerator(SecureRandom.getInstanceStrong());
+        var generatorOfMLKEM = new MLKEMGenerator(RandomUtil.getSecureRandom());
         var keyOfPublicKeyOfMLKEM = new MLKEMPublicKeyParameters(MLKEMParameters.ml_kem_1024, HexUtil.decodeHex(publicKeyOfMLKEM));
         var encapsulatedOfMLKEM = generatorOfMLKEM.generateEncapsulated(keyOfPublicKeyOfMLKEM);
         var sharedSecretKeyOfAES = HexUtil.encodeHexStr(encapsulatedOfMLKEM.getSecret());
@@ -210,7 +209,7 @@ public class EncryptDecryptUtil {
     @SneakyThrows
     public EncryptDecryptModel generateKeyPairOfMLKEM() {
         var keyPairGeneratorOfMLKEM = new MLKEMKeyPairGenerator();
-        keyPairGeneratorOfMLKEM.init(new MLKEMKeyGenerationParameters(SecureRandom.getInstanceStrong(), MLKEMParameters.ml_kem_1024));
+        keyPairGeneratorOfMLKEM.init(new MLKEMKeyGenerationParameters(RandomUtil.getSecureRandom(), MLKEMParameters.ml_kem_1024));
         var keyPairOfMLKEM = keyPairGeneratorOfMLKEM.generateKeyPair();
         var publicKeyOfMLKEM = (MLKEMPublicKeyParameters) keyPairOfMLKEM.getPublic();
         var privateKeyOfMLKEM = (MLKEMPrivateKeyParameters) keyPairOfMLKEM.getPrivate();
