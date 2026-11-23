@@ -205,6 +205,7 @@ public class EncryptDecryptUtil {
         var waitActivationDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds());
         var expiringSoonDate = DateUtils.addSeconds(new Date(), -(int) SECRET_KEY_EXPIRED_DURATION.plusSeconds(-SECRET_KEY_WAIT_ACTIVATION_DURATION.toSeconds()).toSeconds());
         return JinqStream.from(this.encryptDecryptModelList)
+                .sortedBy(s -> s.getName())
                 .sortedDescendingBy(s -> s.getCreateDate())
                 .sortedBy(s -> s.getCreateDate().before(waitActivationDate) ?
                         waitActivationDate :

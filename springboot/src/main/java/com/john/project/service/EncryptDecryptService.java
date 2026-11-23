@@ -3,10 +3,9 @@ package com.john.project.service;
 import java.util.Date;
 
 import cn.hutool.core.text.StrFormatter;
-import com.john.project.constant.DateFormatConstant;
+import com.john.project.common.database.JPQLFunction;
 import com.john.project.constant.EncryptDecryptConstant;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.jinq.orm.stream.JinqStream;
 import org.springframework.stereotype.Service;
 import com.john.project.common.baseService.BaseService;
@@ -19,8 +18,7 @@ import static com.john.project.constant.EncryptDecryptConstant.ROUTINE_ROTATION;
 public class EncryptDecryptService extends BaseService {
 
     public void createEmergencyRotationSecretKey() {
-        var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY_HOUR_MINUTE_SECOND_MILLISECOND);
-        var name = StrFormatter.format(EMERGENCY_ROTATION, fastDateFormat);
+        var name = StrFormatter.format(EMERGENCY_ROTATION, JPQLFunction.formatDateAsYearMonthDayHourMinuteSecondMillisecond(new Date(), "UTC"));
         this.create(name);
     }
 
@@ -100,7 +98,6 @@ public class EncryptDecryptService extends BaseService {
 
     private String getName() {
         var expiredDate = DateUtils.addDays(new Date(), -(int) EncryptDecryptConstant.SECRET_KEY_EXPIRED_DURATION.toDays());
-        var fastDateFormat = FastDateFormat.getInstance(DateFormatConstant.YEAR_MONTH_DAY);
         var name = this.streamAll(EncryptDecryptEntity.class)
                 .where(s -> !s.getCreateDate().before(expiredDate))
                 .sortedDescendingBy(s -> s.getCreateDate())
@@ -108,9 +105,9 @@ public class EncryptDecryptService extends BaseService {
                 .findOne()
                 .map(s -> s.getCreateDate())
                 .map(s -> DateUtils.addDays(s, (int) EncryptDecryptConstant.SECRET_KEY_ROTATION_DURATION.toDays()))
-                .map(s -> fastDateFormat.format(s))
+                .map(s -> JPQLFunction.formatDateAsYearMonthDay(s, "UTC"))
                 .map(s -> StrFormatter.format(ROUTINE_ROTATION, s))
-                .orElse(StrFormatter.format(ROUTINE_ROTATION, fastDateFormat.format(new Date())));
+                .orElse(StrFormatter.format(ROUTINE_ROTATION, JPQLFunction.formatDateAsYearMonthDay(new Date(), "UTC")));
         return name;
     }
 
