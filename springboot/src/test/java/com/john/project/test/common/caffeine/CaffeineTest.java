@@ -20,8 +20,8 @@ public class CaffeineTest extends BaseTest {
 
     private final AsyncLoadingCache<String, String> caffeineLoadCache = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
-            .expireAfterWrite(30, TimeUnit.SECONDS)
-            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
+            .refreshAfterWrite(30, TimeUnit.SECONDS)
             .buildAsync(this::query);
 
     @Test

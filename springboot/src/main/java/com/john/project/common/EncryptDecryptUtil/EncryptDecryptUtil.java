@@ -50,8 +50,8 @@ public class EncryptDecryptUtil {
 
     private final AsyncLoadingCache<Long, String> caffeineLoadCacheForPublicKeyOfMLKEM = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
-            .expireAfterWrite(30, TimeUnit.SECONDS)
-            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
+            .refreshAfterWrite(30, TimeUnit.SECONDS)
             .buildAsync((t) -> {
                 var publicKeyOfMLKEM = this.getListOfSecretKey()
                         .select(s -> s.getPublicKeyOfMLKEM())
@@ -62,8 +62,8 @@ public class EncryptDecryptUtil {
 
     private final AsyncLoadingCache<Long, List<String>> caffeineLoadCacheForPrivateKeyOfMLKEM = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
-            .expireAfterWrite(30, TimeUnit.SECONDS)
-            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
+            .refreshAfterWrite(30, TimeUnit.SECONDS)
             .buildAsync((t) -> {
                 var listOfPrivateKeyOfMLKEM = this.getListOfSecretKey()
                         .map(s -> s.getPrivateKeyOfMLKEM())
@@ -73,8 +73,8 @@ public class EncryptDecryptUtil {
 
     private final AsyncLoadingCache<Long, String> caffeineLoadCacheForSecretKeyOfAESForEncryption = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
-            .expireAfterWrite(30, TimeUnit.SECONDS)
-            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
+            .refreshAfterWrite(30, TimeUnit.SECONDS)
             .buildAsync((t) -> {
                 var secretKeyOfAES = this.getListOfSecretKey()
                         .select(s -> s.getSecretKeyOfAES())
@@ -85,8 +85,8 @@ public class EncryptDecryptUtil {
 
     private final AsyncLoadingCache<Long, List<String>> caffeineLoadCacheForSecretKeyOfAESForDecryption = Caffeine.newBuilder()
             .executor(Executors.newVirtualThreadPerTaskExecutor())
-            .expireAfterWrite(30, TimeUnit.SECONDS)
-            .refreshAfterWrite(29, TimeUnit.SECONDS)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
+            .refreshAfterWrite(30, TimeUnit.SECONDS)
             .buildAsync((t) -> {
                 var listOfSecretKeyOfAES = this.getListOfSecretKey()
                         .map(s -> s.getSecretKeyOfAES())
