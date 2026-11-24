@@ -16,7 +16,7 @@ public class EncryptDecryptFormatter extends BaseService {
     public EncryptDecryptModel format(EncryptDecryptEntity encryptDecryptEntity) {
         var encryptDecryptModel = new EncryptDecryptModel();
         BeanUtils.copyProperties(encryptDecryptEntity, encryptDecryptModel);
-        if (encryptDecryptModel.getName().startsWith(ROUTINE_ROTATION)) {
+        if (encryptDecryptModel.getName().startsWith(ROUTINE_ROTATION.substring(0, ROUTINE_ROTATION.length() - 2))) {
             try {
                 var name = StrFormatter.format(ROUTINE_ROTATION,
                         JPQLFunction.formatDateAsYearMonthDay(encryptDecryptModel.getCreateDate(), "UTC"));
