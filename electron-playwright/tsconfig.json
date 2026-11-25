@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
-      "module": "nodenext",
+      "module": "NodeNext",
       "declaration": true,
       "removeComments": true,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "allowSyntheticDefaultImports": true,
-      "target": "es6",
+      "target": "ES2015",
       "sourceMap": true,
       "rootDir": ".",
       "outDir": "./dist",
@@ -17,7 +17,7 @@
       "strictBindCallApply": false,
       "forceConsistentCasingInFileNames": false,
       "noFallthroughCasesInSwitch": false,
-      "moduleResolution": "nodenext",
+      "moduleResolution": "NodeNext",
       "lib": [
           "ESNext"
       ],
