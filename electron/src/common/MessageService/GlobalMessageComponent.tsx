@@ -1,5 +1,5 @@
 import { Alert, Dialog, DialogContent, DialogTitle, Divider, Fab, IconButton } from "@mui/material"
-import { GlobalMessageList, MessageService, MESSAGE_TYPE_ENUM, GlobalConfirmList, type CONFIRM_TYPE } from "@common/MessageService"
+import { GlobalMessageList, MessageService, MESSAGE_TYPE_ENUM, GlobalConfirmList, type CONFIRM_TYPE } from "@/common/MessageService"
 import linq from "linq";
 import { observer } from 'mobx-react-use-autorun';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,7 @@ import { faCircleQuestion, faXmark } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from '@mui/material/Tooltip';
 import { style } from "typestyle";
 import { FormattedMessage } from "react-intl";
-import ConfirmationDialogComponent from "@common/MessageService/ConfirmationDialogComponent";
+import ConfirmationDialogComponent from "@/common/MessageService/ConfirmationDialogComponent";
 
 const alertMessageContent = style({
     $nest: {

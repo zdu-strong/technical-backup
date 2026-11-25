@@ -3,11 +3,11 @@ import { type ReactNode } from "react";
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import ToolbarActionsMenuForSignIn from '@/component/system-menu/ToolbarActionsMenuForSignIn';
-import { useReactRouterAppProviderNavigationForSignIn } from '@component/system-menu/js/useReactRouterAppProviderNavigationForSignIn';
+import { useReactRouterAppProviderNavigationForSignIn } from '@/component/system-menu/js/useReactRouterAppProviderNavigationForSignIn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { IconButton } from '@mui/material';
-import { dashboardLayoutContainer } from "@component/system-menu/MainMenu";
+import { dashboardLayoutContainer } from "@/component/system-menu/MainMenu";
 
 type Props = {
     children: ReactNode;

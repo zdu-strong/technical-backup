@@ -1,4 +1,4 @@
-import { StorageSpaceModel } from '@model/StorageSpaceModel';
+import { StorageSpaceModel } from '@/model/StorageSpaceModel';
 import Dexie, { type Table } from 'dexie'
 
 export class Database extends Dexie {

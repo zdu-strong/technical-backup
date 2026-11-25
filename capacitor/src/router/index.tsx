@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import BrowserRouterOrHashRouter from "@common/router/BrowserRouterOrHashRouter";
+import BrowserRouterOrHashRouter from "@/common/router/BrowserRouterOrHashRouter";
 import HomePageComponent from '@/component/home/HomePageComponent';
 import NotFoundPageComponent from '@/component/not-found/NotFoundPageComponent';
 

@@ -3,7 +3,7 @@ import { style } from "typestyle";
 import { AutoSizer } from 'react-virtualized';
 import MessageUnlimitedList from '@/component/message/MessageUnlimitedList';
 import { useGlobalMessageReady } from "@/component/message/js/Global_Chat";
-import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
 
 const containerAutoSizer = style({
     display: "flex",

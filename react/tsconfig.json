@@ -6,12 +6,12 @@
       "ESNext"
     ],
     "jsx": "react-jsx",
-    "target": "es6",
+    "target": "ES2015",
     "noEmit": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
     /* modules */
-    "module": "esnext",
+    "module": "ESNext",
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
@@ -33,24 +33,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@component/*": [
-        "./src/component/*"
-      ],
-      "@common/*": [
-        "./src/common/*"
-      ],
-      "@api": [
-        "./src/api"
-      ],
-      "@api/*": [
-        "./src/api/*"
-      ],
-      "@enums/*": [
-        "./src/enums/*"
-      ],
-      "@model/*": [
-        "./src/model/*"
       ]
     }
   },

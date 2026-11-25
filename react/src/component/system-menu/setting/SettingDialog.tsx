@@ -4,8 +4,8 @@ import { Dialog, DialogContent, DialogTitle, Divider, Fab, Button } from "@mui/m
 import { observer } from "mobx-react-use-autorun";
 import { FormattedMessage } from "react-intl";
 import { faArrowRightFromBracket, faSpinner, faUser } from '@fortawesome/free-solid-svg-icons';
-import api from '@api';
-import { GlobalUserInfo } from '@common/Server';
+import api from '@/api';
+import { GlobalUserInfo } from '@/common/Server';
 import { useOnceSubmit } from '@/common/use-hook';
 
 type Props = {

@@ -1,5 +1,5 @@
 import { SystemPermissionEnum } from "@/enums/SystemPermissionEnum";
-import { GlobalUserInfo } from "@common/Server/get_global_user_info";
+import { GlobalUserInfo } from "@/common/Server/get_global_user_info";
 import linq from "linq";
 
 export function checkAnyPermission(permission: SystemPermissionEnum | SystemPermissionEnum[]) {

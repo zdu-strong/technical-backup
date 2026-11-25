@@ -1,10 +1,10 @@
-import { GlobalUserInfo, removeGlobalUserInfo, setGlobalUserInfo } from "@common/Server";
-import { UserEmailModel } from "@model/UserEmailModel";
-import { UserModel } from "@model/UserModel";
-import { VerificationCodeEmailModel } from "@model/VerificationCodeEmailModel";
+import { GlobalUserInfo, removeGlobalUserInfo, setGlobalUserInfo } from "@/common/Server";
+import { UserEmailModel } from "@/model/UserEmailModel";
+import { UserModel } from "@/model/UserModel";
+import { VerificationCodeEmailModel } from "@/model/VerificationCodeEmailModel";
 import axios from "axios";
 import { TypedJSON } from "typedjson";
-import { getPublicKeyOfMLKEM } from "@api/EncryptDecrypt";
+import { getPublicKeyOfMLKEM } from "@/api/EncryptDecrypt";
 import { sha3_512 } from 'js-sha3';
 import { encryptByPublicKeyOfMLKEM } from "@/common/MLKEMUtils";
 

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-use-autorun";
 import { useGlobalSingleMessage } from "@/component/message/js/Global_Chat";
-import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
 import SingleMessage from "@/component/message/SingleMessage";
 
 type Props = {

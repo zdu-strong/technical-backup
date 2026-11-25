@@ -1,5 +1,5 @@
-import LoadingOrErrorComponent from '@common/MessageService/LoadingOrErrorComponent';
-import { initGameEngine } from '@component/game/js/initGameEngine';
+import LoadingOrErrorComponent from '@/common/MessageService/LoadingOrErrorComponent';
+import { initGameEngine } from '@/component/game/js/initGameEngine';
 import * as BABYLON from '@babylonjs/core';
 import { observer, useMobxState, useMount } from 'mobx-react-use-autorun';
 import { useRef } from 'react';

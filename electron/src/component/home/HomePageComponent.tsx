@@ -1,12 +1,12 @@
-import logo from '@component/home/image/logo.svg';
+import logo from '@/component/home/image/logo.svg';
 import { FormattedMessage } from "react-intl";
-import BootLoadingComponent from "@component/home/BootLoadingComponent";
+import BootLoadingComponent from "@/component/home/BootLoadingComponent";
 import { Button } from "@mui/material";
 import { keyframes, style } from 'typestyle';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import { useRandomNumber } from '@component/home/js/useRandomNumber';
-import { useReadyForApplication } from '@component/home/js/useReadyForApplication';
-import GameDialog from '@component/game/GameDialog';
+import { useRandomNumber } from '@/component/home/js/useRandomNumber';
+import { useReadyForApplication } from '@/component/home/js/useReadyForApplication';
+import GameDialog from '@/component/game/GameDialog';
 import remote from '@/remote';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGamepad, faWater } from '@fortawesome/free-solid-svg-icons';

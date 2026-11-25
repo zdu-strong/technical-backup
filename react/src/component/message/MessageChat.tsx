@@ -1,6 +1,6 @@
-import api from '@api';
-import { MessageService } from "@common/MessageService";
-import { isMobilePhone } from "@common/is-mobile-phone";
+import api from '@/api';
+import { MessageService } from "@/common/MessageService";
+import { isMobilePhone } from "@/common/is-mobile-phone";
 import MessageMoreActionDialog from "@/component/message/MessageMoreActionDialog";
 import { faCloudArrowUp, faPaperPlane, faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

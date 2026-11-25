@@ -1,4 +1,4 @@
-import { StorageSpaceService } from "@service";
+import { StorageSpaceService } from "@/service";
 import { concatMap, lastValueFrom, retry, timer, from, interval, concat } from "rxjs";
 import remote from "@/remote";
 

@@ -1,9 +1,9 @@
-import { UserModel } from '@model/UserModel';
+import { UserModel } from '@/model/UserModel';
 import { observable } from 'mobx-react-use-autorun';
 import { from, fromEvent, retry, switchMap } from 'rxjs';
 import { TypedJSON } from 'typedjson';
-import { existsWindow } from '@common/exists-window/exists-window';
-import { UserEmailModel } from '@model/UserEmailModel';
+import { existsWindow } from '@/common/exists-window/exists-window';
+import { UserEmailModel } from '@/model/UserEmailModel';
 import type { SystemRoleModel } from '@/model/SystemRoleModel';
 import type { IdentityCardModel } from '@/model/IdentityCardModel';
 

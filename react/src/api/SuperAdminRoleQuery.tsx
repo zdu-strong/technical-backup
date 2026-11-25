@@ -1,6 +1,6 @@
-import { PaginationModel } from "@model/PaginationModel";
-import { SuperAdminRoleQueryPaginationModel } from "@model/SuperAdminRoleQueryPaginationModel";
-import { SystemRoleModel } from "@model/SystemRoleModel";
+import { PaginationModel } from "@/model/PaginationModel";
+import { SuperAdminRoleQueryPaginationModel } from "@/model/SuperAdminRoleQueryPaginationModel";
+import { SystemRoleModel } from "@/model/SystemRoleModel";
 import axios from "axios";
 
 export async function searchByPagination(query: SuperAdminRoleQueryPaginationModel) {

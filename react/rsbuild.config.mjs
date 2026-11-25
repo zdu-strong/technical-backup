@@ -5,7 +5,7 @@ import { pluginNodePolyfill } from "@rsbuild/plugin-node-polyfill";
 import { pluginEslint } from '@rsbuild/plugin-eslint';
 import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 
-export default defineConfig({
+export default defineConfig((config) => ({
     plugins: [
         pluginReact(),
         pluginBabel({
@@ -19,12 +19,7 @@ export default defineConfig({
     ],
     resolve: {
         "alias": {
-            "@": "./src",
-            "@component": "./src/component",
-            "@common": "./src/common",
-            "@api": "./src/api",
-            "@enums": "./src/enums",
-            "@model": "./src/model",
+            "@": "./src"
         }
     },
     tools: {
@@ -53,14 +48,12 @@ export default defineConfig({
     },
     dev: {
         lazyCompilation: false,
-        performance: {
-            chunkSplit: {
-                strategy: "single-vendor",
-            },
-        },
         client: {
             logLevel: "silent",
             overlay: false
         }
     },
-});
+    splitChunks: {
+        preset: config.envMode == "development" ? "single-vendor" : "default"
+    }
+}));

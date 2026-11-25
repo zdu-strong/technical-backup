@@ -7,7 +7,7 @@ import { useReactRouterAppProviderNavigationForSignIn } from '@/component/system
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { IconButton } from '@mui/material';
-import { dashboardLayoutContainer } from "@component/system-menu/menu/MainMenu";
+import { dashboardLayoutContainer } from "@/component/system-menu/menu/MainMenu";
 
 type Props = {
     children: ReactNode;

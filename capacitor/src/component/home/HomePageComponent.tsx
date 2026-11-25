@@ -1,4 +1,4 @@
-import logo from '@component/home/image/logo.svg';
+import logo from '@/component/home/image/logo.svg';
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
@@ -6,7 +6,7 @@ import { keyframes, style } from 'typestyle';
 import { useBatteryInfo } from '@/component/home/js/useBatteryInfo';
 import CircularProgress from '@mui/material/CircularProgress';
 import { observer, useMobxState } from 'mobx-react-use-autorun';
-import GameDialog from '@component/game/GameDialog';
+import GameDialog from '@/component/game/GameDialog';
 import { App } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core';
 import { faGamepad, faRightFromBracket, faWater } from '@fortawesome/free-solid-svg-icons';

@@ -3,7 +3,7 @@ import { type ReactNode } from "react";
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import ToolbarActionsMenu from '@/component/system-menu/ToolbarActionsMenu';
-import { useReactRouterAppProviderNavigation } from '@component/system-menu/js/useReactRouterAppProviderNavigation';
+import { useReactRouterAppProviderNavigation } from '@/component/system-menu/js/useReactRouterAppProviderNavigation';
 import { isMobilePhone } from "@/common/is-mobile-phone";
 import { style } from 'typestyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-use-autorun";
 import { Button, Chip } from "@mui/material";
-import api from "@api";
+import api from "@/api";
 import { FormattedMessage } from "react-intl";
 import { faSpinner, faDownload, faTrashCan, faArrowRotateLeft, faFaceGrin, faFaceFlushed } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UserMessageModel } from "@model/UserMessageModel";
+import { UserMessageModel } from "@/model/UserMessageModel";
 import path from "path";
-import { GlobalUserInfo } from "@common/Server";
+import { GlobalUserInfo } from "@/common/Server";
 import { useOnceSubmit } from "@/common/use-hook";
 
 type Props = {

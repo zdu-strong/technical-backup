@@ -1,6 +1,6 @@
-import GlobalMessageComponent from '@common/MessageService/GlobalMessageComponent';
-import { I18nEnum, useI18nLocale } from '@common/i18n';
-import I18nComponent from '@common/i18n/I18nComponent';
+import GlobalMessageComponent from '@/common/MessageService/GlobalMessageComponent';
+import { I18nEnum, useI18nLocale } from '@/common/i18n';
+import I18nComponent from '@/common/i18n/I18nComponent';
 import Router from '@/router';
 import { CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';

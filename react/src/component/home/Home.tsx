@@ -1,4 +1,4 @@
-import logo from '@component/home/image/logo.svg';
+import logo from '@/component/home/image/logo.svg';
 import { FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 import { keyframes, style } from 'typestyle';

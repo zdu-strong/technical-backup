@@ -1,4 +1,4 @@
-import { OrganizeModel } from "@model/OrganizeModel";
+import { OrganizeModel } from "@/model/OrganizeModel";
 import axios from "axios";
 import { TypedJSON } from "typedjson";
 

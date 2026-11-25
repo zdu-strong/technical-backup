@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx-react-use-autorun";
 import { jsonMember, jsonObject } from "typedjson";
-import { OrganizeModel } from "@model/OrganizeModel";
+import { OrganizeModel } from "@/model/OrganizeModel";
 
 @jsonObject
 export class SystemPermissionModel {

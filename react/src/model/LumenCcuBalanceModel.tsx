@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx-react-use-autorun";
 import { jsonMember, jsonObject } from "typedjson";
-import { LumenCurrencyModel } from "@model/LumenCurrencyModel";
+import { LumenCurrencyModel } from "@/model/LumenCurrencyModel";
 
 @jsonObject
 export class LumenCcuBalanceModel {

@@ -1,10 +1,10 @@
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import GitInfo from 'react-git-info/macro'
 import { format, parseJSON } from "date-fns";
-import api from "@api";
-import { GitPropertiesModel } from "@model/GitPropertiesModel";
+import api from "@/api";
+import { GitPropertiesModel } from "@/model/GitPropertiesModel";
 import { FormattedMessage } from "react-intl";
-import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
 import { useMultipleQuery } from "@/common/use-hook";
 
 export default observer(() => {

@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-use-autorun";
 import { Box, Chip, Typography } from "@mui/material";
-import Income from "@component/country-dashboard/Income";
-import Outlay from "@component/country-dashboard/Outlay";
+import Income from "@/component/country-dashboard/Income";
+import Outlay from "@/component/country-dashboard/Outlay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faCircleDollarToSlot, faHouseChimney } from '@fortawesome/free-solid-svg-icons'
 import { LineChart } from "@mui/x-charts";

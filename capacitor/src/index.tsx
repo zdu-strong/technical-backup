@@ -1,10 +1,10 @@
 import "tailwindcss/utilities.css";
-import "@common/app-base-css/index.css";
+import "@/common/app-base-css/index.css";
 import "@fontsource/jetbrains-mono";
 import "@fontsource/roboto";
-import "@common/Server";
-import "@common/ScreenOrentation";
-import "@common/StorageManage/StorageManageRun";
+import "@/common/Server";
+import "@/common/ScreenOrentation";
+import "@/common/StorageManage/StorageManageRun";
 import ReactDom from "react-dom/client"
 import App from "@/App";
 

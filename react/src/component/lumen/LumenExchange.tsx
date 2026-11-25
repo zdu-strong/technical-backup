@@ -2,7 +2,7 @@ import { faArrowDownShortWide, faDollarSign, faMoneyBill1Wave, faMoneyCheckDolla
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, IconButton, TextField } from "@mui/material";
 import { observer, useMobxState } from "mobx-react-use-autorun";
-import api from '@api';
+import api from '@/api';
 import { MessageService } from "@/common/MessageService";
 import { useMultipleSubmit, useMultipleQuery } from "@/common/use-hook";
 import { Big, RoundingMode } from 'bigdecimal.js';

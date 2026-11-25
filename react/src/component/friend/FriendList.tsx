@@ -1,9 +1,9 @@
-import { FriendshipModel } from "@model/FriendshipModel";
+import { FriendshipModel } from "@/model/FriendshipModel";
 import { observer, useMobxState } from "mobx-react-use-autorun";
 import { useMount } from "mobx-react-use-autorun";
 import FriendChildComponent from "@/component/friend/FriendChild";
-import api from '@api'
-import LoadingOrErrorComponent from "@common/MessageService/LoadingOrErrorComponent";
+import api from '@/api'
+import LoadingOrErrorComponent from "@/common/MessageService/LoadingOrErrorComponent";
 import { FormattedMessage } from "react-intl";
 import { useMultipleQuery } from "@/common/use-hook";
 

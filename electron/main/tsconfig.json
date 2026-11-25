@@ -6,13 +6,13 @@
     ],
     "compilerOptions": {
         "rootDir": ".",
-        "target": "es6",
+        "target": "ES2015",
         "outDir": "../dist",
         "noEmit": false,
-        "module": "nodenext",
+        "module": "NodeNext",
         "pretty": true,
         "verbatimModuleSyntax": false,
-        "moduleResolution": "nodenext",
+        "moduleResolution": "NodeNext",
         "allowImportingTsExtensions": false,
         "paths": {
             "@/*": [
